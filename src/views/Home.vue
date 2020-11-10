@@ -4,9 +4,12 @@
       <v-row>
         <v-col>
           <v-card>
-            <v-card-text>
-            {{ counter }}
-            </v-card-text>
+            <v-card-text> Status: {{ status }} </v-card-text>
+          </v-card>
+        </v-col>
+        <v-col>
+          <v-card>
+            <v-card-text> Counter: {{ counter }} </v-card-text>
           </v-card>
         </v-col>
       </v-row>
@@ -23,10 +26,17 @@ const counter = gql`
   }
 `;
 
+const status = gql`
+  subscription {
+    status
+  }
+`;
+
 export default {
   name: "Home",
   data: () => ({
-    counter: null
+    counter: null,
+    status: null
   }),
   apollo: {
     $subscribe: {
@@ -34,6 +44,12 @@ export default {
         query: counter,
         result({ data }) {
           this.counter = data.counter;
+        }
+      },
+      status: {
+        query: status,
+        result({ data }) {
+          this.status = data.status;
         }
       }
     }
