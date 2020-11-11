@@ -4,7 +4,14 @@
       <v-row>
         <v-col>
           <v-card>
-            <v-card-text> Status: {{ status }} </v-card-text>
+            <v-card-actions>
+              <v-btn color="primary" @click="run()">Run</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-col>
+        <v-col>
+          <v-card>
+            <v-card-text><pre>{{ state }}</pre></v-card-text>
           </v-card>
         </v-col>
         <v-col>
@@ -20,15 +27,23 @@
 <script>
 import gql from "graphql-tag";
 
-const counter = gql`
+const subsc_counter = gql`
   subscription {
     counter
   }
 `;
 
-const status = gql`
+const subsc_state = gql`
   subscription {
-    status
+    state {
+      state
+    }
+  }
+`;
+
+const mutat_exec = gql`
+  mutation {
+    exec
   }
 `;
 
@@ -36,22 +51,30 @@ export default {
   name: "Home",
   data: () => ({
     counter: null,
-    status: null
+    state: null
   }),
   apollo: {
     $subscribe: {
       counter: {
-        query: counter,
+        query: subsc_counter,
         result({ data }) {
           this.counter = data.counter;
         }
       },
-      status: {
-        query: status,
+      state: {
+        query: subsc_state,
         result({ data }) {
-          this.status = data.status;
+          this.state = data.state;
         }
       }
+    }
+  },
+  methods: {
+    async run() {
+      console.log("run");
+      const data = await this.$apollo.mutate({
+        mutation: mutat_exec
+      });
     }
   }
 };
