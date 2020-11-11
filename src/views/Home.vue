@@ -6,6 +6,7 @@
           <v-card>
             <v-card-actions>
               <v-btn color="primary" @click="run()">Run</v-btn>
+              <v-btn color="primary" @click="reset()">Reset</v-btn>
             </v-card-actions>
           </v-card>
         </v-col>
@@ -47,6 +48,12 @@ const mutat_exec = gql`
   }
 `;
 
+const mutat_reset = gql`
+  mutation {
+    reset
+  }
+`;
+
 export default {
   name: "Home",
   data: () => ({
@@ -74,6 +81,12 @@ export default {
       console.log("run");
       const data = await this.$apollo.mutate({
         mutation: mutat_exec
+      });
+    },
+    async reset() {
+      console.log("reset");
+      const data = await this.$apollo.mutate({
+        mutation: mutat_reset
       });
     }
   }
