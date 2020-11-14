@@ -38,6 +38,10 @@ const subsc_state = gql`
   subscription {
     state {
       state
+      nthreads
+      threads {
+        threadId
+      }
     }
   }
 `;
@@ -71,6 +75,7 @@ export default {
       state: {
         query: subsc_state,
         result({ data }) {
+          console.log(data.state)
           this.state = data.state;
         }
       }
