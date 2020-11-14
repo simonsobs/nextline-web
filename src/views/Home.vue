@@ -12,12 +12,25 @@
         </v-col>
         <v-col>
           <v-card>
-            <v-card-text><pre>{{ state }}</pre></v-card-text>
+            <v-card-text
+              ><pre>{{ state }}</pre></v-card-text
+            >
           </v-card>
         </v-col>
         <v-col>
           <v-card>
-            <v-card-text> Counter: {{ counter }} </v-card-text>
+            <v-card-text>
+              <v-container fluid class="ma-0 pa-0">
+                <v-row>
+                  <v-col cols="1">
+                    <pre v-for="i in nlines" :key="i">{{ i }}</pre>
+                  </v-col>
+                  <v-col>
+                    <pre>{{ code }}</pre>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-card-text>
           </v-card>
         </v-col>
       </v-row>
@@ -58,11 +71,15 @@ const mutatReset = gql`
   }
 `;
 
+const codeLines = ["import script", "script.run()"];
+
 export default {
   name: "Home",
   data: () => ({
     counter: null,
-    state: null
+    state: null,
+    code: codeLines.join("\n"),
+    nlines: codeLines.length
   }),
   apollo: {
     $subscribe: {
@@ -75,7 +92,7 @@ export default {
       state: {
         query: subscState,
         result({ data }) {
-          console.log(data.state)
+          console.log(data.state);
           this.state = data.state;
         }
       }
