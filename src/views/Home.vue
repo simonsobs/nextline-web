@@ -28,13 +28,13 @@
 <script>
 import gql from "graphql-tag";
 
-const subsc_counter = gql`
+const subscCounter = gql`
   subscription {
     counter
   }
 `;
 
-const subsc_state = gql`
+const subscState = gql`
   subscription {
     state {
       state
@@ -46,13 +46,13 @@ const subsc_state = gql`
   }
 `;
 
-const mutat_exec = gql`
+const mutatExec = gql`
   mutation {
     exec
   }
 `;
 
-const mutat_reset = gql`
+const mutatReset = gql`
   mutation {
     reset
   }
@@ -67,13 +67,13 @@ export default {
   apollo: {
     $subscribe: {
       counter: {
-        query: subsc_counter,
+        query: subscCounter,
         result({ data }) {
           this.counter = data.counter;
         }
       },
       state: {
-        query: subsc_state,
+        query: subscState,
         result({ data }) {
           console.log(data.state)
           this.state = data.state;
@@ -85,13 +85,13 @@ export default {
     async run() {
       console.log("run");
       const data = await this.$apollo.mutate({
-        mutation: mutat_exec
+        mutation: mutatExec
       });
     },
     async reset() {
       console.log("reset");
       const data = await this.$apollo.mutate({
-        mutation: mutat_reset
+        mutation: mutatReset
       });
     }
   }
