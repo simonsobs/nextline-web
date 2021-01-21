@@ -54,6 +54,10 @@
                   </v-card-actions>
                   <v-divider></v-divider>
                   <v-card-text>
+                  {{ ta.fileName }}
+                  </v-card-text>
+                  <v-divider></v-divider>
+                  <v-card-text>
                     <v-container fluid class="ma-0 pa-0">
                       <v-row>
                         <v-col cols="2">
