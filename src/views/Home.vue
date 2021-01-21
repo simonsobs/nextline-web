@@ -89,54 +89,13 @@
 </template>
 
 <script>
-import gql from "graphql-tag";
+// import gql from "graphql-tag";
 
-const subscCounter = gql`
-  subscription {
-    counter
-  }
-`;
-
-const subscState = gql`
-  subscription {
-    state {
-      state
-      nthreads
-      threads {
-        threadId
-        tasks {
-          taskId
-          prompting
-          fileName
-          lineNo
-          fileLines
-        }
-      }
-    }
-  }
-`;
-
-const mutatExec = gql`
-  mutation {
-    exec
-  }
-`;
-
-const mutatReset = gql`
-  mutation {
-    reset
-  }
-`;
-
-const mutatSendPdbCommand = gql`
-  mutation SendPdbCommand(
-    $threadId: String!
-    $taskId: String
-    $command: String!
-  ) {
-    sendPdbCommand(threadId: $threadId, taskId: $taskId, command: $command)
-  }
-`;
+import SEND_PDB_COMMAND from "@/graphql/mutations/SendPdbCommand.gql";
+import RESET from "@/graphql/mutations/Reset.gql";
+import EXEC from "@/graphql/mutations/Exec.gql";
+import SUBSCRIBE_STATE from "@/graphql/subscriptions/State.gql";
+import SUBSCRIBE_COUNTER from "@/graphql/subscriptions/Counter.gql";
 
 const codeLines = ["import script", "script.run()"];
 
@@ -151,13 +110,13 @@ export default {
   apollo: {
     $subscribe: {
       counter: {
-        query: subscCounter,
+        query: SUBSCRIBE_COUNTER,
         result({ data }) {
           this.counter = data.counter;
         }
       },
       state: {
-        query: subscState,
+        query: SUBSCRIBE_STATE,
         result({ data }) {
           console.log(data.state);
           this.state = data.state;
@@ -169,18 +128,18 @@ export default {
     async run() {
       console.log("run");
       const data = await this.$apollo.mutate({
-        mutation: mutatExec
+        mutation: EXEC
       });
     },
     async reset() {
       console.log("reset");
       const data = await this.$apollo.mutate({
-        mutation: mutatReset
+        mutation: RESET
       });
     },
     async pdbCommand(threadId, taskId, command) {
       const data = await this.$apollo.mutate({
-        mutation: mutatSendPdbCommand,
+        mutation: SEND_PDB_COMMAND,
         variables: { threadId, taskId, command }
       });
     }

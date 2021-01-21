@@ -1,0 +1,16 @@
+subscription State {
+  state {
+    state
+    nthreads
+    threads {
+      threadId
+      tasks {
+        taskId
+        prompting
+        fileName
+        lineNo
+        fileLines
+      }
+    }
+  }
+}

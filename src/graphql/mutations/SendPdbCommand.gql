@@ -1,0 +1,7 @@
+mutation SendPdbCommand(
+  $threadId: String!
+  $taskId: String
+  $command: String!
+) {
+  sendPdbCommand(threadId: $threadId, taskId: $taskId, command: $command)
+}
