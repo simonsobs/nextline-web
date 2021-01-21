@@ -5,14 +5,17 @@
         <v-col>
           <v-card>
             <v-card-actions>
-              <v-btn color="primary" :disabled="!(state.state == 'initialized')" @click="run()"
+              <v-btn
+                color="primary"
+                :disabled="!(state.state == 'initialized')"
+                @click="run()"
                 >Run</v-btn
               >
               <v-btn color="primary" @click="reset()">Reset</v-btn>
             </v-card-actions>
-            <v-card-text
-              ><pre>{{ state.state }}</pre></v-card-text
-            >
+            <v-card-text>
+              <pre>{{ state.state }}</pre>
+            </v-card-text>
           </v-card>
         </v-col>
       </v-row>
@@ -54,7 +57,7 @@
                   </v-card-actions>
                   <v-divider></v-divider>
                   <v-card-text>
-                  {{ ta.fileName }}
+                    {{ ta.fileName }}
                   </v-card-text>
                   <v-divider></v-divider>
                   <v-card-text>
@@ -109,7 +112,7 @@ export default {
     counter: null,
     state: {},
     code: codeLines.join("\n"),
-    nlines: codeLines.length
+    nlines: codeLines.length,
   }),
   apollo: {
     $subscribe: {
@@ -117,36 +120,36 @@ export default {
         query: SUBSCRIBE_COUNTER,
         result({ data }) {
           this.counter = data.counter;
-        }
+        },
       },
       state: {
         query: SUBSCRIBE_STATE,
         result({ data }) {
           console.log(data.state);
           this.state = data.state;
-        }
-      }
-    }
+        },
+      },
+    },
   },
   methods: {
     async run() {
       console.log("run");
       const data = await this.$apollo.mutate({
-        mutation: EXEC
+        mutation: EXEC,
       });
     },
     async reset() {
       console.log("reset");
       const data = await this.$apollo.mutate({
-        mutation: RESET
+        mutation: RESET,
       });
     },
     async pdbCommand(threadId, taskId, command) {
       const data = await this.$apollo.mutate({
         mutation: SEND_PDB_COMMAND,
-        variables: { threadId, taskId, command }
+        variables: { threadId, taskId, command },
       });
-    }
-  }
+    },
+  },
 };
 </script>
