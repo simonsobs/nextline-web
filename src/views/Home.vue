@@ -59,16 +59,22 @@
                   <v-card-text>
                     {{ ta.fileName }}
                   </v-card-text>
-                  <v-divider></v-divider>
+                </v-card>
+                <v-card
+                  class="mt-1 overflow-y-auto"
+                  max-height="400"
+                  :ref="'card-' + th.threadId + '-' + ta.taskId"
+                >
                   <v-card-text>
                     <v-container fluid class="ma-0 pa-0">
                       <v-row>
                         <v-col cols="2">
-                          <pre
+                          <pre><span
                             v-for="i in ta.fileLines.length"
-                            :key="
-                              i
-                            ">{{ i }} <span v-if="i==ta.lineNo">-></span> </pre>
+                            :key="i"
+                            ><span :ref="
+                              'card-' + th.threadId + '-' + ta.taskId  + '-line-' + i
+                            ">{{ i }}</span> <span v-if="i==ta.lineNo">-></span>{{ '\n' }}</span></pre>
                         </v-col>
                         <v-col cols="10">
                           <pre>{{ ta.fileLines.join("\n") }}</pre>
@@ -149,6 +155,43 @@ export default {
         mutation: SEND_PDB_COMMAND,
         variables: { threadId, taskId, command },
       });
+    },
+  },
+  watch: {
+    state: function () {
+      // scroll
+      // How to programmatically scroll an element instead of a page in vuetify
+      // https://stackoverflow.com/a/64371340/7309855
+      // https://jsfiddle.net/yjpq03da/
+
+      for (const th of this.state.threads) {
+        for (const ta of th.tasks) {
+          if (!ta.prompting) {
+            continue;
+          }
+
+          const container_ref_name = "card-" + th.threadId + "-" + ta.taskId;
+          const target_ref_name = container_ref_name + "-line-" + ta.lineNo;
+
+          if (!this.$refs[target_ref_name]) {
+            continue;
+          }
+          const target = this.$refs[target_ref_name][0];
+          // Note: ref is an array when defined in v-for loop
+
+          console.log(target);
+
+          if (!this.$refs[container_ref_name]) {
+            continue;
+          }
+          const container = this.$refs[container_ref_name][0];
+          // Note: ref is an array when defined in v-for loop
+
+          console.log(container);
+
+          this.$vuetify.goTo(target, { container });
+        }
+      }
     },
   },
 };
