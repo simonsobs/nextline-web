@@ -74,7 +74,7 @@
                             :key="i"
                             ><span :ref="
                               'card-' + th.threadId + '-' + ta.taskId  + '-line-' + i
-                            ">{{ i }}</span> <span v-if="i==ta.lineNo">-></span>{{ '\n' }}</span></pre>
+                            ">{{ i }}</span> <span v-if="ta.prompting && i==ta.lineNo">-></span>{{ '\n' }}</span></pre>
                         </v-col>
                         <v-col cols="10">
                           <pre>{{ ta.fileLines.join("\n") }}</pre>
