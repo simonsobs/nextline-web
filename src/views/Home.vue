@@ -179,7 +179,10 @@ export default {
           const target = this.$refs[target_ref_name][0];
           // Note: ref is an array when defined in v-for loop
 
-          console.log(target);
+          // target must be a Number/Selector/HTMLElement/VueComponent
+          if (!target) {
+            continue;
+          }
 
           if (!this.$refs[container_ref_name]) {
             continue;
@@ -187,7 +190,9 @@ export default {
           const container = this.$refs[container_ref_name][0];
           // Note: ref is an array when defined in v-for loop
 
-          console.log(container);
+          if (!container) {
+            continue;
+          }
 
           this.$vuetify.goTo(target, { container });
         }
