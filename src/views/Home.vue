@@ -156,10 +156,7 @@ export default {
         variables: { threadId, taskId, command },
       });
     },
-  },
-  watch: {
-    state: function () {
-      // scroll
+    scroll() {
       // How to programmatically scroll an element instead of a page in vuetify
       // https://stackoverflow.com/a/64371340/7309855
       // https://jsfiddle.net/yjpq03da/
@@ -197,6 +194,11 @@ export default {
           this.$vuetify.goTo(target, { container });
         }
       }
+    },
+  },
+  watch: {
+    state: function () {
+      this.$nextTick(this.scroll);
     },
   },
 };
