@@ -78,9 +78,7 @@
                             ">{{ i }}</span>{{ '\n' }}</span></code></pre>
                         </div>
                         <div class="mr-3" style="min-width: 2em">
-                          <pre
-                            v-if="ta.prompting"
-                          ><code>{{ "\n".repeat(ta.lineNo - 1) }}<v-icon>mdi-arrow-right-bold</v-icon></code></pre>
+                          <pre><code>{{ "\n".repeat(ta.lineNo - 1) }}<v-icon :color='ta.prompting ? "primary" : "secondary lighten-4"'>mdi-arrow-right-bold</v-icon></code></pre>
                         </div>
                         <!-- </v-col> -->
                         <!-- <v-col cols="10"> -->
