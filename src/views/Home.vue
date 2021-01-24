@@ -24,7 +24,7 @@
           <template v-for="th in state.threads">
             <template v-for="ta in th.tasks">
               <v-col
-                cols="4"
+                :cols="cols"
                 v-if="ta.fileName"
                 :key="th.threadId + '-' + ta.taskId"
               >
@@ -68,19 +68,28 @@
                   <v-card-text>
                     <v-container fluid class="ma-0 pa-0">
                       <v-row>
-                        <v-col cols="2">
+                        <!-- <v-col cols="2"> -->
+                        <div class="mr-3" style="min-width: 1em">
                           <pre><code><span
                             v-for="i in ta.fileLines.length"
                             :key="i"
                             ><span :ref="
                               'card-' + th.threadId + '-' + ta.taskId  + '-line-' + i
-                            ">{{ i }}</span> <span v-if="ta.prompting && i==ta.lineNo">-></span>{{ '\n' }}</span></code></pre>
-                        </v-col>
-                        <v-col cols="10">
+                            ">{{ i }}</span>{{ '\n' }}</span></code></pre>
+                        </div>
+                        <div class="mr-3" style="min-width: 2em">
+                          <pre
+                            v-if="ta.prompting"
+                          ><code>{{ "\n".repeat(ta.lineNo - 1) }}<v-icon>mdi-arrow-right-bold</v-icon></code></pre>
+                        </div>
+                        <!-- </v-col> -->
+                        <!-- <v-col cols="10"> -->
+                        <div>
                           <vue-code-highlight language="python">{{
                             ta.fileLines.join("\n")
                           }}</vue-code-highlight>
-                        </v-col>
+                        </div>
+                        <!-- </v-col> -->
                       </v-row>
                     </v-container>
                   </v-card-text>
@@ -141,10 +150,28 @@ export default {
       state: {
         query: SUBSCRIBE_STATE,
         result({ data }) {
-          console.log(data.state);
           this.state = data.state;
         },
       },
+    },
+  },
+  computed: {
+    cols() {
+      if (this.ntasks <= 1) return 12;
+      else if (this.ntasks == 2) return 6;
+      else return 4;
+    },
+    ntasks() {
+      if (!this.state.threads) {
+        return 0;
+      } else if (!(this.state.threads.length > 0)) {
+        return 0;
+      } else {
+        const ret = this.state.threads.reduce((a, th) => {
+          return a + th.tasks.length;
+        }, 0);
+        return ret;
+      }
     },
   },
   methods: {
