@@ -69,15 +69,17 @@
                     <v-container fluid class="ma-0 pa-0">
                       <v-row>
                         <v-col cols="2">
-                          <pre><span
+                          <pre><code><span
                             v-for="i in ta.fileLines.length"
                             :key="i"
                             ><span :ref="
                               'card-' + th.threadId + '-' + ta.taskId  + '-line-' + i
-                            ">{{ i }}</span> <span v-if="ta.prompting && i==ta.lineNo">-></span>{{ '\n' }}</span></pre>
+                            ">{{ i }}</span> <span v-if="ta.prompting && i==ta.lineNo">-></span>{{ '\n' }}</span></code></pre>
                         </v-col>
                         <v-col cols="10">
-                          <pre>{{ ta.fileLines.join("\n") }}</pre>
+                          <vue-code-highlight language="python">{{
+                            ta.fileLines.join("\n")
+                          }}</vue-code-highlight>
                         </v-col>
                       </v-row>
                     </v-container>
@@ -102,6 +104,11 @@
 </template>
 
 <script>
+import { component as VueCodeHighlight } from "vue-code-highlight";
+import "prism-es6/components/prism-markup-templating";
+import "prism-es6/components/prism-python";
+import "@/prism.css";
+
 // import gql from "graphql-tag";
 
 import SEND_PDB_COMMAND from "@/graphql/mutations/SendPdbCommand.gql";
@@ -114,6 +121,9 @@ const codeLines = ["import script", "script.run()"];
 
 export default {
   name: "Home",
+  components: {
+    VueCodeHighlight,
+  },
   data: () => ({
     counter: null,
     state: {},
@@ -203,3 +213,13 @@ export default {
   },
 };
 </script>
+<style>
+.v-application code {
+  background-color: inherit;
+  color: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  padding: 0;
+  line-height: 1.8;
+}
+</style>
