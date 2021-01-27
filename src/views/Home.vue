@@ -76,7 +76,7 @@
                 >
                   <v-card-text>
                     <v-container fluid class="ma-0 pa-0">
-                      <v-row>
+                      <v-row class="flex-nowrap">
                         <!-- <v-col cols="2"> -->
                         <div class="mr-3" style="min-width: 1em">
                           <pre><code><span
