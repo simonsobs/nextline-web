@@ -20,6 +20,15 @@
         </v-col>
       </v-row>
       <v-row>
+        <v-col>
+          <v-card>
+            <v-card-text>
+              <pre>{{ stdout }}</pre>
+            </v-card-text>
+          </v-card>
+        </v-col>
+      </v-row>
+      <v-row>
         <template v-if="state.threads">
           <template v-for="th in state.threads">
             <template v-for="ta in th.tasks">
@@ -122,6 +131,7 @@ import SEND_PDB_COMMAND from "@/graphql/mutations/SendPdbCommand.gql";
 import RESET from "@/graphql/mutations/Reset.gql";
 import EXEC from "@/graphql/mutations/Exec.gql";
 import SUBSCRIBE_STATE from "@/graphql/subscriptions/State.gql";
+import SUBSCRIBE_STDOUT from "@/graphql/subscriptions/Stdout.gql";
 import SUBSCRIBE_COUNTER from "@/graphql/subscriptions/Counter.gql";
 
 const codeLines = ["import script", "script.run()"];
@@ -136,6 +146,7 @@ export default {
     state: {},
     code: codeLines.join("\n"),
     nlines: codeLines.length,
+    stdout: ""
   }),
   apollo: {
     $subscribe: {
@@ -149,6 +160,12 @@ export default {
         query: SUBSCRIBE_STATE,
         result({ data }) {
           this.state = data.state;
+        },
+      },
+      stdout: {
+        query: SUBSCRIBE_STDOUT,
+        result({ data }) {
+          this.stdout += data.stdout;
         },
       },
     },
@@ -184,6 +201,7 @@ export default {
       const data = await this.$apollo.mutate({
         mutation: RESET,
       });
+      this.stdout = "";
     },
     async pdbCommand(threadId, taskId, command) {
       const data = await this.$apollo.mutate({
