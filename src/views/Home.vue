@@ -21,7 +21,7 @@
       </v-row>
       <v-row>
         <v-col>
-          <v-card>
+          <v-card class="overflow-x-auto">
             <v-card-text>
               <pre>{{ stdout }}</pre>
             </v-card-text>
