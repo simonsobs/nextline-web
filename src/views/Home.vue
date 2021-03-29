@@ -72,7 +72,7 @@
                 <v-card
                   class="mt-1 overflow-y-auto"
                   max-height="400"
-                  :ref="'card-' + th.threadId + '-' + ta.taskId"
+                  :ref="`card-${th.threadId}-${ta.taskId}`"
                 >
                   <v-card-text>
                     <v-container fluid class="ma-0 pa-0">
@@ -82,9 +82,7 @@
                           <pre><code><span
                             v-for="i in ta.fileLines.length"
                             :key="i"
-                            ><span :ref="
-                              'card-' + th.threadId + '-' + ta.taskId  + '-line-' + i
-                            ">{{ i }}</span>{{ '\n' }}</span></code></pre>
+                            ><span :ref="`card-${th.threadId}-${ta.taskId}-line-${i}`">{{ i }}</span>{{ '\n' }}</span></code></pre>
                         </div>
                         <div class="mr-3" style="min-width: 2em">
                           <pre><code>{{ "\n".repeat(ta.lineNo - 1) }}<v-icon :color='ta.prompting ? "primary" : "secondary lighten-4"'>mdi-arrow-right-bold</v-icon></code></pre>
@@ -220,8 +218,8 @@ export default {
             continue;
           }
 
-          const container_ref_name = "card-" + th.threadId + "-" + ta.taskId;
-          const target_ref_name = container_ref_name + "-line-" + ta.lineNo;
+          const container_ref_name = `card-${th.threadId}-${ta.taskId}`;
+          const target_ref_name = `${container_ref_name}-line-${ta.lineNo}`;
 
           if (!this.$refs[target_ref_name]) {
             continue;
