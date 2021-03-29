@@ -146,7 +146,7 @@ export default {
     state: {},
     code: codeLines.join("\n"),
     nlines: codeLines.length,
-    stdout: ""
+    stdout: "",
   }),
   apollo: {
     $subscribe: {
@@ -269,5 +269,4 @@ export default {
 .theme--light.v-application code {
   background-color: inherit;
 }
-
 </style>
