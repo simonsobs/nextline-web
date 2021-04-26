@@ -7,14 +7,14 @@
             <v-card-actions>
               <v-btn
                 color="primary"
-                :disabled="!(state.globalState == 'initialized')"
+                :disabled="!(globalState == 'initialized')"
                 @click="run()"
                 >Run</v-btn
               >
               <v-btn color="primary" @click="reset()">Reset</v-btn>
             </v-card-actions>
             <v-card-text>
-              <pre>{{ state.globalState }}</pre>
+              <pre>{{ globalState }}</pre>
             </v-card-text>
           </v-card>
         </v-col>
@@ -128,6 +128,7 @@ import "@/prism.css";
 import SEND_PDB_COMMAND from "@/graphql/mutations/SendPdbCommand.gql";
 import RESET from "@/graphql/mutations/Reset.gql";
 import EXEC from "@/graphql/mutations/Exec.gql";
+import SUBSCRIBE_GLOBAL_STATE from "@/graphql/subscriptions/GlobalState.gql";
 import SUBSCRIBE_STATE from "@/graphql/subscriptions/State.gql";
 import SUBSCRIBE_STDOUT from "@/graphql/subscriptions/Stdout.gql";
 import SUBSCRIBE_COUNTER from "@/graphql/subscriptions/Counter.gql";
@@ -141,6 +142,7 @@ export default {
   },
   data: () => ({
     counter: null,
+    globalState: null,
     state: {},
     code: codeLines.join("\n"),
     nlines: codeLines.length,
@@ -153,6 +155,12 @@ export default {
         result({ data }) {
           this.counter = data.counter;
         },
+      },
+      globalState: {
+        query: SUBSCRIBE_GLOBAL_STATE,
+        result({ data }) {
+          this.globalState = data.globalState;
+        }
       },
       state: {
         query: SUBSCRIBE_STATE,
