@@ -1,6 +1,6 @@
 subscription State {
   state {
-    state
+    globalState
     nthreads
     threads {
       threadId

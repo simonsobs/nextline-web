@@ -7,14 +7,14 @@
             <v-card-actions>
               <v-btn
                 color="primary"
-                :disabled="!(state.state == 'initialized')"
+                :disabled="!(state.globalState == 'initialized')"
                 @click="run()"
                 >Run</v-btn
               >
               <v-btn color="primary" @click="reset()">Reset</v-btn>
             </v-card-actions>
             <v-card-text>
-              <pre>{{ state.state }}</pre>
+              <pre>{{ state.globalState }}</pre>
             </v-card-text>
           </v-card>
         </v-col>
