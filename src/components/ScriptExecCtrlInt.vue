@@ -43,7 +43,7 @@
             <!-- <v-col cols="2"> -->
             <div class="mr-3" style="min-width: 1em">
               <pre><code><span
-                            v-for="i in ta.fileLines.length"
+                            v-for="i in source.length"
                             :key="i"
                             ><span :ref="`card-${th.threadId}-${ta.taskId}-line-${i}`">{{ i }}</span>{{ '\n' }}</span></code></pre>
             </div>
@@ -54,7 +54,7 @@
             <!-- <v-col cols="10"> -->
             <div>
               <vue-code-highlight language="python">{{
-                ta.fileLines.join("\n")
+                source
               }}</vue-code-highlight>
             </div>
             <!-- </v-col> -->
@@ -72,6 +72,7 @@ import "prism-es6/components/prism-python";
 import "@/prism.css";
 
 import SEND_PDB_COMMAND from "@/graphql/mutations/SendPdbCommand.gql";
+import QUERY_SOURCE from "@/graphql/queries/Source.gql";
 
 export default {
   name: "ScriptExecCtrlInt",
@@ -79,6 +80,22 @@ export default {
     VueCodeHighlight,
   },
   props: { th: Object, ta: Object },
+  data: () => ({
+    source: "",
+  }),
+  apollo: {
+    source: {
+      query: QUERY_SOURCE,
+      variables() {
+        return {
+          fileName: this.ta.fileName,
+        };
+      },
+      update(data) {
+        return data.source.join("\n");
+      },
+    },
+  },
   methods: {
     async pdbCommand(threadId, taskId, command) {
       const data = await this.$apollo.mutate({

@@ -9,7 +9,6 @@ subscription State {
         prompting
         fileName
         lineNo
-        fileLines
       }
     }
   }
