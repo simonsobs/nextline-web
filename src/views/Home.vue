@@ -160,7 +160,7 @@ export default {
         query: SUBSCRIBE_GLOBAL_STATE,
         result({ data }) {
           this.globalState = data.globalState;
-        }
+        },
       },
       state: {
         query: SUBSCRIBE_STATE,
