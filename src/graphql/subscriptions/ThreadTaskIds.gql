@@ -1,0 +1,6 @@
+subscription ThreadTaskIds {
+  threadTaskIds {
+    threadId
+    taskId
+  }
+}
