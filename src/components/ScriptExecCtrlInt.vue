@@ -1,38 +1,43 @@
 <template>
   <div>
-    <v-card>
+    <v-card v-if="threadTaskState">
       <v-card-actions>
         <v-btn
           color="primary"
-          :disabled="!ta.prompting"
-          @click="pdbCommand(th.threadId, ta.taskId, 'next')"
+          :disabled="!threadTaskState.prompting"
+          @click="pdbCommand(threadId, taskId, 'next')"
           >Next</v-btn
         >
         <v-btn
           color="primary"
-          :disabled="!ta.prompting"
-          @click="pdbCommand(th.threadId, ta.taskId, 'continue')"
+          :disabled="!threadTaskState.prompting"
+          @click="pdbCommand(threadId, taskId, 'continue')"
           >Continue</v-btn
         >
         <v-btn
           color="primary"
-          :disabled="!ta.prompting"
-          @click="pdbCommand(th.threadId, ta.taskId, 'return')"
+          :disabled="!threadTaskState.prompting"
+          @click="pdbCommand(threadId, taskId, 'return')"
           >Return</v-btn
         >
         <v-btn
           color="primary"
-          :disabled="!ta.prompting"
-          @click="pdbCommand(th.threadId, ta.taskId, 'step')"
+          :disabled="!threadTaskState.prompting"
+          @click="pdbCommand(threadId, taskId, 'step')"
           >Step</v-btn
         >
       </v-card-actions>
       <v-divider></v-divider>
       <v-card-text>
-        {{ ta.fileName }}
+        {{ threadTaskState.fileName }}
       </v-card-text>
     </v-card>
-    <v-card class="mt-1 overflow-y-auto" max-height="400" ref="card-source">
+    <v-card
+      v-if="threadTaskState"
+      class="mt-1 overflow-y-auto"
+      max-height="400"
+      ref="card-source"
+    >
       <v-card-text>
         <v-container fluid class="ma-0 pa-0">
           <v-row class="flex-nowrap">
@@ -44,7 +49,7 @@
                             ><span :ref="`card-source-line-${i}`">{{ i }}</span>{{ '\n' }}</span></code></pre>
             </div>
             <div class="mr-3" style="min-width: 2em">
-              <pre><code>{{ "\n".repeat(ta.lineNo - 1) }}<v-icon :color='ta.prompting ? "primary" : "secondary lighten-4"'>mdi-arrow-right-bold</v-icon></code></pre>
+              <pre><code>{{ "\n".repeat(threadTaskState.lineNo - 1) }}<v-icon :color='threadTaskState.prompting ? "primary" : "secondary lighten-4"'>mdi-arrow-right-bold</v-icon></code></pre>
             </div>
             <!-- </v-col> -->
             <!-- <v-col cols="10"> -->
@@ -68,6 +73,7 @@ import "prism-es6/components/prism-python";
 import "@/prism.css";
 
 import SEND_PDB_COMMAND from "@/graphql/mutations/SendPdbCommand.gql";
+import SUBSCRIBE_THREAD_TASK_STATE from "@/graphql/subscriptions/ThreadTaskState.gql";
 import QUERY_SOURCE from "@/graphql/queries/Source.gql";
 
 export default {
@@ -75,8 +81,9 @@ export default {
   components: {
     VueCodeHighlight,
   },
-  props: { th: Object, ta: Object },
+  props: { threadId: String, taskId: String },
   data: () => ({
+    threadTaskState: null,
     source: "",
   }),
   apollo: {
@@ -84,14 +91,31 @@ export default {
       query: QUERY_SOURCE,
       variables() {
         return {
-          fileName: this.ta.fileName,
+          fileName: this.threadTaskState.fileName,
         };
+      },
+      skip() {
+        return !this.threadTaskState;
       },
       update(data) {
         return data.source.join("\n");
       },
       result() {
         this.$nextTick(this.scroll);
+      },
+    },
+    $subscribe: {
+      threadTaskState: {
+        query: SUBSCRIBE_THREAD_TASK_STATE,
+        variables() {
+          return {
+            threadId: this.threadId,
+            taskId: this.taskId,
+          };
+        },
+        result({ data }) {
+          this.threadTaskState = data.threadTaskState;
+        },
       },
     },
   },
@@ -107,12 +131,16 @@ export default {
       // https://stackoverflow.com/a/64371340/7309855
       // https://jsfiddle.net/yjpq03da/
 
-      if (!this.ta.prompting) {
+      if (!this.threadTaskState) {
+        return;
+      }
+
+      if (!this.threadTaskState.prompting) {
         return;
       }
 
       const container_ref_name = "card-source";
-      const target_ref_name = `card-source-line-${this.ta.lineNo}`;
+      const target_ref_name = `card-source-line-${this.threadTaskState.lineNo}`;
 
       if (!this.$refs[target_ref_name]) {
         return;
@@ -139,7 +167,7 @@ export default {
     },
   },
   watch: {
-    ta: {
+    threadTaskState: {
       handler() {
         this.$nextTick(this.scroll);
       },

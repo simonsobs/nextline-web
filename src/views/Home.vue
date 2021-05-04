@@ -29,42 +29,29 @@
         </v-col>
       </v-row>
       <v-row>
-        <template v-if="state.threads">
-          <template v-for="th in state.threads">
-            <template v-for="ta in th.tasks">
-              <v-col
-                :cols="cols"
-                v-if="ta.fileName"
-                :key="th.threadId + '-' + ta.taskId"
-              >
-                <script-exec-ctrl-int :th="th" :ta="ta"></script-exec-ctrl-int>
-              </v-col>
-            </template>
-          </template>
+        <template v-for="threadTaskId in threadTaskIds">
+          <v-col
+            :cols="cols"
+            :key="threadTaskId.threadId + '-' + threadTaskId.taskId"
+          >
+            <script-exec-ctrl-int
+              :threadId="threadTaskId.threadId"
+              :taskId="threadTaskId.taskId"
+            ></script-exec-ctrl-int>
+          </v-col>
         </template>
       </v-row>
-      <!-- <v-row>
-        <v-col>
-          <v-card>
-            <v-card-text
-              ><pre>{{ state }}</pre></v-card-text
-            >
-          </v-card>
-        </v-col>
-      </v-row> -->
     </v-container>
   </div>
 </template>
 
 <script>
-// import gql from "graphql-tag";
-
 import ScriptExecCtrlInt from "@/components/ScriptExecCtrlInt.vue";
 
 import RESET from "@/graphql/mutations/Reset.gql";
 import EXEC from "@/graphql/mutations/Exec.gql";
 import SUBSCRIBE_GLOBAL_STATE from "@/graphql/subscriptions/GlobalState.gql";
-import SUBSCRIBE_STATE from "@/graphql/subscriptions/State.gql";
+import SUBSCRIBE_THREAD_TASK_IDS from "@/graphql/subscriptions/ThreadTaskIds.gql";
 import SUBSCRIBE_STDOUT from "@/graphql/subscriptions/Stdout.gql";
 import SUBSCRIBE_COUNTER from "@/graphql/subscriptions/Counter.gql";
 
@@ -78,6 +65,7 @@ export default {
   data: () => ({
     counter: null,
     globalState: null,
+    threadTaskIds: [],
     state: {},
     code: codeLines.join("\n"),
     nlines: codeLines.length,
@@ -97,10 +85,10 @@ export default {
           this.globalState = data.globalState;
         },
       },
-      state: {
-        query: SUBSCRIBE_STATE,
+      threadTaskIds: {
+        query: SUBSCRIBE_THREAD_TASK_IDS,
         result({ data }) {
-          this.state = data.state;
+          this.threadTaskIds = data.threadTaskIds;
         },
       },
       stdout: {
@@ -113,21 +101,9 @@ export default {
   },
   computed: {
     cols() {
-      if (this.ntasks <= 1) return 12;
-      else if (this.ntasks == 2) return 6;
+      if (this.threadTaskIds.length <= 1) return 12;
+      else if (this.threadTaskIds.length == 2) return 6;
       else return 4;
-    },
-    ntasks() {
-      if (!this.state.threads) {
-        return 0;
-      } else if (!(this.state.threads.length > 0)) {
-        return 0;
-      } else {
-        const ret = this.state.threads.reduce((a, th) => {
-          return a + th.tasks.length;
-        }, 0);
-        return ret;
-      }
     },
   },
   methods: {
