@@ -44,7 +44,7 @@
             <!-- <v-col cols="2"> -->
             <div class="mr-3" style="min-width: 1em">
               <pre><code><span
-                            v-for="i in source.length"
+                            v-for="i in sourceLines.length"
                             :key="i"
                             ><span :ref="`card-source-line-${i}`">{{ i }}</span>{{ '\n' }}</span></code></pre>
             </div>
@@ -84,10 +84,15 @@ export default {
   props: { threadId: String, taskId: String },
   data: () => ({
     threadTaskState: null,
-    source: "",
+    sourceLines: [],
   }),
+  computed: {
+    source() {
+      return this.sourceLines.join("\n");
+    },
+  },
   apollo: {
-    source: {
+    sourceLines: {
       query: QUERY_SOURCE,
       variables() {
         return {
@@ -98,7 +103,7 @@ export default {
         return !this.threadTaskState;
       },
       update(data) {
-        return data.source.join("\n");
+        return data.source;
       },
       result() {
         this.$nextTick(this.scroll);
