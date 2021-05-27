@@ -11,7 +11,12 @@
                 @click="run()"
                 >Run</v-btn
               >
-              <v-btn color="primary" @click="reset()">Reset</v-btn>
+              <v-btn
+                color="primary"
+                :disabled="!this.resettable"
+                @click="reset()"
+                >Reset</v-btn
+              >
             </v-card-actions>
             <v-card-text>
               <pre>{{ globalState }}</pre>
@@ -104,6 +109,9 @@ export default {
       if (this.threadTaskIds.length <= 1) return 12;
       else if (this.threadTaskIds.length == 2) return 6;
       else return 4;
+    },
+    resettable() {
+      return ["initialized", "finished", "closed"].includes(this.globalState);
     },
   },
   methods: {
