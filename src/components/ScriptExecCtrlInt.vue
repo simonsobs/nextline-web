@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div tabindex="0" @keypress.stop.prevent="keyPress($event)">
     <v-card v-if="threadTaskState">
       <v-card-actions>
         <v-btn
@@ -130,6 +130,26 @@ export default {
         mutation: SEND_PDB_COMMAND,
         variables: { threadId: this.threadId, taskId: this.taskId, command },
       });
+    },
+    async keyPress(event) {
+      if (!this.threadTaskState.prompting) {
+        return;
+      }
+      console.log(event);
+      console.log(event.key);
+      let command;
+      if (event.key == "n") {
+        command = "next";
+      } else if (event.key == "c") {
+        command = "continue";
+      } else if (event.key == "r") {
+        command = "return";
+      } else if (event.key == "s") {
+        command = "step";
+      } else {
+        return;
+      }
+      this.pdbCommand(command);
     },
     scroll() {
       // How to programmatically scroll an element instead of a page in vuetify
