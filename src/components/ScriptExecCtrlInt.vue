@@ -5,25 +5,25 @@
         <v-btn
           color="primary"
           :disabled="!threadTaskState.prompting"
-          @click="pdbCommand(threadId, taskId, 'next')"
+          @click="pdbCommand('next')"
           >Next</v-btn
         >
         <v-btn
           color="primary"
           :disabled="!threadTaskState.prompting"
-          @click="pdbCommand(threadId, taskId, 'continue')"
+          @click="pdbCommand('continue')"
           >Continue</v-btn
         >
         <v-btn
           color="primary"
           :disabled="!threadTaskState.prompting"
-          @click="pdbCommand(threadId, taskId, 'return')"
+          @click="pdbCommand('return')"
           >Return</v-btn
         >
         <v-btn
           color="primary"
           :disabled="!threadTaskState.prompting"
-          @click="pdbCommand(threadId, taskId, 'step')"
+          @click="pdbCommand('step')"
           >Step</v-btn
         >
       </v-card-actions>
@@ -125,10 +125,10 @@ export default {
     },
   },
   methods: {
-    async pdbCommand(threadId, taskId, command) {
+    async pdbCommand(command) {
       const data = await this.$apollo.mutate({
         mutation: SEND_PDB_COMMAND,
-        variables: { threadId, taskId, command },
+        variables: { threadId: this.threadId, taskId: this.taskId, command },
       });
     },
     scroll() {
