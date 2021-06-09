@@ -2,8 +2,8 @@
   <v-app>
     <v-app-bar app dense clipped-left>
       <v-toolbar-title>
-        <router-link to="/" style="text-decoration: none; color: inherit;"
-          >Nextline Test</router-link
+        <router-link to="/" style="text-decoration: none; color: inherit"
+          >Nextline</router-link
         >
       </v-toolbar-title>
       <v-spacer></v-spacer>
