@@ -165,24 +165,21 @@ export default {
       const container_ref_name = "card-source";
       const target_ref_name = `card-source-line-${this.threadTaskState.lineNo}`;
 
-      if (!this.$refs[target_ref_name]) {
+      const container = this.$refs[container_ref_name];
+      if (!container) {
         return;
       }
-      const target = this.$refs[target_ref_name][0];
+
+      const targets = this.$refs[target_ref_name]
+      if (!targets) {
+        return;
+      }
+
+      const target = targets[0];
       // Note: ref is an array when defined in v-for loop
 
       // target must be a Number/Selector/HTMLElement/VueComponent
       if (!target) {
-        return;
-      }
-
-      if (!this.$refs[container_ref_name]) {
-        return;
-      }
-
-      const container = this.$refs[container_ref_name];
-
-      if (!container) {
         return;
       }
 
