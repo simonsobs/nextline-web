@@ -23,7 +23,7 @@
 export default {
   name: "App",
   data: () => ({
-    graphqlUrl: process.env.VUE_APP_GRAPHQL_HTTP
-  })
+    graphqlUrl: process.env.VUE_APP_GRAPHQL_HTTP,
+  }),
 };
 </script>
