@@ -135,8 +135,6 @@ export default {
       if (!this.threadTaskState.prompting) {
         return;
       }
-      console.log(event);
-      console.log(event.key);
       let command;
       if (event.key == "n") {
         command = "next";
