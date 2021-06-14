@@ -3,7 +3,7 @@
     <v-container fluid>
       <v-row>
         <v-col>
-          <v-card>
+          <v-card outlined flat>
             <v-card-actions>
               <v-btn
                 color="primary"
@@ -26,7 +26,7 @@
       </v-row>
       <v-row>
         <v-col>
-          <v-card class="overflow-x-auto">
+          <v-card outlined flat class="overflow-x-auto">
             <v-card-text>
               <pre>{{ stdout }}</pre>
             </v-card-text>

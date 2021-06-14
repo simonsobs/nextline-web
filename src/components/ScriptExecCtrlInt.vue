@@ -1,6 +1,6 @@
 <template>
-  <div tabindex="0" @keypress.stop.prevent="keyPress($event)">
-    <v-card v-if="threadTaskState">
+  <v-card outlined flat tabindex="0" @keypress.stop.prevent="keyPress($event)">
+    <v-card flat v-if="threadTaskState">
       <v-card-actions>
         <v-btn
           color="primary"
@@ -37,7 +37,9 @@
         </v-tooltip></v-card-text
       >
     </v-card>
+    <v-divider></v-divider>
     <v-card
+      flat
       v-if="threadTaskState"
       class="mt-1 overflow-y-auto"
       max-height="400"
@@ -68,7 +70,7 @@
         </v-container>
       </v-card-text>
     </v-card>
-  </div>
+  </v-card>
 </template>
 
 <script>
