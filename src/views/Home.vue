@@ -34,17 +34,16 @@
         </v-col>
       </v-row>
       <v-row>
-        <template v-for="threadTaskId in threadTaskIds">
-          <v-col
-            :cols="cols"
-            :key="threadTaskId.threadId + '-' + threadTaskId.taskId"
-          >
-            <script-exec-ctrl-int
-              :threadId="threadTaskId.threadId"
-              :taskId="threadTaskId.taskId"
-            ></script-exec-ctrl-int>
-          </v-col>
-        </template>
+        <v-col
+          :cols="cols"
+          v-for="threadTaskId in threadTaskIds"
+          :key="threadTaskId.threadId + '-' + threadTaskId.taskId"
+        >
+          <script-exec-ctrl-int
+            :threadId="threadTaskId.threadId"
+            :taskId="threadTaskId.taskId"
+          ></script-exec-ctrl-int>
+        </v-col>
       </v-row>
     </v-container>
   </div>
