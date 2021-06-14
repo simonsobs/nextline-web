@@ -28,9 +28,14 @@
         >
       </v-card-actions>
       <v-divider></v-divider>
-      <v-card-text>
-        {{ threadTaskState.fileName }}
-      </v-card-text>
+      <v-card-text
+        ><v-tooltip bottom open-delay="500">
+          <template v-slot:activator="{ on, attrs }">
+            <span v-bind="attrs" v-on="on">{{ basename }}</span></template
+          >
+          <span>{{ threadTaskState.fileName }}</span>
+        </v-tooltip></v-card-text
+      >
     </v-card>
     <v-card
       v-if="threadTaskState"
@@ -67,6 +72,8 @@
 </template>
 
 <script>
+const path = require("path");
+
 import { component as VueCodeHighlight } from "vue-code-highlight";
 import "prism-es6/components/prism-markup-templating";
 import "prism-es6/components/prism-python";
@@ -89,6 +96,12 @@ export default {
   computed: {
     source() {
       return this.sourceLines.join("\n");
+    },
+    basename() {
+      if (!this.threadTaskState) {
+        return null;
+      }
+      return path.basename(this.threadTaskState.fileName);
     },
   },
   apollo: {
