@@ -52,7 +52,7 @@
 
 <script>
 import ScriptExecCtrlInt from "@/components/ScriptExecCtrlInt.vue";
-import ScriptEditor from '../components/ScriptEditor.vue';
+import ScriptEditor from '@/components/ScriptEditor.vue';
 
 import RESET from "@/graphql/mutations/Reset.gql";
 import EXEC from "@/graphql/mutations/Exec.gql";

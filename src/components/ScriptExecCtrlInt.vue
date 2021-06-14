@@ -55,7 +55,6 @@
       <v-card-text>
         <v-container fluid class="ma-0 pa-0">
           <v-row class="flex-nowrap">
-            <!-- <v-col cols="2"> -->
             <div class="mr-3" style="min-width: 1em">
               <pre><code><span
                             v-for="i in sourceLines.length"
@@ -65,14 +64,11 @@
             <div class="mr-3" style="min-width: 2em">
               <pre><code>{{ "\n".repeat(threadTaskState.lineNo - 1) }}<v-icon :color='threadTaskState.prompting ? "primary" : "secondary lighten-4"'>mdi-arrow-right-bold</v-icon></code></pre>
             </div>
-            <!-- </v-col> -->
-            <!-- <v-col cols="10"> -->
             <div>
               <vue-code-highlight language="python">{{
                 source
               }}</vue-code-highlight>
             </div>
-            <!-- </v-col> -->
           </v-row>
         </v-container>
       </v-card-text>
