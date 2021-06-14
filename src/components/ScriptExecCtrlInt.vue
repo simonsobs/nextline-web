@@ -183,7 +183,7 @@ export default {
         return;
       }
 
-      const targets = this.$refs[target_ref_name]
+      const targets = this.$refs[target_ref_name];
       if (!targets) {
         return;
       }
