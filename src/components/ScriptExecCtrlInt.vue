@@ -1,5 +1,12 @@
 <template>
-  <v-card outlined flat tabindex="0" @keypress.stop.prevent="keyPress($event)">
+  <v-card
+    outlined
+    flat
+    :ripple="false"
+    tabindex="0"
+    @keypress.stop.prevent="keyPress($event)"
+    style="cursor: default"
+  >
     <v-card flat v-if="threadTaskState">
       <v-card-actions>
         <v-btn
