@@ -33,6 +33,7 @@
           </v-card>
         </v-col>
       </v-row>
+      <script-editor></script-editor>
       <v-row>
         <v-col
           :cols="cols"
@@ -51,6 +52,7 @@
 
 <script>
 import ScriptExecCtrlInt from "@/components/ScriptExecCtrlInt.vue";
+import ScriptEditor from '../components/ScriptEditor.vue';
 
 import RESET from "@/graphql/mutations/Reset.gql";
 import EXEC from "@/graphql/mutations/Exec.gql";
@@ -65,6 +67,7 @@ export default {
   name: "Home",
   components: {
     ScriptExecCtrlInt,
+    ScriptEditor
   },
   data: () => ({
     counter: null,
