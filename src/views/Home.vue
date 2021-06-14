@@ -33,17 +33,21 @@
           </v-card>
         </v-col>
       </v-row>
-      <script-editor></script-editor>
       <v-row>
-        <v-col
-          :cols="cols"
-          v-for="threadTaskId in threadTaskIds"
-          :key="threadTaskId.threadId + '-' + threadTaskId.taskId"
-        >
-          <script-exec-ctrl-int
-            :threadId="threadTaskId.threadId"
-            :taskId="threadTaskId.taskId"
-          ></script-exec-ctrl-int>
+        <template v-if="globalState == 'running'">
+          <v-col
+            :cols="cols"
+            v-for="threadTaskId in threadTaskIds"
+            :key="threadTaskId.threadId + '-' + threadTaskId.taskId"
+          >
+            <script-exec-ctrl-int
+              :threadId="threadTaskId.threadId"
+              :taskId="threadTaskId.taskId"
+            ></script-exec-ctrl-int>
+          </v-col>
+        </template>
+        <v-col v-else>
+          <script-editor></script-editor>
         </v-col>
       </v-row>
     </v-container>
@@ -52,7 +56,7 @@
 
 <script>
 import ScriptExecCtrlInt from "@/components/ScriptExecCtrlInt.vue";
-import ScriptEditor from '@/components/ScriptEditor.vue';
+import ScriptEditor from "@/components/ScriptEditor.vue";
 
 import RESET from "@/graphql/mutations/Reset.gql";
 import EXEC from "@/graphql/mutations/Exec.gql";
@@ -67,7 +71,7 @@ export default {
   name: "Home",
   components: {
     ScriptExecCtrlInt,
-    ScriptEditor
+    ScriptEditor,
   },
   data: () => ({
     counter: null,
