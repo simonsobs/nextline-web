@@ -19,7 +19,7 @@
               >
             </v-card-actions>
             <v-card-text>
-              <pre>{{ globalState }}</pre>
+              <v-chip outlined>{{ globalState }}</v-chip>
             </v-card-text>
           </v-card>
         </v-col>
