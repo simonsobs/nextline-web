@@ -8,17 +8,23 @@
     id="script-exec-ctrl-int-card"
   >
     <v-card-actions v-if="threadTaskState" style="flex-flow: row wrap">
-      <v-btn
-        v-for="(b, i) in buttons"
-        :key="i"
-        class="primary mb-1"
-        small
-        :disabled="!threadTaskState.prompting"
-        @click="pdbCommand(b.command)"
-        >
-        <v-icon left>{{ b.icon }}</v-icon>
-        {{ b.text }}
-        </v-btn>
+      <v-tooltip bottom open-delay="500" v-for="(b, i) in buttons" :key="i">
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            color="primary"
+            icon
+            outlined
+            :disabled="!threadTaskState.prompting"
+            @click="pdbCommand(b.command)"
+            v-bind="attrs"
+            v-on="on"
+            class="ma-1"
+          >
+            <v-icon>{{ b.icon }}</v-icon>
+          </v-btn>
+        </template>
+        <span>{{ b.text }}</span>
+      </v-tooltip>
     </v-card-actions>
     <v-divider></v-divider>
     <v-card-text
@@ -81,10 +87,10 @@ export default {
   props: { threadId: String, taskId: String },
   data: () => ({
     buttons: [
-      { text: "Next", command: "next", icon: "mdi-skip-next" },
-      { text: "Step", command: "step", icon: "mdi-debug-step-into" },
-      { text: "Return", command: "return", icon: "mdi-keyboard-return" },
-      { text: "Continue", command: "continue", icon: "mdi-play" },
+      { text: "(N)ext", command: "next", icon: "mdi-skip-next" },
+      { text: "(S)tep", command: "step", icon: "mdi-debug-step-into" },
+      { text: "(R)eturn", command: "return", icon: "mdi-keyboard-return" },
+      { text: "(C)ontinue", command: "continue", icon: "mdi-play" },
     ],
     threadTaskState: null,
     sourceLines: [],
