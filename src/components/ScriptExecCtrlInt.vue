@@ -7,7 +7,8 @@
     @keypress.stop.prevent="keyPress($event)"
     id="script-exec-ctrl-int-card"
   >
-    <v-card-actions v-if="threadTaskState" style="flex-flow: row wrap">
+  <template v-if="threadTaskState">
+    <v-card-actions style="flex-flow: row wrap">
       <v-tooltip bottom open-delay="500" v-for="(b, i) in buttons" :key="i">
         <template v-slot:activator="{ on, attrs }">
           <v-btn
@@ -27,18 +28,17 @@
       </v-tooltip>
     </v-card-actions>
     <v-divider></v-divider>
-    <v-card-text
-      ><v-tooltip bottom open-delay="500">
+    <v-card-text>
+      <v-tooltip bottom open-delay="500">
         <template v-slot:activator="{ on, attrs }">
-          <span v-bind="attrs" v-on="on">{{ basename }}</span></template
-        >
+          <span v-bind="attrs" v-on="on">{{ basename }}</span>
+        </template>
         <span>{{ threadTaskState.fileName }}</span>
-      </v-tooltip></v-card-text
-    >
+      </v-tooltip>
+    </v-card-text>
     <v-divider></v-divider>
     <v-card
       flat
-      v-if="threadTaskState"
       class="mt-1 overflow-y-auto"
       max-height="400"
       ref="card-source"
@@ -64,6 +64,7 @@
         </v-container>
       </v-card-text>
     </v-card>
+  </template>
   </v-card>
 </template>
 
