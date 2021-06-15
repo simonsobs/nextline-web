@@ -5,57 +5,55 @@
     :ripple="false"
     tabindex="0"
     @keypress.stop.prevent="keyPress($event)"
-    style="cursor: default"
+    id="script-exec-ctrl-int-card"
   >
-    <v-card flat v-if="threadTaskState">
-      <v-card-actions style="flex-flow: row wrap">
-        <v-btn
-          class="primary mb-1"
-          small
-          :disabled="!threadTaskState.prompting"
-          @click="pdbCommand('next')"
-        >
-          <v-icon left> mdi-skip-next </v-icon>
-          Next
-        </v-btn>
-        <v-btn
-          class="primary mb-1"
-          small
-          :disabled="!threadTaskState.prompting"
-          @click="pdbCommand('step')"
-        >
-          <v-icon left> mdi-debug-step-into </v-icon>
-          Step
-        </v-btn>
-        <v-btn
-          class="primary mb-1"
-          small
-          :disabled="!threadTaskState.prompting"
-          @click="pdbCommand('return')"
-        >
-          <v-icon left> mdi-keyboard-return </v-icon>
-          Return
-        </v-btn>
-        <v-btn
-          class="primary mb-1"
-          small
-          :disabled="!threadTaskState.prompting"
-          @click="pdbCommand('continue')"
-        >
-          <v-icon left> mdi-play </v-icon>
-          Continue
-        </v-btn>
-      </v-card-actions>
-      <v-divider></v-divider>
-      <v-card-text
-        ><v-tooltip bottom open-delay="500">
-          <template v-slot:activator="{ on, attrs }">
-            <span v-bind="attrs" v-on="on">{{ basename }}</span></template
-          >
-          <span>{{ threadTaskState.fileName }}</span>
-        </v-tooltip></v-card-text
+    <v-card-actions v-if="threadTaskState" style="flex-flow: row wrap">
+      <v-btn
+        class="primary mb-1"
+        small
+        :disabled="!threadTaskState.prompting"
+        @click="pdbCommand('next')"
       >
-    </v-card>
+        <v-icon left> mdi-skip-next </v-icon>
+        Next
+      </v-btn>
+      <v-btn
+        class="primary mb-1"
+        small
+        :disabled="!threadTaskState.prompting"
+        @click="pdbCommand('step')"
+      >
+        <v-icon left> mdi-debug-step-into </v-icon>
+        Step
+      </v-btn>
+      <v-btn
+        class="primary mb-1"
+        small
+        :disabled="!threadTaskState.prompting"
+        @click="pdbCommand('return')"
+      >
+        <v-icon left> mdi-keyboard-return </v-icon>
+        Return
+      </v-btn>
+      <v-btn
+        class="primary mb-1"
+        small
+        :disabled="!threadTaskState.prompting"
+        @click="pdbCommand('continue')"
+      >
+        <v-icon left> mdi-play </v-icon>
+        Continue
+      </v-btn>
+    </v-card-actions>
+    <v-divider></v-divider>
+    <v-card-text
+      ><v-tooltip bottom open-delay="500">
+        <template v-slot:activator="{ on, attrs }">
+          <span v-bind="attrs" v-on="on">{{ basename }}</span></template
+        >
+        <span>{{ threadTaskState.fileName }}</span>
+      </v-tooltip></v-card-text
+    >
     <v-divider></v-divider>
     <v-card
       flat
@@ -239,5 +237,13 @@ export default {
 
 .theme--light.v-application code {
   background-color: inherit;
+}
+
+#script-exec-ctrl-int-card {
+  cursor: default;
+}
+
+#script-exec-ctrl-int-card:before {
+  background: inherit; /* prevent highlight when focused */
 }
 </style>
