@@ -8,31 +8,43 @@
     style="cursor: default"
   >
     <v-card flat v-if="threadTaskState">
-      <v-card-actions>
+      <v-card-actions style="flex-flow: row wrap">
         <v-btn
-          color="primary"
+          class="primary mb-1"
+          small
           :disabled="!threadTaskState.prompting"
           @click="pdbCommand('next')"
-          >Next</v-btn
         >
+          <v-icon left> mdi-skip-next </v-icon>
+          Next
+        </v-btn>
         <v-btn
-          color="primary"
-          :disabled="!threadTaskState.prompting"
-          @click="pdbCommand('continue')"
-          >Continue</v-btn
-        >
-        <v-btn
-          color="primary"
-          :disabled="!threadTaskState.prompting"
-          @click="pdbCommand('return')"
-          >Return</v-btn
-        >
-        <v-btn
-          color="primary"
+          class="primary mb-1"
+          small
           :disabled="!threadTaskState.prompting"
           @click="pdbCommand('step')"
-          >Step</v-btn
         >
+          <v-icon left> mdi-debug-step-into </v-icon>
+          Step
+        </v-btn>
+        <v-btn
+          class="primary mb-1"
+          small
+          :disabled="!threadTaskState.prompting"
+          @click="pdbCommand('return')"
+        >
+          <v-icon left> mdi-keyboard-return </v-icon>
+          Return
+        </v-btn>
+        <v-btn
+          class="primary mb-1"
+          small
+          :disabled="!threadTaskState.prompting"
+          @click="pdbCommand('continue')"
+        >
+          <v-icon left> mdi-play </v-icon>
+          Continue
+        </v-btn>
       </v-card-actions>
       <v-divider></v-divider>
       <v-card-text
