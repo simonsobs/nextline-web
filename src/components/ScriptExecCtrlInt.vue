@@ -9,41 +9,16 @@
   >
     <v-card-actions v-if="threadTaskState" style="flex-flow: row wrap">
       <v-btn
+        v-for="(b, i) in buttons"
+        :key="i"
         class="primary mb-1"
         small
         :disabled="!threadTaskState.prompting"
-        @click="pdbCommand('next')"
-      >
-        <v-icon left> mdi-skip-next </v-icon>
-        Next
-      </v-btn>
-      <v-btn
-        class="primary mb-1"
-        small
-        :disabled="!threadTaskState.prompting"
-        @click="pdbCommand('step')"
-      >
-        <v-icon left> mdi-debug-step-into </v-icon>
-        Step
-      </v-btn>
-      <v-btn
-        class="primary mb-1"
-        small
-        :disabled="!threadTaskState.prompting"
-        @click="pdbCommand('return')"
-      >
-        <v-icon left> mdi-keyboard-return </v-icon>
-        Return
-      </v-btn>
-      <v-btn
-        class="primary mb-1"
-        small
-        :disabled="!threadTaskState.prompting"
-        @click="pdbCommand('continue')"
-      >
-        <v-icon left> mdi-play </v-icon>
-        Continue
-      </v-btn>
+        @click="pdbCommand(b.command)"
+        >
+        <v-icon left>{{ b.icon }}</v-icon>
+        {{ b.text }}
+        </v-btn>
     </v-card-actions>
     <v-divider></v-divider>
     <v-card-text
@@ -105,6 +80,12 @@ export default {
   },
   props: { threadId: String, taskId: String },
   data: () => ({
+    buttons: [
+      { text: "Next", command: "next", icon: "mdi-skip-next" },
+      { text: "Step", command: "step", icon: "mdi-debug-step-into" },
+      { text: "Return", command: "return", icon: "mdi-keyboard-return" },
+      { text: "Continue", command: "continue", icon: "mdi-play" },
+    ],
     threadTaskState: null,
     sourceLines: [],
   }),
