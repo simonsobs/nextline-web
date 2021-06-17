@@ -17,10 +17,9 @@
                 @click="reset()"
                 >Reset</v-btn
               >
-            </v-card-actions>
-            <v-card-text>
+              <v-spacer></v-spacer>
               <v-chip outlined>{{ globalState }}</v-chip>
-            </v-card-text>
+            </v-card-actions>
           </v-card>
         </v-col>
       </v-row>
