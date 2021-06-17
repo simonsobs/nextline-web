@@ -6,17 +6,18 @@
           <v-card outlined flat>
             <v-card-actions>
               <v-btn
+              outlined text
+                v-for="(b, i) in buttons"
+                :key="i"
                 color="primary"
-                :disabled="!(globalState == 'initialized')"
-                @click="run()"
-                >Run</v-btn
+                :disabled="!b.states.includes(globalState)"
+                @click="onClick(b.method)"
               >
-              <v-btn
-                color="primary"
-                :disabled="!this.resettable"
-                @click="reset()"
-                >Reset</v-btn
-              >
+                <v-icon left>
+                  {{ b.icon }}
+                </v-icon>
+                {{ b.text }}
+              </v-btn>
               <v-spacer></v-spacer>
               <v-chip outlined>{{ globalState }}</v-chip>
             </v-card-actions>
@@ -70,6 +71,20 @@ export default {
     ScriptEditor,
   },
   data: () => ({
+    buttons: [
+      {
+        text: "Run",
+        method: "run",
+        icon: "mdi-play",
+        states: ["initialized"],
+      },
+      {
+        text: "Reset",
+        method: "reset",
+        icon: "mdi-restore",
+        states: ["initialized", "finished", "closed"],
+      },
+    ],
     globalState: null,
     threadTaskIds: [],
     stdout: "",
@@ -102,11 +117,11 @@ export default {
       else if (this.threadTaskIds.length == 2) return 6;
       else return 4;
     },
-    resettable() {
-      return ["initialized", "finished", "closed"].includes(this.globalState);
-    },
   },
   methods: {
+    async onClick(method) {
+      await this[method]();
+    },
     async run() {
       const data = await this.$apollo.mutate({
         mutation: EXEC,
