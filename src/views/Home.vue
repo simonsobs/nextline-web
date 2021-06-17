@@ -65,8 +65,6 @@ import SUBSCRIBE_THREAD_TASK_IDS from "@/graphql/subscriptions/ThreadTaskIds.gql
 import SUBSCRIBE_STDOUT from "@/graphql/subscriptions/Stdout.gql";
 import SUBSCRIBE_COUNTER from "@/graphql/subscriptions/Counter.gql";
 
-const codeLines = ["import script", "script.run()"];
-
 export default {
   name: "Home",
   components: {
@@ -78,8 +76,6 @@ export default {
     globalState: null,
     threadTaskIds: [],
     state: {},
-    code: codeLines.join("\n"),
-    nlines: codeLines.length,
     stdout: "",
   }),
   apollo: {
