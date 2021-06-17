@@ -62,7 +62,6 @@ import EXEC from "@/graphql/mutations/Exec.gql";
 import SUBSCRIBE_GLOBAL_STATE from "@/graphql/subscriptions/GlobalState.gql";
 import SUBSCRIBE_THREAD_TASK_IDS from "@/graphql/subscriptions/ThreadTaskIds.gql";
 import SUBSCRIBE_STDOUT from "@/graphql/subscriptions/Stdout.gql";
-import SUBSCRIBE_COUNTER from "@/graphql/subscriptions/Counter.gql";
 
 export default {
   name: "Home",
@@ -71,20 +70,12 @@ export default {
     ScriptEditor,
   },
   data: () => ({
-    counter: null,
     globalState: null,
     threadTaskIds: [],
-    state: {},
     stdout: "",
   }),
   apollo: {
     $subscribe: {
-      counter: {
-        query: SUBSCRIBE_COUNTER,
-        result({ data }) {
-          this.counter = data.counter;
-        },
-      },
       globalState: {
         query: SUBSCRIBE_GLOBAL_STATE,
         result({ data }) {
@@ -117,13 +108,11 @@ export default {
   },
   methods: {
     async run() {
-      console.log("run");
       const data = await this.$apollo.mutate({
         mutation: EXEC,
       });
     },
     async reset() {
-      console.log("reset");
       const data = await this.$apollo.mutate({
         mutation: RESET,
       });
