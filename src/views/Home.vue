@@ -18,8 +18,7 @@
                 </v-icon>
                 {{ b.text }}
               </v-btn>
-              <v-spacer></v-spacer>
-              <v-chip outlined>{{ globalState }}</v-chip>
+              <v-chip outlined class="mx-2">{{ globalState }}</v-chip>
             </v-card-actions>
           </v-card>
         </v-col>
