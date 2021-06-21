@@ -37,7 +37,7 @@
           </v-col>
         </template>
         <v-col v-else>
-          <script-editor></script-editor>
+          <script-viewer></script-viewer>
         </v-col>
       </v-row>
       <v-row>
@@ -55,7 +55,7 @@
 
 <script>
 import ScriptExecCtrlInt from "@/components/ScriptExecCtrlInt.vue";
-import ScriptEditor from "@/components/ScriptEditor.vue";
+import ScriptViewer from "@/components/ScriptViewer.vue";
 
 import RESET from "@/graphql/mutations/Reset.gql";
 import EXEC from "@/graphql/mutations/Exec.gql";
@@ -67,7 +67,7 @@ export default {
   name: "Home",
   components: {
     ScriptExecCtrlInt,
-    ScriptEditor,
+    ScriptViewer,
   },
   data: () => ({
     buttons: [
