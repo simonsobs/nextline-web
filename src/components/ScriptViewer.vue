@@ -64,6 +64,7 @@ export default {
   data: () => ({
     buttons: [{ text: "Edit", method: "edit", icon: "mdi-pencil" }],
     savedSourceLines: [],
+    source: "",
   }),
   apollo: {
     savedSourceLines: {
@@ -76,6 +77,11 @@ export default {
   computed: {
     savedSource() {
       return this.savedSourceLines.join("\n");
+    },
+  },
+  watch: {
+    savedSource() {
+      this.source = this.savedSource;
     },
   },
   methods: {
