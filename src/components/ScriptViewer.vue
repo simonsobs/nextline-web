@@ -29,7 +29,7 @@
           <v-row class="flex-nowrap">
             <div class="mr-3" style="min-width: 1em">
               <pre><code><span
-                            v-for="i in sourceLines.length"
+                            v-for="i in savedSourceLines.length"
                             :key="i"
                             ><span>{{ i }}</span>{{ '\n' }}</span></code></pre>
             </div>
@@ -63,10 +63,10 @@ export default {
   },
   data: () => ({
     buttons: [{ text: "Edit", method: "edit", icon: "mdi-pencil" }],
-    sourceLines: [],
+    savedSourceLines: [],
   }),
   apollo: {
-    sourceLines: {
+    savedSourceLines: {
       query: QUERY_SOURCE,
       update(data) {
         return data.source;
@@ -75,7 +75,7 @@ export default {
   },
   computed: {
     source() {
-      return this.sourceLines.join("\n");
+      return this.savedSourceLines.join("\n");
     },
   },
   methods: {
