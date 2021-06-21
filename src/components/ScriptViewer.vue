@@ -19,9 +19,7 @@
       </v-tooltip>
     </v-card-actions>
     <v-divider></v-divider>
-    <v-card-text>
-      &lt;string&gt;
-    </v-card-text>
+    <v-card-text> &lt;string&gt; </v-card-text>
     <v-divider></v-divider>
     <v-card flat class="mt-1 overflow-y-auto" max-height="400">
       <v-card-text>
