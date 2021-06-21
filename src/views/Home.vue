@@ -84,12 +84,6 @@ export default {
         icon: "mdi-restore",
         states: ["initialized", "finished", "closed"],
       },
-      {
-        text: "Edit",
-        method: "edit",
-        icon: "mdi-pencil",
-        states: ["initialized"],
-      },
     ],
     nextlineState: null,
     threadTaskIds: [],
@@ -139,9 +133,6 @@ export default {
       });
       this.stdout = "";
     },
-    edit() {
-      console.log('Edit');
-    }
   },
 };
 </script>

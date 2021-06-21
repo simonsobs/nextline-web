@@ -1,5 +1,28 @@
 <template>
   <v-card outlined flat>
+    <v-card-actions style="flex-flow: row wrap">
+      <v-tooltip bottom open-delay="500" v-for="(b, i) in buttons" :key="i">
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            color="primary"
+            icon
+            outlined
+            @click="onClick(b.method)"
+            v-bind="attrs"
+            v-on="on"
+            class="ma-1"
+          >
+            <v-icon>{{ b.icon }}</v-icon>
+          </v-btn>
+        </template>
+        <span>{{ b.text }}</span>
+      </v-tooltip>
+    </v-card-actions>
+    <v-divider></v-divider>
+    <v-card-text>
+      &lt;string&gt;
+    </v-card-text>
+    <v-divider></v-divider>
     <v-card flat class="mt-1 overflow-y-auto" max-height="400">
       <v-card-text>
         <v-container fluid class="ma-0 pa-0">
@@ -39,6 +62,7 @@ export default {
     VueCodeHighlight,
   },
   data: () => ({
+    buttons: [{ text: "Edit", method: "edit", icon: "mdi-pencil" }],
     sourceLines: [],
   }),
   apollo: {
@@ -54,5 +78,13 @@ export default {
       return this.sourceLines.join("\n");
     },
   },
+  methods: {
+    onClick(method) {
+      this[method]();
+    },
+    edit() {
+      console.log("Edit")
+    }
+  }
 };
 </script>
