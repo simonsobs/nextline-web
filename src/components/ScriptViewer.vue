@@ -36,7 +36,7 @@
             <div class="mr-3" style="min-width: 2em"></div>
             <div>
               <vue-code-highlight language="python">{{
-                source
+                savedSource
               }}</vue-code-highlight>
             </div>
             <!-- </v-col> -->
@@ -74,7 +74,7 @@ export default {
     },
   },
   computed: {
-    source() {
+    savedSource() {
       return this.savedSourceLines.join("\n");
     },
   },
