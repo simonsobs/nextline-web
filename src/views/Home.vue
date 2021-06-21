@@ -10,7 +10,7 @@
                 v-for="(b, i) in buttons"
                 :key="i"
                 color="primary"
-                :disabled="!b.states.includes(globalState)"
+                :disabled="!b.states.includes(nextlineState)"
                 @click="onClick(b.method)"
               >
                 <v-icon left>
@@ -18,13 +18,13 @@
                 </v-icon>
                 {{ b.text }}
               </v-btn>
-              <v-chip outlined class="mx-2">{{ globalState }}</v-chip>
+              <v-chip outlined class="mx-2">{{ nextlineState }}</v-chip>
             </v-card-actions>
           </v-card>
         </v-col>
       </v-row>
       <v-row>
-        <template v-if="globalState == 'running'">
+        <template v-if="nextlineState == 'running'">
           <v-col
             :cols="cols"
             v-for="threadTaskId in threadTaskIds"
@@ -90,16 +90,16 @@ export default {
         states: ["initialized"],
       },
     ],
-    globalState: null,
+    nextlineState: null,
     threadTaskIds: [],
     stdout: "",
   }),
   apollo: {
     $subscribe: {
-      globalState: {
+      nextlineState: {
         query: SUBSCRIBE_GLOBAL_STATE,
         result({ data }) {
-          this.globalState = data.globalState;
+          this.nextlineState = data.globalState;
         },
       },
       threadTaskIds: {
