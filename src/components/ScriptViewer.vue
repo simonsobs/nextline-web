@@ -21,7 +21,8 @@
     <v-divider></v-divider>
     <v-card-text> &lt;string&gt; </v-card-text>
     <v-divider></v-divider>
-    <v-card flat class="mt-1 overflow-y-auto" max-height="400">
+    <v-textarea v-if="editing" :value="source"></v-textarea>
+    <v-card v-else flat class="mt-1 overflow-y-auto" max-height="400">
       <v-card-text>
         <v-container fluid class="ma-0 pa-0">
           <v-row class="flex-nowrap">
@@ -41,7 +42,6 @@
           </v-row>
         </v-container>
       </v-card-text>
-      <!-- <v-textarea :value="source"></v-textarea> -->
     </v-card>
   </v-card>
 </template>
@@ -60,6 +60,7 @@ export default {
     VueCodeHighlight,
   },
   data: () => ({
+    editing: false,
     buttons: [{ text: "Edit", method: "edit", icon: "mdi-pencil" }],
     savedSourceLines: [],
     source: "",
@@ -87,8 +88,8 @@ export default {
       this[method]();
     },
     edit() {
-      console.log("Edit")
-    }
-  }
+      this.editing = true;
+    },
+  },
 };
 </script>
