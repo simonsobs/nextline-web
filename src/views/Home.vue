@@ -6,7 +6,8 @@
           <v-card outlined flat>
             <v-card-actions>
               <v-btn
-              outlined text
+                outlined
+                text
                 v-for="(b, i) in buttons"
                 :key="i"
                 color="primary"
