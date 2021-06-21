@@ -24,15 +24,6 @@
         </v-col>
       </v-row>
       <v-row>
-        <v-col>
-          <v-card outlined flat class="overflow-x-auto">
-            <v-card-text>
-              <pre>{{ stdout }}</pre>
-            </v-card-text>
-          </v-card>
-        </v-col>
-      </v-row>
-      <v-row>
         <template v-if="globalState == 'running'">
           <v-col
             :cols="cols"
@@ -47,6 +38,15 @@
         </template>
         <v-col v-else>
           <script-editor></script-editor>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <v-card outlined flat class="overflow-x-auto">
+            <v-card-text>
+              <pre>{{ stdout }}</pre>
+            </v-card-text>
+          </v-card>
         </v-col>
       </v-row>
     </v-container>
