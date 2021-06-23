@@ -8,6 +8,7 @@
             icon
             outlined
             @click="onClick(b.method)"
+            :disabled="b.disabled"
             v-bind="attrs"
             v-on="on"
             class="ma-1"
@@ -88,9 +89,24 @@ export default {
         return [{ text: "Edit", method: "edit", icon: "mdi-pencil" }];
       } else {
         return [
-          { text: "Save", method: "save", icon: "mdi-content-save" },
-          { text: "Reload", method: "reload", icon: "mdi-reload" },
-          { text: "Close", method: "save", icon: "mdi-close" },
+          {
+            text: "Save",
+            method: "save",
+            disabled: this.source == this.savedSource,
+            icon: "mdi-content-save",
+          },
+          {
+            text: "Reset",
+            method: "reset",
+            disabled: false,
+            icon: "mdi-reload",
+          },
+          {
+            text: "Close",
+            method: "close",
+            disabled: false,
+            icon: "mdi-close",
+          },
         ];
       }
     },
@@ -113,6 +129,13 @@ export default {
         variables: { statement: this.source },
       });
       await this.$apollo.queries.savedSourceLines.refetch();
+    },
+    async reset() {
+      await this.$apollo.queries.savedSourceLines.refetch();
+      this.source = this.savedSource;
+    },
+    close() {
+      this.editing = false;
     },
   },
 };
