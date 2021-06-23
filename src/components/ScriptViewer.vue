@@ -21,8 +21,14 @@
     <v-divider></v-divider>
     <v-card-text> &lt;string&gt; </v-card-text>
     <v-divider></v-divider>
-    <v-textarea v-if="editing" :value="source"></v-textarea>
-    <v-card v-else flat class="mt-1 overflow-y-auto" max-height="400">
+    <v-textarea
+      v-if="editing"
+      v-model="source"
+      id="script-editor-textarea"
+      class="v-card__text"
+      rows="16"
+    ></v-textarea>
+    <v-card v-else flat class="mt-1 overflow-y-auto" style="resize: vertical">
       <v-card-text>
         <v-container fluid class="ma-0 pa-0">
           <v-row class="flex-nowrap">
@@ -52,6 +58,7 @@ import "prism-es6/components/prism-markup-templating";
 import "prism-es6/components/prism-python";
 import "@/prism.css";
 
+import RESET from "@/graphql/mutations/Reset.gql";
 import QUERY_SOURCE from "@/graphql/queries/Source.gql";
 
 export default {
@@ -61,7 +68,6 @@ export default {
   },
   data: () => ({
     editing: false,
-    buttons: [{ text: "Edit", method: "edit", icon: "mdi-pencil" }],
     savedSourceLines: [],
     source: "",
   }),
@@ -77,6 +83,17 @@ export default {
     savedSource() {
       return this.savedSourceLines.join("\n");
     },
+    buttons() {
+      if (!this.editing) {
+        return [{ text: "Edit", method: "edit", icon: "mdi-pencil" }];
+      } else {
+        return [
+          { text: "Save", method: "save", icon: "mdi-content-save" },
+          { text: "Reload", method: "reload", icon: "mdi-reload" },
+          { text: "Close", method: "save", icon: "mdi-close" },
+        ];
+      }
+    },
   },
   watch: {
     savedSource() {
@@ -90,6 +107,20 @@ export default {
     edit() {
       this.editing = true;
     },
+    async save() {
+      const data = await this.$apollo.mutate({
+        mutation: RESET,
+        variables: { statement: this.source },
+      });
+      await this.$apollo.queries.savedSourceLines.refetch();
+    },
   },
 };
 </script>
+
+<style>
+#script-editor-textarea {
+  font-family: monospace;
+  font-size: 14px;
+}
+</style>
