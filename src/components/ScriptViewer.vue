@@ -28,6 +28,7 @@
       id="script-editor-textarea"
       class="v-card__text"
       rows="16"
+      clearable
     ></v-textarea>
     <v-card v-else flat class="mt-1 overflow-y-auto" style="resize: vertical">
       <v-card-text>
