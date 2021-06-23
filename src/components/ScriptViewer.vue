@@ -115,6 +115,9 @@ export default {
     savedSource() {
       this.source = this.savedSource;
     },
+    editing() {
+      this.$emit('input', this.editing);
+    }
   },
   methods: {
     onClick(method) {
