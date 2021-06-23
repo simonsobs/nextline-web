@@ -11,7 +11,7 @@
                 v-for="(b, i) in buttons"
                 :key="i"
                 color="primary"
-                :disabled="!b.states.includes(nextlineState)"
+                :disabled="editing || !b.states.includes(nextlineState)"
                 @click="onClick(b.method)"
               >
                 <v-icon left>
@@ -38,7 +38,7 @@
           </v-col>
         </template>
         <v-col v-else>
-          <script-viewer></script-viewer>
+          <script-viewer v-model="editing"></script-viewer>
         </v-col>
       </v-row>
       <v-row>
@@ -71,6 +71,7 @@ export default {
     ScriptViewer,
   },
   data: () => ({
+    editing: false,
     buttons: [
       {
         text: "Run",
