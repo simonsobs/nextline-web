@@ -77,6 +77,7 @@ import "prism-es6/components/prism-python";
 import "@/prism.css";
 
 import SEND_PDB_COMMAND from "@/graphql/mutations/SendPdbCommand.gql";
+import SUBSCRIBE_GLOBAL_STATE from "@/graphql/subscriptions/GlobalState.gql";
 import SUBSCRIBE_THREAD_TASK_STATE from "@/graphql/subscriptions/ThreadTaskState.gql";
 import QUERY_SOURCE from "@/graphql/queries/Source.gql";
 
@@ -93,6 +94,7 @@ export default {
       { text: "(R)eturn", command: "return", icon: "mdi-keyboard-return" },
       { text: "(C)ontinue", command: "continue", icon: "mdi-play" },
     ],
+    nextlineState: null,
     threadTaskState: null,
     sourceLines: [],
   }),
@@ -105,6 +107,21 @@ export default {
         return null;
       }
       return path.basename(this.threadTaskState.fileName);
+    },
+  },
+  watch: {
+    async nextlineState() {
+      if (this.nextlineState == "running") {
+        // refetch the script in case modified.
+        const fileName = "<string>";
+        await this.$apollo.queries.sourceLines.refetch(fileName);
+      }
+    },
+    threadTaskState: {
+      handler() {
+        this.$nextTick(this.scroll);
+      },
+      immediate: true,
     },
   },
   apollo: {
@@ -126,6 +143,12 @@ export default {
       },
     },
     $subscribe: {
+      nextlineState: {
+        query: SUBSCRIBE_GLOBAL_STATE,
+        result({ data }) {
+          this.nextlineState = data.globalState;
+        },
+      },
       threadTaskState: {
         query: SUBSCRIBE_THREAD_TASK_STATE,
         variables() {
@@ -200,14 +223,6 @@ export default {
       }
 
       this.$vuetify.goTo(target, { container });
-    },
-  },
-  watch: {
-    threadTaskState: {
-      handler() {
-        this.$nextTick(this.scroll);
-      },
-      immediate: true,
     },
   },
 };
