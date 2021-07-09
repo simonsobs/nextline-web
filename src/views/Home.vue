@@ -24,6 +24,7 @@
           </v-card>
         </v-col>
       </v-row>
+      <v-alert v-if="exception" type="error" class="my-2"><pre>{{ exception }}</pre></v-alert>
       <v-row>
         <template v-if="nextlineState == 'running'">
           <v-col
@@ -58,6 +59,7 @@
 import ScriptExecCtrlInt from "@/components/ScriptExecCtrlInt.vue";
 import ScriptViewer from "@/components/ScriptViewer.vue";
 
+import QUERY_EXCEPTION from "@/graphql/queries/Exception.gql";
 import RESET from "@/graphql/mutations/Reset.gql";
 import EXEC from "@/graphql/mutations/Exec.gql";
 import SUBSCRIBE_GLOBAL_STATE from "@/graphql/subscriptions/GlobalState.gql";
@@ -89,8 +91,18 @@ export default {
     nextlineState: null,
     threadTaskIds: [],
     stdout: "",
+    exception: null,
   }),
   apollo: {
+    exception: {
+      query: QUERY_EXCEPTION,
+      skip() {
+        return this.nextlineState != "finished";
+      },
+      update(data) {
+        return data.exception;
+      },
+    },
     $subscribe: {
       nextlineState: {
         query: SUBSCRIBE_GLOBAL_STATE,
@@ -133,6 +145,7 @@ export default {
         mutation: RESET,
       });
       this.stdout = "";
+      this.exception = null;
     },
   },
 };
