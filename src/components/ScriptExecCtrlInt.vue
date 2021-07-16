@@ -2,68 +2,79 @@
   <v-card
     outlined
     flat
+    height="100%"
     :ripple="false"
     tabindex="0"
     @keypress.stop.prevent="keyPress($event)"
     id="script-exec-ctrl-int-card"
   >
     <template v-if="threadTaskState">
-      <v-card-actions style="flex-flow: row wrap">
-        <v-tooltip bottom open-delay="500" v-for="(b, i) in buttons" :key="i">
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn
-              color="primary"
-              icon
-              outlined
-              :disabled="!threadTaskState.prompting"
-              @click="pdbCommand(b.command)"
-              v-bind="attrs"
-              v-on="on"
-              class="ma-1"
-            >
-              <v-icon>{{ b.icon }}</v-icon>
-            </v-btn>
-          </template>
-          <span>{{ b.text }}</span>
-        </v-tooltip>
-      </v-card-actions>
-      <v-divider></v-divider>
-      <v-card-text>
-        <v-tooltip bottom open-delay="500">
-          <template v-slot:activator="{ on, attrs }">
-            <span v-bind="attrs" v-on="on">{{ basename }}</span>
-          </template>
-          <span>{{ threadTaskState.fileName }}</span>
-        </v-tooltip>
-      </v-card-text>
-      <v-divider></v-divider>
-      <v-card
-        flat
-        class="mt-1 overflow-y-auto"
-        max-height="400"
-        ref="card-source"
-      >
-        <v-card-text>
-          <v-container fluid class="ma-0 pa-0">
-            <v-row class="flex-nowrap">
-              <div class="mr-3" style="min-width: 1em">
-                <pre><code><span
+      <v-container fluid fill-height py-0>
+        <v-row dense class="fill-height flex-column flex-nowrap justify-start">
+          <v-col class="flex-grow-0 pa-0">
+            <v-card-text class="pa-1">
+              <v-tooltip bottom open-delay="500">
+                <template v-slot:activator="{ on, attrs }">
+                  <span v-bind="attrs" v-on="on">{{ basename }}</span>
+                </template>
+                <span>{{ threadTaskState.fileName }}</span>
+              </v-tooltip>
+            </v-card-text>
+          </v-col>
+          <v-divider></v-divider>
+          <v-col class="flex-grow-0 pa-0">
+            <v-card-actions class="flex-row flex-wrap pa-1">
+              <v-tooltip
+                bottom
+                open-delay="500"
+                v-for="(b, i) in buttons"
+                :key="i"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    color="primary"
+                    icon
+                    outlined
+                    :disabled="!threadTaskState.prompting"
+                    @click="pdbCommand(b.command)"
+                    v-bind="attrs"
+                    v-on="on"
+                    class="ma-1"
+                  >
+                    <v-icon>{{ b.icon }}</v-icon>
+                  </v-btn>
+                </template>
+                <span>{{ b.text }}</span>
+              </v-tooltip>
+            </v-card-actions>
+          </v-col>
+          <v-divider></v-divider>
+          <v-col class="overflow-hidden pa-0">
+            <v-card flat height="100%" ref="card-source" class="overflow-y-auto">
+              <v-card-text>
+                <v-container fluid fill-height ma-0 pa-0>
+                  <v-row class="flex-nowrap">
+                    <div class="mr-3" style="min-width: 1em">
+                      <pre><code><span
                             v-for="i in sourceLines.length"
                             :key="i"
                             ><span :ref="`card-source-line-${i}`">{{ i }}</span>{{ '\n' }}</span></code></pre>
-              </div>
-              <div class="mr-3" style="min-width: 2em">
-                <pre><code>{{ "\n".repeat(threadTaskState.lineNo - 1) }}<v-icon :color='threadTaskState.prompting ? "primary" : "secondary lighten-4"'>mdi-arrow-right-bold</v-icon></code></pre>
-              </div>
-              <div>
-                <vue-code-highlight language="python">{{
-                  source
-                }}</vue-code-highlight>
-              </div>
-            </v-row>
-          </v-container>
-        </v-card-text>
-      </v-card>
+                    </div>
+                    <div class="mr-3" style="min-width: 2em">
+                      <pre><code>{{ "\n".repeat(threadTaskState.lineNo - 1) }}<v-icon :color='threadTaskState.prompting ? "primary" : "secondary lighten-4"'>mdi-arrow-right-bold</v-icon></code></pre>
+                    </div>
+                    <div>
+                      <vue-code-highlight language="python">{{
+                        source
+                      }}</vue-code-highlight>
+                    </div>
+                  </v-row>
+                </v-container>
+              </v-card-text>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-container>
     </template>
   </v-card>
 </template>

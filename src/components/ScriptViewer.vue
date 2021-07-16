@@ -1,56 +1,73 @@
 <template>
-  <v-card outlined flat>
-    <v-card-actions style="flex-flow: row wrap">
-      <v-tooltip bottom open-delay="500" v-for="(b, i) in buttons" :key="i">
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn
-            color="primary"
-            icon
-            outlined
-            @click="onClick(b.method)"
-            :disabled="b.disabled"
-            v-bind="attrs"
-            v-on="on"
-            class="ma-1"
+  <v-card outlined flat height="100%">
+    <v-container fluid fill-height py-0>
+      <v-row dense class="fill-height flex-column flex-nowrap justify-start">
+        <v-col class="flex-grow-0 pa-0">
+          <v-card-text class="pa-1"> &lt;string&gt; </v-card-text>
+        </v-col>
+        <v-divider></v-divider>
+        <v-col class="flex-grow-0 pa-0">
+          <v-card-actions class="flex-row flex-wrap pa-1">
+            <v-tooltip
+              bottom
+              open-delay="500"
+              v-for="(b, i) in buttons"
+              :key="i"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  color="primary"
+                  icon
+                  outlined
+                  @click="onClick(b.method)"
+                  :disabled="b.disabled"
+                  v-bind="attrs"
+                  v-on="on"
+                  class="ma-1"
+                >
+                  <v-icon>{{ b.icon }}</v-icon>
+                </v-btn>
+              </template>
+              <span>{{ b.text }}</span>
+            </v-tooltip>
+          </v-card-actions>
+        </v-col>
+        <v-divider></v-divider>
+        <v-col v-if="editing" id="col-textarea" class="overflow-hidden">
+          <v-textarea
+            v-model="source"
+            id="script-editor-textarea"
+            no-resize
+            solo
+            auto-grow
+            class="v-card__text fill-height overflow-y-auto"
           >
-            <v-icon>{{ b.icon }}</v-icon>
-          </v-btn>
-        </template>
-        <span>{{ b.text }}</span>
-      </v-tooltip>
-    </v-card-actions>
-    <v-divider></v-divider>
-    <v-card-text> &lt;string&gt; </v-card-text>
-    <v-divider></v-divider>
-    <v-textarea
-      v-if="editing"
-      v-model="source"
-      id="script-editor-textarea"
-      class="v-card__text"
-      rows="16"
-      clearable
-    ></v-textarea>
-    <v-card v-else flat class="mt-1 overflow-y-auto" style="resize: vertical">
-      <v-card-text>
-        <v-container fluid class="ma-0 pa-0">
-          <v-row class="flex-nowrap">
-            <div class="mr-3" style="min-width: 1em">
-              <pre><code><span
+          </v-textarea>
+        </v-col>
+        <v-col v-else class="overflow-hidden pa-0">
+          <v-card flat height="100%" class="overflow-y-auto">
+            <v-card-text>
+              <v-container fluid fill-height ma-0 pa-0>
+                <v-row class="flex-nowrap">
+                  <div class="mr-3" style="min-width: 1em">
+                    <pre><code><span
                             v-for="i in savedSourceLines.length"
                             :key="i"
                             ><span>{{ i }}</span>{{ '\n' }}</span></code></pre>
-            </div>
-            <div class="mr-3" style="min-width: 2em"></div>
-            <div>
-              <vue-code-highlight language="python">{{
-                savedSource
-              }}</vue-code-highlight>
-            </div>
-            <!-- </v-col> -->
-          </v-row>
-        </v-container>
-      </v-card-text>
-    </v-card>
+                  </div>
+                  <div class="mr-3" style="min-width: 2em"></div>
+                  <div>
+                    <vue-code-highlight language="python">{{
+                      savedSource
+                    }}</vue-code-highlight>
+                  </div>
+                </v-row>
+              </v-container>
+            </v-card-text>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
   </v-card>
 </template>
 
@@ -117,8 +134,8 @@ export default {
       this.source = this.savedSource;
     },
     editing() {
-      this.$emit('input', this.editing);
-    }
+      this.$emit("input", this.editing);
+    },
   },
   methods: {
     onClick(method) {
@@ -149,5 +166,16 @@ export default {
 #script-editor-textarea {
   font-family: monospace;
   font-size: 14px;
+  margin: 10px 0;
 }
+
+#col-textarea .v-text-field__details {
+  display: none;
+}
+
+#col-textarea .v-input__slot {
+  margin: 0;
+  box-shadow: none;
+}
+
 </style>

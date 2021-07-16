@@ -1,58 +1,67 @@
 <template>
-  <div class="home">
-    <v-container fluid>
-      <v-row>
-        <v-col>
-          <v-card outlined flat>
-            <v-card-actions>
-              <v-btn
-                outlined
-                text
-                v-for="(b, i) in buttons"
-                :key="i"
-                color="primary"
-                :disabled="editing || !b.states.includes(nextlineState)"
-                @click="onClick(b.method)"
-              >
-                <v-icon left>
-                  {{ b.icon }}
-                </v-icon>
-                {{ b.text }}
-              </v-btn>
-              <v-chip outlined class="mx-2">{{ nextlineState }}</v-chip>
-            </v-card-actions>
-          </v-card>
-        </v-col>
-      </v-row>
-      <v-alert v-if="exception" type="error" class="my-2"><pre>{{ exception }}</pre></v-alert>
-      <v-row>
-        <template v-if="nextlineState == 'running'">
-          <v-col
-            :cols="cols"
-            v-for="threadTaskId in threadTaskIds"
-            :key="threadTaskId.threadId + '-' + threadTaskId.taskId"
-          >
-            <script-exec-ctrl-int
-              :threadId="threadTaskId.threadId"
-              :taskId="threadTaskId.taskId"
-            ></script-exec-ctrl-int>
-          </v-col>
-        </template>
-        <v-col v-else>
-          <script-viewer v-model="editing"></script-viewer>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col>
-          <v-card outlined flat class="overflow-x-auto">
-            <v-card-text>
-              <pre>{{ stdout }}</pre>
-            </v-card-text>
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-container>
-  </div>
+  <v-container fluid fill-height>
+    <!-- https://vuetifyjs.com/en/styles/flex/#flex-grow-and-shrink -->
+    <!-- https://github.com/vuetifyjs/vuetify/issues/8906#issuecomment-531459503 -->
+    <v-row dense class="fill-height flex-column flex-nowrap justify-start">
+      <v-col class="flex-grow-0">
+        <v-card outlined flat>
+          <v-card-actions>
+            <v-btn
+              outlined
+              text
+              v-for="(b, i) in buttons"
+              :key="i"
+              color="primary"
+              :disabled="editing || !b.states.includes(nextlineState)"
+              @click="onClick(b.method)"
+            >
+              <v-icon left>
+                {{ b.icon }}
+              </v-icon>
+              {{ b.text }}
+            </v-btn>
+            <v-chip outlined class="mx-2">{{ nextlineState }}</v-chip>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+      <v-col v-if="exception" class="flex-grow-0">
+        <v-alert type="error" class="my-2">
+          <pre>{{ exception }}</pre>
+        </v-alert>
+      </v-col>
+      <v-col style="min-height: 240px">
+        <v-container
+          v-if="nextlineState == 'running'"
+          fluid
+          fill-height
+          pa-0
+          class="align-stretch"
+        >
+          <v-row dense>
+            <v-col
+              :cols="cols"
+              v-for="threadTaskId in threadTaskIds"
+              :key="threadTaskId.threadId + '-' + threadTaskId.taskId"
+            >
+              <script-exec-ctrl-int
+                :threadId="threadTaskId.threadId"
+                :taskId="threadTaskId.taskId"
+              ></script-exec-ctrl-int>
+            </v-col>
+          </v-row>
+        </v-container>
+        <script-viewer v-else v-model="editing"></script-viewer>
+      </v-col>
+      <v-col style="max-height: 20vh" class="overflow-hidden">
+        <v-card outlined flat height="100%" ref="col-stdout" class="overflow-y-auto">
+          <v-card-text>
+            <pre>{{ stdout }}</pre>
+            <div ref="stdout-bottom"></div>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
@@ -131,6 +140,14 @@ export default {
       else return 4;
     },
   },
+  watch: {
+    stdout: {
+      handler() {
+        this.$nextTick(this.scrollStdout);
+      },
+      immediate: true,
+    },
+  },
   methods: {
     async onClick(method) {
       await this[method]();
@@ -146,6 +163,25 @@ export default {
       });
       this.stdout = "";
       this.exception = null;
+    },
+    scrollStdout() {
+      const container_ref_name = "col-stdout";
+      const target_ref_name = "stdout-bottom";
+
+      const container = this.$refs[container_ref_name];
+      if (!container) {
+        return;
+      }
+
+      const target = this.$refs[target_ref_name];
+      if (!target) {
+        return;
+      }
+
+      console.log(container);
+      console.log(target);
+      this.$vuetify.goTo(target, { container, duration: 0 });
+      // this.$vuetify.goTo(99999, { container });
     },
   },
 };
