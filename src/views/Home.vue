@@ -26,7 +26,9 @@
       </v-col>
       <v-col v-if="exception" class="flex-grow-0">
         <v-alert type="error" class="my-2">
-          <pre>{{ exception }}</pre>
+          <pre style="white-space: pre-wrap; overflow-wrap: anywhere">{{
+            exception
+          }}</pre>
         </v-alert>
       </v-col>
       <v-col style="min-height: 240px">
@@ -53,7 +55,13 @@
         <script-viewer v-else v-model="editing"></script-viewer>
       </v-col>
       <v-col style="max-height: 20vh" class="overflow-hidden">
-        <v-card outlined flat height="100%" ref="col-stdout" class="overflow-y-auto">
+        <v-card
+          outlined
+          flat
+          height="100%"
+          ref="col-stdout"
+          class="overflow-y-auto"
+        >
           <v-card-text>
             <pre>{{ stdout }}</pre>
             <div ref="stdout-bottom"></div>
