@@ -4,7 +4,7 @@
     <!-- https://github.com/vuetifyjs/vuetify/issues/8906#issuecomment-531459503 -->
     <v-row dense class="fill-height flex-column flex-nowrap justify-start">
       <v-col class="flex-grow-0">
-        <v-card outlined flat>
+        <v-card flat>
           <v-card-actions>
             <v-btn
               outlined
@@ -20,7 +20,9 @@
               </v-icon>
               {{ b.text }}
             </v-btn>
-            <v-chip outlined class="mx-2">{{ nextlineState }}</v-chip>
+            <v-chip v-if="chip" :color="chip.color" class="text-capitalize mx-2">{{
+              nextlineState
+            }}</v-chip>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -105,6 +107,14 @@ export default {
         states: ["initialized", "finished", "closed"],
       },
     ],
+    chipConfig: {
+      default: { color: null },
+      initialized: { color: "success" },
+      running: { color: "primary" },
+      exited: { color: "warning" },
+      finished: { color: "warning" },
+      closed: { color: "warning" },
+    },
     nextlineState: null,
     threadTaskIds: [],
     stdout: "",
@@ -146,6 +156,13 @@ export default {
       if (this.threadTaskIds.length <= 1) return 12;
       else if (this.threadTaskIds.length == 2) return 6;
       else return 4;
+    },
+    chip() {
+      const ret = this.chipConfig[this.nextlineState];
+      if (!ret) {
+        return this.chipConfig.default;
+      }
+      return ret
     },
   },
   watch: {
