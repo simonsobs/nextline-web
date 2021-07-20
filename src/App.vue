@@ -1,10 +1,10 @@
 <template>
   <v-app>
-    <v-app-bar app dense clipped-left>
+    <v-app-bar app dense flat clipped-left>
       <v-toolbar-title>
-        <router-link to="/" style="text-decoration: none; color: inherit"
-          >Nextline</router-link
-        >
+        <router-link to="/" style="text-decoration: none; color: inherit">
+          Nextline
+        </router-link>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn icon :href="graphqlUrl" target="_blank">
