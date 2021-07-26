@@ -7,10 +7,11 @@
     tabindex="0"
     @keypress.stop.prevent="keyPress($event)"
     id="script-exec-ctrl-int-card"
+    class="grey lighten-5"
   >
     <template v-if="threadTaskState">
       <v-container fluid fill-height py-0>
-        <v-row dense class="fill-height flex-column flex-nowrap justify-start">
+        <v-row class="fill-height flex-column flex-nowrap justify-start">
           <v-col class="flex-grow-0 pa-0">
             <v-card-text class="pa-1">
               <v-tooltip bottom open-delay="500">
@@ -50,28 +51,43 @@
           </v-col>
           <v-divider></v-divider>
           <v-col class="overflow-hidden pa-0">
-            <v-card flat height="100%" ref="card-source" class="overflow-y-auto">
-              <v-card-text>
-                <v-container fluid fill-height ma-0 pa-0>
-                  <v-row class="flex-nowrap">
-                    <div class="mr-3" style="min-width: 1em">
-                      <pre><code><span
+            <v-card-text class="pa-0 fill-height">
+              <v-container
+                fluid
+                fill-height
+                ma-0
+                pa-0
+                ref="card-source"
+                class="align-start overflow-y-auto"
+              >
+                <v-row class="ma-0 py-1 flex-nowrap" style="min-width: 0">
+                  <div
+                    class="pl-1 mr-3 flex-grow-0 flex-shrink-0"
+                    style="min-width: 1em"
+                  >
+                    <pre><code><span
                             v-for="i in sourceLines.length"
                             :key="i"
                             ><span :ref="`card-source-line-${i}`">{{ i }}</span>{{ '\n' }}</span></code></pre>
-                    </div>
-                    <div class="mr-3" style="min-width: 2em">
-                      <pre><code>{{ "\n".repeat(threadTaskState.lineNo - 1) }}<v-icon :color='threadTaskState.prompting ? "primary" : "secondary lighten-4"'>mdi-arrow-right-bold</v-icon></code></pre>
-                    </div>
-                    <div>
-                      <vue-code-highlight language="python">{{
-                        source
-                      }}</vue-code-highlight>
-                    </div>
-                  </v-row>
-                </v-container>
-              </v-card-text>
-            </v-card>
+                  </div>
+                  <div
+                    class="mr-3 flex-grow-0 flex-shrink-0"
+                    style="min-width: 2em"
+                  >
+                    <pre><code>{{ "\n".repeat(threadTaskState.lineNo - 1) }}<v-icon :color='threadTaskState.prompting ? "primary" : "secondary lighten-4"'>mdi-arrow-right-bold</v-icon></code></pre>
+                  </div>
+                  <div
+                    class="pr-1 flex-grow-1 flex-shrink-1"
+                    style="overflow-x: auto; flex-basis: 0; min-width: 2em"
+                  >
+                    <vue-code-highlight language="python">{{
+                      source
+                    }}</vue-code-highlight>
+                  </div>
+                </v-row>
+              </v-container>
+            </v-card-text>
+            <!-- </v-card> -->
           </v-col>
         </v-row>
       </v-container>

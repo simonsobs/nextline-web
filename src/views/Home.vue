@@ -1,11 +1,11 @@
 <template>
-  <v-container fluid fill-height>
+  <v-container fluid fill-height class="grey lighten-3">
     <!-- https://vuetifyjs.com/en/styles/flex/#flex-grow-and-shrink -->
     <!-- https://github.com/vuetifyjs/vuetify/issues/8906#issuecomment-531459503 -->
-    <v-row dense class="fill-height flex-column flex-nowrap justify-start">
+    <v-row class="fill-height flex-column flex-nowrap justify-start">
       <v-col class="flex-grow-0">
-        <v-card flat>
-          <v-card-actions>
+        <v-card flat class="grey lighten-5">
+          <v-card-actions class="flex-wrap">
             <v-btn
               outlined
               text
@@ -20,9 +20,27 @@
               </v-icon>
               {{ b.text }}
             </v-btn>
-            <v-chip v-if="chip" :color="chip.color" class="text-capitalize mx-2">{{
-              nextlineState
-            }}</v-chip>
+            <v-chip
+              v-if="chip"
+              :color="chip.color"
+              class="text-capitalize mx-2"
+              >{{ nextlineState }}</v-chip
+            >
+            <v-spacer></v-spacer>
+            <v-btn-toggle
+              v-if="nextlineState == 'running' && threadTaskIds.length > 1"
+              mandatory
+              borderless
+              v-model="layout"
+              color="grey lighten-1"
+            >
+              <v-btn icon value="tabs">
+                <v-icon>mdi-tab</v-icon>
+              </v-btn>
+              <v-btn icon value="grid">
+                <v-icon>mdi-grid-large</v-icon>
+              </v-btn>
+            </v-btn-toggle>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -33,19 +51,21 @@
           }}</pre>
         </v-alert>
       </v-col>
-      <v-col style="min-height: 240px">
+      <v-col v-if="nextlineState == 'running'" class="" style="min-height: 240px">
         <v-container
-          v-if="nextlineState == 'running'"
+          v-if="layout == 'grid'"
           fluid
           fill-height
           pa-0
           class="align-stretch"
         >
-          <v-row dense>
+          <v-row>
             <v-col
               :cols="cols"
+              :md="md"
+              :lg="lg"
               v-for="threadTaskId in threadTaskIds"
-              :key="threadTaskId.threadId + '-' + threadTaskId.taskId"
+              :key="`${threadTaskId.threadId}-${threadTaskId.taskId}`"
             >
               <script-exec-ctrl-int
                 :threadId="threadTaskId.threadId"
@@ -54,7 +74,42 @@
             </v-col>
           </v-row>
         </v-container>
-        <script-viewer v-else v-model="editing"></script-viewer>
+        <v-container v-else fluid fill-height pa-0 class="align-stretch">
+          <v-row
+            class="fill-height flex-column flex-nowrap justify-start"
+          >
+            <v-col class="flex-grow-0 py-0 pr-5">
+              <v-tabs show-arrows v-model="tab">
+                <v-tab
+                  v-for="threadTaskId in threadTaskIds"
+                  :key="`${threadTaskId.threadId}-${threadTaskId.taskId}`"
+                >
+                  {{ threadTaskId.threadId
+                  }}<span v-if="threadTaskId.taskId"
+                    >-{{ threadTaskId.taskId }}</span
+                  >
+                </v-tab>
+              </v-tabs>
+            </v-col>
+            <v-col>
+              <v-tabs-items v-model="tab" class="fill-height">
+                <v-tab-item
+                  v-for="threadTaskId in threadTaskIds"
+                  :key="`${threadTaskId.threadId}-${threadTaskId.taskId}`"
+                  class="fill-height"
+                >
+                  <script-exec-ctrl-int
+                    :threadId="threadTaskId.threadId"
+                    :taskId="threadTaskId.taskId"
+                  ></script-exec-ctrl-int>
+                </v-tab-item>
+              </v-tabs-items>
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-col>
+      <v-col v-else style="min-height: 240px">
+        <script-viewer v-model="editing"></script-viewer>
       </v-col>
       <v-col style="max-height: 20vh" class="overflow-hidden">
         <v-card
@@ -62,10 +117,10 @@
           flat
           height="100%"
           ref="col-stdout"
-          class="overflow-y-auto"
+          class="overflow-y-auto grey lighten-5"
         >
           <v-card-text>
-            <pre>{{ stdout }}</pre>
+            <pre style="overflow-x: auto">{{ stdout }}</pre>
             <div ref="stdout-bottom"></div>
           </v-card-text>
         </v-card>
@@ -115,6 +170,8 @@ export default {
       finished: { color: "warning" },
       closed: { color: "warning" },
     },
+    layout: "grid", // "grid", "tabs"
+    tab: null,
     nextlineState: null,
     threadTaskIds: [],
     stdout: "",
@@ -153,6 +210,13 @@ export default {
   },
   computed: {
     cols() {
+      return 12;
+    },
+    md() {
+      if (this.threadTaskIds.length <= 1) return 12;
+      else return 6;
+    },
+    lg() {
       if (this.threadTaskIds.length <= 1) return 12;
       else if (this.threadTaskIds.length == 2) return 6;
       else return 4;
@@ -162,7 +226,7 @@ export default {
       if (!ret) {
         return this.chipConfig.default;
       }
-      return ret
+      return ret;
     },
   },
   watch: {

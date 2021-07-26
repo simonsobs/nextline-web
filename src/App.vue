@@ -1,14 +1,24 @@
 <template>
   <v-app>
-    <v-app-bar app dense flat clipped-left>
+    <v-app-bar
+      app
+      dense
+      flat
+      clipped-left
+      class="primary grey--text text--lighten-3"
+    >
       <v-toolbar-title>
-        <router-link to="/" style="text-decoration: none; color: inherit">
+        <router-link
+          to="/"
+          class="font-weight-bold text-decoration-none"
+          style="color: inherit"
+        >
           Nextline
         </router-link>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn icon :href="graphqlUrl" target="_blank">
-        <v-icon>mdi-graphql</v-icon>
+        <v-icon color="grey lighten-3">mdi-graphql</v-icon>
       </v-btn>
     </v-app-bar>
     <v-main>
