@@ -24,8 +24,9 @@
               v-if="chip"
               :color="chip.color"
               class="text-capitalize mx-2"
-              >{{ nextlineState }}</v-chip
             >
+              {{ nextlineState }}
+            </v-chip>
             <v-spacer></v-spacer>
             <v-btn-toggle
               v-if="nextlineState == 'running' && threadTaskIds.length > 1"
@@ -51,7 +52,7 @@
           }}</pre>
         </v-alert>
       </v-col>
-      <v-col v-if="nextlineState == 'running'" class="" style="min-height: 240px">
+      <v-col v-if="nextlineState == 'running'" style="min-height: 240px">
         <v-container
           v-if="layout == 'grid'"
           fluid
@@ -75,19 +76,17 @@
           </v-row>
         </v-container>
         <v-container v-else fluid fill-height pa-0 class="align-stretch">
-          <v-row
-            class="fill-height flex-column flex-nowrap justify-start"
-          >
+          <v-row class="fill-height flex-column flex-nowrap justify-start">
             <v-col class="flex-grow-0 py-0 pr-5">
               <v-tabs show-arrows v-model="tab">
                 <v-tab
                   v-for="threadTaskId in threadTaskIds"
                   :key="`${threadTaskId.threadId}-${threadTaskId.taskId}`"
                 >
-                  {{ threadTaskId.threadId
-                  }}<span v-if="threadTaskId.taskId"
-                    >-{{ threadTaskId.taskId }}</span
-                  >
+                  {{ threadTaskId.threadId }}
+                  <span v-if="threadTaskId.taskId">
+                    -{{ threadTaskId.taskId }}
+                  </span>
                 </v-tab>
               </v-tabs>
             </v-col>
