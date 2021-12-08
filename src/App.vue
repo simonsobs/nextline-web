@@ -5,7 +5,7 @@
       dense
       flat
       clipped-left
-      class="primary grey--text text--lighten-3"
+      class="primary on-primary--text"
     >
       <v-toolbar-title>
         <router-link
@@ -18,7 +18,7 @@
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn icon :href="graphqlUrl" target="_blank">
-        <v-icon color="grey lighten-3">mdi-graphql</v-icon>
+        <v-icon color="on-primary">mdi-graphql</v-icon>
       </v-btn>
     </v-app-bar>
     <v-main>
