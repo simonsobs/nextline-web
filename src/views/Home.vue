@@ -15,9 +15,10 @@
       </v-col>
       <v-col v-if="exception" class="flex-grow-0">
         <v-alert type="error" class="my-2">
-          <pre style="white-space: pre-wrap; overflow-wrap: anywhere">{{
-            exception
-          }}</pre>
+          <pre
+            v-text="exception"
+            style="white-space: pre-wrap; overflow-wrap: anywhere"
+          ></pre>
         </v-alert>
       </v-col>
       <v-col v-if="nextlineState == 'running'" style="min-height: 240px">
