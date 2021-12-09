@@ -1,0 +1,103 @@
+<template>
+  <v-card flat class="grey lighten-5">
+    <v-card-actions class="flex-wrap">
+      <v-btn
+        outlined
+        text
+        v-for="(b, i) in buttons"
+        :key="i"
+        color="primary"
+        :disabled="editing || !b.states.includes(nextlineState)"
+        @click="onClick(b.method)"
+      >
+        <v-icon left>
+          {{ b.icon }}
+        </v-icon>
+        {{ b.text }}
+      </v-btn>
+      <v-chip v-if="chip" :color="chip.color" class="text-capitalize mx-2">
+        {{ nextlineState }}
+      </v-chip>
+      <v-spacer></v-spacer>
+      <v-btn-toggle
+        v-if="nextlineState == 'running' && threadTaskIds.length > 1"
+        mandatory
+        borderless
+        :value="layout"
+        @change="$emit('layout-change', $event)"
+        color="grey lighten-1"
+      >
+        <v-btn icon value="tabs">
+          <v-icon>mdi-tab</v-icon>
+        </v-btn>
+        <v-btn icon value="grid">
+          <v-icon>mdi-grid-large</v-icon>
+        </v-btn>
+      </v-btn-toggle>
+    </v-card-actions>
+  </v-card>
+</template>
+
+<script>
+import RESET from "@/graphql/mutations/Reset.gql";
+import EXEC from "@/graphql/mutations/Exec.gql";
+
+export default {
+  name: "MainCtrl",
+  props: {
+    editing: Boolean,
+    nextlineState: String,
+    threadTaskIds: Array,
+    layout: String,
+  },
+  data() {
+    return {
+      buttons: [
+        {
+          text: "Run",
+          method: "run",
+          icon: "mdi-play",
+          states: ["initialized"],
+        },
+        {
+          text: "Reset",
+          method: "reset",
+          icon: "mdi-restore",
+          states: ["initialized", "finished", "closed"],
+        },
+      ],
+      chipConfig: {
+        default: { color: null },
+        initialized: { color: "success" },
+        running: { color: "primary" },
+        exited: { color: "warning" },
+        finished: { color: "warning" },
+        closed: { color: "warning" },
+      },
+    };
+  },
+  computed: {
+    chip() {
+      const ret = this.chipConfig[this.nextlineState];
+      if (!ret) return this.chipConfig.default;
+      return ret;
+    },
+  },
+  methods: {
+    async onClick(method) {
+      await this[method]();
+    },
+    async run() {
+      const data = await this.$apollo.mutate({
+        mutation: EXEC,
+      });
+    },
+    async reset() {
+      const data = await this.$apollo.mutate({
+        mutation: RESET,
+      });
+      this.$emit("reset");
+    },
+  },
+};
+</script>

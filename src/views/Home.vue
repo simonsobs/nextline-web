@@ -4,46 +4,14 @@
     <!-- https://github.com/vuetifyjs/vuetify/issues/8906#issuecomment-531459503 -->
     <v-row class="fill-height flex-column flex-nowrap justify-start">
       <v-col class="flex-grow-0">
-        <v-card flat class="grey lighten-5">
-          <v-card-actions class="flex-wrap">
-            <v-btn
-              outlined
-              text
-              v-for="(b, i) in buttons"
-              :key="i"
-              color="primary"
-              :disabled="editing || !b.states.includes(nextlineState)"
-              @click="onClick(b.method)"
-            >
-              <v-icon left>
-                {{ b.icon }}
-              </v-icon>
-              {{ b.text }}
-            </v-btn>
-            <v-chip
-              v-if="chip"
-              :color="chip.color"
-              class="text-capitalize mx-2"
-            >
-              {{ nextlineState }}
-            </v-chip>
-            <v-spacer></v-spacer>
-            <v-btn-toggle
-              v-if="nextlineState == 'running' && threadTaskIds.length > 1"
-              mandatory
-              borderless
-              v-model="layout"
-              color="grey lighten-1"
-            >
-              <v-btn icon value="tabs">
-                <v-icon>mdi-tab</v-icon>
-              </v-btn>
-              <v-btn icon value="grid">
-                <v-icon>mdi-grid-large</v-icon>
-              </v-btn>
-            </v-btn-toggle>
-          </v-card-actions>
-        </v-card>
+        <main-ctrl
+          :editing="editing"
+          :nextline-state="nextlineState"
+          :thread-task-ids="threadTaskIds"
+          :layout="layout"
+          @layout-change="layout = $event"
+          @reset="reset"
+        ></main-ctrl>
       </v-col>
       <v-col v-if="exception" class="flex-grow-0">
         <v-alert type="error" class="my-2">
@@ -129,12 +97,11 @@
 </template>
 
 <script>
+import MainCtrl from "@/components/MainCtrl.vue";
 import ScriptExecCtrlInt from "@/components/ScriptExecCtrlInt.vue";
 import ScriptViewer from "@/components/ScriptViewer.vue";
 
 import QUERY_EXCEPTION from "@/graphql/queries/Exception.gql";
-import RESET from "@/graphql/mutations/Reset.gql";
-import EXEC from "@/graphql/mutations/Exec.gql";
 import SUBSCRIBE_GLOBAL_STATE from "@/graphql/subscriptions/GlobalState.gql";
 import SUBSCRIBE_THREAD_TASK_IDS from "@/graphql/subscriptions/ThreadTaskIds.gql";
 import SUBSCRIBE_STDOUT from "@/graphql/subscriptions/Stdout.gql";
@@ -142,33 +109,12 @@ import SUBSCRIBE_STDOUT from "@/graphql/subscriptions/Stdout.gql";
 export default {
   name: "Home",
   components: {
+    MainCtrl,
     ScriptExecCtrlInt,
     ScriptViewer,
   },
   data: () => ({
     editing: false,
-    buttons: [
-      {
-        text: "Run",
-        method: "run",
-        icon: "mdi-play",
-        states: ["initialized"],
-      },
-      {
-        text: "Reset",
-        method: "reset",
-        icon: "mdi-restore",
-        states: ["initialized", "finished", "closed"],
-      },
-    ],
-    chipConfig: {
-      default: { color: null },
-      initialized: { color: "success" },
-      running: { color: "primary" },
-      exited: { color: "warning" },
-      finished: { color: "warning" },
-      closed: { color: "warning" },
-    },
     layout: "grid", // "grid", "tabs"
     tab: null,
     nextlineState: null,
@@ -220,13 +166,6 @@ export default {
       else if (this.threadTaskIds.length == 2) return 6;
       else return 4;
     },
-    chip() {
-      const ret = this.chipConfig[this.nextlineState];
-      if (!ret) {
-        return this.chipConfig.default;
-      }
-      return ret;
-    },
   },
   watch: {
     stdout: {
@@ -237,18 +176,7 @@ export default {
     },
   },
   methods: {
-    async onClick(method) {
-      await this[method]();
-    },
-    async run() {
-      const data = await this.$apollo.mutate({
-        mutation: EXEC,
-      });
-    },
-    async reset() {
-      const data = await this.$apollo.mutate({
-        mutation: RESET,
-      });
+    reset() {
       this.stdout = "";
       this.exception = null;
     },
