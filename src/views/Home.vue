@@ -79,16 +79,20 @@
       <v-col v-else style="min-height: 240px">
         <script-viewer v-model="editing"></script-viewer>
       </v-col>
-      <v-col style="max-height: 20vh" class="overflow-hidden">
+      <v-col style="max-height: 20vh">
         <v-card
           outlined
           flat
           height="100%"
           ref="col-stdout"
-          class="overflow-y-auto grey lighten-5"
+          class="grey lighten-5"
         >
-          <v-card-text>
-            <pre class="overflow-x-auto">{{ stdout }}</pre>
+          <v-card-text class="py-1">
+            <pre
+              style="max-height: calc(20vh - 2 * (12px + 1px + 4px))"
+              class="overflow-auto"
+              >{{ stdout }}</pre
+            >
             <div ref="stdout-bottom"></div>
           </v-card-text>
         </v-card>
