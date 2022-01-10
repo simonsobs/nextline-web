@@ -88,7 +88,7 @@
           class="overflow-y-auto grey lighten-5"
         >
           <v-card-text>
-            <pre style="overflow-x: auto">{{ stdout }}</pre>
+            <pre class="overflow-x-auto">{{ stdout }}</pre>
             <div ref="stdout-bottom"></div>
           </v-card-text>
         </v-card>
