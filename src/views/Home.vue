@@ -80,20 +80,12 @@
         <script-viewer v-model="editing"></script-viewer>
       </v-col>
       <v-col style="max-height: 20vh">
-        <v-card
-          outlined
-          flat
-          height="100%"
-          ref="col-stdout"
-          class="grey lighten-5"
-        >
+        <v-card outlined flat height="100%" class="grey lighten-5">
           <v-card-text class="py-1">
             <pre
               style="max-height: calc(20vh - 2 * (12px + 1px + 4px))"
               class="overflow-auto"
-              >{{ stdout }}</pre
-            >
-            <div ref="stdout-bottom"></div>
+              ref="col-stdout">{{ stdout }}<span ref="stdout-bottom"></span></pre>
           </v-card-text>
         </v-card>
       </v-col>
