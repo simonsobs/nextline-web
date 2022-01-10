@@ -78,9 +78,7 @@ export default {
   },
   computed: {
     chip() {
-      const ret = this.chipConfig[this.nextlineState];
-      if (!ret) return this.chipConfig.default;
-      return ret;
+      return this.chipConfig[this.nextlineState] || this.chipConfig.default;
     },
   },
   methods: {
