@@ -100,11 +100,16 @@ export default {
   components: {
     VueCodeHighlight,
   },
-  data: () => ({
-    editing: false,
-    savedSourceLines: [],
-    source: "",
-  }),
+  props: {
+    value: Boolean,
+  },
+  data() {
+    return {
+      editing: this.value,
+      savedSourceLines: [],
+      source: "",
+    };
+  },
   apollo: {
     savedSourceLines: {
       query: QUERY_SOURCE,
@@ -145,6 +150,9 @@ export default {
     },
   },
   watch: {
+    value() {
+      this.editing = this.value;
+    },
     savedSource() {
       this.source = this.savedSource;
     },
