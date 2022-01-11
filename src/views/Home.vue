@@ -80,14 +80,7 @@
         <script-viewer v-model="editing"></script-viewer>
       </v-col>
       <v-col style="max-height: 20vh">
-        <v-card outlined flat height="100%" class="grey lighten-5">
-          <v-card-text style="height: 100%" class="py-1">
-            <pre
-              style="height: 100%"
-              class="overflow-auto"
-              ref="col-stdout">{{ stdout }}<span ref="stdout-bottom"></span></pre>
-          </v-card-text>
-        </v-card>
+        <stdout v-model="stdout"></stdout>
       </v-col>
     </v-row>
   </v-container>
@@ -97,11 +90,11 @@
 import MainCtrl from "@/components/MainCtrl.vue";
 import ScriptExecCtrlInt from "@/components/ScriptExecCtrlInt.vue";
 import ScriptViewer from "@/components/ScriptViewer.vue";
+import Stdout from "@/components/Stdout.vue";
 
 import QUERY_EXCEPTION from "@/graphql/queries/Exception.gql";
 import SUBSCRIBE_GLOBAL_STATE from "@/graphql/subscriptions/GlobalState.gql";
 import SUBSCRIBE_THREAD_TASK_IDS from "@/graphql/subscriptions/ThreadTaskIds.gql";
-import SUBSCRIBE_STDOUT from "@/graphql/subscriptions/Stdout.gql";
 
 export default {
   name: "Home",
@@ -109,6 +102,7 @@ export default {
     MainCtrl,
     ScriptExecCtrlInt,
     ScriptViewer,
+    Stdout,
   },
   data: () => ({
     editing: false,
@@ -142,12 +136,6 @@ export default {
           this.threadTaskIds = data.threadTaskIds;
         },
       },
-      stdout: {
-        query: SUBSCRIBE_STDOUT,
-        result({ data }) {
-          this.stdout += data.stdout;
-        },
-      },
     },
   },
   computed: {
@@ -164,37 +152,10 @@ export default {
       else return 4;
     },
   },
-  watch: {
-    stdout: {
-      handler() {
-        this.$nextTick(this.scrollStdout);
-      },
-      immediate: true,
-    },
-  },
   methods: {
     reset() {
       this.stdout = "";
       this.exception = null;
-    },
-    scrollStdout() {
-      const container_ref_name = "col-stdout";
-      const target_ref_name = "stdout-bottom";
-
-      const container = this.$refs[container_ref_name];
-      if (!container) {
-        return;
-      }
-
-      const target = this.$refs[target_ref_name];
-      if (!target) {
-        return;
-      }
-
-      console.log(container);
-      console.log(target);
-      this.$vuetify.goTo(target, { container, duration: 0 });
-      // this.$vuetify.goTo(99999, { container });
     },
   },
 };
