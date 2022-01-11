@@ -64,6 +64,9 @@
 import ScriptExecCtrlInt from "@/components/ScriptExecCtrlInt.vue";
 import ScriptViewer from "@/components/ScriptViewer.vue";
 
+import SUBSCRIBE_GLOBAL_STATE from "@/graphql/subscriptions/GlobalState.gql";
+import SUBSCRIBE_THREAD_TASK_IDS from "@/graphql/subscriptions/ThreadTaskIds.gql";
+
 export default {
   name: "LayoutScript",
   components: {
@@ -72,14 +75,30 @@ export default {
   },
   props: {
     editing: Boolean,
-    nextlineState: String,
-    threadTaskIds: Array,
     layout: String,
   },
   data() {
     return {
       tab: null,
+      nextlineState: null,
+      threadTaskIds: [],
     };
+  },
+  apollo: {
+    $subscribe: {
+      nextlineState: {
+        query: SUBSCRIBE_GLOBAL_STATE,
+        result({ data }) {
+          this.nextlineState = data.globalState;
+        },
+      },
+      threadTaskIds: {
+        query: SUBSCRIBE_THREAD_TASK_IDS,
+        result({ data }) {
+          this.threadTaskIds = data.threadTaskIds;
+        },
+      },
+    },
   },
   computed: {
     cols() {

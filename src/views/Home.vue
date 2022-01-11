@@ -6,8 +6,6 @@
       <v-col class="flex-grow-0">
         <main-ctrl
           :editing="editing"
-          :nextline-state="nextlineState"
-          :thread-task-ids="threadTaskIds"
           :layout="layout"
           @layout-change="layout = $event"
           @reset="reset"
@@ -19,8 +17,6 @@
       <v-col style="min-height: 240px">
         <layout-script
           :editing="editing"
-          :nextline-state="nextlineState"
-          :thread-task-ids="threadTaskIds"
           :layout="layout"
           @editing-change="editing = $event"
         ></layout-script>
@@ -38,9 +34,6 @@ import Stdout from "@/components/Stdout.vue";
 import Exception from "@/components/Exception.vue";
 import LayoutScript from "@/components/LayoutScript.vue";
 
-import SUBSCRIBE_GLOBAL_STATE from "@/graphql/subscriptions/GlobalState.gql";
-import SUBSCRIBE_THREAD_TASK_IDS from "@/graphql/subscriptions/ThreadTaskIds.gql";
-
 export default {
   name: "Home",
   components: {
@@ -52,27 +45,9 @@ export default {
   data: () => ({
     editing: false,
     layout: "grid", // "grid", "tabs"
-    nextlineState: null,
-    threadTaskIds: [],
     stdout: "",
     exception: null,
   }),
-  apollo: {
-    $subscribe: {
-      nextlineState: {
-        query: SUBSCRIBE_GLOBAL_STATE,
-        result({ data }) {
-          this.nextlineState = data.globalState;
-        },
-      },
-      threadTaskIds: {
-        query: SUBSCRIBE_THREAD_TASK_IDS,
-        result({ data }) {
-          this.threadTaskIds = data.threadTaskIds;
-        },
-      },
-    },
-  },
   methods: {
     reset() {
       this.stdout = "";

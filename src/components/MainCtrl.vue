@@ -41,17 +41,19 @@
 <script>
 import RESET from "@/graphql/mutations/Reset.gql";
 import EXEC from "@/graphql/mutations/Exec.gql";
+import SUBSCRIBE_GLOBAL_STATE from "@/graphql/subscriptions/GlobalState.gql";
+import SUBSCRIBE_THREAD_TASK_IDS from "@/graphql/subscriptions/ThreadTaskIds.gql";
 
 export default {
   name: "MainCtrl",
   props: {
     editing: Boolean,
-    nextlineState: String,
-    threadTaskIds: Array,
     layout: String,
   },
   data() {
     return {
+    nextlineState: null,
+    threadTaskIds: [],
       buttons: [
         {
           text: "Run",
@@ -75,6 +77,22 @@ export default {
         closed: { color: "warning" },
       },
     };
+  },
+  apollo: {
+    $subscribe: {
+      nextlineState: {
+        query: SUBSCRIBE_GLOBAL_STATE,
+        result({ data }) {
+          this.nextlineState = data.globalState;
+        },
+      },
+      threadTaskIds: {
+        query: SUBSCRIBE_THREAD_TASK_IDS,
+        result({ data }) {
+          this.threadTaskIds = data.threadTaskIds;
+        },
+      },
+    },
   },
   computed: {
     chip() {
