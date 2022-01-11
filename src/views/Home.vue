@@ -81,9 +81,9 @@
       </v-col>
       <v-col style="max-height: 20vh">
         <v-card outlined flat height="100%" class="grey lighten-5">
-          <v-card-text class="py-1">
+          <v-card-text style="height: 100%" class="py-1">
             <pre
-              style="max-height: calc(20vh - 2 * (12px + 1px + 4px))"
+              style="height: 100%"
               class="overflow-auto"
               ref="col-stdout">{{ stdout }}<span ref="stdout-bottom"></span></pre>
           </v-card-text>
