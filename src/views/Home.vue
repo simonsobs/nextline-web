@@ -16,15 +16,15 @@
       <v-col v-show="exception" class="flex-grow-0">
         <exception v-model="exception"></exception>
       </v-col>
-      <v-col v-if="nextlineState == 'running'" style="min-height: 240px">
+      <v-col style="min-height: 240px">
         <v-container
-          v-if="layout == 'grid'"
+          v-if="nextlineState == 'running'"
           fluid
           fill-height
           pa-0
           class="align-stretch"
         >
-          <v-row>
+          <v-row v-if="layout == 'grid'">
             <v-col
               :cols="cols"
               :md="md"
@@ -38,9 +38,10 @@
               ></script-exec-ctrl-int>
             </v-col>
           </v-row>
-        </v-container>
-        <v-container v-else fluid fill-height pa-0 class="align-stretch">
-          <v-row class="fill-height flex-column flex-nowrap justify-start">
+          <v-row
+            v-else
+            class="fill-height flex-column flex-nowrap justify-start"
+          >
             <v-col class="flex-grow-0 py-0 pr-5">
               <v-tabs show-arrows v-model="tab">
                 <v-tab
@@ -70,9 +71,7 @@
             </v-col>
           </v-row>
         </v-container>
-      </v-col>
-      <v-col v-else style="min-height: 240px">
-        <script-viewer v-model="editing"></script-viewer>
+        <script-viewer v-else v-model="editing"></script-viewer>
       </v-col>
       <v-col style="max-height: 20vh">
         <stdout v-model="stdout"></stdout>
