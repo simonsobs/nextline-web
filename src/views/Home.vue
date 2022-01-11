@@ -14,12 +14,7 @@
         ></main-ctrl>
       </v-col>
       <v-col v-show="exception" class="flex-grow-0">
-        <v-alert type="error" class="my-2">
-          <pre
-            v-text="exception"
-            style="white-space: pre-wrap; overflow-wrap: anywhere"
-          ></pre>
-        </v-alert>
+        <exception v-model="exception"></exception>
       </v-col>
       <v-col v-if="nextlineState == 'running'" style="min-height: 240px">
         <v-container
@@ -91,8 +86,8 @@ import MainCtrl from "@/components/MainCtrl.vue";
 import ScriptExecCtrlInt from "@/components/ScriptExecCtrlInt.vue";
 import ScriptViewer from "@/components/ScriptViewer.vue";
 import Stdout from "@/components/Stdout.vue";
+import Exception from "@/components/Exception.vue";
 
-import QUERY_EXCEPTION from "@/graphql/queries/Exception.gql";
 import SUBSCRIBE_GLOBAL_STATE from "@/graphql/subscriptions/GlobalState.gql";
 import SUBSCRIBE_THREAD_TASK_IDS from "@/graphql/subscriptions/ThreadTaskIds.gql";
 
@@ -103,6 +98,7 @@ export default {
     ScriptExecCtrlInt,
     ScriptViewer,
     Stdout,
+    Exception,
   },
   data: () => ({
     editing: false,
@@ -114,15 +110,6 @@ export default {
     exception: null,
   }),
   apollo: {
-    exception: {
-      query: QUERY_EXCEPTION,
-      skip() {
-        return this.nextlineState != "finished";
-      },
-      update(data) {
-        return data.exception;
-      },
-    },
     $subscribe: {
       nextlineState: {
         query: SUBSCRIBE_GLOBAL_STATE,
