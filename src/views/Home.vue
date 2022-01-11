@@ -13,7 +13,7 @@
           @reset="reset"
         ></main-ctrl>
       </v-col>
-      <v-col v-if="exception" class="flex-grow-0">
+      <v-col v-show="exception" class="flex-grow-0">
         <v-alert type="error" class="my-2">
           <pre
             v-text="exception"
