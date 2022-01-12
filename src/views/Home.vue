@@ -33,9 +33,11 @@ export default {
     Exception,
     LayoutScript,
   },
-  data: () => ({
-    exception: null,
-  }),
+  data() {
+    return {
+      exception: null,
+    };
+  },
 };
 </script>
 
