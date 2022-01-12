@@ -36,16 +36,6 @@ export default {
   data: () => ({
     exception: null,
   }),
-  watch: {
-    "$store.state.reset"(val) {
-      this.reset();
-    },
-  },
-  methods: {
-    reset() {
-      this.exception = null;
-    },
-  },
 };
 </script>
 

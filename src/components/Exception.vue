@@ -42,6 +42,9 @@ export default {
     },
   },
   watch: {
+    "$store.state.reset"() {
+      this.exception = null;
+    },
     value() {
       this.exception = this.value;
     },
