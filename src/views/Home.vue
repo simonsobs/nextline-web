@@ -35,7 +35,7 @@ export default {
   },
   data() {
     return {
-      exception: null,
+      exception: false,
     };
   },
 };

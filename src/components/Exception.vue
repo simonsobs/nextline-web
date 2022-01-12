@@ -1,5 +1,5 @@
 <template>
-  <v-alert type="error" class="my-2">
+  <v-alert v-model="alert" dismissible type="error" class="my-2">
     <pre
       v-text="exception"
       style="white-space: pre-wrap; overflow-wrap: anywhere"
@@ -14,12 +14,13 @@ import SUBSCRIBE_GLOBAL_STATE from "@/graphql/subscriptions/GlobalState.gql";
 export default {
   name: "Exception",
   props: {
-    value: String,
+    value: Boolean,
   },
   data() {
     return {
       nextlineState: null,
-      exception: this.value,
+      alert: this.value,
+      exception: null,
     };
   },
   apollo: {
@@ -46,14 +47,14 @@ export default {
       this.exception = null;
     },
     value() {
-      this.exception = this.value;
+      this.alert = this.value;
     },
-    exception: {
-      handler(val) {
+    exception(val) {
+      this.alert = !!val;
+    },
+    alert(val) {
         this.$emit("input", val);
       },
-      immediate: true,
-    },
   },
 };
 </script>
