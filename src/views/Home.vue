@@ -13,7 +13,7 @@
         <layout-script></layout-script>
       </v-col>
       <v-col style="max-height: 20vh">
-        <stdout v-model="stdout"></stdout>
+        <stdout></stdout>
       </v-col>
     </v-row>
   </v-container>
@@ -34,7 +34,6 @@ export default {
     LayoutScript,
   },
   data: () => ({
-    stdout: "",
     exception: null,
   }),
   watch: {
@@ -44,7 +43,6 @@ export default {
   },
   methods: {
     reset() {
-      this.stdout = "";
       this.exception = null;
     },
   },

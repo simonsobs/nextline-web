@@ -14,12 +14,9 @@ import SUBSCRIBE_STDOUT from "@/graphql/subscriptions/Stdout.gql";
 
 export default {
   name: "Stdout",
-  props: {
-    value: String,
-  },
   data() {
     return {
-      stdout: this.value || "",
+      stdout: "",
     };
   },
   apollo: {
@@ -33,13 +30,12 @@ export default {
     },
   },
   watch: {
-    value() {
-      this.stdout = this.value;
+    "$store.state.reset"() {
+      this.stdout = "";
     },
     stdout: {
-      handler(val) {
+      handler() {
         this.$nextTick(this.scrollStdout);
-        this.$emit("input", val);
       },
       immediate: true,
     },
