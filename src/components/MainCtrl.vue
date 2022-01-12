@@ -116,7 +116,7 @@ export default {
       const data = await this.$apollo.mutate({
         mutation: RESET,
       });
-      this.$emit("reset");
+      this.$store.dispatch("reset");
     },
   },
 };

@@ -4,7 +4,7 @@
     <!-- https://github.com/vuetifyjs/vuetify/issues/8906#issuecomment-531459503 -->
     <v-row class="fill-height flex-column flex-nowrap justify-start">
       <v-col class="flex-grow-0">
-        <main-ctrl @reset="reset"></main-ctrl>
+        <main-ctrl></main-ctrl>
       </v-col>
       <v-col v-show="exception" class="flex-grow-0">
         <exception v-model="exception"></exception>
@@ -37,6 +37,11 @@ export default {
     stdout: "",
     exception: null,
   }),
+  watch: {
+    "$store.state.reset"(val) {
+      this.reset();
+    },
+  },
   methods: {
     reset() {
       this.stdout = "";
