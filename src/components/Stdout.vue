@@ -1,6 +1,13 @@
 <template>
-  <v-card outlined flat height="100%" class="grey lighten-5">
-    <v-card-text style="height: 100%" class="py-1">
+  <v-card flat height="100%" class="grey lighten-5">
+    <v-system-bar>
+      <v-icon>mdi-window-maximize</v-icon>
+      <span>stdout</span>
+	  <v-spacer></v-spacer>
+      <v-icon>mdi-eraser</v-icon>
+    </v-system-bar>
+    <!-- <v-app-bar dense flat color="secondary"></v-app-bar> -->
+    <v-card-text style="height: calc(100% - 24px)" class="py-1">
       <pre
         style="height: 100%"
         class="overflow-auto"
