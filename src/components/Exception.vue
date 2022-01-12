@@ -53,11 +53,8 @@ export default {
       this.alert = !!val;
     },
     alert(val) {
-        this.$emit("input", val);
-      },
+      this.$emit("input", val);
+    },
   },
 };
 </script>
-
-<style>
-</style>
