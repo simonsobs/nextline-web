@@ -4,22 +4,13 @@
     <!-- https://github.com/vuetifyjs/vuetify/issues/8906#issuecomment-531459503 -->
     <v-row class="fill-height flex-column flex-nowrap justify-start">
       <v-col class="flex-grow-0">
-        <main-ctrl
-          :editing="editing"
-          :layout="layout"
-          @layout-change="layout = $event"
-          @reset="reset"
-        ></main-ctrl>
+        <main-ctrl @reset="reset"></main-ctrl>
       </v-col>
       <v-col v-show="exception" class="flex-grow-0">
         <exception v-model="exception"></exception>
       </v-col>
       <v-col style="min-height: 240px">
-        <layout-script
-          :editing="editing"
-          :layout="layout"
-          @editing-change="editing = $event"
-        ></layout-script>
+        <layout-script></layout-script>
       </v-col>
       <v-col style="max-height: 20vh">
         <stdout v-model="stdout"></stdout>
@@ -40,11 +31,9 @@ export default {
     MainCtrl,
     Stdout,
     Exception,
-    LayoutScript
+    LayoutScript,
   },
   data: () => ({
-    editing: false,
-    layout: "grid", // "grid", "tabs"
     stdout: "",
     exception: null,
   }),

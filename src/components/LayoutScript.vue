@@ -51,11 +51,7 @@
         </v-col>
       </v-row>
     </v-container>
-    <script-viewer
-      v-else
-      :value="editing"
-      @input="$emit('editing-change', $event)"
-    ></script-viewer>
+    <script-viewer v-else v-model="editing"></script-viewer>
   </div>
 </template>
 
@@ -73,12 +69,9 @@ export default {
     ScriptExecCtrlInt,
     ScriptViewer,
   },
-  props: {
-    editing: Boolean,
-    layout: String,
-  },
   data() {
     return {
+      editing: false,
       tab: null,
       nextlineState: null,
       threadTaskIds: [],
@@ -101,6 +94,9 @@ export default {
     },
   },
   computed: {
+    layout() {
+      return this.$store.state.layout;
+    },
     cols() {
       return 12;
     },
@@ -112,6 +108,11 @@ export default {
       if (this.threadTaskIds.length <= 1) return 12;
       else if (this.threadTaskIds.length == 2) return 6;
       else return 4;
+    },
+  },
+  watch: {
+    editing(val) {
+      this.$store.dispatch("editing", val);
     },
   },
 };

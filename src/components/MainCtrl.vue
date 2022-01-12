@@ -23,8 +23,7 @@
         v-if="nextlineState == 'running' && threadTaskIds.length > 1"
         mandatory
         borderless
-        :value="layout"
-        @change="$emit('layout-change', $event)"
+        v-model="layout"
         color="grey lighten-1"
       >
         <v-btn icon value="tabs">
@@ -46,14 +45,11 @@ import SUBSCRIBE_THREAD_TASK_IDS from "@/graphql/subscriptions/ThreadTaskIds.gql
 
 export default {
   name: "MainCtrl",
-  props: {
-    editing: Boolean,
-    layout: String,
-  },
   data() {
     return {
-    nextlineState: null,
-    threadTaskIds: [],
+      layout: "grid", // "grid", "tabs"
+      nextlineState: null,
+      threadTaskIds: [],
       buttons: [
         {
           text: "Run",
@@ -95,8 +91,16 @@ export default {
     },
   },
   computed: {
+    editing() {
+      return this.$store.state.editing;
+    },
     chip() {
       return this.chipConfig[this.nextlineState] || this.chipConfig.default;
+    },
+  },
+  watch: {
+    layout(val) {
+      this.$store.dispatch("layout", val);
     },
   },
   methods: {
