@@ -1,6 +1,5 @@
 <template>
   <v-card
-    outlined
     flat
     height="100%"
     :ripple="false"
@@ -10,19 +9,17 @@
     class="grey lighten-5"
   >
     <template v-if="threadTaskState">
+      <v-system-bar>
+        <v-icon>mdi-language-python</v-icon>
+        <v-tooltip bottom open-delay="500">
+          <template v-slot:activator="{ on, attrs }">
+            <span v-bind="attrs" v-on="on">{{ basename }}</span>
+          </template>
+          <span>{{ threadTaskState.fileName }}</span>
+        </v-tooltip>
+      </v-system-bar>
       <v-container fluid fill-height py-0>
         <v-row class="fill-height flex-column flex-nowrap justify-start">
-          <v-col class="flex-grow-0 pa-0">
-            <v-card-text class="pa-1">
-              <v-tooltip bottom open-delay="500">
-                <template v-slot:activator="{ on, attrs }">
-                  <span v-bind="attrs" v-on="on">{{ basename }}</span>
-                </template>
-                <span>{{ threadTaskState.fileName }}</span>
-              </v-tooltip>
-            </v-card-text>
-          </v-col>
-          <v-divider></v-divider>
           <v-col class="flex-grow-0 pa-0">
             <v-card-actions class="flex-row flex-wrap pa-1">
               <v-tooltip
