@@ -9,8 +9,8 @@
     class="grey lighten-5"
   >
     <template v-if="threadTaskState">
-      <v-system-bar>
-        <v-icon>mdi-language-python</v-icon>
+      <v-system-bar :class="systemBarClass">
+        <v-icon :class="systemBarClass"> mdi-language-python </v-icon>
         <v-tooltip bottom open-delay="500">
           <template v-slot:activator="{ on, attrs }">
             <span v-bind="attrs" v-on="on">{{ basename }}</span>
@@ -123,6 +123,11 @@ export default {
     };
   },
   computed: {
+    systemBarClass() {
+      return this.threadTaskState.prompting
+        ? ["primary", "on-primary--text"]
+        : [];
+    },
     source() {
       return this.sourceLines.join("\n");
     },
