@@ -74,7 +74,7 @@
                     class="mr-3 flex-grow-0 flex-shrink-0"
                     style="min-width: 2em"
                   >
-                    <pre><code>{{ "\n".repeat(threadTaskState.lineNo - 1) }}<v-icon :color='threadTaskState.prompting ? "primary" : "secondary lighten-4"'>mdi-arrow-right-bold</v-icon></code></pre>
+                    <pre><code>{{ "\n".repeat(threadTaskState.lineNo - 1) }}<v-icon :color='threadTaskState.prompting ? "primary" : "secondary"'>mdi-arrow-right-bold</v-icon></code></pre>
                   </div>
                   <div
                     class="pr-1 flex-grow-1 flex-shrink-1"
