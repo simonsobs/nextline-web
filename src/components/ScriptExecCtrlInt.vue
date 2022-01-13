@@ -113,16 +113,18 @@ export default {
     VueCodeHighlight,
   },
   props: { threadId: String, taskId: String },
-  data: () => ({
-    buttons: [
-      { text: "(N)ext", command: "next", icon: "mdi-skip-next" },
-      { text: "(S)tep", command: "step", icon: "mdi-debug-step-into" },
-      { text: "(R)eturn", command: "return", icon: "mdi-keyboard-return" },
-      { text: "(C)ontinue", command: "continue", icon: "mdi-play" },
-    ],
-    threadTaskState: null,
-    sourceLines: [],
-  }),
+  data() {
+    return {
+      buttons: [
+        { text: "(N)ext", command: "next", icon: "mdi-skip-next" },
+        { text: "(S)tep", command: "step", icon: "mdi-debug-step-into" },
+        { text: "(R)eturn", command: "return", icon: "mdi-keyboard-return" },
+        { text: "(C)ontinue", command: "continue", icon: "mdi-play" },
+      ],
+      threadTaskState: null,
+      sourceLines: [],
+    };
+  },
   computed: {
     source() {
       return this.sourceLines.join("\n");
