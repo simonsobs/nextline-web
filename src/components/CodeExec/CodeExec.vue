@@ -49,8 +49,6 @@
           <v-divider></v-divider>
           <v-col class="overflow-hidden pa-0">
             <code-col :state="threadTaskState"></code-col>
-            <v-card-text class="pa-0 fill-height">
-            </v-card-text>
           </v-col>
         </v-row>
       </v-container>
