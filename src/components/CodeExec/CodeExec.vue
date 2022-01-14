@@ -24,7 +24,7 @@
             <cmd-col
               :threadId="threadId"
               :taskId="taskId"
-              :state="threadTaskState"
+              :disabled="!threadTaskState.prompting"
               :keyboard-event="keyboardEvent"
             ></cmd-col>
           </v-col>

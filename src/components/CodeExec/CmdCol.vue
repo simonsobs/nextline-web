@@ -6,7 +6,7 @@
           color="primary"
           icon
           outlined
-          :disabled="!state.prompting"
+          :disabled="disabled"
           @click="pdbCommand(b.command)"
           v-bind="attrs"
           v-on="on"
@@ -28,7 +28,7 @@ export default {
   props: {
     threadId: { type: String, required: true },
     taskId: String,
-    state: { type: Object, required: true },
+    disabled: { type: Boolean, default: false },
     keyboardEvent: KeyboardEvent,
   },
   data() {
@@ -57,9 +57,9 @@ export default {
   },
   watch: {
     async keyboardEvent(event) {
-      if (!this.state.prompting) return;
+      if (this.disabled) return;
       const command = this.keyboardShortcuts[event.key];
-	  if(!command) return;
+      if (!command) return;
       await this.pdbCommand(command);
     },
   },
