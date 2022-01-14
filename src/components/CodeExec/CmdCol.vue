@@ -29,6 +29,7 @@ export default {
     threadId: { type: String, required: true },
     taskId: String,
     state: { type: Object, required: true },
+    keyboardEvent: KeyboardEvent,
   },
   data() {
     return {
@@ -46,6 +47,25 @@ export default {
         mutation: SEND_PDB_COMMAND,
         variables: { threadId: this.threadId, taskId: this.taskId, command },
       });
+    },
+  },
+  watch: {
+    async keyboardEvent(event) {
+      if (!this.state.prompting) return;
+
+      let command;
+      if (event.key == "n") {
+        command = "next";
+      } else if (event.key == "c") {
+        command = "continue";
+      } else if (event.key == "r") {
+        command = "return";
+      } else if (event.key == "s") {
+        command = "step";
+      } else {
+        return;
+      }
+      await this.pdbCommand(command);
     },
   },
 };

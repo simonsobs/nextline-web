@@ -4,7 +4,7 @@
     height="100%"
     :ripple="false"
     tabindex="0"
-    @keypress.stop.prevent="keyPress($event)"
+    @keypress.stop.prevent="keyboardEvent = $event"
     class="code-exec grey lighten-5"
   >
     <template v-if="threadTaskState">
@@ -18,13 +18,14 @@
         </v-tooltip>
       </v-system-bar>
       <v-container fluid style="height: 100%">
-      <!-- <v-container fluid fill-height> too tall somehow -->
+        <!-- <v-container fluid fill-height> too tall somehow -->
         <v-row class="fill-height flex-column flex-nowrap justify-start">
           <v-col class="flex-grow-0 pa-0">
             <cmd-col
               :threadId="threadId"
               :taskId="taskId"
               :state="threadTaskState"
+              :keyboard-event="keyboardEvent"
             ></cmd-col>
           </v-col>
           <v-divider></v-divider>
@@ -40,7 +41,6 @@
 <script>
 const path = require("path");
 
-import SEND_PDB_COMMAND from "@/graphql/mutations/SendPdbCommand.gql";
 import SUBSCRIBE_THREAD_TASK_STATE from "@/graphql/subscriptions/ThreadTaskState.gql";
 
 import CmdCol from "./CmdCol.vue";
@@ -56,6 +56,7 @@ export default {
   data() {
     return {
       threadTaskState: null,
+      keyboardEvent: null,
     };
   },
   computed: {
@@ -85,32 +86,6 @@ export default {
           this.threadTaskState = data.threadTaskState;
         },
       },
-    },
-  },
-  methods: {
-    async pdbCommand(command) {
-      const data = await this.$apollo.mutate({
-        mutation: SEND_PDB_COMMAND,
-        variables: { threadId: this.threadId, taskId: this.taskId, command },
-      });
-    },
-    async keyPress(event) {
-      if (!this.threadTaskState.prompting) {
-        return;
-      }
-      let command;
-      if (event.key == "n") {
-        command = "next";
-      } else if (event.key == "c") {
-        command = "continue";
-      } else if (event.key == "r") {
-        command = "return";
-      } else if (event.key == "s") {
-        command = "step";
-      } else {
-        return;
-      }
-      this.pdbCommand(command);
     },
   },
 };
