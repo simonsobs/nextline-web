@@ -9,7 +9,7 @@
       class="align-start overflow-y-auto"
     >
       <v-row class="ma-0 py-1 flex-nowrap" style="min-width: 0">
-        <div class="pl-1 mr-3 flex-grow-0 flex-shrink-0" style="min-width: 1em">
+        <div class="pl-1 mr-3 flex-grow-0 flex-shrink-0 grey--text" style="min-width: 1em">
           <pre><code><span
                             v-for="i in sourceLines.length"
                             :key="i"
