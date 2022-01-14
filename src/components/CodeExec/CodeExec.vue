@@ -79,7 +79,6 @@ export default {
         { text: "(C)ontinue", command: "continue", icon: "mdi-play" },
       ],
       threadTaskState: null,
-      sourceLines: [],
     };
   },
   computed: {
