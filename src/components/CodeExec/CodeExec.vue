@@ -66,9 +66,7 @@ export default {
         : [];
     },
     basename() {
-      if (!this.threadTaskState) {
-        return null;
-      }
+      if (!this.threadTaskState) return null;
       return path.basename(this.threadTaskState.fileName);
     },
   },
