@@ -39,6 +39,12 @@ export default {
         { text: "(R)eturn", command: "return", icon: "mdi-keyboard-return" },
         { text: "(C)ontinue", command: "continue", icon: "mdi-play" },
       ],
+      keyboardShortcuts: {
+        n: "next",
+        c: "continue",
+        r: "return",
+        s: "step",
+      },
     };
   },
   methods: {
@@ -52,19 +58,8 @@ export default {
   watch: {
     async keyboardEvent(event) {
       if (!this.state.prompting) return;
-
-      let command;
-      if (event.key == "n") {
-        command = "next";
-      } else if (event.key == "c") {
-        command = "continue";
-      } else if (event.key == "r") {
-        command = "return";
-      } else if (event.key == "s") {
-        command = "step";
-      } else {
-        return;
-      }
+      const command = this.keyboardShortcuts[event.key];
+	  if(!command) return;
       await this.pdbCommand(command);
     },
   },
