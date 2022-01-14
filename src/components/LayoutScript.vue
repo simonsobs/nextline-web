@@ -15,10 +15,10 @@
           v-for="threadTaskId in threadTaskIds"
           :key="`${threadTaskId.threadId}-${threadTaskId.taskId}`"
         >
-          <script-exec-ctrl-int
+          <code-exec
             :threadId="threadTaskId.threadId"
             :taskId="threadTaskId.taskId"
-          ></script-exec-ctrl-int>
+          ></code-exec>
         </v-col>
       </v-row>
       <v-row v-else class="fill-height flex-column flex-nowrap justify-start">
@@ -42,10 +42,10 @@
               :key="`${threadTaskId.threadId}-${threadTaskId.taskId}`"
               class="fill-height"
             >
-              <script-exec-ctrl-int
+              <code-exec
                 :threadId="threadTaskId.threadId"
                 :taskId="threadTaskId.taskId"
-              ></script-exec-ctrl-int>
+              ></code-exec>
             </v-tab-item>
           </v-tabs-items>
         </v-col>
@@ -57,7 +57,7 @@
 
 
 <script>
-import ScriptExecCtrlInt from "@/components/ScriptExecCtrlInt.vue";
+import CodeExec from "@/components/CodeExec/CodeExec.vue";
 import ScriptViewer from "@/components/ScriptViewer.vue";
 
 import SUBSCRIBE_GLOBAL_STATE from "@/graphql/subscriptions/GlobalState.gql";
@@ -66,7 +66,7 @@ import SUBSCRIBE_THREAD_TASK_IDS from "@/graphql/subscriptions/ThreadTaskIds.gql
 export default {
   name: "LayoutScript",
   components: {
-    ScriptExecCtrlInt,
+    CodeExec,
     ScriptViewer,
   },
   data() {

@@ -105,7 +105,7 @@ import SUBSCRIBE_THREAD_TASK_STATE from "@/graphql/subscriptions/ThreadTaskState
 import QUERY_SOURCE from "@/graphql/queries/Source.gql";
 
 export default {
-  name: "ScriptExecCtrlInt",
+  name: "CodeExec",
   components: {
     VueCodeHighlight,
   },
