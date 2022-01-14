@@ -21,30 +21,11 @@
       <!-- <v-container fluid fill-height> too tall somehow -->
         <v-row class="fill-height flex-column flex-nowrap justify-start">
           <v-col class="flex-grow-0 pa-0">
-            <v-card-actions class="flex-row flex-wrap pa-1">
-              <v-tooltip
-                bottom
-                open-delay="500"
-                v-for="(b, i) in buttons"
-                :key="i"
-              >
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn
-                    color="primary"
-                    icon
-                    outlined
-                    :disabled="!threadTaskState.prompting"
-                    @click="pdbCommand(b.command)"
-                    v-bind="attrs"
-                    v-on="on"
-                    class="ma-1"
-                  >
-                    <v-icon>{{ b.icon }}</v-icon>
-                  </v-btn>
-                </template>
-                <span>{{ b.text }}</span>
-              </v-tooltip>
-            </v-card-actions>
+            <cmd-col
+              :threadId="threadId"
+              :taskId="taskId"
+              :state="threadTaskState"
+            ></cmd-col>
           </v-col>
           <v-divider></v-divider>
           <v-col class="overflow-hidden pa-0">
@@ -62,22 +43,18 @@ const path = require("path");
 import SEND_PDB_COMMAND from "@/graphql/mutations/SendPdbCommand.gql";
 import SUBSCRIBE_THREAD_TASK_STATE from "@/graphql/subscriptions/ThreadTaskState.gql";
 
+import CmdCol from "./CmdCol.vue";
 import CodeCol from "./CodeCol.vue";
 
 export default {
   name: "CodeExec",
   components: {
+    CmdCol,
     CodeCol,
   },
   props: { threadId: String, taskId: String },
   data() {
     return {
-      buttons: [
-        { text: "(N)ext", command: "next", icon: "mdi-skip-next" },
-        { text: "(S)tep", command: "step", icon: "mdi-debug-step-into" },
-        { text: "(R)eturn", command: "return", icon: "mdi-keyboard-return" },
-        { text: "(C)ontinue", command: "continue", icon: "mdi-play" },
-      ],
       threadTaskState: null,
     };
   },
