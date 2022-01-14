@@ -22,7 +22,7 @@
           class="pr-1 flex-grow-1 flex-shrink-1"
           style="overflow-x: auto; flex-basis: 0; min-width: 2em"
         >
-          <vue-code-highlight class="code-highlight" language="python">{{
+          <vue-code-highlight language="python">{{
             source
           }}</vue-code-highlight>
         </div>
@@ -124,13 +124,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.code-highlight {
-  cursor: default;
-}
-
-.code-highlight:before {
-  background: inherit; /* prevent highlight when focused */
-}
-</style>

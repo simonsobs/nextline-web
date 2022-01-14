@@ -5,7 +5,7 @@
     :ripple="false"
     tabindex="0"
     @keypress.stop.prevent="keyPress($event)"
-    class="grey lighten-5"
+    class="code-exec grey lighten-5"
   >
     <template v-if="threadTaskState">
       <v-system-bar :class="systemBarClass">
@@ -140,3 +140,13 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.code-exec {
+  cursor: default;
+}
+
+.code-exec:before {
+  background: inherit; /* prevent highlight when focused */
+}
+</style>
