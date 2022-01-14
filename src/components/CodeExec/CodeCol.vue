@@ -16,7 +16,7 @@
                             ><span :ref="`card-source-line-${i}`">{{ i }}</span>{{ '\n' }}</span></code></pre>
         </div>
         <div class="mr-3 flex-grow-0 flex-shrink-0" style="min-width: 2em">
-          <pre><code>{{ "\n".repeat(threadTaskState.lineNo - 1) }}<v-icon :color='threadTaskState.prompting ? "primary" : "secondary"'>mdi-arrow-right-bold</v-icon></code></pre>
+          <pre><code>{{ "\n".repeat(state.lineNo - 1) }}<v-icon :color='state.prompting ? "primary" : "secondary"'>mdi-arrow-right-bold</v-icon></code></pre>
         </div>
         <div
           class="pr-1 flex-grow-1 flex-shrink-1"
@@ -45,7 +45,7 @@ export default {
     VueCodeHighlight,
   },
   props: {
-    threadTaskState: Object,
+    state: Object,
   },
   data() {
     return {
@@ -62,11 +62,11 @@ export default {
       query: QUERY_SOURCE,
       variables() {
         return {
-          fileName: this.threadTaskState.fileName,
+          fileName: this.state.fileName,
         };
       },
       skip() {
-        return !this.threadTaskState;
+        return !this.state;
       },
       update(data) {
         return data.source;
@@ -77,7 +77,7 @@ export default {
     },
   },
   watch: {
-    threadTaskState: {
+    state: {
       handler() {
         this.$nextTick(this.scroll);
       },
@@ -90,16 +90,16 @@ export default {
       // https://stackoverflow.com/a/64371340/7309855
       // https://jsfiddle.net/yjpq03da/
 
-      if (!this.threadTaskState) {
+      if (!this.state) {
         return;
       }
 
-      if (!this.threadTaskState.prompting) {
+      if (!this.state.prompting) {
         return;
       }
 
       const container_ref_name = "card-source";
-      const target_ref_name = `card-source-line-${this.threadTaskState.lineNo}`;
+      const target_ref_name = `card-source-line-${this.state.lineNo}`;
 
       const container = this.$refs[container_ref_name];
       if (!container) {
