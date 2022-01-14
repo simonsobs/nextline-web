@@ -8,15 +8,7 @@
     class="code-exec grey lighten-5"
   >
     <template v-if="threadTaskState">
-      <v-system-bar :class="systemBarClass">
-        <v-icon :class="systemBarClass"> mdi-language-python </v-icon>
-        <v-tooltip bottom open-delay="500">
-          <template v-slot:activator="{ on, attrs }">
-            <span v-bind="attrs" v-on="on">{{ basename }}</span>
-          </template>
-          <span>{{ threadTaskState.fileName }}</span>
-        </v-tooltip>
-      </v-system-bar>
+      <system-bar :state="threadTaskState">></system-bar>
       <v-container fluid style="height: 100%">
         <!-- <v-container fluid fill-height> too tall somehow -->
         <v-row class="fill-height flex-column flex-nowrap justify-start">
@@ -39,16 +31,16 @@
 </template>
 
 <script>
-const path = require("path");
-
 import SUBSCRIBE_THREAD_TASK_STATE from "@/graphql/subscriptions/ThreadTaskState.gql";
 
+import SystemBar from "./SystemBar.vue";
 import CmdCol from "./CmdCol.vue";
 import CodeCol from "./CodeCol.vue";
 
 export default {
   name: "CodeExec",
   components: {
+    SystemBar,
     CmdCol,
     CodeCol,
   },
@@ -58,17 +50,6 @@ export default {
       threadTaskState: null,
       keyboardEvent: null,
     };
-  },
-  computed: {
-    systemBarClass() {
-      return this.threadTaskState.prompting
-        ? ["primary", "on-primary--text"]
-        : [];
-    },
-    basename() {
-      if (!this.threadTaskState) return null;
-      return path.basename(this.threadTaskState.fileName);
-    },
   },
   apollo: {
     $subscribe: {
