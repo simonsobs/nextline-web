@@ -4,7 +4,7 @@
     height="100%"
     :ripple="false"
     tabindex="0"
-    @keypress.stop.prevent="keyboardEvent = $event"
+    @keydown.stop.prevent="keyboardEvent = $event"
     class="code-exec grey lighten-5"
   >
     <template v-if="threadTaskState">
