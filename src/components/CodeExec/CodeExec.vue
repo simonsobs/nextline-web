@@ -17,7 +17,8 @@
           <span>{{ threadTaskState.fileName }}</span>
         </v-tooltip>
       </v-system-bar>
-      <v-container fluid fill-height py-0>
+      <v-container fluid style="height: 100%">
+      <!-- <v-container fluid fill-height> too tall somehow -->
         <v-row class="fill-height flex-column flex-nowrap justify-start">
           <v-col class="flex-grow-0 pa-0">
             <v-card-actions class="flex-row flex-wrap pa-1">
