@@ -15,13 +15,16 @@ const AUTH_TOKEN = "apollo-token";
 const httpEndpoint =
   process.env.VUE_APP_GRAPHQL_HTTP || "http://localhost:4000/graphql";
 
+// WebSockert endpoint. "ws://" for "http://" and "wss://" for "https://"
+const wsEndpoint =  httpEndpoint.replace(/^http/i, "ws");
+
 // Config
 const defaultOptions = {
   // You can use `https` for secure connection (recommended in production)
   httpEndpoint,
   // You can use `wss` for secure connection (recommended in production)
   // Use `null` to disable subscriptions
-  wsEndpoint: process.env.VUE_APP_GRAPHQL_WS || "ws://localhost:4000/graphql",
+  wsEndpoint,
   // LocalStorage token
   tokenName: AUTH_TOKEN,
   // Enable Automatic Query persisting with Apollo Engine
