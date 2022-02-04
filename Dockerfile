@@ -9,12 +9,11 @@ RUN npm run build
 
 
 ##__________________________________________________________________||
-FROM nginx:1.19
+FROM nginx:1.21
 
 RUN apt-get update && apt-get install -y dumb-init
 COPY --from=build /app/src/dist /usr/share/nginx/html
 COPY docker/etc-nginx-conf.d-default.conf /etc/nginx/conf.d/default.conf
-EXPOSE 80
 COPY docker/cmd.sh /
 RUN chmod +x /cmd.sh
 
