@@ -1,19 +1,19 @@
 #!/bin/bash
 
 ##__________________________________________________________________||
-GRAPHQL_HTTP_DEFAULT="http://localhost:8000"
+API_HTTP_DEFAULT="http://localhost:8000"
 PUBLIC_PATH_DEFAULT="/"
 
-GRAPHQL_HTTP_PLACEHOLDER="graphql_http_placeholder"
+API_HTTP_PLACEHOLDER="graphql_http_placeholder"
 PUBLIC_PATH_PLACEHOLDER="/public_path_placeholder/"
 
 HTML_DIR="/app/site"
 
 ##__________________________________________________________________||
-if [ -z $GRAPHQL_HTTP ]
+if [ -z $API_HTTP ]
 then
-    echo 'Warning: $GRAPHQL_HTTP is not set!'
-    command="GRAPHQL_HTTP=$GRAPHQL_HTTP_DEFAULT"
+    echo 'Warning: $API_HTTP is not set!'
+    command="API_HTTP=$API_HTTP_DEFAULT"
     echo + $command
     eval $command
 fi
@@ -55,7 +55,7 @@ fi
     $command
     for f in $(find . -type f);
     do
-        command="sed -i \"s#$GRAPHQL_HTTP_PLACEHOLDER#$GRAPHQL_HTTP#g\" $f";
+        command="sed -i \"s#$API_HTTP_PLACEHOLDER#$API_HTTP#g\" $f";
         echo + $command;
         eval $command;
     done
