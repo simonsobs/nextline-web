@@ -33,9 +33,18 @@
               <template v-slot:[`item.endedAt`]="{ item }">
                 {{ formatDateTime(item.endedAt) }}
               </template>
+              <template v-slot:[`item.exception`]="{ item }">
+                <v-icon v-if="!item.exception" color="teal">mdi-check</v-icon>
+                <v-icon v-else color="red">mdi-close</v-icon>
+              </template>
               <template v-slot:expanded-item="{ headers, item }">
+                <!-- <td :colspan="headers.length" style="width: 80%"> -->
                 <td :colspan="headers.length">
-                  <pre>{{ item.script }}</pre>
+                  <div>
+                  <!-- <div style="width: 90%; overflow-x: auto"> -->
+                    <pre>{{ item.script }}</pre>
+                    <pre>{{ item.exception }}</pre>
+                  </div>
                 </td>
               </template>
             </v-data-table>
@@ -60,6 +69,7 @@ export default {
         { text: "State", value: "state" },
         { text: "Started at", value: "startedAt" },
         { text: "Ended at", value: "endedAt" },
+        { text: "", value: "exception" },
         { text: "", value: "data-table-expand" },
       ],
       expanded: [],
@@ -96,3 +106,18 @@ export default {
   },
 };
 </script>
+
+<style>
+/* .v-data-table {
+  width: 100%;
+}
+
+tbody {
+  width: 100%;
+}
+
+.v-data-table__wrapper {
+  width: 100%;
+  overflow-x: hidden !important;
+} */
+</style>
