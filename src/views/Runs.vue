@@ -14,15 +14,24 @@
               :expanded.sync="expanded"
               show-expand
             >
-              <template v-slot:[`item.startedAt`]="{ item }">
-                <span class="text-no-wrap">
-                {{ formatDateTime(item.startedAt) }}
+              <template v-slot:[`item.runNo`]="{ item }">
+                <span class="font-weight-bold primary--text">
+                  {{ item.runNo }}
                 </span>
               </template>
+              <template v-slot:[`item.state`]="{ item }">
+                <v-chip
+                  :color="stateChipColor[item.state]"
+                  class="text-capitalize"
+                >
+                  {{ item.state }}
+                </v-chip>
+              </template>
+              <template v-slot:[`item.startedAt`]="{ item }">
+                {{ formatDateTime(item.startedAt) }}
+              </template>
               <template v-slot:[`item.endedAt`]="{ item }">
-                <span class="text-no-wrap">
                 {{ formatDateTime(item.endedAt) }}
-                </span>
               </template>
               <template v-slot:expanded-item="{ headers, item }">
                 <td :colspan="headers.length">
@@ -55,6 +64,13 @@ export default {
       ],
       expanded: [],
       singleExpand: false,
+      stateChipColor: {
+        initialized: "success",
+        running: "primary",
+        exited: "warning",
+        finished: "warning",
+        closed: "warning",
+      },
     };
   },
   apollo: {
