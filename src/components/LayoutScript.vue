@@ -12,40 +12,28 @@
           :cols="cols"
           :md="md"
           :lg="lg"
-          v-for="threadTaskId in threadTaskIds"
-          :key="`${threadTaskId.threadId}-${threadTaskId.taskId}`"
+          v-for="traceId in traceIds"
+          :key="traceId"
         >
-          <code-exec
-            :threadId="threadTaskId.threadId"
-            :taskId="threadTaskId.taskId"
-          ></code-exec>
+          <code-exec :traceId="traceId"></code-exec>
         </v-col>
       </v-row>
       <v-row v-else class="fill-height flex-column flex-nowrap justify-start">
         <v-col class="flex-grow-0 py-0 pr-5">
           <v-tabs show-arrows v-model="tab">
-            <v-tab
-              v-for="threadTaskId in threadTaskIds"
-              :key="`${threadTaskId.threadId}-${threadTaskId.taskId}`"
-            >
-              {{ threadTaskId.threadId }}
-              <span v-if="threadTaskId.taskId">
-                -{{ threadTaskId.taskId }}
-              </span>
+            <v-tab v-for="traceId in traceIds" :key="traceId">
+              {{ traceId }}
             </v-tab>
           </v-tabs>
         </v-col>
         <v-col>
           <v-tabs-items v-model="tab" class="fill-height">
             <v-tab-item
-              v-for="threadTaskId in threadTaskIds"
-              :key="`${threadTaskId.threadId}-${threadTaskId.taskId}`"
+              v-for="traceId in traceIds"
+              :key="traceId"
               class="fill-height"
             >
-              <code-exec
-                :threadId="threadTaskId.threadId"
-                :taskId="threadTaskId.taskId"
-              ></code-exec>
+              <code-exec :traceId="traceId"></code-exec>
             </v-tab-item>
           </v-tabs-items>
         </v-col>
@@ -61,7 +49,7 @@ import CodeExec from "@/components/CodeExec/CodeExec.vue";
 import ScriptViewer from "@/components/ScriptViewer.vue";
 
 import SUBSCRIBE_GLOBAL_STATE from "@/graphql/subscriptions/GlobalState.gql";
-import SUBSCRIBE_THREAD_TASK_IDS from "@/graphql/subscriptions/ThreadTaskIds.gql";
+import SUBSCRIBE_TRACE_IDS from "@/graphql/subscriptions/TraceIds.gql";
 
 export default {
   name: "LayoutScript",
@@ -74,7 +62,7 @@ export default {
       editing: false,
       tab: null,
       nextlineState: null,
-      threadTaskIds: [],
+      traceIds: [],
     };
   },
   apollo: {
@@ -85,10 +73,10 @@ export default {
           this.nextlineState = data.globalState;
         },
       },
-      threadTaskIds: {
-        query: SUBSCRIBE_THREAD_TASK_IDS,
+      traceIds: {
+        query: SUBSCRIBE_TRACE_IDS,
         result({ data }) {
-          this.threadTaskIds = data.threadTaskIds;
+          this.traceIds = data.traceIds;
         },
       },
     },
@@ -101,12 +89,12 @@ export default {
       return 12;
     },
     md() {
-      if (this.threadTaskIds.length <= 1) return 12;
+      if (this.traceIds.length <= 1) return 12;
       else return 6;
     },
     lg() {
-      if (this.threadTaskIds.length <= 1) return 12;
-      else if (this.threadTaskIds.length == 2) return 6;
+      if (this.traceIds.length <= 1) return 12;
+      else if (this.traceIds.length == 2) return 6;
       else return 4;
     },
   },

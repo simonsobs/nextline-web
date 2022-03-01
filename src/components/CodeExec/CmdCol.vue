@@ -26,8 +26,7 @@ import SEND_PDB_COMMAND from "@/graphql/mutations/SendPdbCommand.gql";
 export default {
   name: "CmdCol",
   props: {
-    threadId: { type: String, required: true },
-    taskId: String,
+    traceId: { type: Number, required: true },
     disabled: { type: Boolean, default: false },
     keyboardEvent: KeyboardEvent,
   },
@@ -51,7 +50,7 @@ export default {
     async pdbCommand(command) {
       const data = await this.$apollo.mutate({
         mutation: SEND_PDB_COMMAND,
-        variables: { threadId: this.threadId, taskId: this.taskId, command },
+        variables: { traceId: this.traceId, command },
       });
     },
   },

@@ -1,7 +1,3 @@
-mutation SendPdbCommand(
-  $threadId: String!
-  $taskId: String
-  $command: String!
-) {
-  sendPdbCommand(threadId: $threadId, taskId: $taskId, command: $command)
+mutation SendPdbCommand($traceId: Int!, $command: String!) {
+  sendPdbCommand(traceId: $traceId, command: $command)
 }

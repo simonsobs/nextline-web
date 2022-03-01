@@ -7,22 +7,21 @@
     @keydown.stop.prevent="keyboardEvent = $event"
     class="code-exec grey lighten-5"
   >
-    <template v-if="threadTaskState">
-      <system-bar :state="threadTaskState">></system-bar>
+    <template v-if="traceState">
+      <system-bar :state="traceState">></system-bar>
       <v-container fluid style="height: 100%">
         <!-- <v-container fluid fill-height> too tall somehow -->
         <v-row class="fill-height flex-column flex-nowrap justify-start">
           <v-col class="flex-grow-0 pa-0">
             <cmd-col
-              :threadId="threadId"
-              :taskId="taskId"
-              :disabled="!threadTaskState.prompting"
+              :traceId="traceId"
+              :disabled="!traceState.prompting"
               :keyboard-event="keyboardEvent"
             ></cmd-col>
           </v-col>
           <v-divider></v-divider>
           <v-col class="overflow-hidden pa-0">
-            <code-col :state="threadTaskState"></code-col>
+            <code-col :state="traceState"></code-col>
           </v-col>
         </v-row>
       </v-container>
@@ -31,7 +30,7 @@
 </template>
 
 <script>
-import SUBSCRIBE_THREAD_TASK_STATE from "@/graphql/subscriptions/ThreadTaskState.gql";
+import SUBSCRIBE_TRACE_STATE from "@/graphql/subscriptions/TraceState.gql";
 
 import SystemBar from "./SystemBar.vue";
 import CmdCol from "./CmdCol.vue";
@@ -44,27 +43,32 @@ export default {
     CmdCol,
     CodeCol,
   },
-  props: { threadId: String, taskId: String },
+  props: { traceId: Number },
   data() {
     return {
-      threadTaskState: null,
+      traceState: null,
       keyboardEvent: null,
     };
   },
   apollo: {
     $subscribe: {
-      threadTaskState: {
-        query: SUBSCRIBE_THREAD_TASK_STATE,
+      traceState: {
+        query: SUBSCRIBE_TRACE_STATE,
         variables() {
-          return {
-            threadId: this.threadId,
-            taskId: this.taskId,
-          };
+          return { traceId: this.traceId };
         },
         result({ data }) {
-          this.threadTaskState = data.threadTaskState;
+          this.traceState = data.traceState;
         },
       },
+    },
+  },
+  watch: {
+    keyboardEvent(val) {
+      // console.log(val);
+    },
+    traceState() {
+      // console.log(document.activeElement);
     },
   },
 };

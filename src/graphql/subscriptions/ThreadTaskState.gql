@@ -1,7 +1,0 @@
-subscription ThreadTaskState($threadId: String!, $taskId: String) {
-  threadTaskState(threadId: $threadId, taskId: $taskId) {
-    prompting
-    fileName
-    lineNo
-  }
-}

@@ -20,7 +20,7 @@
       </v-chip>
       <v-spacer></v-spacer>
       <v-btn-toggle
-        v-if="nextlineState == 'running' && threadTaskIds.length > 1"
+        v-if="nextlineState == 'running' && traceIds.length > 1"
         mandatory
         borderless
         v-model="layout"
@@ -41,7 +41,7 @@
 import RESET from "@/graphql/mutations/Reset.gql";
 import EXEC from "@/graphql/mutations/Exec.gql";
 import SUBSCRIBE_GLOBAL_STATE from "@/graphql/subscriptions/GlobalState.gql";
-import SUBSCRIBE_THREAD_TASK_IDS from "@/graphql/subscriptions/ThreadTaskIds.gql";
+import SUBSCRIBE_TRACE_IDS from "@/graphql/subscriptions/TraceIds.gql";
 
 export default {
   name: "MainCtrl",
@@ -49,7 +49,7 @@ export default {
     return {
       layout: "grid", // "grid", "tabs"
       nextlineState: null,
-      threadTaskIds: [],
+      traceIds: [],
       buttons: [
         {
           text: "Run",
@@ -82,10 +82,10 @@ export default {
           this.nextlineState = data.globalState;
         },
       },
-      threadTaskIds: {
-        query: SUBSCRIBE_THREAD_TASK_IDS,
+      traceIds: {
+        query: SUBSCRIBE_TRACE_IDS,
         result({ data }) {
-          this.threadTaskIds = data.threadTaskIds;
+          this.traceIds = data.traceIds;
         },
       },
     },
