@@ -7,21 +7,21 @@
     @keydown.stop.prevent="keyboardEvent = $event"
     class="code-exec grey lighten-5"
   >
-    <template v-if="traceState">
-      <system-bar :state="traceState">></system-bar>
+    <template v-if="prompting">
+      <system-bar :state="prompting">></system-bar>
       <v-container fluid style="height: 100%">
         <!-- <v-container fluid fill-height> too tall somehow -->
         <v-row class="fill-height flex-column flex-nowrap justify-start">
           <v-col class="flex-grow-0 pa-0">
             <cmd-col
               :traceId="traceId"
-              :disabled="!traceState.prompting"
+              :disabled="!prompting.prompting"
               :keyboard-event="keyboardEvent"
             ></cmd-col>
           </v-col>
           <v-divider></v-divider>
           <v-col class="overflow-hidden pa-0">
-            <code-col :state="traceState"></code-col>
+            <code-col :state="prompting"></code-col>
           </v-col>
         </v-row>
       </v-container>
@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import SUBSCRIBE_TRACE_STATE from "@/graphql/subscriptions/TraceState.gql";
+import SUBSCRIBE_PROMPTING from "@/graphql/subscriptions/Prompting.gql";
 
 import SystemBar from "./SystemBar.vue";
 import CmdCol from "./CmdCol.vue";
@@ -46,19 +46,19 @@ export default {
   props: { traceId: Number },
   data() {
     return {
-      traceState: null,
+      prompting: null,
       keyboardEvent: null,
     };
   },
   apollo: {
     $subscribe: {
-      traceState: {
-        query: SUBSCRIBE_TRACE_STATE,
+      prompting: {
+        query: SUBSCRIBE_PROMPTING,
         variables() {
           return { traceId: this.traceId };
         },
         result({ data }) {
-          this.traceState = data.traceState;
+          this.prompting = data.prompting;
         },
       },
     },
@@ -67,7 +67,7 @@ export default {
     keyboardEvent(val) {
       // console.log(val);
     },
-    traceState() {
+    prompting() {
       // console.log(document.activeElement);
     },
   },
