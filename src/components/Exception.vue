@@ -9,7 +9,7 @@
 
 <script>
 import QUERY_EXCEPTION from "@/graphql/queries/Exception.gql";
-import SUBSCRIBE_GLOBAL_STATE from "@/graphql/subscriptions/GlobalState.gql";
+import SUBSCRIBE_STATE from "@/graphql/subscriptions/State.gql";
 
 export default {
   name: "Exception",
@@ -35,9 +35,9 @@ export default {
     },
     $subscribe: {
       nextlineState: {
-        query: SUBSCRIBE_GLOBAL_STATE,
+        query: SUBSCRIBE_STATE,
         result({ data }) {
-          this.nextlineState = data.globalState;
+          this.nextlineState = data.state;
         },
       },
     },

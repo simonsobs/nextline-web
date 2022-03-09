@@ -48,7 +48,7 @@
 import CodeExec from "@/components/CodeExec/CodeExec.vue";
 import ScriptViewer from "@/components/ScriptViewer.vue";
 
-import SUBSCRIBE_GLOBAL_STATE from "@/graphql/subscriptions/GlobalState.gql";
+import SUBSCRIBE_STATE from "@/graphql/subscriptions/State.gql";
 import SUBSCRIBE_TRACE_IDS from "@/graphql/subscriptions/TraceIds.gql";
 
 export default {
@@ -68,9 +68,9 @@ export default {
   apollo: {
     $subscribe: {
       nextlineState: {
-        query: SUBSCRIBE_GLOBAL_STATE,
+        query: SUBSCRIBE_STATE,
         result({ data }) {
-          this.nextlineState = data.globalState;
+          this.nextlineState = data.state;
         },
       },
       traceIds: {
