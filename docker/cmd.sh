@@ -31,23 +31,6 @@ then
     exit 1
 fi
 
-if [ "$PUBLIC_PATH" != "$PUBLIC_PATH_DEFAULT" ]
-then
-    HTML_DIR_TEMP="$(mktemp -d)/site"
-    command="mv $HTML_DIR $HTML_DIR_TEMP"
-    echo + $command
-    eval $command
-
-    HTML_DIR=$(echo $HTML_DIR/$PUBLIC_PATH | tr -s /)
-    HTML_DIR=${HTML_DIR%/} # e.g., /app/site/vue
-    command="mkdir -p $(dirname $HTML_DIR)"
-    echo + $command
-    eval $command
-    command="mv $HTML_DIR_TEMP $HTML_DIR"
-    echo + $command
-    eval $command
-fi
-
 ##__________________________________________________________________||
 (
     command="cd $HTML_DIR"
