@@ -7,7 +7,7 @@ COPY docker/env.local .env.local
 RUN npm run build
 
 
-##__________________________________________________________________||
+#
 FROM nginx:1.21
 
 WORKDIR /app
