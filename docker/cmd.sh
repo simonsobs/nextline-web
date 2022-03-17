@@ -2,7 +2,7 @@
 
 ##__________________________________________________________________||
 API_HTTP_DEFAULT="http://localhost:8000"
-PUBLIC_PATH_DEFAULT="/"
+NGINX_ROOT="/"
 
 API_HTTP_PLACEHOLDER="graphql_http_placeholder"
 PUBLIC_PATH_PLACEHOLDER="/public_path_placeholder/"
@@ -20,7 +20,7 @@ fi
 
 if [ -z $PUBLIC_PATH ]
 then
-    command="PUBLIC_PATH=$PUBLIC_PATH_DEFAULT"
+    command="PUBLIC_PATH=$NGINX_ROOT"
     echo + $command
     eval $command
 fi
@@ -31,7 +31,7 @@ then
     exit 1
 fi
 
-if [ "$PUBLIC_PATH" != "$PUBLIC_PATH_DEFAULT" ]
+if [ "$PUBLIC_PATH" != "$NGINX_ROOT" ]
 then
     HTML_DIR_TEMP="$(mktemp -d)/site"
     command="mv $HTML_DIR $HTML_DIR_TEMP"
