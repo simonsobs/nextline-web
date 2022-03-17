@@ -11,10 +11,6 @@ RUN npm run build
 FROM nginx:1.21
 
 WORKDIR /app
-RUN apt-get update && apt-get install -y dumb-init
 COPY --from=build /app/dist site
-COPY docker/cmd.sh .
+COPY docker/cmd.sh /docker-entrypoint.d/05-nextline-web-entrypoint.sh
 COPY docker/nginx-default.conf /etc/nginx/conf.d/default.conf
-
-ENTRYPOINT ["/usr/bin/dumb-init", "--"]
-CMD [ "./cmd.sh" ]
