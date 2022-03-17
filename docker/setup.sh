@@ -1,28 +1,22 @@
 #!/bin/bash
 
-##__________________________________________________________________||
-API_HTTP_DEFAULT="http://localhost:8000"
-PUBLIC_PATH_DEFAULT="/"
+HTML_DIR="/app/site"
+NGINX_ROOT="/"
 
 API_HTTP_PLACEHOLDER="graphql_http_placeholder"
 PUBLIC_PATH_PLACEHOLDER="/public_path_placeholder/"
 
-HTML_DIR="/app/site"
 
-##__________________________________________________________________||
 if [ -z $API_HTTP ]
 then
-    echo 'Warning: $API_HTTP is not set!'
-    command="API_HTTP=$API_HTTP_DEFAULT"
-    echo + $command
-    eval $command
+    echo 'Error: $API_HTTP is not set!'
+    exit 1
 fi
 
 if [ -z $PUBLIC_PATH ]
 then
-    command="PUBLIC_PATH=$PUBLIC_PATH_DEFAULT"
-    echo + $command
-    eval $command
+    echo 'Error: $PUBLIC_PATH is not set!'
+    exit 1
 fi
 
 if [ ! -d $HTML_DIR ]
@@ -31,7 +25,8 @@ then
     exit 1
 fi
 
-if [ "$PUBLIC_PATH" != "$PUBLIC_PATH_DEFAULT" ]
+# Move the Vue files to the Vue publicPath
+if [ "$PUBLIC_PATH" != "$NGINX_ROOT" ]
 then
     HTML_DIR_TEMP="$(mktemp -d)/site"
     command="mv $HTML_DIR $HTML_DIR_TEMP"
@@ -48,7 +43,7 @@ then
     eval $command
 fi
 
-##__________________________________________________________________||
+# Replace place holders with env vars in Vue files
 (
     command="cd $HTML_DIR"
     echo + $command
@@ -66,10 +61,3 @@ fi
         eval $command;
     done
 )
-
-##__________________________________________________________________||
-command='nginx -g "daemon off;"'
-echo + $command;
-eval $command;
-
-##__________________________________________________________________||

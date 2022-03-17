@@ -7,14 +7,14 @@ COPY docker/env.local .env.local
 RUN npm run build
 
 
-##__________________________________________________________________||
+#
 FROM nginx:1.21
 
 WORKDIR /app
-RUN apt-get update && apt-get install -y dumb-init
 COPY --from=build /app/dist site
-COPY docker/cmd.sh .
-COPY docker/nginx-default.conf /etc/nginx/conf.d/default.conf
+COPY docker/entrypoint.sh .
+COPY docker/setup.sh /docker-entrypoint.d/99-nextline-web-setup.sh
+COPY docker/nginx-default.conf.template /etc/nginx/templates/default.conf.template
 
-ENTRYPOINT ["/usr/bin/dumb-init", "--"]
-CMD [ "./cmd.sh" ]
+ENTRYPOINT ["./entrypoint.sh"]
+CMD ["nginx", "-g", "daemon off;"]
