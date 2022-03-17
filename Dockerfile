@@ -12,5 +12,9 @@ FROM nginx:1.21
 
 WORKDIR /app
 COPY --from=build /app/dist site
-COPY docker/cmd.sh /docker-entrypoint.d/05-nextline-web-entrypoint.sh
+COPY docker/entrypoint.sh .
+COPY docker/setup.sh /docker-entrypoint.d/99-nextline-web-setup.sh
 COPY docker/nginx-default.conf.template /etc/nginx/templates/default.conf.template
+
+ENTRYPOINT ["./entrypoint.sh"]
+CMD ["nginx", "-g", "daemon off;"]
