@@ -3,8 +3,22 @@
     <v-system-bar>
       <v-icon>mdi-window-maximize</v-icon>
       <span>stdout</span>
-	  <v-spacer></v-spacer>
-      <v-icon>mdi-eraser</v-icon>
+      <v-spacer></v-spacer>
+      <v-tooltip bottom open-delay="500">
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            icon
+            x-small
+            :disabled="!stdout"
+            @click="clear"
+            v-bind="attrs"
+            v-on="on"
+          >
+            <v-icon>mdi-eraser</v-icon>
+          </v-btn>
+        </template>
+        <span>Clear</span>
+      </v-tooltip>
     </v-system-bar>
     <!-- <v-app-bar dense flat color="secondary"></v-app-bar> -->
     <v-card-text style="height: calc(100% - 24px)" class="py-1">
@@ -37,9 +51,6 @@ export default {
     },
   },
   watch: {
-    "$store.state.reset"() {
-      this.stdout = "";
-    },
     stdout: {
       handler() {
         this.$nextTick(this.scrollStdout);
@@ -60,6 +71,9 @@ export default {
 
       this.$vuetify.goTo(target, { container, duration: 0 });
       // this.$vuetify.goTo(99999, { container });
+    },
+    clear() {
+      this.stdout = "";
     },
   },
 };
