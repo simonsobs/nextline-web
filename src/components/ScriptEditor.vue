@@ -1,5 +1,5 @@
 <template>
-  <v-card outlined flat height="100%" class="grey lighten-5">
+  <v-card flat height="100%" class="grey lighten-5">
     <v-system-bar class="primary on-primary--text">
       <v-icon class="primary on-primary--text"> mdi-language-python </v-icon>
       <span>&lt;string&gt;</span>
