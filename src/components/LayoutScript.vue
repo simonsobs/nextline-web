@@ -39,14 +39,14 @@
         </v-col>
       </v-row>
     </v-container>
-    <script-viewer v-else v-model="editing"></script-viewer>
+    <script-editor v-else v-model="editing"></script-editor>
   </div>
 </template>
 
 
 <script>
 import CodeExec from "@/components/CodeExec/CodeExec.vue";
-import ScriptViewer from "@/components/ScriptViewer.vue";
+import ScriptEditor from "@/components/ScriptEditor.vue";
 
 import SUBSCRIBE_STATE from "@/graphql/subscriptions/State.gql";
 import SUBSCRIBE_TRACE_IDS from "@/graphql/subscriptions/TraceIds.gql";
@@ -55,7 +55,7 @@ export default {
   name: "LayoutScript",
   components: {
     CodeExec,
-    ScriptViewer,
+    ScriptEditor,
   },
   data() {
     return {
