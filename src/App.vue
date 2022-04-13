@@ -3,7 +3,7 @@
     <v-app-bar app dense flat clipped-left class="primary on-primary--text">
       <v-toolbar-title>
         <router-link
-          to="/"
+          :to="{ name: 'Home' }"
           class="font-weight-bold text-decoration-none"
           style="color: inherit"
         >
