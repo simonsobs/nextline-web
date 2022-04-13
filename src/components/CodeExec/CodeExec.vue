@@ -8,7 +8,7 @@
     class="code-exec grey lighten-5"
   >
     <template v-if="prompting">
-      <system-bar :state="prompting">></system-bar>
+      <system-bar :state="prompting"></system-bar>
       <v-container fluid style="height: 100%">
         <!-- <v-container fluid fill-height> too tall somehow -->
         <v-row class="fill-height flex-column flex-nowrap justify-start">
