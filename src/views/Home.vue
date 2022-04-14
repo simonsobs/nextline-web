@@ -1,22 +1,18 @@
 <template>
-  <v-container fluid fill-height class="grey lighten-3">
-    <!-- https://vuetifyjs.com/en/styles/flex/#flex-grow-and-shrink -->
-    <!-- https://github.com/vuetifyjs/vuetify/issues/8906#issuecomment-531459503 -->
-    <v-row class="fill-height flex-column flex-nowrap justify-start">
-      <v-col class="flex-grow-0">
-        <main-ctrl></main-ctrl>
-      </v-col>
-      <v-col v-show="exception" class="flex-grow-0">
-        <exception v-model="exception"></exception>
-      </v-col>
-      <v-col style="min-height: 240px">
-        <layout-script></layout-script>
-      </v-col>
-      <v-col style="max-height: 20vh">
-        <stdout></stdout>
-      </v-col>
-    </v-row>
-  </v-container>
+  <div class="g-container">
+    <div class="g-ctrl">
+      <main-ctrl></main-ctrl>
+    </div>
+    <div v-show="exception" class="g-exception">
+      <exception v-model="exception"></exception>
+    </div>
+    <div style="min-height: 240px" class="g-code">
+      <layout-script></layout-script>
+    </div>
+    <div style="max-height: 20vh" class="g-stdout">
+      <stdout></stdout>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -40,6 +36,31 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.g-container {
+  display: grid;
+  margin: 12px;
+  height: calc(100% - 2 * 12px);
+  width: calc(100% - 2 * 12px);
+  grid-template-columns: minmax(100px, 1fr);
+  grid-template-rows: min-content min-content 1fr minmax(100px, 20vh);
+  grid-template-areas: "ctrl" "exception" "code" "stdout";
+  row-gap: 6px;
+}
+.g-ctrl {
+  grid-area: ctrl;
+}
+.g-exception {
+  grid-area: exception;
+}
+.g-code {
+  grid-area: code;
+}
+.g-stdout {
+  grid-area: stdout;
+}
+</style>
 
 <style>
 .v-application code {
