@@ -4,7 +4,7 @@
     height="100%"
     :ripple="false"
     tabindex="0"
-    @keydown.stop.prevent="keyboardEvent = $event"
+    @keydown.stop.prevent.capture="keyboardEvent = $event"
     class="code-exec grey lighten-5"
     style="min-height: 0"
   >
