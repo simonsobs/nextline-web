@@ -1,55 +1,24 @@
 <template>
-  <v-card-text class="pa-0 fill-height">
-    <v-container
-      fluid
-      fill-height
-      ma-0
-      pa-0
-      ref="card-source"
-      class="align-start overflow-y-auto"
-    >
-      <v-row class="ma-0 py-1 flex-nowrap" style="min-width: 0">
-        <div class="pl-1 mr-3 flex-grow-0 flex-shrink-0 grey--text" style="min-width: 1em">
-          <pre><code><span
-                            v-for="i in sourceLines.length"
-                            :key="i"
-                            ><span :ref="`card-source-line-${i}`">{{ i }}</span>{{ '\n' }}</span></code></pre>
-        </div>
-        <div class="mr-3 flex-grow-0 flex-shrink-0" style="min-width: 2em">
-          <pre><code>{{ "\n".repeat(state.lineNo - 1) }}<v-icon :color='state.prompting ? "primary" : "secondary"'>mdi-arrow-right-bold</v-icon></code></pre>
-        </div>
-        <div
-          class="pr-1 flex-grow-1 flex-shrink-1"
-          style="overflow-x: auto; flex-basis: 0; min-width: 2em"
-        >
-          <vue-code-highlight language="python">{{
-            source
-          }}</vue-code-highlight>
-        </div>
-      </v-row>
-    </v-container>
-  </v-card-text>
+  <div class="code-col" ref="editor"></div>
 </template>
 
 <script>
-import { component as VueCodeHighlight } from "vue-code-highlight";
-import "prism-es6/components/prism-markup-templating";
-import "prism-es6/components/prism-python";
-import "@/prism.css";
+import * as monaco from "monaco-editor";
 
 import QUERY_SOURCE from "@/graphql/queries/Source.gql";
 
 export default {
   name: "CodeCol",
-  components: {
-    VueCodeHighlight,
-  },
   props: {
     state: Object,
   },
   data() {
+    const model = monaco.editor.createModel("", "python");
     return {
       sourceLines: [],
+      editor: null,
+      model,
+      decorationsCurrentLine: [],
     };
   },
   computed: {
@@ -73,54 +42,99 @@ export default {
       },
       result() {
         this.$nextTick(this.scroll);
+        this.$nextTick(this.markCurrentLine);
       },
     },
   },
   watch: {
+    source() {
+      this.model.setValue(this.source);
+    },
     state: {
       handler() {
         this.$nextTick(this.scroll);
+        this.$nextTick(this.markCurrentLine);
       },
       immediate: true,
     },
   },
+  async mounted() {
+    const el = this.$refs.editor;
+    this.editor = monaco.editor.create(el, {
+      model: this.model,
+      minimap: { enabled: false },
+      scrollbar: { vertical: "auto", horizontal: "auto" },
+      fontFamily: "monospace",
+      fontSize: "14px",
+      lineHeight: "24px",
+      automaticLayout: true,
+      scrollBeyondLastLine: false,
+      glyphMargin: true,
+      readOnly: true,
+      matchBrackets: "never",
+      selectionHighlight: false,
+      occurrencesHighlight: false,
+      renderLineHighlight: "none",
+      theme: "nextline-viewer",
+    });
+    // this.$nextTick(this.markCurrentLine);
+  },
   methods: {
+    markCurrentLine() {
+      if (!this.editor) return;
+      const { lineNo, prompting } = this.state;
+      if (!(lineNo >= 1)) return;
+      this.decorationsCurrentLine = this.editor.deltaDecorations(
+        this.decorationsCurrentLine,
+        [
+          {
+            range: new monaco.Range(lineNo, 1, lineNo, 1),
+            options: {
+              isWholeLine: true,
+              className: prompting
+                ? "currentLineContent"
+                : "currentLineContentDim",
+              glyphMarginClassName: prompting
+                ? "currentLineMargin"
+                : "currentLineMarginDim",
+            },
+          },
+        ]
+      );
+      console.log(this.decorationsCurrentLine);
+    },
     scroll() {
-      // How to programmatically scroll an element instead of a page in vuetify
-      // https://stackoverflow.com/a/64371340/7309855
-      // https://jsfiddle.net/yjpq03da/
-
-      if (!this.state) {
-        return;
-      }
-
-      if (!this.state.prompting) {
-        return;
-      }
-
-      const container_ref_name = "card-source";
-      const target_ref_name = `card-source-line-${this.state.lineNo}`;
-
-      const container = this.$refs[container_ref_name];
-      if (!container) {
-        return;
-      }
-
-      const targets = this.$refs[target_ref_name];
-      if (!targets) {
-        return;
-      }
-
-      const target = targets[0];
-      // Note: ref is an array when defined in v-for loop
-
-      // target must be a Number/Selector/HTMLElement/VueComponent
-      if (!target) {
-        return;
-      }
-
-      this.$vuetify.goTo(target, { container });
+      if (!this.editor) return;
+      const lineNo = this.state.lineNo;
+      if (!(lineNo >= 1)) return;
+      this.editor.revealLineInCenter(lineNo);
     },
   },
 };
 </script>
+
+<style>
+.code-col {
+  height: 100%;
+  max-height: 100%;
+}
+.code-col .monaco-editor .cursors-layer > .cursor {
+  display: none !important;
+}
+.code-col .monaco-editor .currentLineContent {
+  background: #b2dfdb;
+}
+.code-col .monaco-editor .currentLineContentDim {
+  background: #eeeeee;
+}
+.code-col .monaco-editor .currentLineMargin::before {
+  color: #00796b;
+  content: "⮕";
+  font-size: 24px;
+}
+.code-col .monaco-editor .currentLineMarginDim::before {
+  color: #b0bec5;
+  content: "⮕";
+  font-size: 24px;
+}
+</style>

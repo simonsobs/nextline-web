@@ -104,6 +104,7 @@ export default {
       lineHeight: "24px",
       automaticLayout: true,
       scrollBeyondLastLine: false,
+      theme: "nextline",
     });
   },
   methods: {
