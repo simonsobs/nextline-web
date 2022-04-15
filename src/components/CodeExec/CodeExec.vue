@@ -6,25 +6,21 @@
     tabindex="0"
     @keydown.stop.prevent="keyboardEvent = $event"
     class="code-exec grey lighten-5"
+    style="min-height: 0"
   >
     <template v-if="prompting">
       <system-bar :state="prompting"></system-bar>
-      <v-container fluid style="height: 100%">
-        <!-- <v-container fluid fill-height> too tall somehow -->
-        <v-row class="fill-height flex-column flex-nowrap justify-start">
-          <v-col class="flex-grow-0 pa-0">
-            <cmd-col
-              :traceId="traceId"
-              :disabled="!prompting.prompting"
-              :keyboard-event="keyboardEvent"
-            ></cmd-col>
-          </v-col>
-          <v-divider></v-divider>
-          <v-col class="overflow-hidden pa-0">
-            <code-col :state="prompting"></code-col>
-          </v-col>
-        </v-row>
-      </v-container>
+      <div class="g-container">
+        <cmd-col
+          :traceId="traceId"
+          :disabled="!prompting.prompting"
+          :keyboard-event="keyboardEvent"
+        ></cmd-col>
+        <v-divider></v-divider>
+        <div style="height: 100%">
+          <code-col :state="prompting"></code-col>
+        </div>
+      </div>
     </template>
   </v-card>
 </template>
@@ -81,5 +77,11 @@ export default {
 
 .code-exec:before {
   background: inherit; /* prevent highlight when focused */
+}
+.g-container {
+  display: grid;
+  height: calc(100% - 24px); /* 24px: system bar */
+  grid-template-columns: minmax(100px, 1fr);
+  grid-template-rows: min-content min-content minmax(0, 1fr);
 }
 </style>
