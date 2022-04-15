@@ -1,9 +1,6 @@
 <template>
-  <div class="fill-height">
-    <div
-      v-if="nextlineState == 'running'"
-      class="fill-height align-stretch pa-0"
-    >
+  <div style="height: 100%">
+    <template v-if="nextlineState == 'running'">
       <div v-if="layout == 'grid'" class="g-grid-container">
         <code-exec
           :traceId="traceId"
@@ -27,7 +24,7 @@
           </v-tab-item>
         </v-tabs-items>
       </div>
-    </div>
+    </template>
     <script-editor v-else v-model="editing"></script-editor>
   </div>
 </template>
