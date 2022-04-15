@@ -61,18 +61,3 @@ export default {
   grid-area: stdout;
 }
 </style>
-
-<style>
-.v-application code {
-  background-color: inherit;
-  color: inherit;
-  font-size: inherit;
-  font-weight: inherit;
-  padding: 0;
-  line-height: 1.8;
-}
-
-.theme--light.v-application code {
-  background-color: inherit;
-}
-</style>
