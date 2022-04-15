@@ -6,10 +6,10 @@
     <div v-show="exception" class="g-exception">
       <exception v-model="exception"></exception>
     </div>
-    <div style="min-height: 240px" class="g-code">
+    <div class="g-code">
       <layout-script></layout-script>
     </div>
-    <div style="max-height: 20vh" class="g-stdout">
+    <div class="g-stdout">
       <stdout></stdout>
     </div>
   </div>
@@ -44,7 +44,7 @@ export default {
   height: calc(100% - 2 * 12px);
   width: calc(100% - 2 * 12px);
   grid-template-columns: minmax(100px, 1fr);
-  grid-template-rows: min-content min-content 1fr minmax(100px, 20vh);
+  grid-template-rows: min-content min-content minmax(240px, 1fr) minmax(100px, 20vh);
   grid-template-areas: "ctrl" "exception" "code" "stdout";
   row-gap: 6px;
 }
