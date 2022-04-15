@@ -4,45 +4,31 @@
       <v-icon class="primary on-primary--text"> mdi-language-python </v-icon>
       <span>&lt;string&gt;</span>
     </v-system-bar>
-    <!-- <v-container fluid fill-height py-0> -->
-    <v-container fluid class="pb-0" style="height: calc(100% - 24px)">
-      <v-row class="fill-height flex-column flex-nowrap justify-start">
-        <v-divider></v-divider>
-        <v-col class="flex-grow-0 pa-0">
-          <v-card-actions class="flex-row flex-wrap pa-1">
-            <v-tooltip
-              bottom
-              open-delay="500"
-              v-for="(b, i) in buttons"
-              :key="i"
+    <div class="g-container">
+      <v-card-actions class="flex-row flex-wrap pa-1 grey lighten-4">
+        <v-tooltip bottom open-delay="500" v-for="(b, i) in buttons" :key="i">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              color="primary"
+              icon
+              outlined
+              @click="onClick(b.method)"
+              :disabled="b.disabled"
+              v-bind="attrs"
+              v-on="on"
+              class="ma-1"
             >
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                  color="primary"
-                  icon
-                  outlined
-                  @click="onClick(b.method)"
-                  :disabled="b.disabled"
-                  v-bind="attrs"
-                  v-on="on"
-                  class="ma-1"
-                >
-                  <v-icon>{{ b.icon }}</v-icon>
-                </v-btn>
-              </template>
-              <span>{{ b.text }}</span>
-            </v-tooltip>
-          </v-card-actions>
-        </v-col>
-        <v-divider></v-divider>
-        <v-col class="pa-0" style="height: calc(100% - 44px)">
-          <div
-            ref="editor"
-            style="height: 100%; max-height: 100%"
-          ></div>
-        </v-col>
-      </v-row>
-    </v-container>
+              <v-icon>{{ b.icon }}</v-icon>
+            </v-btn>
+          </template>
+          <span>{{ b.text }}</span>
+        </v-tooltip>
+      </v-card-actions>
+      <v-divider></v-divider>
+      <div style="height: 100%">
+        <div ref="editor" style="height: 100%; max-height: 100%"></div>
+      </div>
+    </div>
   </v-card>
 </template>
 
@@ -136,7 +122,7 @@ export default {
       fontSize: "14px",
       lineHeight: "24px",
       automaticLayout: true,
-      scrollBeyondLastLine: false
+      scrollBeyondLastLine: false,
     });
   },
   methods: {
@@ -164,3 +150,12 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.g-container {
+  display: grid;
+  height: calc(100% - 24px); /* 24px: system bar */
+  grid-template-columns: minmax(100px, 1fr);
+  grid-template-rows: min-content min-content minmax(0, 1fr);
+}
+</style>
