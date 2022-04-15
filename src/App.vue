@@ -11,8 +11,8 @@
         </router-link>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <span class="mx-5"> Main </span>
-      <span class="mx-5"> History </span>
+      <!-- <span class="mx-5"> Main </span> -->
+      <!-- <span class="mx-5"> History </span> -->
       <v-btn icon :href="graphqlUrl" target="_blank">
         <v-icon color="on-primary"> mdi-graphql </v-icon>
       </v-btn>
