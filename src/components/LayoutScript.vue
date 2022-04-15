@@ -31,11 +31,33 @@
 
 
 <script>
+import * as monaco from "monaco-editor";
+
 import CodeExec from "@/components/CodeExec/CodeExec.vue";
 import ScriptEditor from "@/components/ScriptEditor.vue";
 
 import SUBSCRIBE_STATE from "@/graphql/subscriptions/State.gql";
 import SUBSCRIBE_TRACE_IDS from "@/graphql/subscriptions/TraceIds.gql";
+
+
+// https://github.com/microsoft/monaco-editor/issues/1762
+// https://github.com/microsoft/monaco-editor/blob/main/src/basic-languages/python/python.ts
+
+monaco.editor.defineTheme("nextline", {
+  base: "vs",
+  inherit: true,
+  rules: [{ token: "keyword", foreground: "#0077aa" }],
+  colors: {
+    "editor.foreground": "#000000CC",
+    "editor.background": "#FAFAFA",
+    "editorCursor.foreground": "#8B0000",
+    "editor.lineHighlightBackground": "#8F8F8F20",
+    "editorLineNumber.foreground": "#9E9E9E",
+    "editor.selectionBackground": "#88000030",
+    "editor.inactiveSelectionBackground": "#88000015",
+  },
+});
+monaco.editor.setTheme("nextline");
 
 export default {
   name: "LayoutScript",

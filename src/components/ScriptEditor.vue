@@ -38,25 +38,6 @@ import * as monaco from "monaco-editor";
 import RESET from "@/graphql/mutations/Reset.gql";
 import QUERY_SOURCE from "@/graphql/queries/Source.gql";
 
-// https://github.com/microsoft/monaco-editor/issues/1762
-// https://github.com/microsoft/monaco-editor/blob/main/src/basic-languages/python/python.ts
-
-monaco.editor.defineTheme("nextline", {
-  base: "vs",
-  inherit: true,
-  rules: [{ token: "keyword", foreground: "#0077aa" }],
-  colors: {
-    "editor.foreground": "#000000CC",
-    "editor.background": "#FAFAFA",
-    "editorCursor.foreground": "#8B0000",
-    "editor.lineHighlightBackground": "#8F8F8F20",
-    "editorLineNumber.foreground": "#9E9E9E",
-    "editor.selectionBackground": "#88000030",
-    "editor.inactiveSelectionBackground": "#88000015",
-  },
-});
-monaco.editor.setTheme("nextline");
-
 export default {
   name: "ScriptEditor",
   props: {
