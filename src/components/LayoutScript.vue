@@ -55,8 +55,12 @@ import SUBSCRIBE_TRACE_IDS from "@/graphql/subscriptions/TraceIds.gql";
   const colorsEditor = {
     ...colors,
     "editor.lineHighlightBackground": "#8F8F8F20",
+    "editorLineNumber.activeForeground": "#00796b",
   };
-  const colorsViewer = { ...colors };
+  const colorsViewer = {
+    ...colors,
+    "editorLineNumber.activeForeground": "#9E9E9E",
+  };
 
   monaco.editor.defineTheme("nextline", {
     base: "vs",
