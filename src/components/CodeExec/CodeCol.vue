@@ -101,7 +101,6 @@ export default {
           },
         ]
       );
-      console.log(this.decorationsCurrentLine);
     },
     scroll() {
       if (!this.editor) return;
