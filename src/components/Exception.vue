@@ -43,9 +43,6 @@ export default {
     },
   },
   watch: {
-    "$store.state.reset"() {
-      this.exception = null;
-    },
     value() {
       this.alert = this.value;
     },
@@ -53,6 +50,7 @@ export default {
       this.alert = !!val;
     },
     alert(val) {
+      if (!val) this.exception = null;
       this.$emit("input", val);
     },
   },
