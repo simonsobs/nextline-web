@@ -13,7 +13,10 @@
 
 
 <script>
+import { mapStores } from "pinia";
 import * as monaco from "monaco-editor";
+
+import { useStore } from "@/stores/index.js";
 
 import CodeExec from "@/components/CodeExec/CodeExec.vue";
 import ScriptEditor from "@/components/ScriptEditor.vue";
@@ -73,6 +76,9 @@ export default {
       traceIds: [],
     };
   },
+  computed: {
+    ...mapStores(useStore),
+  },
   apollo: {
     $subscribe: {
       nextlineState: {
@@ -91,7 +97,7 @@ export default {
   },
   watch: {
     editing(val) {
-      this.$store.dispatch("editing", val);
+      this.mainStore.setModified(val);
     },
   },
 };

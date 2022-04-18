@@ -24,6 +24,10 @@
 </template>
 
 <script>
+import { mapStores } from "pinia";
+
+import { useStore } from "@/stores/index.js";
+
 import RESET from "@/graphql/mutations/Reset.gql";
 import EXEC from "@/graphql/mutations/Exec.gql";
 import SUBSCRIBE_STATE from "@/graphql/subscriptions/State.gql";
@@ -77,11 +81,12 @@ export default {
   },
   computed: {
     editing() {
-      return this.$store.state.editing;
+      return this.mainStore.modified;
     },
     chip() {
       return this.chipConfig[this.nextlineState] || this.chipConfig.default;
     },
+    ...mapStores(useStore),
   },
   methods: {
     async onClick(method) {
