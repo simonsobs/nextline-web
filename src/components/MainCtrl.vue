@@ -19,20 +19,6 @@
         {{ nextlineState }}
       </v-chip>
       <v-spacer></v-spacer>
-      <v-btn-toggle
-        v-if="nextlineState == 'running' && traceIds.length > 1"
-        mandatory
-        borderless
-        v-model="layout"
-        color="grey lighten-1"
-      >
-        <v-btn icon value="tabs">
-          <v-icon>mdi-tab</v-icon>
-        </v-btn>
-        <v-btn icon value="grid">
-          <v-icon>mdi-grid-large</v-icon>
-        </v-btn>
-      </v-btn-toggle>
     </v-card-actions>
   </v-card>
 </template>
@@ -47,7 +33,6 @@ export default {
   name: "MainCtrl",
   data() {
     return {
-      layout: "grid", // "grid", "tabs"
       nextlineState: null,
       traceIds: [],
       buttons: [
@@ -96,11 +81,6 @@ export default {
     },
     chip() {
       return this.chipConfig[this.nextlineState] || this.chipConfig.default;
-    },
-  },
-  watch: {
-    layout(val) {
-      this.$store.dispatch("layout", val);
     },
   },
   methods: {
