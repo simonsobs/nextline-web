@@ -1,0 +1,16 @@
+// VSCode: https://code.visualstudio.com/docs/languages/jsconfig 
+// tsconfig.json: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html
+// Vetur: https://vuejs.github.io/vetur/guide/setup.html
+{
+  "include": ["src/**/*"],
+  "compilerOptions": {
+    "target": "es2020",
+    "module": "esnext",
+    "sourceMap": true,
+    "allowJs": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  }
+}
