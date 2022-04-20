@@ -1,6 +1,10 @@
-// VSCode: https://code.visualstudio.com/docs/languages/jsconfig 
+// VSCode: https://code.visualstudio.com/docs/languages/jsconfig
 // tsconfig.json: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html
 // Vetur: https://vuejs.github.io/vetur/guide/setup.html
+
+// Note: Go to definition works from .vue file but not from .js file
+// https://stackoverflow.com/questions/64855167/vscodevetur-go-to-definition-from-js-files-doesnt-work
+
 {
   "include": ["src/**/*"],
   "compilerOptions": {
@@ -9,6 +13,7 @@
     "sourceMap": true,
     "allowJs": true,
     "baseUrl": ".",
+    "outDir": ".out", // https://github.com/microsoft/TypeScript/issues/14538
     "paths": {
       "@/*": ["src/*"]
     }
