@@ -11,7 +11,6 @@
   </div>
 </template>
 
-
 <script>
 import { mapStores } from "pinia";
 import * as monaco from "monaco-editor";

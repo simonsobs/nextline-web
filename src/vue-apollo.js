@@ -2,7 +2,7 @@ import Vue from "vue";
 import VueApollo from "vue-apollo";
 import {
   createApolloClient,
-  restartWebsockets
+  restartWebsockets,
 } from "vue-cli-plugin-apollo/graphql-client";
 
 // Install the vue plugin
@@ -16,7 +16,7 @@ const httpEndpoint =
   process.env.VUE_APP_GRAPHQL_HTTP || "http://localhost:4000/graphql";
 
 // WebSockert endpoint. "ws://" for "http://" and "wss://" for "https://"
-const wsEndpoint =  httpEndpoint.replace(/^http/i, "ws");
+const wsEndpoint = httpEndpoint.replace(/^http/i, "ws");
 
 // Config
 const defaultOptions = {
@@ -33,7 +33,7 @@ const defaultOptions = {
   // You need to pass a `wsEndpoint` for this to work
   websocketsOnly: false,
   // Is being rendered on the server?
-  ssr: false
+  ssr: false,
 
   // Override default apollo link
   // note: don't override httpLink here, specify httpLink options in the
@@ -58,7 +58,7 @@ export function createProvider(options = {}) {
   // Create apollo client
   const { apolloClient, wsClient } = createApolloClient({
     ...defaultOptions,
-    ...options
+    ...options,
   });
   apolloClient.wsClient = wsClient;
 
@@ -67,8 +67,8 @@ export function createProvider(options = {}) {
     defaultClient: apolloClient,
     defaultOptions: {
       $query: {
-        fetchPolicy: 'network-only',
-      }
+        fetchPolicy: "network-only",
+      },
     },
     errorHandler(error) {
       // eslint-disable-next-line no-console
@@ -77,7 +77,7 @@ export function createProvider(options = {}) {
         "background: red; color: white; padding: 2px 4px; border-radius: 3px; font-weight: bold;",
         error.message
       );
-    }
+    },
   });
 
   return apolloProvider;

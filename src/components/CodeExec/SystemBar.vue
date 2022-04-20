@@ -20,9 +20,7 @@ export default {
   },
   computed: {
     classes() {
-      return this.state.prompting
-        ? ["primary", "on-primary--text"]
-        : [];
+      return this.state.prompting ? ["primary", "on-primary--text"] : [];
     },
     basename() {
       if (!this.state) return null;
@@ -32,5 +30,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

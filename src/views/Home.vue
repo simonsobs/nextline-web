@@ -44,7 +44,10 @@ export default {
   height: calc(100% - 2 * 12px);
   width: calc(100% - 2 * 12px);
   grid-template-columns: minmax(100px, 1fr);
-  grid-template-rows: min-content min-content minmax(240px, 1fr) minmax(100px, 20vh);
+  grid-template-rows: min-content min-content minmax(240px, 1fr) minmax(
+      100px,
+      20vh
+    );
   grid-template-areas: "ctrl" "exception" "code" "stdout";
   row-gap: 6px;
 }

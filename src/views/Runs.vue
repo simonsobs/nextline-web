@@ -41,7 +41,7 @@
                 <!-- <td :colspan="headers.length" style="width: 80%"> -->
                 <td :colspan="headers.length">
                   <div>
-                  <!-- <div style="width: 90%; overflow-x: auto"> -->
+                    <!-- <div style="width: 90%; overflow-x: auto"> -->
                     <pre>{{ item.script }}</pre>
                     <pre>{{ item.exception }}</pre>
                   </div>
