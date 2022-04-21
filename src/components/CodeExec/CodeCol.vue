@@ -64,8 +64,10 @@ export default {
       model: this.model,
       minimap: { enabled: false },
       scrollbar: { vertical: "auto", horizontal: "auto" },
-      fontFamily: "monospace",
+      fontFamily: "Fira Code",
       fontSize: "14px",
+      fontWeight: 500, 
+      fontLigatures: true,
       lineHeight: "24px",
       automaticLayout: true,
       scrollBeyondLastLine: false,
@@ -121,13 +123,13 @@ export default {
   display: none !important;
 }
 .code-col .monaco-editor .currentLineContent {
-  background: #b2dfdb;
+  background:  var(--v-primary-lighten4);
 }
 .code-col .monaco-editor .currentLineContentDim {
-  background: #eeeeee;
+  background:  var(--v-background-lighten3);
 }
 .code-col .monaco-editor .currentLineMargin::before {
-  color: #00796b;
+  color: var(--v-primary-base);
   content: "⮕";
   font-size: 24px;
 }

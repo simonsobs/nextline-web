@@ -7,7 +7,7 @@ export function defineThemes(vuetify) {
 
   const theme = vuetify.theme.parsedTheme;
 
-  const rules = [{ token: "keyword", foreground: vuetifyColors.indigo.base }];
+  const rules = [{ token: "keyword", foreground: theme.accent.darken1 }];
   const colors = {
     "editor.foreground": vuetifyColors.grey.darken2,
     "editor.background": theme.background.lighten4,
