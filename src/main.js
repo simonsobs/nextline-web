@@ -11,12 +11,13 @@ Vue.config.productionTip = false;
 
 const pinia = createPinia();
 
-defineThemes();
-
 new Vue({
   router,
   vuetify,
   pinia,
   apolloProvider: createProvider(),
+  created() {
+    defineThemes(this.$vuetify);
+  },
   render: (h) => h(App),
 }).$mount("#app");
