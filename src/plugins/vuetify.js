@@ -10,10 +10,9 @@ export default new Vuetify({
     options: { customProperties: true },
     themes: {
       light: {
-        primary: colors.teal.darken2,
-        "on-primary": colors.grey.lighten5,
-        secondary: "#b0bec5",
-        anchor: "#8c9eff",
+        primary: colors.blueGrey.darken2,
+        accent: colors.orange.base,
+        background: colors.grey.base, // https://stackoverflow.com/a/59720255/7309855
       },
     },
   },

@@ -5,7 +5,7 @@
     :ripple="false"
     tabindex="0"
     @keydown.stop.prevent.capture="keyboardEvent = $event"
-    class="code-exec grey lighten-5"
+    class="code-exec grey lighten-4"
     style="min-height: 0"
   >
     <template v-if="prompting">

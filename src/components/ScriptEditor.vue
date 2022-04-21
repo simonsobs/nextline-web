@@ -1,7 +1,7 @@
 <template>
-  <v-card flat height="100%" class="grey lighten-5">
-    <v-system-bar class="primary on-primary--text">
-      <v-icon class="primary on-primary--text"> mdi-language-python </v-icon>
+  <v-card flat height="100%" class="grey lighten-4">
+    <v-system-bar color="primary" dark>
+      <v-icon> mdi-language-python </v-icon>
       <span>&lt;string&gt;</span>
     </v-system-bar>
     <div class="g-container">

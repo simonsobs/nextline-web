@@ -1,6 +1,6 @@
 <template>
-  <v-system-bar :class="classes">
-    <v-icon :class="classes"> mdi-language-python </v-icon>
+  <v-system-bar dark :color="this.state.prompting ? 'primary' : 'grey'">
+    <v-icon> mdi-language-python </v-icon>
     <v-tooltip bottom open-delay="500">
       <template v-slot:activator="{ on, attrs }">
         <span v-bind="attrs" v-on="on">{{ basename }}</span>
@@ -19,9 +19,6 @@ export default {
     state: Object,
   },
   computed: {
-    classes() {
-      return this.state.prompting ? ["primary", "on-primary--text"] : [];
-    },
     basename() {
       if (!this.state) return null;
       return path.basename(this.state.fileName);

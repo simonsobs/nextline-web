@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar app dense flat clipped-left class="primary on-primary--text">
+    <v-app-bar app dense flat clipped-left dark color="primary">
       <v-toolbar-title>
         <router-link
           :to="{ name: 'Home' }"
@@ -14,7 +14,7 @@
       <!-- <span class="mx-5"> Main </span> -->
       <!-- <span class="mx-5"> History </span> -->
       <v-btn icon :href="graphqlUrl" target="_blank">
-        <v-icon color="on-primary"> mdi-graphql </v-icon>
+        <v-icon> mdi-graphql </v-icon>
       </v-btn>
     </v-app-bar>
     <v-main>
@@ -37,6 +37,10 @@ export default {
 </script>
 
 <style>
+#app {
+  background-color: var(--v-background-lighten3);
+}
+
 html,
 body,
 .v-application,
@@ -44,6 +48,7 @@ body,
 .v-main__wrap {
   height: 100%;
 }
+
 .v-main {
   height: calc(100% - 48px); /* 48px: the height of the app bar */
 }
