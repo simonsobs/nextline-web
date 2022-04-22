@@ -22,7 +22,7 @@ import Exception from "@/components/Exception.vue";
 import LayoutScript from "@/components/LayoutScript.vue";
 
 export default {
-  name: "Home",
+  name: "HomeView",
   components: {
     MainCtrl,
     Stdout,

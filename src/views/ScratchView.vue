@@ -51,7 +51,7 @@
 
 <script>
 export default {
-  name: "Scratch",
+  name: "ScratchView",
 };
 </script>
 
