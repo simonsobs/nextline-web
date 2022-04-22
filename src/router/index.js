@@ -31,6 +31,12 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "scratch" */ "@/views/ScratchView.vue"),
   },
+  {
+    path: "/scratch/theme",
+    name: "scratch-theme",
+    component: () =>
+      import(/* webpackChunkName: "scratch" */ "@/views/ScratchThemeView.vue"),
+  },
 ];
 
 const router = new VueRouter({
