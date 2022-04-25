@@ -2,7 +2,7 @@ FROM node:16.14-alpine as build
 
 COPY ./ app
 WORKDIR /app
-RUN npm install
+RUN yarn
 COPY docker/env.local .env.local
 RUN yarn build
 
