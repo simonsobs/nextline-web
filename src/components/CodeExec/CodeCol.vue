@@ -66,7 +66,7 @@ export default {
       scrollbar: { vertical: "auto", horizontal: "auto" },
       fontFamily: "Fira Code",
       fontSize: "14px",
-      fontWeight: 500, 
+      fontWeight: 500,
       fontLigatures: true,
       lineHeight: "24px",
       automaticLayout: true,
@@ -123,10 +123,10 @@ export default {
   display: none !important;
 }
 .code-col .monaco-editor .currentLineContent {
-  background:  var(--v-primary-lighten4);
+  background: var(--v-primary-lighten4);
 }
 .code-col .monaco-editor .currentLineContentDim {
-  background:  var(--v-background-lighten3);
+  background: var(--v-background-lighten3);
 }
 .code-col .monaco-editor .currentLineMargin::before {
   color: var(--v-primary-base);

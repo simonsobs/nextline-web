@@ -15,13 +15,15 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from "vue";
+
 import MainCtrl from "@/components/MainCtrl.vue";
 import Stdout from "@/components/Stdout.vue";
 import Exception from "@/components/Exception.vue";
 import LayoutScript from "@/components/LayoutScript.vue";
 
-export default {
+export default Vue.extend({
   name: "HomeView",
   components: {
     MainCtrl,
@@ -34,7 +36,7 @@ export default {
       exception: false,
     };
   },
-};
+});
 </script>
 
 <style scoped>

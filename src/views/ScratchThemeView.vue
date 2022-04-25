@@ -23,12 +23,7 @@
         </v-btn>
       </v-card-text>
     </v-card>
-    <v-card
-      flat
-      disabled
-      min-width="400px"
-      color="background lighten-4"
-    >
+    <v-card flat disabled min-width="400px" color="background lighten-4">
       <v-system-bar color="primary" dark>
         <span> System bar </span>
         <v-spacer></v-spacer>

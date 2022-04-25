@@ -1,21 +1,43 @@
-// VSCode: https://code.visualstudio.com/docs/languages/jsconfig
-// tsconfig.json: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html
-// Vetur: https://vuejs.github.io/vetur/guide/setup.html
-
-// Note: Go to definition works from .vue file but not from .js file
-// https://stackoverflow.com/questions/64855167/vscodevetur-go-to-definition-from-js-files-doesnt-work
-
 {
-  "include": ["src/**/*"],
   "compilerOptions": {
-    "target": "es2020",
+    "target": "esnext",
     "module": "esnext",
-    "sourceMap": true,
+    "strict": true,
+    "jsx": "preserve",
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "noImplicitAny": false,
     "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "useDefineForClassFields": true,
+    "sourceMap": true,
     "baseUrl": ".",
-    "outDir": ".out", // https://github.com/microsoft/TypeScript/issues/14538
+    "types": [
+      "webpack-env"
+    ],
     "paths": {
-      "@/*": ["src/*"]
-    }
-  }
+      "@/*": [
+        "src/*"
+      ]
+    },
+    "lib": [
+      "esnext",
+      "dom",
+      "dom.iterable",
+      "scripthost"
+    ]
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "tests/**/*.ts",
+    "tests/**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

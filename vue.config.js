@@ -1,10 +1,16 @@
 // https://github.com/microsoft/monaco-editor/blob/main/docs/integrate-esm.md
 const monacoWebpackPlugin = require("monaco-editor-webpack-plugin");
 
-module.exports = {
+const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
+
+const { defineConfig } = require("@vue/cli-service");
+module.exports = defineConfig({
   configureWebpack: {
-    plugins: [new monacoWebpackPlugin({ languages: ["python"] })],
+    plugins: [
+      new monacoWebpackPlugin({ languages: ["python"] }),
+      new NodePolyfillPlugin(),
+    ],
   },
   transpileDependencies: ["vuetify"],
   publicPath: process.env.VUE_APP_PUBLIC_PATH,
-};
+});
