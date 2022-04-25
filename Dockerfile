@@ -4,7 +4,7 @@ COPY ./ app
 WORKDIR /app
 RUN npm install
 COPY docker/env.local .env.local
-RUN npm run build
+RUN yarn build
 
 
 #

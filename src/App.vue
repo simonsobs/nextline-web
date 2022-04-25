@@ -25,15 +25,17 @@
   </v-app>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue from "vue";
+
+export default Vue.extend({
   name: "App",
   data() {
     return {
       graphqlUrl: process.env.VUE_APP_GRAPHQL_HTTP,
     };
   },
-};
+});
 </script>
 
 <style>

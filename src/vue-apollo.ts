@@ -91,7 +91,7 @@ export async function onLogin(apolloClient, token) {
   if (apolloClient.wsClient) restartWebsockets(apolloClient.wsClient);
   try {
     await apolloClient.resetStore();
-  } catch (e) {
+  } catch (e: any) {
     // eslint-disable-next-line no-console
     console.log("%cError on cache reset (login)", "color: orange;", e.message);
   }
@@ -105,7 +105,7 @@ export async function onLogout(apolloClient) {
   if (apolloClient.wsClient) restartWebsockets(apolloClient.wsClient);
   try {
     await apolloClient.resetStore();
-  } catch (e) {
+  } catch (e: any) {
     // eslint-disable-next-line no-console
     console.log("%cError on cache reset (logout)", "color: orange;", e.message);
   }

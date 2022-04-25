@@ -101,7 +101,7 @@ export default {
       scrollbar: { vertical: "auto", horizontal: "auto" },
       fontFamily: "Fira Code",
       fontSize: "14px",
-      fontWeight: 500, 
+      fontWeight: 500,
       fontLigatures: true,
       lineHeight: "24px",
       automaticLayout: true,
