@@ -5,6 +5,7 @@ const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
 
 const { defineConfig } = require("@vue/cli-service");
 module.exports = defineConfig({
+  lintOnSave: "warning",
   configureWebpack: {
     plugins: [
       new monacoWebpackPlugin({ languages: ["python"] }),
