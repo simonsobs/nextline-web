@@ -13,6 +13,9 @@
       <v-spacer></v-spacer>
       <!-- <span class="mx-5"> Main </span> -->
       <!-- <span class="mx-5"> History </span> -->
+      <span class="primary--text text--lighten-3 subtitle-2">
+        {{ version }}
+      </span>
       <v-btn icon :href="graphqlUrl" target="_blank">
         <v-icon> mdi-graphql </v-icon>
       </v-btn>
@@ -40,6 +43,7 @@ export default Vue.extend({
     return {
       graphqlUrl: process.env.VUE_APP_GRAPHQL_HTTP,
       title,
+      version: process.env.PACKAGE_VERSION,
     };
   },
   metaInfo(): MetaInfo {

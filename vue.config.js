@@ -3,6 +3,11 @@ const monacoWebpackPlugin = require("monaco-editor-webpack-plugin");
 
 const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
 
+const fs = require("fs");
+var webpack = require("webpack");
+const packageJson = fs.readFileSync("./package.json");
+const version = JSON.parse(packageJson).version || 0;
+
 const { defineConfig } = require("@vue/cli-service");
 module.exports = defineConfig({
   lintOnSave: "warning",
@@ -10,6 +15,11 @@ module.exports = defineConfig({
     plugins: [
       new monacoWebpackPlugin({ languages: ["python"] }),
       new NodePolyfillPlugin(),
+      new webpack.DefinePlugin({
+        "process.env": {
+          PACKAGE_VERSION: '"' + version + '"',
+        },
+      }),
     ],
   },
   transpileDependencies: ["vue-meta", "vuetify"],
