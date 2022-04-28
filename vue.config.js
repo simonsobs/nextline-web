@@ -12,6 +12,6 @@ module.exports = defineConfig({
       new NodePolyfillPlugin(),
     ],
   },
-  transpileDependencies: ["vuetify"],
+  transpileDependencies: ["vue-meta", "vuetify"],
   publicPath: process.env.VUE_APP_PUBLIC_PATH,
 });
