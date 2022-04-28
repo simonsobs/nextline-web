@@ -3,9 +3,15 @@
 HTML_DIR="/app/site"
 NGINX_ROOT="/"
 
-API_HTTP_PLACEHOLDER="graphql_http_placeholder"
 PUBLIC_PATH_PLACEHOLDER="/public_path_placeholder/"
+API_HTTP_PLACEHOLDER="graphql_http_placeholder"
+API_NAME_PLACEHOLDER="vue_app_api_name_placeholder"
 
+if [ -z $PUBLIC_PATH ]
+then
+    echo 'Error: $PUBLIC_PATH is not set!'
+    exit 1
+fi
 
 if [ -z $API_HTTP ]
 then
@@ -13,9 +19,9 @@ then
     exit 1
 fi
 
-if [ -z $PUBLIC_PATH ]
+if [ -z $API_NAME ]
 then
-    echo 'Error: $PUBLIC_PATH is not set!'
+    echo 'Error: $API_NAME is not set!'
     exit 1
 fi
 
@@ -50,13 +56,7 @@ fi
     $command
     for f in $(find . -type f);
     do
-        command="sed -i \"s#$API_HTTP_PLACEHOLDER#$API_HTTP#g\" $f";
-        echo + $command;
-        eval $command;
-    done
-    for f in $(find . -type f);
-    do
-        command="sed -i \"s#$PUBLIC_PATH_PLACEHOLDER#$PUBLIC_PATH#g\" $f";
+        command="sed -i -e \"s#$PUBLIC_PATH_PLACEHOLDER#$PUBLIC_PATH#g\" -e \"s#$API_HTTP_PLACEHOLDER#$API_HTTP#g\" -e \"s#$API_NAME_PLACEHOLDER#$API_NAME#g\" $f";
         echo + $command;
         eval $command;
     done
