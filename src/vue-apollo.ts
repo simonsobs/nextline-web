@@ -15,7 +15,7 @@ const AUTH_TOKEN = "apollo-token";
 const httpEndpoint =
   process.env.VUE_APP_GRAPHQL_HTTP || "http://localhost:4000/graphql";
 
-// WebSockert endpoint. "ws://" for "http://" and "wss://" for "https://"
+// WebSocket endpoint. "ws://" for "http://" and "wss://" for "https://"
 const wsEndpoint = httpEndpoint.replace(/^http/i, "ws");
 
 // Config
