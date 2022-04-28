@@ -7,7 +7,7 @@
           class="font-weight-bold text-decoration-none"
           style="color: inherit"
         >
-          Nextline
+          {{ title }}
         </router-link>
       </v-toolbar-title>
       <v-spacer></v-spacer>
@@ -27,12 +27,25 @@
 
 <script lang="ts">
 import Vue from "vue";
+import { MetaInfo } from "vue-meta";
 
 export default Vue.extend({
   name: "App",
   data() {
+    const name = process.env.VUE_APP_API_NAME;
+    let title = "Nextline";
+    if (name) {
+      title = `${title}: ${name}`;
+    }
     return {
       graphqlUrl: process.env.VUE_APP_GRAPHQL_HTTP,
+      title,
+    };
+  },
+  metaInfo(): MetaInfo {
+    return {
+      title: this.title || "loading...",
+      titleTemplate: "",
     };
   },
 });
