@@ -2,37 +2,54 @@
 
 HTML_DIR="/app/site"
 NGINX_ROOT="/"
+CONFIG_JSON="config.json"
 
 PUBLIC_PATH_PLACEHOLDER="/public_path_placeholder/"
 API_HTTP_PLACEHOLDER="graphql_http_placeholder"
-API_NAME_PLACEHOLDER="vue_app_api_name_placeholder"
 
-if [ -z $PUBLIC_PATH ]
+if [[ -z ${PUBLIC_PATH} ]]
 then
-    echo 'Error: $PUBLIC_PATH is not set!'
+    echo 'Error: ${PUBLIC_PATH} is not set!'
     exit 1
 fi
 
-if [ -z $API_HTTP ]
+if [[ -z ${API_HTTP} ]]
 then
-    echo 'Error: $API_HTTP is not set!'
+    echo 'Error: ${API_HTTP} is not set!'
     exit 1
 fi
 
-if [ -z $API_NAME ]
+if [[ -z ${API_NAME} ]]
 then
-    echo 'Error: $API_NAME is not set!'
+    echo 'Error: ${API_NAME} is not set!'
     exit 1
 fi
 
-if [ ! -d $HTML_DIR ]
+if [[ ! -d ${HTML_DIR} ]]
 then
-    echo "Error: $HTML_DIR doesn't exit!"
+    echo "Error: ${HTML_DIR} doesn't exit!"
     exit 1
 fi
+
+if [[ ! -f ${HTML_DIR}/${CONFIG_JSON} ]]
+then
+    echo "Error: ${HTML_DIR}/${CONFIG_JSON} doesn't exit!"
+    exit 1
+fi
+
+# Update config.json
+(
+    command="cd ${HTML_DIR}"
+    echo + $command
+    $command
+    command="echo \$(jq --arg api_name \"\${API_NAME}\" '.apiName = (\$api_name)' \${CONFIG_JSON}) > \${CONFIG_JSON}"
+    echo + $command;
+    eval $command;
+)
+
 
 # Move the Vue files to the Vue publicPath
-if [ "$PUBLIC_PATH" != "$NGINX_ROOT" ]
+if [[ "$PUBLIC_PATH" != "$NGINX_ROOT" ]]
 then
     HTML_DIR_TEMP="$(mktemp -d)/site"
     command="mv $HTML_DIR $HTML_DIR_TEMP"
@@ -56,7 +73,7 @@ fi
     $command
     for f in $(find . -type f);
     do
-        command="sed -i -e \"s#$PUBLIC_PATH_PLACEHOLDER#$PUBLIC_PATH#g\" -e \"s#$API_HTTP_PLACEHOLDER#$API_HTTP#g\" -e \"s#$API_NAME_PLACEHOLDER#$API_NAME#g\" $f";
+        command="sed -i -e \"s#$PUBLIC_PATH_PLACEHOLDER#$PUBLIC_PATH#g\" -e \"s#$API_HTTP_PLACEHOLDER#$API_HTTP#g\" $f";
         echo + $command;
         eval $command;
     done

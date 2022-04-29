@@ -10,6 +10,8 @@ RUN yarn build
 #
 FROM nginx:1.21
 
+RUN apt-get update && apt-get install -y jq
+
 WORKDIR /app
 COPY --from=build /app/dist site
 COPY docker/entrypoint.sh .
