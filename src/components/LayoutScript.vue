@@ -14,7 +14,7 @@
 <script>
 import { mapStores } from "pinia";
 
-import { useStore } from "@/stores/index.js";
+import { useStore } from "@/stores/index";
 
 import CodeExec from "@/components/CodeExec/CodeExec.vue";
 import ScriptEditor from "@/components/ScriptEditor.vue";
