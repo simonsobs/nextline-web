@@ -26,7 +26,7 @@
 <script>
 import { mapStores } from "pinia";
 
-import { useStore } from "@/stores/index.js";
+import { useStore } from "@/stores/index";
 
 import RESET from "@/graphql/mutations/Reset.gql";
 import EXEC from "@/graphql/mutations/Exec.gql";

@@ -31,20 +31,27 @@
 <script lang="ts">
 import Vue from "vue";
 import { MetaInfo } from "vue-meta";
+import { mapStores } from "pinia";
+import { useStore } from "@/stores/index";
 
 export default Vue.extend({
   name: "App",
   data() {
-    const name = process.env.VUE_APP_API_NAME;
-    let title = "Nextline";
-    if (name) {
-      title = `${title}: ${name}`;
-    }
     return {
       graphqlUrl: process.env.VUE_APP_GRAPHQL_HTTP,
-      title,
       version: process.env.PACKAGE_VERSION,
     };
+  },
+  computed: {
+    title() {
+      let title = "Nextline";
+      const name = this.mainStore.config.apiName;
+      if (name) {
+        title = `${title}: ${name}`;
+      }
+      return title;
+    },
+    ...mapStores(useStore),
   },
   metaInfo(): MetaInfo {
     return {
