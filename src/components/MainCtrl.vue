@@ -30,6 +30,7 @@ import { useStore } from "@/stores/index";
 
 import RESET from "@/graphql/mutations/Reset.gql";
 import EXEC from "@/graphql/mutations/Exec.gql";
+import INTERRUPT from "@/graphql/mutations/Interrupt.gql";
 import SUBSCRIBE_STATE from "@/graphql/subscriptions/State.gql";
 import SUBSCRIBE_TRACE_IDS from "@/graphql/subscriptions/TraceIds.gql";
 
@@ -51,6 +52,12 @@ export default {
           method: "reset",
           icon: "mdi-restore",
           states: ["initialized", "finished", "closed"],
+        },
+        {
+          text: "Interrupt",
+          method: "interrupt",
+          icon: "mdi-close",
+          states: ["running"],
         },
       ],
       chipConfig: {
@@ -100,6 +107,11 @@ export default {
     async reset() {
       const data = await this.$apollo.mutate({
         mutation: RESET,
+      });
+    },
+    async interrupt() {
+      const data = await this.$apollo.mutate({
+        mutation: INTERRUPT,
       });
     },
   },
