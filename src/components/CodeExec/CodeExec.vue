@@ -12,7 +12,8 @@
       <system-bar :state="prompting"></system-bar>
       <div class="g-container">
         <cmd-col
-          :traceId="traceId"
+          :traceNo="traceId"
+          :promptNo="prompting.prompting"
           :disabled="!prompting.prompting"
           :keyboard-event="keyboardEvent"
         ></cmd-col>
