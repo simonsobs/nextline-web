@@ -19,6 +19,33 @@
         {{ nextlineState }}
       </v-chip>
       <v-spacer></v-spacer>
+      <v-menu>
+        <template v-slot:activator="{ on, attr }">
+          <v-btn icon v-bind="attr" v-on="on">
+            <v-icon> mdi-dots-vertical </v-icon>
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-item
+            :disabled="nextlineState !== 'running'"
+            @click="onClick('terminate')"
+          >
+            <v-list-item-icon>
+              <v-icon> mdi-close-octagon-outline </v-icon>
+            </v-list-item-icon>
+            <v-list-item-content> Terminate </v-list-item-content>
+          </v-list-item>
+          <v-list-item
+            :disabled="nextlineState !== 'running'"
+            @click="onClick('kill')"
+          >
+            <v-list-item-icon>
+              <v-icon> mdi-close-octagon </v-icon>
+            </v-list-item-icon>
+            <v-list-item-content> Kill </v-list-item-content>
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </v-card-actions>
   </v-card>
 </template>
@@ -33,6 +60,8 @@ import { useStore } from "@/stores/index";
 import RESET from "@/graphql/mutations/Reset.gql";
 import EXEC from "@/graphql/mutations/Exec.gql";
 import INTERRUPT from "@/graphql/mutations/Interrupt.gql";
+import TERMINATE from "@/graphql/mutations/Terminate.gql";
+import KILL from "@/graphql/mutations/Kill.gql";
 import SUBSCRIBE_STATE from "@/graphql/subscriptions/State.gql";
 import SUBSCRIBE_TRACE_IDS from "@/graphql/subscriptions/TraceIds.gql";
 
@@ -114,6 +143,16 @@ export default Vue.extend({
     async interrupt() {
       const data = await this.$apollo.mutate({
         mutation: INTERRUPT,
+      });
+    },
+    async terminate() {
+      const data = await this.$apollo.mutate({
+        mutation: TERMINATE,
+      });
+    },
+    async kill() {
+      const data = await this.$apollo.mutate({
+        mutation: KILL,
       });
     },
   },
