@@ -23,7 +23,9 @@
   </v-card>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from "vue";
+
 import { mapStores } from "pinia";
 
 import { useStore } from "@/stores/index";
@@ -34,7 +36,7 @@ import INTERRUPT from "@/graphql/mutations/Interrupt.gql";
 import SUBSCRIBE_STATE from "@/graphql/subscriptions/State.gql";
 import SUBSCRIBE_TRACE_IDS from "@/graphql/subscriptions/TraceIds.gql";
 
-export default {
+export default Vue.extend({
   name: "MainCtrl",
   data() {
     return {
@@ -115,5 +117,5 @@ export default {
       });
     },
   },
-};
+});
 </script>
