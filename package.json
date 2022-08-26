@@ -8,7 +8,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "@babel/runtime": "^7.17.9",
+    "@babel/runtime": "^7.18.9",
     "@vue/composition-api": "^1.7.0",
     "axios": "^0.27.2",
     "core-js": "^3.21.1",
@@ -25,7 +25,7 @@
     "vuetify": "^2.6.7"
   },
   "devDependencies": {
-    "@babel/plugin-transform-runtime": "^7.17.0",
+    "@babel/plugin-transform-runtime": "^7.18.10",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
     "@vue/cli-plugin-babel": "~5.0.8",
