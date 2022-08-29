@@ -29,37 +29,40 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import { mapStores } from "pinia";
+import { defineComponent, ref, computed, watch } from "vue";
 import { useStore } from "@/stores/index";
 
-export default Vue.extend({
+export default defineComponent({
   name: "App",
-  data() {
-    return {
-      graphqlUrl: process.env.VUE_APP_GRAPHQL_HTTP,
-      version: process.env.PACKAGE_VERSION,
-    };
-  },
-  computed: {
-    title() {
-      let title = "Nextline";
-      const name = this.mainStore.config.apiName;
+  setup() {
+    const graphqlUrl = ref(process.env.VUE_APP_GRAPHQL_HTTP);
+    const version = ref(process.env.PACKAGE_VERSION);
+
+    const store = useStore();
+
+    const title = computed(() => {
+      const name = store.config.apiName;
+      let ret = "Nextline";
       if (name) {
-        title = `${title}: ${name}`;
+        ret = `${ret}: ${name}`;
       }
-      return title;
-    },
-    ...mapStores(useStore),
-  },
-  watch: {
-    title: {
-      immediate: true,
-      handler(val) {
+      return ret;
+    });
+
+    watch(
+      title,
+      (val) => {
         document.title = val || "loading...";
       },
-    },
-  }
+      { immediate: true }
+    );
+
+    return {
+      graphqlUrl,
+      version,
+      title,
+    };
+  },
 });
 </script>
 
