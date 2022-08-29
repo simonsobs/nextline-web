@@ -30,7 +30,6 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { MetaInfo } from "vue-meta";
 import { mapStores } from "pinia";
 import { useStore } from "@/stores/index";
 
@@ -53,12 +52,14 @@ export default Vue.extend({
     },
     ...mapStores(useStore),
   },
-  metaInfo(): MetaInfo {
-    return {
-      title: this.title || "loading...",
-      titleTemplate: "",
-    };
-  },
+  watch: {
+    title: {
+      immediate: true,
+      handler(val) {
+        document.title = val || "loading...";
+      },
+    },
+  }
 });
 </script>
 
