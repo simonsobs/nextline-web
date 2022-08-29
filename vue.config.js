@@ -21,6 +21,15 @@ module.exports = defineConfig({
         },
       }),
     ],
+    module: {
+      rules: [
+        {
+          test: /\.(graphql|gql)$/,
+          exclude: /node_modules/,
+          loader: "graphql-tag/loader",
+        },
+      ],
+    },
   },
   transpileDependencies: ["vue-meta", "vuetify"],
   publicPath: process.env.VUE_APP_PUBLIC_PATH,
