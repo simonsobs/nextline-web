@@ -31,6 +31,6 @@ module.exports = defineConfig({
       ],
     },
   },
-  transpileDependencies: ["vue-meta", "vuetify"],
+  transpileDependencies: ["vuetify"],
   publicPath: process.env.VUE_APP_PUBLIC_PATH,
 });
