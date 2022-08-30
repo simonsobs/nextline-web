@@ -30,10 +30,11 @@
   </v-card>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from "vue";
 import SUBSCRIBE_STDOUT from "@/graphql/subscriptions/Stdout.gql";
 
-export default {
+export default defineComponent({
   name: "Stdout",
   data() {
     return {
@@ -76,7 +77,5 @@ export default {
       this.stdout = "";
     },
   },
-};
+});
 </script>
-
-<style></style>
