@@ -28,6 +28,7 @@
     "vue": "^2.7.10",
     "vue-apollo": "^3.1.0",
     "vue-class-component": "^7.2.3",
+    "vue-demi": "^0.13.11",
     "vue-property-decorator": "^9.1.2",
     "vue-router": "^3.6.4",
     "vuetify": "^2.6.9"
