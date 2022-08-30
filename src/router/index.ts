@@ -38,6 +38,12 @@ const routes: Array<RouteConfig> = [
     component: () =>
       import(/* webpackChunkName: "scratch" */ "@/views/ScratchThemeView.vue"),
   },
+  {
+    path: "/scratch/urql",
+    name: "scratch-urql",
+    component: () =>
+      import(/* webpackChunkName: "scratch" */ "@/views/ScratchUrql.vue"),
+  },
 ];
 
 const router = new VueRouter({
