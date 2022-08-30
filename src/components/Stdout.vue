@@ -61,17 +61,10 @@ export default defineComponent({
   },
   methods: {
     scrollStdout() {
-      const container_ref_name = "col-stdout";
       const target_ref_name = "stdout-bottom";
-
-      const container = this.$refs[container_ref_name];
-      if (!container) return;
-
       const target = this.$refs[target_ref_name];
       if (!target) return;
-
-      this.$vuetify.goTo(target, { container, duration: 0 });
-      // this.$vuetify.goTo(99999, { container });
+      (target as Element).scrollIntoView(false);
     },
     clear() {
       this.stdout = "";
