@@ -19,6 +19,7 @@
     "axios": "^0.27.2",
     "core-js": "^3.25.0",
     "graphql": "^15.8.0",
+    "graphql-ws": "^5.10.1",
     "monaco-editor": "^0.34.0",
     "monaco-editor-webpack-plugin": "^7.0.1",
     "node-polyfill-webpack-plugin": "^2.0.1",
