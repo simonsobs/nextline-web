@@ -30,12 +30,15 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed, watch } from "vue";
+import { provideClient } from "@urql/vue";
 import { useStore } from "@/stores/index";
 
 export default defineComponent({
   name: "App",
   setup() {
-    const graphqlUrl = ref(process.env.VUE_APP_GRAPHQL_HTTP);
+    const graphqlUrl = ref(
+      process.env.VUE_APP_GRAPHQL_HTTP || "http://localhost:4000/graphql"
+    );
     const version = ref(process.env.PACKAGE_VERSION);
 
     const store = useStore();
@@ -56,6 +59,10 @@ export default defineComponent({
       },
       { immediate: true }
     );
+
+    provideClient({
+      url: graphqlUrl.value,
+    });
 
     return {
       graphqlUrl,
