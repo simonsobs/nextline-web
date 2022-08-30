@@ -24,8 +24,7 @@
     <v-card-text style="height: calc(100% - 24px)" class="py-1">
       <pre
         style="height: 100%"
-        class="overflow-auto"
-        ref="col-stdout">{{ stdout }}<span ref="stdout-bottom"></span></pre>
+        class="overflow-auto">{{ stdout }}<span ref="bottom"></span></pre>
     </v-card-text>
   </v-card>
 </template>
@@ -61,7 +60,7 @@ export default defineComponent({
   },
   methods: {
     scrollStdout() {
-      const target_ref_name = "stdout-bottom";
+      const target_ref_name = "bottom";
       const target = this.$refs[target_ref_name];
       if (!target) return;
       (target as Element).scrollIntoView(false);
