@@ -30,8 +30,21 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed, watch } from "vue";
+import {
+  createClient,
+  defaultExchanges,
+  subscriptionExchange,
+} from "@urql/core";
+// import { createClient as createWSClient } from "graphql-ws";
+import { SubscriptionClient } from "subscriptions-transport-ws";
 import { provideClient } from "@urql/vue";
 import { useStore } from "@/stores/index";
+
+// https://formidable.com/open-source/urql/docs/advanced/subscriptions/
+// https://github.com/enisdenjo/graphql-ws/blob/master/README.md
+// https://github.com/apollographql/subscriptions-transport-ws/blob/master/README.md
+// TODO: switch to graphql-ws as subscriptions-transport-ws is no longer maintained.
+// To do so, need to change the server (strawberry settings) as well.
 
 export default defineComponent({
   name: "App",
@@ -60,9 +73,42 @@ export default defineComponent({
       { immediate: true }
     );
 
-    provideClient({
-      url: graphqlUrl.value,
+    // WebSocket endpoint. "ws://" for "http://" and "wss://" for "https://"
+    const wsEndpoint = graphqlUrl.value.replace(/^http/i, "ws");
+
+    // // for graphql-ws
+    // const wsClient = createWSClient({
+    //   url: wsEndpoint,
+    // });
+
+    const subscriptionClient = new SubscriptionClient(wsEndpoint, {
+      reconnect: true,
     });
+
+    const client = createClient({
+      url: graphqlUrl.value,
+      requestPolicy: "network-only",
+      exchanges: [
+        ...defaultExchanges,
+        subscriptionExchange({
+          forwardSubscription: (operation) =>
+            subscriptionClient.request(operation),
+          // // for graphql-ws
+          // forwardSubscription(operation) {
+          //   return {
+          //     subscribe: (sink) => {
+          //       const dispose = wsClient.subscribe(operation, sink);
+          //       return {
+          //         unsubscribe: dispose,
+          //       };
+          //     },
+          //   };
+          // },
+        }),
+      ],
+    });
+
+    provideClient(client);
 
     return {
       graphqlUrl,
