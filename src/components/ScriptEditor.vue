@@ -32,107 +32,119 @@
   </v-card>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent, onMounted, ref, computed, watch } from "vue";
+import { useQuery, useMutation } from "@urql/vue";
 import * as monaco from "monaco-editor";
 
 import RESET from "@/graphql/mutations/Reset.gql";
 import QUERY_SOURCE from "@/graphql/queries/Source.gql";
 
-export default {
+export default defineComponent({
   name: "ScriptEditor",
   props: {
     value: Boolean,
   },
-  data() {
+  setup(props, { emit }) {
+    const source = ref("");
+
     const model = monaco.editor.createModel("", "python");
-    model.onDidChangeContent(this.onDidChangeContent);
-    return {
-      savedSourceLines: [],
-      source: "",
-      model,
-    };
-  },
-  apollo: {
-    savedSourceLines: {
+    model.onDidChangeContent((e) => {
+      source.value = model.getValue();
+    });
+
+    const editor = ref(null as HTMLElement | null);
+
+    onMounted(() => {
+      if (!editor.value) return;
+      monaco.editor.create(editor.value, {
+        model,
+        minimap: { enabled: false },
+        scrollbar: { vertical: "auto", horizontal: "auto" },
+        fontFamily: "Fira Code",
+        fontSize: 14,
+        fontWeight: "500",
+        fontLigatures: true,
+        lineHeight: 24,
+        automaticLayout: true,
+        scrollBeyondLastLine: false,
+        theme: "nextline",
+      });
+    });
+
+    const savedSourceLines = ref([] as string[]);
+    const savedSource = computed(() => {
+      return savedSourceLines.value.join("\n");
+    });
+
+    const query = useQuery<{ source: string[] }>({
       query: QUERY_SOURCE,
-      update(data) {
-        return data.source;
-      },
-    },
-  },
-  computed: {
-    savedSource() {
-      return this.savedSourceLines.join("\n");
-    },
-    editing() {
-      return this.source != this.savedSource;
-    },
-    buttons() {
+    });
+
+    watch(query.data, (data) => {
+      if (data?.source) {
+        savedSourceLines.value = data.source;
+      }
+    });
+
+    watch(savedSource, (val) => {
+      source.value = val;
+      model.setValue(val);
+    });
+
+    const editing = computed(() => {
+      return source.value !== savedSource.value;
+    });
+
+    watch(editing, (val) => {
+      emit("input", val);
+    });
+
+    const buttons = computed(() => {
       return [
         {
           text: "Save",
           method: "save",
-          disabled: !this.editing,
+          disabled: !editing.value,
           icon: "mdi-content-save",
         },
         {
           text: "Reset",
           method: "reset",
-          disabled: !this.editing,
+          disabled: !editing.value,
           icon: "mdi-reload",
         },
       ];
-    },
-  },
-  watch: {
-    savedSource() {
-      this.source = this.savedSource;
-      this.model.setValue(this.savedSource);
-    },
-    editing() {
-      this.$emit("input", this.editing);
-    },
-  },
-  async mounted() {
-    const el = this.$refs.editor;
-    this.editor = monaco.editor.create(el, {
-      model: this.model,
-      minimap: { enabled: false },
-      scrollbar: { vertical: "auto", horizontal: "auto" },
-      fontFamily: "Fira Code",
-      fontSize: "14px",
-      fontWeight: 500,
-      fontLigatures: true,
-      lineHeight: "24px",
-      automaticLayout: true,
-      scrollBeyondLastLine: false,
-      theme: "nextline",
     });
+
+    async function onClick(method: string) {
+      if (method === "save") await save();
+      else if (method === "reset") reset();
+      else {
+        // console.log("Unknown method:", method);
+      }
+    }
+
+    const { executeMutation } = useMutation(RESET);
+    async function save() {
+      await executeMutation({ statement: source.value });
+      query.executeQuery();
+    }
+    function reset() {
+      query.executeQuery();
+      model.setValue(savedSource.value);
+      source.value = savedSource.value;
+    }
+
+    return {
+      source,
+      editor,
+      editing,
+      buttons,
+      onClick,
+    };
   },
-  methods: {
-    onClick(method) {
-      this[method]();
-    },
-    async save() {
-      const data = await this.$apollo.mutate({
-        mutation: RESET,
-        variables: { statement: this.source },
-      });
-      await this.$apollo.queries.savedSourceLines.refetch();
-    },
-    async reset() {
-      await this.$apollo.queries.savedSourceLines.refetch();
-      this.model.setValue(this.savedSource);
-      this.source = this.savedSource;
-    },
-    close() {
-      this.editing = false;
-    },
-    onDidChangeContent(e) {
-      this.source = this.model.getValue();
-    },
-  },
-};
+});
 </script>
 
 <style scoped>
