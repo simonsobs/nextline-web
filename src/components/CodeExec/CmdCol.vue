@@ -20,10 +20,13 @@
   </v-card-actions>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent, reactive, ref, watch } from "vue";
+import { useMutation } from "@urql/vue";
+
 import SEND_PDB_COMMAND from "@/graphql/mutations/SendPdbCommand.gql";
 
-export default {
+export default defineComponent({
   name: "CmdCol",
   props: {
     traceNo: { type: Number, required: true },
@@ -31,37 +34,51 @@ export default {
     disabled: { type: Boolean, default: false },
     keyboardEvent: KeyboardEvent,
   },
-  data() {
+  setup(props) {
+    // Use ref() instead of reactive() because of a Vue-2 only limitation
+    const buttons = ref([
+      { text: "(N)ext", command: "next", icon: "mdi-skip-next" },
+      { text: "(S)tep", command: "step", icon: "mdi-debug-step-into" },
+      { text: "(R)eturn", command: "return", icon: "mdi-keyboard-return" },
+      { text: "(C)ontinue", command: "continue", icon: "mdi-play" },
+    ]);
+
+    const keyboardShortcuts = reactive({
+      n: "next",
+      c: "continue",
+      r: "return",
+      s: "step",
+    });
+
+    const { executeMutation } = useMutation<
+      boolean,
+      { command: string; promptNo: number; traceNo: number }
+    >(SEND_PDB_COMMAND);
+
+    async function pdbCommand(command: string) {
+      await executeMutation({
+        command,
+        promptNo: props.promptNo,
+        traceNo: props.traceNo,
+      });
+    }
+
+    watch(
+      () => props.keyboardEvent,
+      async (event) => {
+        if (!event) return;
+        if (props.disabled) return;
+        const command = keyboardShortcuts[event.key];
+        if (!command) return;
+        await pdbCommand(command);
+      }
+    );
+
     return {
-      buttons: [
-        { text: "(N)ext", command: "next", icon: "mdi-skip-next" },
-        { text: "(S)tep", command: "step", icon: "mdi-debug-step-into" },
-        { text: "(R)eturn", command: "return", icon: "mdi-keyboard-return" },
-        { text: "(C)ontinue", command: "continue", icon: "mdi-play" },
-      ],
-      keyboardShortcuts: {
-        n: "next",
-        c: "continue",
-        r: "return",
-        s: "step",
-      },
+      buttons,
+      keyboardShortcuts,
+      pdbCommand,
     };
   },
-  methods: {
-    async pdbCommand(command) {
-      const data = await this.$apollo.mutate({
-        mutation: SEND_PDB_COMMAND,
-        variables: { command, promptNo: this.promptNo, traceNo: this.traceNo },
-      });
-    },
-  },
-  watch: {
-    async keyboardEvent(event) {
-      if (this.disabled) return;
-      const command = this.keyboardShortcuts[event.key];
-      if (!command) return;
-      await this.pdbCommand(command);
-    },
-  },
-};
+});
 </script>
