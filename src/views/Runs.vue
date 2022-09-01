@@ -34,7 +34,9 @@
                 {{ formatDateTime(item.node.endedAt) }}
               </template>
               <template v-slot:[`item.node.exception`]="{ item }">
-                <v-icon v-if="!item.node.exception" color="teal">mdi-check</v-icon>
+                <v-icon v-if="!item.node.exception" color="teal"
+                  >mdi-check</v-icon
+                >
                 <v-icon v-else color="red">mdi-close</v-icon>
               </template>
               <template v-slot:expanded-item="{ headers, item }">
@@ -57,7 +59,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, ref, watch } from "vue";
+import { useQuery } from "@urql/vue";
+
 import RUNS from "@/graphql/queries/Runs.gql";
 
 interface RunHistory {
@@ -83,36 +87,36 @@ interface History {
 
 export default defineComponent({
   name: "Runs",
-  data() {
-    return {
-      history: null as History | null,
-      runs: [],
-      headers: [
-        { text: "Run No.", value: "node.runNo" },
-        { text: "State", value: "node.state" },
-        { text: "Started at", value: "node.startedAt" },
-        { text: "Ended at", value: "node.endedAt" },
-        { text: "", value: "node.exception" },
-        { text: "", value: "data-table-expand" },
-      ],
-      expanded: [],
-      singleExpand: false,
-      stateChipColor: {
-        initialized: "success",
-        running: "primary",
-        exited: "warning",
-        finished: "warning",
-        closed: "warning",
-      },
-    };
-  },
-  apollo: {
-    history: {
+  setup() {
+    const history = ref<History | null | undefined>(null);
+    const query = useQuery<{ history: History }>({
       query: RUNS,
-    },
-  },
-  methods: {
-    formatDateTime(dateTime) {
+    });
+    watch(query.data, (val) => {
+      history.value = val?.history;
+    });
+
+    const headers = ref([
+      { text: "Run No.", value: "node.runNo" },
+      { text: "State", value: "node.state" },
+      { text: "Started at", value: "node.startedAt" },
+      { text: "Ended at", value: "node.endedAt" },
+      { text: "", value: "node.exception" },
+      { text: "", value: "data-table-expand" },
+    ]);
+
+    const expanded = ref([]);
+    const singleExpand = ref(false);
+
+    const stateChipColor = ref({
+      initialized: "success",
+      running: "primary",
+      exited: "warning",
+      finished: "warning",
+      closed: "warning",
+    });
+
+    function formatDateTime(dateTime: string) {
       if (!dateTime) return;
       const sinceEpoch = Date.parse(dateTime);
       const format = Intl.DateTimeFormat("default", {
@@ -125,7 +129,16 @@ export default defineComponent({
         hour12: false,
       });
       return format.format(sinceEpoch);
-    },
+    }
+
+    return {
+      history,
+      headers,
+      expanded,
+      singleExpand,
+      stateChipColor,
+      formatDateTime,
+    };
   },
 });
 </script>
