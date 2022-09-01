@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import axios from "axios";
-import path from "path";
+import * as path from 'path';
 
 export const useStore = defineStore("main", {
   state: () => {
