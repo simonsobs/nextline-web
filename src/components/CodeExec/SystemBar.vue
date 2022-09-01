@@ -1,5 +1,5 @@
 <template>
-  <v-system-bar dark :color="this.state.prompting ? 'primary' : 'grey'">
+  <v-system-bar dark :color="state.prompting ? 'primary' : 'grey'">
     <v-icon> mdi-language-python </v-icon>
     <v-tooltip bottom open-delay="500">
       <template v-slot:activator="{ on, attrs }">
@@ -10,21 +10,29 @@
   </v-system-bar>
 </template>
 
-<script>
-const path = require("path");
+<script lang="ts">
+import { defineComponent, PropType, computed } from "vue";
+import path from "path";
 
-export default {
+interface PromptingData {
+  prompting: number;
+  fileName: string;
+  lineNo: number;
+  traceEvent: string;
+}
+
+export default defineComponent({
   name: "SystemBar",
   props: {
-    state: Object,
+    state: { type: Object as PropType<PromptingData>, required: true },
   },
-  computed: {
-    basename() {
-      if (!this.state) return null;
-      return path.basename(this.state.fileName);
-    },
+  setup(props) {
+    const basename = computed(() => {
+      return path.basename(props.state.fileName);
+    });
+    return {
+      basename,
+    };
   },
-};
+});
 </script>
-
-<style></style>

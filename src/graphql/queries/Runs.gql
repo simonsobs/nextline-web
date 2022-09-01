@@ -1,10 +1,16 @@
 query Runs {
-  runs {
-    runNo
-    state
-    startedAt
-    endedAt
-    script
-    exception
+  history {
+    runs {
+      edges {
+        node {
+          runNo
+          state
+          startedAt
+          endedAt
+          script
+          exception
+        }
+      }
+    }
   }
 }

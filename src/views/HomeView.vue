@@ -16,14 +16,14 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import { defineComponent, ref } from "vue";
 
 import MainCtrl from "@/components/MainCtrl.vue";
 import Stdout from "@/components/Stdout.vue";
 import Exception from "@/components/Exception.vue";
 import LayoutScript from "@/components/LayoutScript.vue";
 
-export default Vue.extend({
+export default defineComponent({
   name: "HomeView",
   components: {
     MainCtrl,
@@ -31,9 +31,10 @@ export default Vue.extend({
     Exception,
     LayoutScript,
   },
-  data() {
+  setup() {
+    const exception = ref(false);
     return {
-      exception: false,
+      exception,
     };
   },
 });

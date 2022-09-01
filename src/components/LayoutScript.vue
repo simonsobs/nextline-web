@@ -1,9 +1,9 @@
 <template>
   <div style="height: 100%">
-    <div v-if="nextlineState == 'running'" class="g-container">
+    <div v-if="nextlineState?.state == 'running' && traceIds" class="g-container">
       <code-exec
         :traceId="traceId"
-        v-for="traceId in traceIds"
+        v-for="traceId in traceIds.traceIds"
         :key="traceId"
       ></code-exec>
     </div>
@@ -11,8 +11,9 @@
   </div>
 </template>
 
-<script>
-import { mapStores } from "pinia";
+<script lang="ts">
+import { defineComponent, ref, watch } from "vue";
+import { useSubscription } from "@urql/vue";
 
 import { useStore } from "@/stores/index";
 
@@ -22,45 +23,36 @@ import ScriptEditor from "@/components/ScriptEditor.vue";
 import SUBSCRIBE_STATE from "@/graphql/subscriptions/State.gql";
 import SUBSCRIBE_TRACE_IDS from "@/graphql/subscriptions/TraceIds.gql";
 
-export default {
+export default defineComponent({
   name: "LayoutScript",
   components: {
     CodeExec,
     ScriptEditor,
   },
-  data() {
+  setup() {
+    const editing = ref(false);
+
+    const stateSubscription = useSubscription<{ state: string }>({
+      query: SUBSCRIBE_STATE,
+    });
+
+    const traceIdSubscription = useSubscription<{ traceIds: number[] }>({
+      query: SUBSCRIBE_TRACE_IDS,
+    });
+    
+    const store = useStore();
+    
+    watch(editing, (val) => {
+      store.setModified(val);
+    });
+
     return {
-      editing: false,
-      tab: null,
-      nextlineState: null,
-      traceIds: [],
+      editing,
+      nextlineState: stateSubscription.data,
+      traceIds: traceIdSubscription.data,
     };
   },
-  computed: {
-    ...mapStores(useStore),
-  },
-  apollo: {
-    $subscribe: {
-      nextlineState: {
-        query: SUBSCRIBE_STATE,
-        result({ data }) {
-          this.nextlineState = data.state;
-        },
-      },
-      traceIds: {
-        query: SUBSCRIBE_TRACE_IDS,
-        result({ data }) {
-          this.traceIds = data.traceIds;
-        },
-      },
-    },
-  },
-  watch: {
-    editing(val) {
-      this.mainStore.setModified(val);
-    },
-  },
-};
+});
 </script>
 
 <style scoped>

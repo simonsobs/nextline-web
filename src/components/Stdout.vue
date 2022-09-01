@@ -9,7 +9,7 @@
           <v-btn
             icon
             x-small
-            :disabled="!stdout"
+            :disabled="!data?.stdout"
             @click="clear"
             v-bind="attrs"
             v-on="on"
@@ -24,59 +24,46 @@
     <v-card-text style="height: calc(100% - 24px)" class="py-1">
       <pre
         style="height: 100%"
-        class="overflow-auto"
-        ref="col-stdout">{{ stdout }}<span ref="stdout-bottom"></span></pre>
+        class="overflow-auto">{{ data?.stdout }}<span ref="bottom"></span></pre>
     </v-card-text>
   </v-card>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent, ref, nextTick } from "vue";
+import { useSubscription } from "@urql/vue";
+
 import SUBSCRIBE_STDOUT from "@/graphql/subscriptions/Stdout.gql";
 
-export default {
+export default defineComponent({
   name: "Stdout",
-  data() {
+  setup() {
+    const handleSubscription = (
+      messages = { stdout: "" },
+      response: { stdout: string }
+    ) => {
+      nextTick(() => {
+        nextTick(() => {
+          if (bottom.value) bottom.value.scrollIntoView(false);
+        });
+      });
+      return { stdout: messages.stdout + response.stdout };
+    };
+    const subscription = useSubscription<{ stdout: string }>(
+      {
+        query: SUBSCRIBE_STDOUT,
+      },
+      handleSubscription
+    );
+    function clear() {
+      if (subscription.data?.value) subscription.data.value.stdout = "";
+    }
+    const bottom = ref(null as HTMLElement | null);
     return {
-      stdout: "",
+      data: subscription.data,
+      clear,
+      bottom,
     };
   },
-  apollo: {
-    $subscribe: {
-      stdout: {
-        query: SUBSCRIBE_STDOUT,
-        result({ data }) {
-          this.stdout += data.stdout;
-        },
-      },
-    },
-  },
-  watch: {
-    stdout: {
-      handler() {
-        this.$nextTick(this.scrollStdout);
-      },
-      immediate: true,
-    },
-  },
-  methods: {
-    scrollStdout() {
-      const container_ref_name = "col-stdout";
-      const target_ref_name = "stdout-bottom";
-
-      const container = this.$refs[container_ref_name];
-      if (!container) return;
-
-      const target = this.$refs[target_ref_name];
-      if (!target) return;
-
-      this.$vuetify.goTo(target, { container, duration: 0 });
-      // this.$vuetify.goTo(99999, { container });
-    },
-    clear() {
-      this.stdout = "";
-    },
-  },
-};
+});
 </script>
-
-<style></style>

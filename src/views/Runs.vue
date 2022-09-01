@@ -3,38 +3,40 @@
     <v-row align="start" justify="center">
       <v-col cols="10">
         <v-card outlined>
-          <v-card-text>
+          <v-card-text v-if="history">
             <v-data-table
               :headers="headers"
-              :items="runs"
-              item-key="runNo"
-              :items-per-page="runs.length"
+              :items="history.runs.edges"
+              item-key="node.runNo"
+              :items-per-page="history.runs.edges.length"
               :hide-default-footer="true"
               :single-expand="singleExpand"
               :expanded.sync="expanded"
               show-expand
             >
-              <template v-slot:[`item.runNo`]="{ item }">
+              <template v-slot:[`item.node.runNo`]="{ item }">
                 <span class="font-weight-bold primary--text">
-                  {{ item.runNo }}
+                  {{ item.node.runNo }}
                 </span>
               </template>
-              <template v-slot:[`item.state`]="{ item }">
+              <template v-slot:[`item.node.state`]="{ item }">
                 <v-chip
-                  :color="stateChipColor[item.state]"
+                  :color="stateChipColor[item.node.state]"
                   class="text-capitalize"
                 >
-                  {{ item.state }}
+                  {{ item.node.state }}
                 </v-chip>
               </template>
-              <template v-slot:[`item.startedAt`]="{ item }">
-                {{ formatDateTime(item.startedAt) }}
+              <template v-slot:[`item.node.startedAt`]="{ item }">
+                {{ formatDateTime(item.node.startedAt) }}
               </template>
-              <template v-slot:[`item.endedAt`]="{ item }">
-                {{ formatDateTime(item.endedAt) }}
+              <template v-slot:[`item.node.endedAt`]="{ item }">
+                {{ formatDateTime(item.node.endedAt) }}
               </template>
-              <template v-slot:[`item.exception`]="{ item }">
-                <v-icon v-if="!item.exception" color="teal">mdi-check</v-icon>
+              <template v-slot:[`item.node.exception`]="{ item }">
+                <v-icon v-if="!item.node.exception" color="teal"
+                  >mdi-check</v-icon
+                >
                 <v-icon v-else color="red">mdi-close</v-icon>
               </template>
               <template v-slot:expanded-item="{ headers, item }">
@@ -42,8 +44,8 @@
                 <td :colspan="headers.length">
                   <div>
                     <!-- <div style="width: 90%; overflow-x: auto"> -->
-                    <pre>{{ item.script }}</pre>
-                    <pre>{{ item.exception }}</pre>
+                    <pre>{{ item.node.script }}</pre>
+                    <pre>{{ item.node.exception }}</pre>
                   </div>
                 </td>
               </template>
@@ -56,40 +58,65 @@
   </v-container>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent, ref, watch } from "vue";
+import { useQuery } from "@urql/vue";
+
 import RUNS from "@/graphql/queries/Runs.gql";
 
-export default {
+interface RunHistory {
+  runNo: number;
+  state?: string;
+  startedAt?: string;
+  endedAt?: string;
+  script?: string;
+  exception?: string;
+}
+
+interface RunHistoryEdge {
+  node: RunHistory;
+}
+
+interface RunHistoryConnection {
+  edges: RunHistoryEdge[];
+}
+
+interface History {
+  runs: RunHistoryConnection;
+}
+
+export default defineComponent({
   name: "Runs",
-  data() {
-    return {
-      runs: [],
-      headers: [
-        { text: "Run No.", value: "runNo" },
-        { text: "State", value: "state" },
-        { text: "Started at", value: "startedAt" },
-        { text: "Ended at", value: "endedAt" },
-        { text: "", value: "exception" },
-        { text: "", value: "data-table-expand" },
-      ],
-      expanded: [],
-      singleExpand: false,
-      stateChipColor: {
-        initialized: "success",
-        running: "primary",
-        exited: "warning",
-        finished: "warning",
-        closed: "warning",
-      },
-    };
-  },
-  apollo: {
-    runs: {
+  setup() {
+    const history = ref<History | null | undefined>(null);
+    const query = useQuery<{ history: History }>({
       query: RUNS,
-    },
-  },
-  methods: {
-    formatDateTime(dateTime) {
+    });
+    watch(query.data, (val) => {
+      history.value = val?.history;
+    });
+
+    const headers = ref([
+      { text: "Run No.", value: "node.runNo" },
+      { text: "State", value: "node.state" },
+      { text: "Started at", value: "node.startedAt" },
+      { text: "Ended at", value: "node.endedAt" },
+      { text: "", value: "node.exception" },
+      { text: "", value: "data-table-expand" },
+    ]);
+
+    const expanded = ref([]);
+    const singleExpand = ref(false);
+
+    const stateChipColor = ref({
+      initialized: "success",
+      running: "primary",
+      exited: "warning",
+      finished: "warning",
+      closed: "warning",
+    });
+
+    function formatDateTime(dateTime: string) {
       if (!dateTime) return;
       const sinceEpoch = Date.parse(dateTime);
       const format = Intl.DateTimeFormat("default", {
@@ -102,9 +129,18 @@ export default {
         hour12: false,
       });
       return format.format(sinceEpoch);
-    },
+    }
+
+    return {
+      history,
+      headers,
+      expanded,
+      singleExpand,
+      stateChipColor,
+      formatDateTime,
+    };
   },
-};
+});
 </script>
 
 <style>

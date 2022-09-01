@@ -51,9 +51,8 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-
-import { mapStores } from "pinia";
+import { defineComponent, ref, computed, watch } from "vue";
+import { useMutation, useSubscription } from "@urql/vue";
 
 import { useStore } from "@/stores/index";
 
@@ -65,96 +64,91 @@ import KILL from "@/graphql/mutations/Kill.gql";
 import SUBSCRIBE_STATE from "@/graphql/subscriptions/State.gql";
 import SUBSCRIBE_TRACE_IDS from "@/graphql/subscriptions/TraceIds.gql";
 
-export default Vue.extend({
+export default defineComponent({
   name: "MainCtrl",
-  data() {
+  setup() {
+    const nextlineState = ref<string>("");
+    const stateSubscription = useSubscription<{ state: string }>({
+      query: SUBSCRIBE_STATE,
+    });
+    watch(stateSubscription.data, (val) => {
+      nextlineState.value = val?.state || "";
+    });
+
+    const traceIds = ref<number[]>([]);
+    const traceIdsSubscription = useSubscription<{ traceIds: number[] }>({
+      query: SUBSCRIBE_TRACE_IDS,
+    });
+    watch(traceIdsSubscription.data, (val) => {
+      traceIds.value = val?.traceIds || [];
+    });
+
+    const buttons = ref([
+      {
+        text: "Run",
+        method: "run",
+        icon: "mdi-play",
+        states: ["initialized"],
+      },
+      {
+        text: "Reset",
+        method: "reset",
+        icon: "mdi-restore",
+        states: ["initialized", "finished", "closed"],
+      },
+      {
+        text: "Interrupt",
+        method: "interrupt",
+        icon: "mdi-close",
+        states: ["running"],
+      },
+    ]);
+
+    const chipConfig = ref({
+      default: { color: null },
+      initialized: { color: "success" },
+      running: { color: "primary" },
+      exited: { color: "warning" },
+      finished: { color: "warning" },
+      closed: { color: "warning" },
+    });
+
+    const store = useStore();
+    const editing = computed(() => store.modified);
+
+    const chip = computed(
+      () => chipConfig.value[nextlineState.value] || chipConfig.value.default
+    );
+
+    async function onClick(method: string) {
+      if (method === "run") {
+        await executeExec();
+      } else if (method === "reset") {
+        await executeReset();
+      } else if (method === "interrupt") {
+        await executeInterrupt();
+      } else if (method === "terminate") {
+        await executeTerminate();
+      } else if (method === "kill") {
+        await executeKill();
+      }
+    }
+
+    const { executeMutation: executeExec } = useMutation(EXEC);
+    const { executeMutation: executeReset } = useMutation(RESET);
+    const { executeMutation: executeInterrupt } = useMutation(INTERRUPT);
+    const { executeMutation: executeTerminate } = useMutation(TERMINATE);
+    const { executeMutation: executeKill } = useMutation(KILL);
+
     return {
-      nextlineState: null,
-      traceIds: [],
-      buttons: [
-        {
-          text: "Run",
-          method: "run",
-          icon: "mdi-play",
-          states: ["initialized"],
-        },
-        {
-          text: "Reset",
-          method: "reset",
-          icon: "mdi-restore",
-          states: ["initialized", "finished", "closed"],
-        },
-        {
-          text: "Interrupt",
-          method: "interrupt",
-          icon: "mdi-close",
-          states: ["running"],
-        },
-      ],
-      chipConfig: {
-        default: { color: null },
-        initialized: { color: "success" },
-        running: { color: "primary" },
-        exited: { color: "warning" },
-        finished: { color: "warning" },
-        closed: { color: "warning" },
-      },
+      nextlineState,
+      traceIds,
+      buttons,
+      chipConfig,
+      editing,
+      chip,
+      onClick,
     };
-  },
-  apollo: {
-    $subscribe: {
-      nextlineState: {
-        query: SUBSCRIBE_STATE,
-        result({ data }) {
-          this.nextlineState = data.state;
-        },
-      },
-      traceIds: {
-        query: SUBSCRIBE_TRACE_IDS,
-        result({ data }) {
-          this.traceIds = data.traceIds;
-        },
-      },
-    },
-  },
-  computed: {
-    editing() {
-      return this.mainStore.modified;
-    },
-    chip() {
-      return this.chipConfig[this.nextlineState] || this.chipConfig.default;
-    },
-    ...mapStores(useStore),
-  },
-  methods: {
-    async onClick(method) {
-      await this[method]();
-    },
-    async run() {
-      const data = await this.$apollo.mutate({
-        mutation: EXEC,
-      });
-    },
-    async reset() {
-      const data = await this.$apollo.mutate({
-        mutation: RESET,
-      });
-    },
-    async interrupt() {
-      const data = await this.$apollo.mutate({
-        mutation: INTERRUPT,
-      });
-    },
-    async terminate() {
-      const data = await this.$apollo.mutate({
-        mutation: TERMINATE,
-      });
-    },
-    async kill() {
-      const data = await this.$apollo.mutate({
-        mutation: KILL,
-      });
-    },
   },
 });
 </script>

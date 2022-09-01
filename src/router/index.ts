@@ -1,12 +1,10 @@
 import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
-import VueMeta from "vue-meta";
 
 import HomeView from "../views/HomeView.vue";
 import Runs from "@/views/Runs.vue";
 
 Vue.use(VueRouter);
-Vue.use(VueMeta);
 
 const routes: Array<RouteConfig> = [
   {
@@ -39,6 +37,12 @@ const routes: Array<RouteConfig> = [
     name: "scratch-theme",
     component: () =>
       import(/* webpackChunkName: "scratch" */ "@/views/ScratchThemeView.vue"),
+  },
+  {
+    path: "/scratch/urql",
+    name: "scratch-urql",
+    component: () =>
+      import(/* webpackChunkName: "scratch" */ "@/views/ScratchUrql.vue"),
   },
 ];
 

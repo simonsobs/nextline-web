@@ -26,49 +26,62 @@
   </v-card>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent, ref, watch } from "vue";
+import { useSubscription } from "@urql/vue";
+
 import SUBSCRIBE_PROMPTING from "@/graphql/subscriptions/Prompting.gql";
 
 import SystemBar from "./SystemBar.vue";
 import CmdCol from "./CmdCol.vue";
 import CodeCol from "./CodeCol.vue";
 
-export default {
+interface PromptingData {
+  prompting: number;
+  fileName: string;
+  lineNo: number;
+  traceEvent: string;
+}
+
+export default defineComponent({
   name: "CodeExec",
   components: {
     SystemBar,
     CmdCol,
     CodeCol,
   },
-  props: { traceId: Number },
-  data() {
+  props: { traceId: { type: Number, required: true } },
+  setup(props) {
+    const prompting = ref<PromptingData | null | undefined>(null);
+    const keyboardEvent = ref<KeyboardEvent | null>(null);
+
+    const subscription = useSubscription<
+      { prompting: PromptingData },
+      { prompting: PromptingData },
+      { traceId: number }
+    >({
+      query: SUBSCRIBE_PROMPTING,
+      variables: { traceId: props.traceId },
+    });
+
+    watch(subscription.data, (val) => {
+      prompting.value = val?.prompting;
+    });
+
+    watch(keyboardEvent, (val) => {
+      // console.log(val);
+    });
+
+    watch(prompting, (val) => {
+      // console.log(document.activeElement);
+    });
+
     return {
-      prompting: null,
-      keyboardEvent: null,
+      prompting,
+      keyboardEvent,
     };
   },
-  apollo: {
-    $subscribe: {
-      prompting: {
-        query: SUBSCRIBE_PROMPTING,
-        variables() {
-          return { traceId: this.traceId };
-        },
-        result({ data }) {
-          this.prompting = data.prompting;
-        },
-      },
-    },
-  },
-  watch: {
-    keyboardEvent(val) {
-      // console.log(val);
-    },
-    prompting() {
-      // console.log(document.activeElement);
-    },
-  },
-};
+});
 </script>
 
 <style scoped>

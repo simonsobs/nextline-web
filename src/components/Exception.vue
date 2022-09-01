@@ -7,52 +7,57 @@
   </v-alert>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent, ref, watch } from "vue";
+import { useQuery, useSubscription } from "@urql/vue";
+
 import QUERY_EXCEPTION from "@/graphql/queries/Exception.gql";
 import SUBSCRIBE_STATE from "@/graphql/subscriptions/State.gql";
 
-export default {
+export default defineComponent({
   name: "Exception",
   props: {
     value: Boolean,
   },
-  data() {
+  setup(props, { emit }) {
+    const subscription = useSubscription<{ state: string }>({
+      query: SUBSCRIBE_STATE,
+    });
+
+    const pause = ref(true);
+
+    const query = useQuery<{ exception: string }>({
+      query: QUERY_EXCEPTION,
+      pause,
+    });
+
+    watch(subscription.data, (val) => {
+      pause.value = val?.state !== "finished";
+      query.executeQuery();
+    });
+
+    const exception = ref(null as string | null | undefined);
+
+    const alert = ref(false);
+
+    watch(props, (val) => {
+      alert.value = val.value;
+    });
+
+    watch(query.data, (val) => {
+      alert.value = !!val?.exception;
+      exception.value = val?.exception;
+    });
+
+    watch(alert, (val) => {
+      if (!val) exception.value = null;
+      emit("input", val);
+    });
+
     return {
-      nextlineState: null,
-      alert: this.value,
-      exception: null,
+      exception,
+      alert,
     };
   },
-  apollo: {
-    exception: {
-      query: QUERY_EXCEPTION,
-      skip() {
-        return this.nextlineState != "finished";
-      },
-      update(data) {
-        return data.exception;
-      },
-    },
-    $subscribe: {
-      nextlineState: {
-        query: SUBSCRIBE_STATE,
-        result({ data }) {
-          this.nextlineState = data.state;
-        },
-      },
-    },
-  },
-  watch: {
-    value() {
-      this.alert = this.value;
-    },
-    exception(val) {
-      this.alert = !!val;
-    },
-    alert(val) {
-      if (!val) this.exception = null;
-      this.$emit("input", val);
-    },
-  },
-};
+});
 </script>

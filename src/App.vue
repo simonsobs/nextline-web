@@ -29,34 +29,91 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import { MetaInfo } from "vue-meta";
-import { mapStores } from "pinia";
+import { defineComponent, ref, computed, watch } from "vue";
+import {
+  createClient,
+  defaultExchanges,
+  subscriptionExchange,
+} from "@urql/core";
+// import { createClient as createWSClient } from "graphql-ws";
+import { SubscriptionClient } from "subscriptions-transport-ws";
+import { provideClient } from "@urql/vue";
 import { useStore } from "@/stores/index";
 
-export default Vue.extend({
+// https://formidable.com/open-source/urql/docs/advanced/subscriptions/
+// https://github.com/enisdenjo/graphql-ws/blob/master/README.md
+// https://github.com/apollographql/subscriptions-transport-ws/blob/master/README.md
+// TODO: switch to graphql-ws as subscriptions-transport-ws is no longer maintained.
+// To do so, need to change the server (strawberry settings) as well.
+
+export default defineComponent({
   name: "App",
-  data() {
-    return {
-      graphqlUrl: process.env.VUE_APP_GRAPHQL_HTTP,
-      version: process.env.PACKAGE_VERSION,
-    };
-  },
-  computed: {
-    title() {
-      let title = "Nextline";
-      const name = this.mainStore.config.apiName;
+  setup() {
+    const graphqlUrl = ref(
+      process.env.VUE_APP_GRAPHQL_HTTP || "http://localhost:4000/graphql"
+    );
+    const version = ref(process.env.PACKAGE_VERSION);
+
+    const store = useStore();
+
+    const title = computed(() => {
+      const name = store.config.apiName;
+      let ret = "Nextline";
       if (name) {
-        title = `${title}: ${name}`;
+        ret = `${ret}: ${name}`;
       }
-      return title;
-    },
-    ...mapStores(useStore),
-  },
-  metaInfo(): MetaInfo {
+      return ret;
+    });
+
+    watch(
+      title,
+      (val) => {
+        document.title = val || "loading...";
+      },
+      { immediate: true }
+    );
+
+    // WebSocket endpoint. "ws://" for "http://" and "wss://" for "https://"
+    const wsEndpoint = graphqlUrl.value.replace(/^http/i, "ws");
+
+    // // for graphql-ws
+    // const wsClient = createWSClient({
+    //   url: wsEndpoint,
+    // });
+
+    const subscriptionClient = new SubscriptionClient(wsEndpoint, {
+      reconnect: true,
+    });
+
+    const client = createClient({
+      url: graphqlUrl.value,
+      requestPolicy: "network-only",
+      exchanges: [
+        ...defaultExchanges,
+        subscriptionExchange({
+          forwardSubscription: (operation) =>
+            subscriptionClient.request(operation),
+          // // for graphql-ws
+          // forwardSubscription(operation) {
+          //   return {
+          //     subscribe: (sink) => {
+          //       const dispose = wsClient.subscribe(operation, sink);
+          //       return {
+          //         unsubscribe: dispose,
+          //       };
+          //     },
+          //   };
+          // },
+        }),
+      ],
+    });
+
+    provideClient(client);
+
     return {
-      title: this.title || "loading...",
-      titleTemplate: "",
+      graphqlUrl,
+      version,
+      title,
     };
   },
 });
