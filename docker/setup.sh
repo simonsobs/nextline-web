@@ -1,7 +1,7 @@
 #!/bin/bash
 
+DIST_DIR="/app/dist"
 HTML_DIR="/app/site"
-NGINX_ROOT="/"
 CONFIG_JSON="config.json"
 
 PUBLIC_PATH_PLACEHOLDER="/public_path_placeholder/"
@@ -25,17 +25,30 @@ then
     exit 1
 fi
 
-if [[ ! -d ${HTML_DIR} ]]
+if [[ ! -d ${DIST_DIR} ]]
 then
-    echo "Error: ${HTML_DIR} doesn't exit!"
+    echo "Error: ${DIST_DIR} doesn't exit!"
     exit 1
 fi
 
-if [[ ! -f ${HTML_DIR}/${CONFIG_JSON} ]]
+if [[ ! -f ${DIST_DIR}/${CONFIG_JSON} ]]
 then
-    echo "Error: ${HTML_DIR}/${CONFIG_JSON} doesn't exit!"
+    echo "Error: ${DIST_DIR}/${CONFIG_JSON} doesn't exit!"
     exit 1
 fi
+
+# Move the Vue files to the Vue publicPath
+command="rm -rf $HTML_DIR"
+echo + $command
+eval $command
+HTML_DIR=$(echo $HTML_DIR/$PUBLIC_PATH | tr -s /)
+HTML_DIR=${HTML_DIR%/} # e.g., /app/site/vue
+command="mkdir -p $(dirname $HTML_DIR)"
+echo + $command
+eval $command
+command="cp -a $DIST_DIR $HTML_DIR"
+echo + $command
+eval $command
 
 # Update config.json
 (
@@ -46,25 +59,6 @@ fi
     echo + $command;
     eval $command;
 )
-
-
-# Move the Vue files to the Vue publicPath
-if [[ "$PUBLIC_PATH" != "$NGINX_ROOT" ]]
-then
-    HTML_DIR_TEMP="$(mktemp -d)/site"
-    command="mv $HTML_DIR $HTML_DIR_TEMP"
-    echo + $command
-    eval $command
-
-    HTML_DIR=$(echo $HTML_DIR/$PUBLIC_PATH | tr -s /)
-    HTML_DIR=${HTML_DIR%/} # e.g., /app/site/vue
-    command="mkdir -p $(dirname $HTML_DIR)"
-    echo + $command
-    eval $command
-    command="mv $HTML_DIR_TEMP $HTML_DIR"
-    echo + $command
-    eval $command
-fi
 
 # Replace place holders with env vars in Vue files
 (
