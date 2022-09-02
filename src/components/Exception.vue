@@ -28,12 +28,14 @@ export default defineComponent({
 
     const query = useQuery<{ exception: string }>({
       query: QUERY_EXCEPTION,
-      pause,
+      pause: pause.value,
     });
 
     watch(subscription.data, (val) => {
       pause.value = val?.state !== "finished";
-      query.executeQuery();
+      if (!pause.value) {
+        query.executeQuery();
+      }
     });
 
     const exception = ref(null as string | null | undefined);
@@ -57,6 +59,7 @@ export default defineComponent({
     return {
       exception,
       alert,
+      pause,
     };
   },
 });
