@@ -32,5 +32,5 @@ module.exports = defineConfig({
     },
   },
   transpileDependencies: ["vuetify"],
-  publicPath: process.env.VUE_APP_PUBLIC_PATH,
+  publicPath: import.meta.env.VITE_PUBLIC_PATH,
 });

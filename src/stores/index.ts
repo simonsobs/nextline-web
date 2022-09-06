@@ -13,7 +13,7 @@ export const useStore = defineStore("main", {
     async loadConfig() {
       const url = path.relative(
         window.location.pathname,
-        `${process.env.VUE_APP_PUBLIC_PATH}/config.json`
+        `${import.meta.env.VITE_PUBLIC_PATH}/config.json`
       );
       // TODO: test if this works when the public path is not "/"
       try {
