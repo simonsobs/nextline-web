@@ -4,7 +4,7 @@ import loadVersion from 'vite-plugin-package-version';
 import gql from "vite-plugin-simple-gql";
 import { VuetifyResolver } from "unplugin-vue-components/resolvers";
 import Components from "unplugin-vue-components/vite";
-// import monacoEditorPlugin from "vite-plugin-monaco-editor";
+import monacoEditorPlugin from "vite-plugin-monaco-editor";
 import path from "path-browserify";
 
 export default defineConfig({
@@ -12,9 +12,9 @@ export default defineConfig({
     vue(),
     loadVersion(),
     gql(),
-    // monacoEditorPlugin({
-    //   languageWorkers: ["editorWorkerService"],
-    // }),
+    monacoEditorPlugin({
+      languageWorkers: ["editorWorkerService"],
+    }),
     Components({
       resolvers: [VuetifyResolver()],
     }),

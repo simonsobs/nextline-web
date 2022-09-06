@@ -39,6 +39,7 @@
     "typescript": "~4.7.4",
     "unplugin-vue-components": "^0.22.4",
     "vite": "^3.1.0",
+    "vite-plugin-monaco-editor": "^1.1.0",
     "vite-plugin-package-version": "^1.0.2",
     "vite-plugin-simple-gql": "^0.5.0"
   }
