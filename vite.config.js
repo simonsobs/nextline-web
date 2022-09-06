@@ -19,6 +19,7 @@ export default defineConfig({
       resolvers: [VuetifyResolver()],
     }),
   ],
+  base: "./",
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "src"),
