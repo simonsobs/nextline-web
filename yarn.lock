@@ -2863,6 +2863,11 @@ util@^0.12.0, util@^0.12.4:
     safe-buffer "^5.1.2"
     which-typed-array "^1.1.2"
 
+vite-plugin-package-version@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/vite-plugin-package-version/-/vite-plugin-package-version-1.0.2.tgz#72b9919f6022eac093fd04533dc0e26dffe22771"
+  integrity sha512-xCJMR0KD4rqSUwINyHJlLizio2VzYzaMrRkqC9xWaVGXgw1lIrzdD+wBUf1XDM8EhL1JoQ7aykLOfKrlZd1SoQ==
+
 vite-plugin-simple-gql@^0.5.0:
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/vite-plugin-simple-gql/-/vite-plugin-simple-gql-0.5.0.tgz#7767d6e97331c77ddff833d4f22b298ecfb9bf85"
