@@ -1,9 +1,9 @@
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue2";
-import path from "path";
 import gql from "vite-plugin-simple-gql";
 import { VuetifyResolver } from "unplugin-vue-components/resolvers";
 import Components from "unplugin-vue-components/vite";
+import path from "path-browserify";
 
 export default defineConfig({
   plugins: [
@@ -16,6 +16,7 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "src"),
+      path: "path-browserify",
     },
   },
 });
