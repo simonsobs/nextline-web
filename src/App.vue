@@ -44,7 +44,8 @@ import { useStore } from "@/stores/index";
 // https://github.com/enisdenjo/graphql-ws/blob/master/README.md
 // https://github.com/apollographql/subscriptions-transport-ws/blob/master/README.md
 // TODO: switch to graphql-ws as subscriptions-transport-ws is no longer maintained.
-// To do so, need to change the server (strawberry settings) as well.
+// However, graphql-ws doesn't seem to work with urql at the moment:
+// https://qiita.com/mu-suke08/items/6dc353dd641e352f350e
 
 export default defineComponent({
   name: "App",
