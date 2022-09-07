@@ -3,20 +3,18 @@
   "version": "0.3.2",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "dev": "vite",
+    "serve": "vite preview",
+    "build": "vite build",
+    "lint": "eslint src"
   },
   "dependencies": {
-    "@babel/runtime": "^7.18.9",
     "@urql/vue": "^1.0.2",
     "axios": "^0.27.2",
-    "core-js": "^3.25.0",
     "graphql": "^15.8.0",
     "graphql-ws": "^5.10.1",
     "monaco-editor": "^0.34.0",
-    "monaco-editor-webpack-plugin": "^7.0.1",
-    "node-polyfill-webpack-plugin": "^2.0.1",
+    "path-browserify": "^1.0.1",
     "pinia": "^2.0.21",
     "subscriptions-transport-ws": "^0.11.0",
     "vue": "^2.7.10",
@@ -26,18 +24,11 @@
     "vuetify": "^2.6.9"
   },
   "devDependencies": {
-    "@babel/core": "^7.18.13",
-    "@babel/plugin-transform-runtime": "^7.18.10",
     "@types/node": "^18.7.14",
     "@typescript-eslint/eslint-plugin": "^5.35.1",
     "@typescript-eslint/parser": "^5.35.1",
-    "@vue/cli-plugin-babel": "~5.0.8",
-    "@vue/cli-plugin-eslint": "~5.0.8",
-    "@vue/cli-plugin-router": "~5.0.8",
-    "@vue/cli-plugin-typescript": "~5.0.8",
-    "@vue/cli-service": "~5.0.8",
+    "@vitejs/plugin-vue2": "^1.1.2",
     "@vue/eslint-config-typescript": "^11.0.0",
-    "cache-loader": "^4.1.0",
     "eslint": "^8.22.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.2.1",
@@ -45,11 +36,11 @@
     "graphql-tag": "^2.12.6",
     "prettier": "^2.7.1",
     "sass": "^1.54.5",
-    "sass-loader": "^13.0.2",
     "typescript": "~4.7.4",
-    "vue-cli-plugin-vuetify": "~2.5.5",
-    "vue-template-compiler": "^2.7.10",
-    "vuetify-loader": "^1.9.2",
-    "webpack": "^5.74.0"
+    "unplugin-vue-components": "^0.22.4",
+    "vite": "^3.1.0",
+    "vite-plugin-monaco-editor": "^1.1.0",
+    "vite-plugin-package-version": "^1.0.2",
+    "vite-plugin-simple-gql": "^0.5.0"
   }
 }

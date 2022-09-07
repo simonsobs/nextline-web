@@ -51,9 +51,9 @@ export default defineComponent({
   name: "App",
   setup() {
     const graphqlUrl = ref(
-      process.env.VUE_APP_GRAPHQL_HTTP || "http://localhost:4000/graphql"
+      import.meta.env.VITE_GRAPHQL_HTTP || "http://localhost:4000/graphql"
     );
-    const version = ref(process.env.PACKAGE_VERSION);
+    const version = ref(import.meta.env.PACKAGE_VERSION);
 
     const store = useStore();
 

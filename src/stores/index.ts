@@ -11,11 +11,7 @@ export const useStore = defineStore("main", {
   },
   actions: {
     async loadConfig() {
-      const url = path.relative(
-        window.location.pathname,
-        `${process.env.VUE_APP_PUBLIC_PATH}/config.json`
-      );
-      // TODO: test if this works when the public path is not "/"
+      const url = path.join(import.meta.env.VITE_PUBLIC_PATH, "config.json");
       try {
         const response = await axios.get(url);
         const config = response.data;
