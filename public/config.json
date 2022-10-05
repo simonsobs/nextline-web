@@ -1,3 +1,4 @@
 {
-  "apiName": "localhost"
+  "apiName": "localhost",
+  "apiHttp": "http://localhost:8000"
 }
