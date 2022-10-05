@@ -34,11 +34,9 @@
 
 <script setup lang="ts">
 import { onMounted, ref, computed, watch } from "vue";
-import { useQuery, useMutation } from "@urql/vue";
 import * as monaco from "monaco-editor";
 
-import RESET from "@/graphql/mutations/Reset.gql";
-import QUERY_SOURCE from "@/graphql/queries/Source.gql";
+import { useSourceQuery, useResetMutation } from "@/gql/graphql";
 
 const props = defineProps<{
   value: boolean;
@@ -81,9 +79,7 @@ const savedSource = computed(() => {
   return savedSourceLines.value.join("\n");
 });
 
-const query = useQuery<{ source: string[] }>({
-  query: QUERY_SOURCE,
-});
+const query = useSourceQuery();
 
 watch(query.data, (data) => {
   if (data?.source) {
@@ -129,7 +125,7 @@ async function onClick(method: string) {
   }
 }
 
-const { executeMutation } = useMutation(RESET);
+const { executeMutation } = useResetMutation();
 async function save() {
   await executeMutation({ statement: source.value });
   query.executeQuery();
