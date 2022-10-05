@@ -39,7 +39,7 @@ import {
 // import { createClient as createWSClient } from "graphql-ws";
 import { SubscriptionClient } from "subscriptions-transport-ws";
 import { provideClient } from "@urql/vue";
-import { useStore } from "@/stores/index";
+import { useStore } from "@/stores/main";
 
 const route = useRoute();
 

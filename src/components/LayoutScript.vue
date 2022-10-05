@@ -15,7 +15,7 @@
 import { defineComponent, ref, watch } from "vue";
 import { useSubscription } from "@urql/vue";
 
-import { useStore } from "@/stores/index";
+import { useStore } from "@/stores/main";
 
 import CodeExec from "@/components/CodeExec/CodeExec.vue";
 import ScriptEditor from "@/components/ScriptEditor.vue";

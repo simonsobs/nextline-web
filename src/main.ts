@@ -4,7 +4,7 @@ import router from "./router";
 import vuetify from "./plugins/vuetify";
 import { createPinia, PiniaVuePlugin, mapStores } from "pinia";
 import { defineThemes } from "./monaco-editor";
-import { useStore } from "@/stores/index";
+import { useStore } from "@/stores/main";
 
 Vue.use(PiniaVuePlugin);
 Vue.config.productionTip = false;

@@ -54,7 +54,7 @@
 import { defineComponent, ref, computed, watch } from "vue";
 import { useMutation, useSubscription } from "@urql/vue";
 
-import { useStore } from "@/stores/index";
+import { useStore } from "@/stores/main";
 
 import RESET from "@/graphql/mutations/Reset.gql";
 import EXEC from "@/graphql/mutations/Exec.gql";
