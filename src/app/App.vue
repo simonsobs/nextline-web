@@ -51,9 +51,9 @@ const configStore = useConfigStore();
 // However, graphql-ws doesn't seem to work with urql at the moment:
 // https://qiita.com/mu-suke08/items/6dc353dd641e352f350e
 
-const graphqlUrl = ref(
-  import.meta.env.VITE_GRAPHQL_HTTP || "http://localhost:4000/graphql"
-);
+const graphqlUrl = computed(() => configStore.config?.apiHttp);
+if (!graphqlUrl.value) throw new Error("No graphqlUrl");
+
 const version = ref(import.meta.env.PACKAGE_VERSION);
 
 const title = computed(() => {
