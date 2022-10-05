@@ -1,14 +1,10 @@
+import { ref } from "vue";
 import { defineStore } from "pinia";
 
-export const useStore = defineStore("main", {
-  state: () => {
-    return {
-      modified: false,
-    };
-  },
-  actions: {
-    setModified(v = true) {
-      this.modified = v;
-    },
-  },
+export const useStore = defineStore("main", () => {
+  const modified = ref(false);
+  function setModified(value: boolean) {
+    modified.value = value;
+  }
+  return { modified, setModified };
 });
