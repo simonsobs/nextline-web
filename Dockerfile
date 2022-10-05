@@ -16,7 +16,7 @@ WORKDIR /app
 COPY --from=build /app/dist dist
 COPY --from=build /app/dist/public_path_placeholder/monacoeditorwork dist/monacoeditorwork
 COPY docker/entrypoint.sh .
-COPY docker/setup.sh /docker-entrypoint.d/99-nextline-web-setup.sh
+COPY docker/docker-entrypoint.d/* /docker-entrypoint.d/
 COPY docker/nginx-default.conf.template /etc/nginx/templates/default.conf.template
 
 ENTRYPOINT ["./entrypoint.sh"]
