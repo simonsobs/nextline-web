@@ -24,6 +24,7 @@
     "vuetify": "^2.6.9"
   },
   "devDependencies": {
+    "@rollup/plugin-graphql": "^1.1.0",
     "@types/node": "^18.7.14",
     "@typescript-eslint/eslint-plugin": "^5.35.1",
     "@typescript-eslint/parser": "^5.35.1",
@@ -35,12 +36,12 @@
     "eslint-plugin-vue": "^9.4.0",
     "graphql-tag": "^2.12.6",
     "prettier": "^2.7.1",
+    "rollup": "^2.79.1",
     "sass": "^1.54.5",
     "typescript": "~4.7.4",
     "unplugin-vue-components": "^0.22.4",
     "vite": "^3.1.0",
     "vite-plugin-monaco-editor": "^1.1.0",
-    "vite-plugin-package-version": "^1.0.2",
-    "vite-plugin-simple-gql": "^0.5.0"
+    "vite-plugin-package-version": "^1.0.2"
   }
 }
