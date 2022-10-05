@@ -39,9 +39,10 @@ import {
 // import { createClient as createWSClient } from "graphql-ws";
 import { SubscriptionClient } from "subscriptions-transport-ws";
 import { provideClient } from "@urql/vue";
-import { useStore } from "@/stores/main";
+import { useConfigStore } from "@/stores/config";
 
 const route = useRoute();
+const configStore = useConfigStore();
 
 // https://formidable.com/open-source/urql/docs/advanced/subscriptions/
 // https://github.com/enisdenjo/graphql-ws/blob/master/README.md
@@ -55,15 +56,10 @@ const graphqlUrl = ref(
 );
 const version = ref(import.meta.env.PACKAGE_VERSION);
 
-const store = useStore();
-
 const title = computed(() => {
-  const name = store.config.apiName;
-  let ret = "Nextline";
-  if (name) {
-    ret = `${ret}: ${name}`;
-  }
-  return ret;
+  const pre = "Nextline";
+  const name = configStore.config?.apiName;
+  return name ? `${pre}: ${name}` : pre;
 });
 
 watch(
