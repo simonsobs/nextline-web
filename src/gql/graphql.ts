@@ -1,5 +1,3 @@
-/* eslint-disable */
-import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 import gql from 'graphql-tag';
 import * as Urql from '@urql/vue';
 export type Maybe<T> = T | null;
@@ -15,7 +13,6 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  /** Date with time (isoformat) */
   DateTime: any;
 };
 
@@ -324,8 +321,6 @@ export type TraceIdsSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
 export type TraceIdsSubscription = { __typename?: 'Subscription', traceIds: Array<number> };
-
-
 
 
 export const ExecDocument = gql`
