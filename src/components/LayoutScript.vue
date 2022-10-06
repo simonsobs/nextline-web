@@ -1,6 +1,9 @@
 <template>
   <div style="height: 100%">
-    <div v-if="nextlineState?.state == 'running' && traceIds" class="g-container">
+    <div
+      v-if="nextlineState?.state == 'running' && traceIds"
+      class="g-container"
+    >
       <code-exec
         :traceId="traceId"
         v-for="traceId in traceIds.traceIds"
@@ -11,48 +14,30 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, watch } from "vue";
-import { useSubscription } from "@urql/vue";
+<script setup lang="ts">
+import { computed, ref, watch } from "vue";
 
 import { useStore } from "@/stores/main";
 
 import CodeExec from "@/components/CodeExec/CodeExec.vue";
 import ScriptEditor from "@/components/ScriptEditor.vue";
 
-import SUBSCRIBE_STATE from "@/graphql/subscriptions/State.gql";
-import SUBSCRIBE_TRACE_IDS from "@/graphql/subscriptions/TraceIds.gql";
+import { useStateSubscription, useTraceIdsSubscription } from "@/gql/graphql";
 
-export default defineComponent({
-  name: "LayoutScript",
-  components: {
-    CodeExec,
-    ScriptEditor,
-  },
-  setup() {
-    const editing = ref(false);
+const editing = ref(false);
 
-    const stateSubscription = useSubscription<{ state: string }>({
-      query: SUBSCRIBE_STATE,
-    });
+const stateSubscription = useStateSubscription();
 
-    const traceIdSubscription = useSubscription<{ traceIds: number[] }>({
-      query: SUBSCRIBE_TRACE_IDS,
-    });
-    
-    const store = useStore();
-    
-    watch(editing, (val) => {
-      store.setModified(val);
-    });
+const traceIdSubscription = useTraceIdsSubscription();
 
-    return {
-      editing,
-      nextlineState: stateSubscription.data,
-      traceIds: traceIdSubscription.data,
-    };
-  },
+const store = useStore();
+
+watch(editing, (val) => {
+  store.setModified(val);
 });
+
+const nextlineState = computed(() => stateSubscription.data.value);
+const traceIds = computed(() => traceIdSubscription.data.value);
 </script>
 
 <style scoped>
