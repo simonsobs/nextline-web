@@ -29,41 +29,26 @@
   </v-card>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, nextTick } from "vue";
-import { useSubscription } from "@urql/vue";
+<script setup lang="ts">
+import { ref, nextTick } from "vue";
 
-import SUBSCRIBE_STDOUT from "@/graphql/subscriptions/Stdout.gql";
+import { useStdoutSubscription } from "@/gql/graphql";
 
-export default defineComponent({
-  name: "Stdout",
-  setup() {
-    const handleSubscription = (
-      messages = { stdout: "" },
-      response: { stdout: string }
-    ) => {
-      nextTick(() => {
-        nextTick(() => {
-          if (bottom.value) bottom.value.scrollIntoView(false);
-        });
-      });
-      return { stdout: messages.stdout + response.stdout };
-    };
-    const subscription = useSubscription<{ stdout: string }>(
-      {
-        query: SUBSCRIBE_STDOUT,
-      },
-      handleSubscription
-    );
-    function clear() {
-      if (subscription.data?.value) subscription.data.value.stdout = "";
-    }
-    const bottom = ref(null as HTMLElement | null);
-    return {
-      data: subscription.data,
-      clear,
-      bottom,
-    };
-  },
-});
+const handleSubscription = (
+  messages = { stdout: "" },
+  response: { stdout: string }
+) => {
+  nextTick(() => {
+    nextTick(() => {
+      if (bottom.value) bottom.value.scrollIntoView(false);
+    });
+  });
+  return { stdout: messages.stdout + response.stdout };
+};
+const subscription = useStdoutSubscription({}, handleSubscription);
+function clear() {
+  if (subscription.data?.value) subscription.data.value.stdout = "";
+}
+const bottom = ref(null as HTMLElement | null);
+const data = ref(subscription.data);
 </script>
