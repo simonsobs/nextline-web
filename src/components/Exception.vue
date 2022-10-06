@@ -7,53 +7,50 @@
   </v-alert>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, watch } from "vue";
+<script setup lang="ts">
+import { ref, watch } from "vue";
 
 import { useExceptionQuery, useStateSubscription } from "@/gql/graphql";
 
-export default defineComponent({
-  name: "Exception",
-  props: {
-    value: Boolean,
-  },
-  setup(props, { emit }) {
-    const subscription = useStateSubscription();
+interface Props {
+  value: boolean;
+}
 
-    const pause = ref(true);
+interface Emits {
+  (e: "input", value: boolean): void;
+}
 
-    const query = useExceptionQuery({ pause: pause.value });
+const props = defineProps<Props>();
+const emit = defineEmits<Emits>();
 
-    watch(subscription.data, (val) => {
-      pause.value = val?.state !== "finished";
-      if (!pause.value) {
-        query.executeQuery();
-      }
-    });
+const subscription = useStateSubscription();
 
-    const exception = ref(null as string | null | undefined);
+const pause = ref(true);
 
-    const alert = ref(false);
+const query = useExceptionQuery({ pause: pause.value });
 
-    watch(props, (val) => {
-      alert.value = val.value;
-    });
+watch(subscription.data, (val) => {
+  pause.value = val?.state !== "finished";
+  if (!pause.value) {
+    query.executeQuery();
+  }
+});
 
-    watch(query.data, (val) => {
-      alert.value = !!val?.exception;
-      exception.value = val?.exception;
-    });
+const exception = ref(null as string | null | undefined);
 
-    watch(alert, (val) => {
-      if (!val) exception.value = null;
-      emit("input", val);
-    });
+const alert = ref(false);
 
-    return {
-      exception,
-      alert,
-      pause,
-    };
-  },
+watch(props, (val) => {
+  alert.value = val.value;
+});
+
+watch(query.data, (val) => {
+  alert.value = !!val?.exception;
+  exception.value = val?.exception;
+});
+
+watch(alert, (val) => {
+  if (!val) exception.value = null;
+  emit("input", val);
 });
 </script>
