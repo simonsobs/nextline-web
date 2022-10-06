@@ -305,6 +305,11 @@ export type PromptingSubscriptionVariables = Exact<{
 
 export type PromptingSubscription = { __typename?: 'Subscription', prompting: { __typename?: 'PromptingData', prompting: number, fileName: string, lineNo: number, traceEvent: string } };
 
+export type RunNoSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type RunNoSubscription = { __typename?: 'Subscription', runNo: number };
+
 export type StateSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -319,6 +324,8 @@ export type TraceIdsSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
 export type TraceIdsSubscription = { __typename?: 'Subscription', traceIds: Array<number> };
+
+
 
 
 export const ExecDocument = gql`
@@ -437,6 +444,15 @@ export const PromptingDocument = gql`
 
 export function usePromptingSubscription<R = PromptingSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, PromptingSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandlerArg<PromptingSubscription, R>) {
   return Urql.useSubscription<PromptingSubscription, R, PromptingSubscriptionVariables>({ query: PromptingDocument, ...options }, handler);
+};
+export const RunNoDocument = gql`
+    subscription RunNo {
+  runNo
+}
+    `;
+
+export function useRunNoSubscription<R = RunNoSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, RunNoSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandlerArg<RunNoSubscription, R>) {
+  return Urql.useSubscription<RunNoSubscription, R, RunNoSubscriptionVariables>({ query: RunNoDocument, ...options }, handler);
 };
 export const StateDocument = gql`
     subscription State {

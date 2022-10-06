@@ -14,6 +14,7 @@ const documents = {
     "query Source($fileName: String) {\n  source(fileName: $fileName)\n}": types.SourceDocument,
     "subscription Counter {\n  counter\n}": types.CounterDocument,
     "subscription Prompting($traceId: Int!) {\n  prompting(traceId: $traceId) {\n    prompting\n    fileName\n    lineNo\n    traceEvent\n  }\n}": types.PromptingDocument,
+    "subscription RunNo {\n  runNo\n}": types.RunNoDocument,
     "subscription State {\n  state\n}": types.StateDocument,
     "subscription Stdout {\n  stdout\n}": types.StdoutDocument,
     "subscription TraceIds {\n  traceIds\n}": types.TraceIdsDocument,
@@ -30,6 +31,7 @@ export function graphql(source: "query Runs {\n  history {\n    runs {\n      ed
 export function graphql(source: "query Source($fileName: String) {\n  source(fileName: $fileName)\n}"): (typeof documents)["query Source($fileName: String) {\n  source(fileName: $fileName)\n}"];
 export function graphql(source: "subscription Counter {\n  counter\n}"): (typeof documents)["subscription Counter {\n  counter\n}"];
 export function graphql(source: "subscription Prompting($traceId: Int!) {\n  prompting(traceId: $traceId) {\n    prompting\n    fileName\n    lineNo\n    traceEvent\n  }\n}"): (typeof documents)["subscription Prompting($traceId: Int!) {\n  prompting(traceId: $traceId) {\n    prompting\n    fileName\n    lineNo\n    traceEvent\n  }\n}"];
+export function graphql(source: "subscription RunNo {\n  runNo\n}"): (typeof documents)["subscription RunNo {\n  runNo\n}"];
 export function graphql(source: "subscription State {\n  state\n}"): (typeof documents)["subscription State {\n  state\n}"];
 export function graphql(source: "subscription Stdout {\n  stdout\n}"): (typeof documents)["subscription Stdout {\n  stdout\n}"];
 export function graphql(source: "subscription TraceIds {\n  traceIds\n}"): (typeof documents)["subscription TraceIds {\n  traceIds\n}"];
