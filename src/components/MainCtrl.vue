@@ -64,6 +64,7 @@ import {
   useStateSubscription,
   useTraceIdsSubscription,
 } from "@/gql/graphql";
+import { storeToRefs } from "pinia";
 
 const nextlineState = ref<string>("");
 const stateSubscription = useStateSubscription();
@@ -108,7 +109,7 @@ const chipConfig = ref({
 });
 
 const store = useStore();
-const editing = computed(() => store.modified);
+const { modified: editing } = storeToRefs(store);
 
 const chip = computed(
   () => chipConfig.value[nextlineState.value] || chipConfig.value.default
