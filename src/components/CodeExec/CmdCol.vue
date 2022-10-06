@@ -20,65 +20,55 @@
   </v-card-actions>
 </template>
 
-<script lang="ts">
-import { defineComponent, reactive, ref, watch } from "vue";
-import { useMutation } from "@urql/vue";
+<script setup lang="ts">
+import { reactive, ref, watch, withDefaults } from "vue";
 
-import SEND_PDB_COMMAND from "@/graphql/mutations/SendPdbCommand.gql";
+import { useSendPdbCommandMutation } from "@/gql/graphql";
 
-export default defineComponent({
-  name: "CmdCol",
-  props: {
-    traceNo: { type: Number, required: true },
-    promptNo: { type: Number, required: true },
-    disabled: { type: Boolean, default: false },
-    keyboardEvent: KeyboardEvent,
-  },
-  setup(props) {
-    // Use ref() instead of reactive() because of a Vue-2 only limitation
-    const buttons = ref([
-      { text: "(N)ext", command: "next", icon: "mdi-skip-next" },
-      { text: "(S)tep", command: "step", icon: "mdi-debug-step-into" },
-      { text: "(R)eturn", command: "return", icon: "mdi-keyboard-return" },
-      { text: "(C)ontinue", command: "continue", icon: "mdi-play" },
-    ]);
+interface Props {
+  traceNo: number;
+  promptNo: number;
+  disabled?: boolean;
+  keyboardEvent?: KeyboardEvent;
+}
 
-    const keyboardShortcuts = reactive({
-      n: "next",
-      c: "continue",
-      r: "return",
-      s: "step",
-    });
-
-    const { executeMutation } = useMutation<
-      boolean,
-      { command: string; promptNo: number; traceNo: number }
-    >(SEND_PDB_COMMAND);
-
-    async function pdbCommand(command: string) {
-      await executeMutation({
-        command,
-        promptNo: props.promptNo,
-        traceNo: props.traceNo,
-      });
-    }
-
-    watch(
-      () => props.keyboardEvent,
-      async (event) => {
-        if (!event) return;
-        if (props.disabled) return;
-        const command = keyboardShortcuts[event.key];
-        if (!command) return;
-        await pdbCommand(command);
-      }
-    );
-
-    return {
-      buttons,
-      keyboardShortcuts,
-      pdbCommand,
-    };
-  },
+const props = withDefaults(defineProps<Props>(), {
+  disabled: false,
 });
+
+// Use ref() instead of reactive() because of a Vue-2 only limitation
+const buttons = ref([
+  { text: "(N)ext", command: "next", icon: "mdi-skip-next" },
+  { text: "(S)tep", command: "step", icon: "mdi-debug-step-into" },
+  { text: "(R)eturn", command: "return", icon: "mdi-keyboard-return" },
+  { text: "(C)ontinue", command: "continue", icon: "mdi-play" },
+]);
+
+const keyboardShortcuts = reactive({
+  n: "next",
+  c: "continue",
+  r: "return",
+  s: "step",
+});
+
+const { executeMutation } = useSendPdbCommandMutation();
+
+async function pdbCommand(command: string) {
+  await executeMutation({
+    command,
+    promptNo: props.promptNo,
+    traceNo: props.traceNo,
+  });
+}
+
+watch(
+  () => props.keyboardEvent,
+  async (event) => {
+    if (!event) return;
+    if (props.disabled) return;
+    const command = keyboardShortcuts[event.key];
+    if (!command) return;
+    await pdbCommand(command);
+  }
+);
 </script>
