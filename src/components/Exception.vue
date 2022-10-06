@@ -9,10 +9,8 @@
 
 <script lang="ts">
 import { defineComponent, ref, watch } from "vue";
-import { useQuery, useSubscription } from "@urql/vue";
 
-import QUERY_EXCEPTION from "@/graphql/queries/Exception.gql";
-import SUBSCRIBE_STATE from "@/graphql/subscriptions/State.gql";
+import { useExceptionQuery, useStateSubscription } from "@/gql/graphql";
 
 export default defineComponent({
   name: "Exception",
@@ -20,16 +18,11 @@ export default defineComponent({
     value: Boolean,
   },
   setup(props, { emit }) {
-    const subscription = useSubscription<{ state: string }>({
-      query: SUBSCRIBE_STATE,
-    });
+    const subscription = useStateSubscription();
 
     const pause = ref(true);
 
-    const query = useQuery<{ exception: string }>({
-      query: QUERY_EXCEPTION,
-      pause: pause.value,
-    });
+    const query = useExceptionQuery({ pause: pause.value });
 
     watch(subscription.data, (val) => {
       pause.value = val?.state !== "finished";
