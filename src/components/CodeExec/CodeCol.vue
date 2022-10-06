@@ -2,138 +2,109 @@
   <div class="code-col" ref="refEditor"></div>
 </template>
 
-<script lang="ts">
-import {
-  defineComponent,
-  PropType,
-  onMounted,
-  ref,
-  computed,
-  watch,
-  nextTick,
-} from "vue";
-import { useQuery } from "@urql/vue";
+<script setup lang="ts">
+import { onMounted, ref, computed, watch, nextTick } from "vue";
 import * as monaco from "monaco-editor";
 
-import QUERY_SOURCE from "@/graphql/queries/Source.gql";
+import { PromptingData, useSourceQuery } from "@/gql/graphql";
 
-interface PromptingData {
-  prompting: number;
-  fileName: string;
-  lineNo: number;
-  traceEvent: string;
+interface Props {
+  state: PromptingData;
 }
 
-export default defineComponent({
-  name: "CodeCol",
-  props: {
-    state: { type: Object as PropType<PromptingData>, required: true },
-  },
-  setup(props) {
-    const refEditor = ref<HTMLElement | null>(null);
+const props = defineProps<Props>();
 
-    const model = monaco.editor.createModel("", "python");
+const refEditor = ref<HTMLElement | null>(null);
 
-    let editor: monaco.editor.IStandaloneCodeEditor | null = null;
+const model = monaco.editor.createModel("", "python");
 
-    onMounted(() => {
-      if (!refEditor.value) return;
-      editor = monaco.editor.create(refEditor.value, {
-        model,
-        minimap: { enabled: false },
-        scrollbar: { vertical: "auto", horizontal: "auto" },
-        fontFamily: "Fira Code",
-        fontSize: 14,
-        fontWeight: "500",
-        fontLigatures: true,
-        lineHeight: 24,
-        automaticLayout: true,
-        scrollBeyondLastLine: false,
-        glyphMargin: true,
-        readOnly: true,
-        matchBrackets: "never",
-        selectionHighlight: false,
-        occurrencesHighlight: false,
-        renderLineHighlight: "none",
-        theme: "nextline-viewer",
-      });
-    });
+let editor: monaco.editor.IStandaloneCodeEditor | null = null;
 
-    let decorationsCurrentLine: string[] = [];
+onMounted(() => {
+  if (!refEditor.value) return;
+  editor = monaco.editor.create(refEditor.value, {
+    model,
+    minimap: { enabled: false },
+    scrollbar: { vertical: "auto", horizontal: "auto" },
+    fontFamily: "Fira Code",
+    fontSize: 14,
+    fontWeight: "500",
+    fontLigatures: true,
+    lineHeight: 24,
+    automaticLayout: true,
+    scrollBeyondLastLine: false,
+    glyphMargin: true,
+    readOnly: true,
+    matchBrackets: "never",
+    selectionHighlight: false,
+    occurrencesHighlight: false,
+    renderLineHighlight: "none",
+    theme: "nextline-viewer",
+  });
+});
 
-    function markCurrentLine() {
-      if (!editor) return;
-      const { lineNo, prompting } = props.state;
-      if (!(lineNo >= 1)) return;
-      decorationsCurrentLine = editor.deltaDecorations(decorationsCurrentLine, [
-        {
-          range: new monaco.Range(lineNo, 1, lineNo, 1),
-          options: {
-            isWholeLine: true,
-            className: prompting
-              ? "currentLineContent"
-              : "currentLineContentDim",
-            glyphMarginClassName: prompting
-              ? "currentLineMargin"
-              : "currentLineMarginDim",
-          },
-        },
-      ]);
-    }
+let decorationsCurrentLine: string[] = [];
 
-    function scroll() {
-      if (!editor) return;
-      const lineNo = props.state.lineNo;
-      if (!(lineNo >= 1)) return;
-      editor.revealLineInCenter(lineNo);
-    }
-
-    const fileName = ref(props.state.fileName);
-
-    watch(
-      () => props.state.fileName,
-      (val) => {
-        fileName.value = val;
-      }
-    );
-
-    const query = useQuery<{ source: string[] }>({
-      query: QUERY_SOURCE,
-      variables: {
-        fileName,
+function markCurrentLine() {
+  if (!editor) return;
+  const { lineNo, prompting } = props.state;
+  if (!(lineNo >= 1)) return;
+  decorationsCurrentLine = editor.deltaDecorations(decorationsCurrentLine, [
+    {
+      range: new monaco.Range(lineNo, 1, lineNo, 1),
+      options: {
+        isWholeLine: true,
+        className: prompting ? "currentLineContent" : "currentLineContentDim",
+        glyphMarginClassName: prompting
+          ? "currentLineMargin"
+          : "currentLineMarginDim",
       },
-    });
+    },
+  ]);
+}
 
-    const sourceLines = ref<string[]>([]);
+function scroll() {
+  if (!editor) return;
+  const lineNo = props.state.lineNo;
+  if (!(lineNo >= 1)) return;
+  editor.revealLineInCenter(lineNo);
+}
 
-    watch(query.data, (data) => {
-      if (!data?.source) return;
-      sourceLines.value = data.source;
-      nextTick(scroll);
-      nextTick(markCurrentLine);
-    });
+const fileName = ref(props.state.fileName);
 
-    watch(
-      () => props.state,
-      () => {
-        nextTick(scroll);
-        nextTick(markCurrentLine);
-      },
-      { immediate: true }
-    );
+watch(
+  () => props.state.fileName,
+  (val) => {
+    fileName.value = val;
+  }
+);
 
-    const source = computed(() => {
-      return sourceLines.value.join("\n");
-    });
+const query = useSourceQuery({ variables: { fileName } });
 
-    watch(source, (val) => {
-      model.setValue(val);
-    });
+const sourceLines = ref<string[]>([]);
 
-    return {
-      refEditor,
-    };
+watch(query.data, (data) => {
+  if (!data?.source) return;
+  sourceLines.value = data.source;
+  nextTick(scroll);
+  nextTick(markCurrentLine);
+});
+
+watch(
+  () => props.state,
+  () => {
+    nextTick(scroll);
+    nextTick(markCurrentLine);
   },
+  { immediate: true }
+);
+
+const source = computed(() => {
+  return sourceLines.value.join("\n");
+});
+
+watch(source, (val) => {
+  model.setValue(val);
 });
 </script>
 
