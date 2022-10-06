@@ -29,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from "vue";
+import { ref, computed, watchEffect } from "vue";
 import { useRoute } from "vue-router/composables";
 
 import { useConfigStore } from "@/stores/config";
@@ -47,14 +47,9 @@ const title = computed(() => {
   return name ? `${pre}: ${name}` : pre;
 });
 
-watch(
-  title,
-  (val) => {
-    document.title = val || "loading...";
-  },
-  { immediate: true }
-);
-
+watchEffect(() => {
+  document.title = title.value || "loading...";
+});
 </script>
 
 <style>
