@@ -78,7 +78,15 @@ watch(traceIdsSubscription.data, (val) => {
   traceIds.value = val?.traceIds || [];
 });
 
-const buttons = ref([
+type Method = "run" | "reset" | "interrupt" | "terminate" | "kill";
+interface Button {
+  method: Method;
+  text: string;
+  icon: string;
+  states: string[];
+}
+
+const buttons = ref<Button[]>([
   {
     text: "Run",
     method: "run",
@@ -115,7 +123,8 @@ const chip = computed(
   () => chipConfig.value[nextlineState.value] || chipConfig.value.default
 );
 
-async function onClick(method: string) {
+
+async function onClick(method: Method) {
   if (method === "run") {
     await executeExec({});
   } else if (method === "reset") {
