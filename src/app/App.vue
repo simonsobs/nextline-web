@@ -82,22 +82,27 @@ const subscriptionClient = new SubscriptionClient(wsEndpoint, {
   reconnect: true,
 });
 
-const client = createClient({
-  url: graphqlUrl.value,
-  requestPolicy: "network-only",
-  exchanges: [
-    ...defaultExchanges,
-    subscriptionExchange({
-      forwardSubscription: (operation) => subscriptionClient.request(operation),
-      // // for graphql-ws
-      // forwardSubscription: (operation) => ({
-      //   subscribe: (sink) => ({
-      //     unsubscribe: wsClient.subscribe(operation, sink),
-      //   }),
-      // }),
-    }),
-  ],
-});
+function createUrqlClient(url: string) {
+  return createClient({
+    url: url,
+    requestPolicy: "network-only",
+    exchanges: [
+      ...defaultExchanges,
+      subscriptionExchange({
+        forwardSubscription: (operation) =>
+          subscriptionClient.request(operation),
+        // // for graphql-ws
+        // forwardSubscription: (operation) => ({
+        //   subscribe: (sink) => ({
+        //     unsubscribe: wsClient.subscribe(operation, sink),
+        //   }),
+        // }),
+      }),
+    ],
+  });
+}
+
+const client = createUrqlClient(graphqlUrl.value);
 
 provideClient(client);
 </script>
