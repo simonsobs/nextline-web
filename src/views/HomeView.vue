@@ -15,29 +15,15 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from "vue";
+<script setup lang="ts">
+import { ref } from "vue";
 
 import MainCtrl from "@/components/MainCtrl.vue";
 import Stdout from "@/components/Stdout.vue";
 import Exception from "@/components/Exception.vue";
 import LayoutScript from "@/components/LayoutScript.vue";
 
-export default defineComponent({
-  name: "HomeView",
-  components: {
-    MainCtrl,
-    Stdout,
-    Exception,
-    LayoutScript,
-  },
-  setup() {
-    const exception = ref(false);
-    return {
-      exception,
-    };
-  },
-});
+const exception = ref(false);
 </script>
 
 <style scoped>
