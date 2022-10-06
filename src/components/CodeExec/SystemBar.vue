@@ -10,29 +10,17 @@
   </v-system-bar>
 </template>
 
-<script lang="ts">
-import { defineComponent, PropType, computed } from "vue";
+<script setup lang="ts">
+import { computed } from "vue";
 import path from "path";
 
-interface PromptingData {
-  prompting: number;
-  fileName: string;
-  lineNo: number;
-  traceEvent: string;
+import { PromptingData } from "@/gql/graphql";
+
+interface Props {
+  state: PromptingData;
 }
 
-export default defineComponent({
-  name: "SystemBar",
-  props: {
-    state: { type: Object as PropType<PromptingData>, required: true },
-  },
-  setup(props) {
-    const basename = computed(() => {
-      return path.basename(props.state.fileName);
-    });
-    return {
-      basename,
-    };
-  },
-});
+const props = defineProps<Props>();
+
+const basename = computed(() => path.basename(props.state.fileName));
 </script>
