@@ -38,14 +38,15 @@ import * as monaco from "monaco-editor";
 
 import { useSourceQuery, useResetMutation } from "@/gql/graphql";
 
-const props = defineProps<{
+interface Props {
   value: boolean;
-}>();
+}
 
 interface Emits {
   (e: "input", value: boolean): void;
 }
 
+const props = defineProps<Props>();
 const emit = defineEmits<Emits>();
 
 const source = ref("");
