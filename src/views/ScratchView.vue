@@ -91,17 +91,13 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "ScratchView",
-  data() {
-    return {
-      tab: null,
-      items: ["one", "two", "three"],
-      text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-    };
-  },
-};
+<script setup lang="ts">
+import { ref } from "vue";
+const tab = ref<any>(null);
+const items = ref(["one", "two", "three"]);
+const text = ref(
+  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+);
 </script>
 
 <style scoped>
