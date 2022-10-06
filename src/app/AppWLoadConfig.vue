@@ -6,6 +6,6 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
 import { useConfigStore } from "@/stores/config";
-import App from "./App.vue";
+import App from "./AppWProvideUrqlClient.vue";
 const { loading, error } = storeToRefs(useConfigStore());
 </script>

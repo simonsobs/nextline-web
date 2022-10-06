@@ -31,16 +31,13 @@
 <script setup lang="ts">
 import { ref, computed, watch } from "vue";
 import { useRoute } from "vue-router/composables";
-import { provideClient } from "@urql/vue";
 
-import { createUrqlClient } from "@/urql";
 import { useConfigStore } from "@/stores/config";
 
 const route = useRoute();
 const configStore = useConfigStore();
 
 const graphqlUrl = computed(() => configStore.config?.apiHttp);
-if (!graphqlUrl.value) throw new Error("No graphqlUrl");
 
 const version = ref(import.meta.env.PACKAGE_VERSION);
 
@@ -58,9 +55,6 @@ watch(
   { immediate: true }
 );
 
-const client = createUrqlClient(graphqlUrl.value);
-
-provideClient(client);
 </script>
 
 <style>
