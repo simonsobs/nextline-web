@@ -58,89 +58,49 @@
   </v-container>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, watch } from "vue";
-import { useQuery } from "@urql/vue";
+<script setup lang="ts">
+import { computed, ref } from "vue";
 
-import RUNS from "@/graphql/queries/Runs.gql";
+import { useRunsQuery } from "@/gql/graphql";
 
-interface RunHistory {
-  runNo: number;
-  state?: string;
-  startedAt?: string;
-  endedAt?: string;
-  script?: string;
-  exception?: string;
-}
+const query = useRunsQuery();
+const history = computed(() => query.data?.value?.history);
 
-interface RunHistoryEdge {
-  node: RunHistory;
-}
+const headers = ref([
+  { text: "Run No.", value: "node.runNo" },
+  { text: "State", value: "node.state" },
+  { text: "Started at", value: "node.startedAt" },
+  { text: "Ended at", value: "node.endedAt" },
+  { text: "", value: "node.exception" },
+  { text: "", value: "data-table-expand" },
+]);
 
-interface RunHistoryConnection {
-  edges: RunHistoryEdge[];
-}
+const expanded = ref([]);
+const singleExpand = ref(false);
 
-interface History {
-  runs: RunHistoryConnection;
-}
-
-export default defineComponent({
-  name: "Runs",
-  setup() {
-    const history = ref<History | null | undefined>(null);
-    const query = useQuery<{ history: History }>({
-      query: RUNS,
-    });
-    watch(query.data, (val) => {
-      history.value = val?.history;
-    });
-
-    const headers = ref([
-      { text: "Run No.", value: "node.runNo" },
-      { text: "State", value: "node.state" },
-      { text: "Started at", value: "node.startedAt" },
-      { text: "Ended at", value: "node.endedAt" },
-      { text: "", value: "node.exception" },
-      { text: "", value: "data-table-expand" },
-    ]);
-
-    const expanded = ref([]);
-    const singleExpand = ref(false);
-
-    const stateChipColor = ref({
-      initialized: "success",
-      running: "primary",
-      exited: "warning",
-      finished: "warning",
-      closed: "warning",
-    });
-
-    function formatDateTime(dateTime: string) {
-      if (!dateTime) return;
-      const sinceEpoch = Date.parse(dateTime);
-      const format = Intl.DateTimeFormat("default", {
-        year: "numeric",
-        month: "numeric",
-        day: "numeric",
-        hour: "numeric",
-        minute: "numeric",
-        second: "numeric",
-        hour12: false,
-      });
-      return format.format(sinceEpoch);
-    }
-
-    return {
-      history,
-      headers,
-      expanded,
-      singleExpand,
-      stateChipColor,
-      formatDateTime,
-    };
-  },
+const stateChipColor = ref({
+  initialized: "success",
+  running: "primary",
+  exited: "warning",
+  finished: "warning",
+  closed: "warning",
 });
+
+function formatDateTime(dateTime: string) {
+  if (!dateTime) return;
+  const sinceEpoch = Date.parse(dateTime);
+  const format = Intl.DateTimeFormat("default", {
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
+    hour12: false,
+  });
+  return format.format(sinceEpoch);
+}
+
 </script>
 
 <style>
