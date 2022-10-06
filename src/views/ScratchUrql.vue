@@ -2,51 +2,35 @@
   <div>
     <div v-if="state">{{ state }}</div>
     <div v-if="sub">{{ sub }}</div>
-    <pre v-if="result">{{ result }}</pre>
+    <pre v-if="subscription">{{ subscription }}</pre>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, watch } from "vue";
+<script setup lang="ts">
+import { computed } from "vue";
 import { gql, useQuery, useSubscription } from "@urql/vue";
 
 // import SUBSCRIBE_STATE from "@/graphql/subscriptions/State.gql";
 
-export default defineComponent({
-  name: "ScratchUrql",
-  setup() {
-    const state = useQuery({
-      query: gql`
-        query {
-          state
-        }
-      `,
-    });
-
-    const result = useSubscription({
-      //   query: SUBSCRIBE_STATE,
-      query: gql`
-        subscription {
-          state
-        }
-      `,
-    });
-
-    // watch(
-    //   result,
-    //   (val) => {
-    // 	console.log(val);
-    //   },
-    //   { immediate: true }
-    // );
-
-    return {
-      state: state.data,
-      sub: result.data,
-      result,
-    };
-  },
+const query = useQuery({
+  query: gql`
+    query {
+      state
+    }
+  `,
 });
+
+const subscription = useSubscription({
+  //   query: SUBSCRIBE_STATE,
+  query: gql`
+    subscription {
+      state
+    }
+  `,
+});
+
+const state = computed(() => query.data);
+const sub = computed(() => subscription.data);
 </script>
 
 <style></style>
