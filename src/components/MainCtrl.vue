@@ -1,6 +1,10 @@
 <template>
   <v-card flat class="grey lighten-5">
     <v-card-actions class="flex-wrap">
+    Run: <pre>{{ runNo }}</pre>
+      <v-chip v-if="chip" :color="chip.color" class="text-capitalize mx-2">
+        {{ nextlineState }}
+      </v-chip>
       <v-btn
         outlined
         text
@@ -15,9 +19,6 @@
         </v-icon>
         {{ b.text }}
       </v-btn>
-      <v-chip v-if="chip" :color="chip.color" class="text-capitalize mx-2">
-        {{ nextlineState }}
-      </v-chip>
       <v-spacer></v-spacer>
       <v-menu>
         <template v-slot:activator="{ on, attr }">
@@ -63,6 +64,7 @@ import {
   useKillMutation,
   useStateSubscription,
   useTraceIdsSubscription,
+  useRunNoSubscription,
 } from "@/gql/graphql";
 import { storeToRefs } from "pinia";
 
@@ -70,6 +72,9 @@ const stateSubscription = useStateSubscription();
 const nextlineState = computed(
   () => stateSubscription.data?.value?.state || "unknown"
 );
+
+const runNoSubscription = useRunNoSubscription();
+const runNo = computed(() => runNoSubscription.data?.value?.runNo);
 
 const traceIdsSubscription = useTraceIdsSubscription();
 const traceIds = computed(
