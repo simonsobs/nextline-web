@@ -51,7 +51,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from "vue";
+import { ref, computed } from "vue";
 
 import { useStore } from "@/stores/main";
 
@@ -66,17 +66,15 @@ import {
 } from "@/gql/graphql";
 import { storeToRefs } from "pinia";
 
-const nextlineState = ref<string>("");
 const stateSubscription = useStateSubscription();
-watch(stateSubscription.data, (val) => {
-  nextlineState.value = val?.state || "";
-});
+const nextlineState = computed(
+  () => stateSubscription.data?.value?.state || "unknown"
+);
 
-const traceIds = ref<number[]>([]);
 const traceIdsSubscription = useTraceIdsSubscription();
-watch(traceIdsSubscription.data, (val) => {
-  traceIds.value = val?.traceIds || [];
-});
+const traceIds = computed(
+  () => traceIdsSubscription.data?.value?.traceIds || []
+);
 
 type Method = "run" | "reset" | "interrupt" | "terminate" | "kill";
 interface Button {
@@ -122,7 +120,6 @@ const { modified: editing } = storeToRefs(store);
 const chip = computed(
   () => chipConfig.value[nextlineState.value] || chipConfig.value.default
 );
-
 
 async function onClick(method: Method) {
   if (method === "run") {
