@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-navigation-drawer v-model="drawer" app clipped>
+    <v-navigation-drawer v-model="drawer" app clipped disable-resize-watcher>
       <v-card flat>
         <v-app-bar dense flat dark class="primary lighten-1 font-weight-bold">
           {{ title }}
