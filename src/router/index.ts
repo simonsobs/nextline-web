@@ -3,6 +3,7 @@ import VueRouter, { RouteConfig } from "vue-router";
 
 import HomeView from "../views/HomeView.vue";
 import Runs from "@/views/Runs.vue";
+import Run from "@/views/Run.vue";
 
 // Pinia must be plugged in before the router if a store is used in a route
 // https://github.com/vuejs/pinia/discussions/723#discussioncomment-2110660
@@ -23,9 +24,14 @@ const routes: Array<RouteConfig> = [
     component: () => import("../views/AboutView.vue"),
   },
   {
-    path: "/runs",
+    path: "/history/runs",
     name: "runs",
     component: Runs,
+  },
+  {
+    path: "/history/runs/:runNo",
+    name: "run",
+    component: Run,
   },
   {
     path: "/scratch",
