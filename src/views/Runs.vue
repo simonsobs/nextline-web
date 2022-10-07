@@ -1,61 +1,54 @@
 <template>
-  <v-container fluid>
-    <v-row align="start" justify="center">
-      <v-col cols="10">
-        <v-card outlined>
-          <v-card-text v-if="history">
-            <v-data-table
-              :headers="headers"
-              :items="history.runs.edges"
-              item-key="node.runNo"
-              :items-per-page="history.runs.edges.length"
-              :hide-default-footer="true"
-              :single-expand="singleExpand"
-              :expanded.sync="expanded"
-              show-expand
-            >
-              <template v-slot:[`item.node.runNo`]="{ item }">
-                <span class="font-weight-bold primary--text">
-                  {{ item.node.runNo }}
-                </span>
-              </template>
-              <template v-slot:[`item.node.state`]="{ item }">
-                <v-chip
-                  :color="stateChipColor[item.node.state]"
-                  class="text-capitalize"
-                >
-                  {{ item.node.state }}
-                </v-chip>
-              </template>
-              <template v-slot:[`item.node.startedAt`]="{ item }">
-                {{ formatDateTime(item.node.startedAt) }}
-              </template>
-              <template v-slot:[`item.node.endedAt`]="{ item }">
-                {{ formatDateTime(item.node.endedAt) }}
-              </template>
-              <template v-slot:[`item.node.exception`]="{ item }">
-                <v-icon v-if="!item.node.exception" color="teal"
-                  >mdi-check</v-icon
-                >
-                <v-icon v-else color="red">mdi-close</v-icon>
-              </template>
-              <template v-slot:expanded-item="{ headers, item }">
-                <!-- <td :colspan="headers.length" style="width: 80%"> -->
-                <td :colspan="headers.length">
-                  <div>
-                    <!-- <div style="width: 90%; overflow-x: auto"> -->
-                    <pre>{{ item.node.script }}</pre>
-                    <pre>{{ item.node.exception }}</pre>
-                  </div>
-                </td>
-              </template>
-            </v-data-table>
-            <!-- <pre> {{ runs }} </pre> -->
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
-  </v-container>
+  <div class="g-container">
+    <v-card flat class="overflow-auto" rounded="lg" max-width="1200">
+      <v-card-text>
+        <v-data-table
+          :headers="headers"
+          :items="nodes"
+          item-key="runNo"
+          :items-per-page="10"
+          :hide-default-footer="false"
+          :single-expand="singleExpand"
+          :expanded.sync="expanded"
+          sort-by="runNo"
+          :sort-desc="true"
+          show-expand
+        >
+          <template v-slot:item.runNo="{ item }">
+            <span class="font-weight-bold primary--text">
+              {{ item.runNo }}
+            </span>
+          </template>
+          <template v-slot:item.state="{ item }">
+            <v-chip :color="stateChipColor[item.state]" class="text-capitalize">
+              {{ item.state }}
+            </v-chip>
+          </template>
+          <template v-slot:item.startedAt="{ item }">
+            {{ formatDateTime(item.startedAt) }}
+          </template>
+          <template v-slot:item.endedAt="{ item }">
+            {{ formatDateTime(item.endedAt) }}
+          </template>
+          <template v-slot:item.exception="{ item }">
+            <v-icon v-if="!item.exception" color="teal"> mdi-check </v-icon>
+            <v-icon v-else color="red">mdi-close</v-icon>
+          </template>
+          <template v-slot:expanded-item="{ headers, item }">
+            <!-- <td :colspan="headers.length" style="width: 80%"> -->
+            <td :colspan="headers.length">
+              <div>
+                <!-- <div style="width: 90%; overflow-x: auto"> -->
+                <pre>{{ item.script }}</pre>
+                <pre>{{ item.exception }}</pre>
+              </div>
+            </td>
+          </template>
+        </v-data-table>
+        <!-- <pre> {{ runs }} </pre> -->
+      </v-card-text>
+    </v-card>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -64,14 +57,27 @@ import { computed, ref } from "vue";
 import { useRunsQuery } from "@/gql/graphql";
 
 const query = useRunsQuery();
-const history = computed(() => query.data?.value?.history);
+
+type Query = typeof query;
+
+function readEdges(query: Query) {
+  const edgesAndNulls = query.data.value?.history.runs.edges;
+  if (!edgesAndNulls) return [];
+  return edgesAndNulls.flatMap((e) => (e ? [e] : []));
+}
+
+function readNodes(query: Query) {
+  return readEdges(query).flatMap((e) => (e.node ? e.node : []));
+}
+
+const nodes = computed(() => readNodes(query));
 
 const headers = ref([
-  { text: "Run No.", value: "node.runNo" },
-  { text: "State", value: "node.state" },
-  { text: "Started at", value: "node.startedAt" },
-  { text: "Ended at", value: "node.endedAt" },
-  { text: "", value: "node.exception" },
+  { text: "Run No.", value: "runNo" },
+  { text: "State", value: "state" },
+  { text: "Started at", value: "startedAt" },
+  { text: "Ended at", value: "endedAt" },
+  { text: "", value: "exception" },
   { text: "", value: "data-table-expand" },
 ]);
 
@@ -100,7 +106,6 @@ function formatDateTime(dateTime: string) {
   });
   return format.format(sinceEpoch);
 }
-
 </script>
 
 <style>
@@ -116,4 +121,12 @@ tbody {
   width: 100%;
   overflow-x: hidden !important;
 } */
+
+.g-container {
+  display: grid;
+  margin: 12px;
+  height: calc(100% - 2 * 12px);
+  width: calc(100% - 2 * 12px);
+  justify-content: center;
+}
 </style>
