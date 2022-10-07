@@ -111,7 +111,9 @@ tbody {
   width: 100%;
   overflow-x: hidden !important;
 } */
+</style>
 
+<style scoped>
 .g-container {
   display: grid;
   margin: 12px;

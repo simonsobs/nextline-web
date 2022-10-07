@@ -95,20 +95,7 @@ function formatDateTime(dateTime: string) {
 }
 </script>
 
-<style>
-/* .v-data-table {
-  width: 100%;
-}
-
-tbody {
-  width: 100%;
-}
-
-.v-data-table__wrapper {
-  width: 100%;
-  overflow-x: hidden !important;
-} */
-
+<style scoped>
 .g-container {
   display: grid;
   margin: 12px;
