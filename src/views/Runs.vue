@@ -8,11 +8,9 @@
           item-key="runNo"
           :items-per-page="10"
           :hide-default-footer="false"
-          :single-expand="singleExpand"
-          :expanded.sync="expanded"
           sort-by="runNo"
           :sort-desc="true"
-          show-expand
+          @click:row="onClickRow"
         >
           <template v-slot:item.runNo="{ item }">
             <span class="font-weight-bold primary--text">
@@ -34,16 +32,6 @@
             <v-icon v-if="!item.exception" color="teal"> mdi-check </v-icon>
             <v-icon v-else color="red">mdi-close</v-icon>
           </template>
-          <template v-slot:expanded-item="{ headers, item }">
-            <!-- <td :colspan="headers.length" style="width: 80%"> -->
-            <td :colspan="headers.length">
-              <div>
-                <!-- <div style="width: 90%; overflow-x: auto"> -->
-                <pre>{{ item.script }}</pre>
-                <pre>{{ item.exception }}</pre>
-              </div>
-            </td>
-          </template>
         </v-data-table>
         <!-- <pre> {{ runs }} </pre> -->
       </v-card-text>
@@ -53,9 +41,11 @@
 
 <script setup lang="ts">
 import { computed, ref } from "vue";
+import { useRouter } from "vue-router/composables";
 
 import { useRunsQuery } from "@/gql/graphql";
 
+const router = useRouter();
 const query = useRunsQuery();
 
 type Query = typeof query;
@@ -78,11 +68,11 @@ const headers = ref([
   { text: "Started at", value: "startedAt" },
   { text: "Ended at", value: "endedAt" },
   { text: "", value: "exception" },
-  { text: "", value: "data-table-expand" },
 ]);
 
-const expanded = ref([]);
-const singleExpand = ref(false);
+function onClickRow(item: any) {
+  router.push({ name: "run", params: { runNo: item.runNo } });
+}
 
 const stateChipColor = ref({
   initialized: "success",
