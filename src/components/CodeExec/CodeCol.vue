@@ -52,13 +52,14 @@ onMounted(() => {
   });
 });
 
-let decorationsCurrentLine: string[] = [];
+let decorationsCollection: monaco.editor.IEditorDecorationsCollection | undefined;
 
 function markCurrentLine() {
   if (!editor) return;
   const { lineNo, prompting } = state.value;
   if (!(lineNo >= 1)) return;
-  decorationsCurrentLine = editor.deltaDecorations(decorationsCurrentLine, [
+  decorationsCollection?.clear();
+  decorationsCollection = editor.createDecorationsCollection([
     {
       range: new monaco.Range(lineNo, 1, lineNo, 1),
       options: {
