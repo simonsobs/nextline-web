@@ -3,7 +3,15 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, computed, watch, nextTick } from "vue";
+import {
+  onMounted,
+  ref,
+  computed,
+  watch,
+  nextTick,
+  toRef,
+  watchEffect,
+} from "vue";
 import * as monaco from "monaco-editor";
 
 import { PromptingData, useSourceQuery } from "@/gql/graphql";
@@ -13,12 +21,13 @@ interface Props {
 }
 
 const props = defineProps<Props>();
+const state = toRef(props, "state");
 
 const refEditor = ref<HTMLElement | null>(null);
 
 const model = monaco.editor.createModel("", "python");
 
-let editor: monaco.editor.IStandaloneCodeEditor | null = null;
+let editor: monaco.editor.IStandaloneCodeEditor | undefined;
 
 onMounted(() => {
   if (!refEditor.value) return;
@@ -47,7 +56,7 @@ let decorationsCurrentLine: string[] = [];
 
 function markCurrentLine() {
   if (!editor) return;
-  const { lineNo, prompting } = props.state;
+  const { lineNo, prompting } = state.value;
   if (!(lineNo >= 1)) return;
   decorationsCurrentLine = editor.deltaDecorations(decorationsCurrentLine, [
     {
@@ -65,47 +74,42 @@ function markCurrentLine() {
 
 function scroll() {
   if (!editor) return;
-  const lineNo = props.state.lineNo;
+  const lineNo = state.value.lineNo;
   if (!(lineNo >= 1)) return;
   editor.revealLineInCenter(lineNo);
 }
 
-const fileName = ref(props.state.fileName);
-
-watch(
-  () => props.state.fileName,
-  (val) => {
-    fileName.value = val;
-  }
-);
+const fileName = ref("");
+watchEffect(() => {
+  fileName.value = state.value.fileName;
+});
+// The watchEffect() above is used here because the following computed() doesn't
+// work. It triggers refetching every time the state changes even when the
+// fileName doesn't change.
+// const fileName = computed(() => state.value.fileName);
 
 const query = useSourceQuery({ variables: { fileName } });
-
-const sourceLines = ref<string[]>([]);
-
-watch(query.data, (data) => {
-  if (!data?.source) return;
-  sourceLines.value = data.source;
-  nextTick(scroll);
-  nextTick(markCurrentLine);
-});
+const sourceLines = computed(() => query.data.value?.source || []);
+const source = computed(() => sourceLines.value.join("\n"));
 
 watch(
-  () => props.state,
-  () => {
+  source,
+  (val) => {
+    model.setValue(source.value);
     nextTick(scroll);
     nextTick(markCurrentLine);
   },
   { immediate: true }
 );
 
-const source = computed(() => {
-  return sourceLines.value.join("\n");
-});
-
-watch(source, (val) => {
-  model.setValue(val);
-});
+watch(
+  state,
+  (val) => {
+    nextTick(scroll);
+    nextTick(markCurrentLine);
+  },
+  { immediate: true }
+);
 </script>
 
 <style>
