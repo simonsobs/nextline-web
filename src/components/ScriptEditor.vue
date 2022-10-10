@@ -33,7 +33,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, computed, watch } from "vue";
+import { onMounted, ref, computed, watch, watchEffect } from "vue";
 import * as monaco from "monaco-editor";
 
 import { useSourceQuery, useResetMutation } from "@/gql/graphql";
@@ -75,22 +75,13 @@ onMounted(() => {
   });
 });
 
-const savedSourceLines = ref([] as string[]);
-const savedSource = computed(() => {
-  return savedSourceLines.value.join("\n");
-});
-
 const query = useSourceQuery();
+const savedSourceLines = computed(() => query.data.value?.source || []);
+const savedSource = computed(() => savedSourceLines.value.join("\n"));
 
-watch(query.data, (data) => {
-  if (data?.source) {
-    savedSourceLines.value = data.source;
-  }
-});
-
-watch(savedSource, (val) => {
-  source.value = val;
-  model.setValue(val);
+watchEffect(() => {
+  source.value = savedSource.value;
+  model.setValue(savedSource.value);
 });
 
 const editing = computed(() => {
@@ -101,24 +92,30 @@ watch(editing, (val) => {
   emit("input", val);
 });
 
-const buttons = computed(() => {
-  return [
-    {
-      text: "Save",
-      method: "save",
-      disabled: !editing.value,
-      icon: "mdi-content-save",
-    },
-    {
-      text: "Reset",
-      method: "reset",
-      disabled: !editing.value,
-      icon: "mdi-reload",
-    },
-  ];
-});
+type Method = "save" | "reset";
+interface Button {
+  method: Method;
+  text: string;
+  icon: string;
+  disabled: boolean;
+}
 
-async function onClick(method: string) {
+const buttons = computed<Button[]>(() => [
+  {
+    text: "Save",
+    method: "save",
+    disabled: !editing.value,
+    icon: "mdi-content-save",
+  },
+  {
+    text: "Reset",
+    method: "reset",
+    disabled: !editing.value,
+    icon: "mdi-reload",
+  },
+]);
+
+async function onClick(method: Method) {
   if (method === "save") await save();
   else if (method === "reset") reset();
   else {
