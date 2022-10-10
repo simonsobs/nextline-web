@@ -24,8 +24,11 @@
           </span>
         </span>
       </v-card-text>
-      <v-card-subtitle v-if="run.exception" class="font-weight-bold error--text"> 
-      Uncaught exception:
+      <v-card-subtitle
+        v-if="run.exception"
+        class="font-weight-bold error--text"
+      >
+        Uncaught exception:
       </v-card-subtitle>
       <v-card-text v-if="run.exception">
         <v-alert outlined type="error">
