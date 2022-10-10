@@ -34,6 +34,7 @@
 
 <script setup lang="ts">
 import { onMounted, ref, computed, watch, watchEffect } from "vue";
+import { watchDebounced } from "@vueuse/core";
 import * as monaco from "monaco-editor";
 
 import { useSourceQuery, useResetMutation } from "@/gql/graphql";
@@ -52,9 +53,20 @@ const emit = defineEmits<Emits>();
 const source = ref("");
 
 const model = monaco.editor.createModel("", "python");
+
+const nChangeContents = ref(0);
+
 model.onDidChangeContent((e) => {
-  source.value = model.getValue();
+  nChangeContents.value += 1;
 });
+
+watchDebounced(
+  nChangeContents,
+  () => {
+    source.value = model.getValue();
+  },
+  { debounce: 500, maxWait: 1000 }
+);
 
 const editor = ref(null as HTMLElement | null);
 
@@ -79,10 +91,22 @@ const query = useSourceQuery();
 const savedSourceLines = computed(() => query.data.value?.source || []);
 const savedSource = computed(() => savedSourceLines.value.join("\n"));
 
-watchEffect(() => {
-  source.value = savedSource.value;
-  model.setValue(savedSource.value);
-});
+// watchEffect(() => {
+//   source.value = savedSource.value;
+//   model.setValue(savedSource.value);
+// });
+
+// Note: watchEffect() above is triggered by the change in nChangeContents for
+// unknown reason. Use watch() below instead.
+
+watch(
+  savedSource,
+  (val) => {
+    source.value = val;
+    model.setValue(val);
+  },
+  { immediate: true }
+);
 
 const editing = computed(() => {
   return source.value !== savedSource.value;
