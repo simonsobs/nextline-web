@@ -120,5 +120,6 @@ tbody {
   height: calc(100% - 2 * 12px);
   width: calc(100% - 2 * 12px);
   justify-content: center;
+  grid-template-columns: minmax(min-content, 80%);
 }
 </style>
