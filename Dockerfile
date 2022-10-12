@@ -8,7 +8,7 @@ RUN yarn build
 
 
 #
-FROM nginx:1.21
+FROM nginx:1.22.0
 
 RUN apt-get update && apt-get install -y jq
 
