@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copy the Vue files to the Vue publicPath
+# Move monaco editor workers to the correct location
 
 set -e
 
