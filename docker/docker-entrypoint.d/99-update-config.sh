@@ -1,6 +1,8 @@
 #!/bin/bash
 # Update config.json
 
+source $(dirname -- "$0")/envvar.sh;
+
 PUBLIC_PATH=${PUBLIC_PATH:?"undefined"}
 API_NAME=${API_NAME:?"undefined"}
 API_HTTP=${API_HTTP:?"undefined"}

@@ -1,6 +1,8 @@
 #!/bin/bash
 # Copy the Vue files to the Vue publicPath
 
+source $(dirname -- "$0")/envvar.sh;
+
 PUBLIC_PATH=${PUBLIC_PATH:?"undefined"}
 
 DIST_DIR="/app/dist"

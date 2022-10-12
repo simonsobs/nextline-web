@@ -1,6 +1,8 @@
 #!/bin/bash
 # Replace place holders with env vars in Vue files
 
+source $(dirname -- "$0")/envvar.sh;
+
 PUBLIC_PATH=${PUBLIC_PATH:?"undefined"}
 
 SITE_DIR_ROOT="/app/site"
