@@ -1,16 +1,7 @@
 #!/bin/bash
 # Replace place holders with env vars in Vue files
 
-PUBLIC_PATH=${PUBLIC_PATH:?"undefined"}
-
-SITE_DIR_ROOT="/app/site"
-
-SITE_DIR=$(echo $SITE_DIR_ROOT/$PUBLIC_PATH | tr -s /)
-SITE_DIR=${SITE_DIR%/} # e.g., /app/site/vue
-
-PUBLIC_PATH_PLACEHOLDER="/public_path_placeholder/"
-
-PUBLIC_PATH="${PUBLIC_PATH%/}/"
+source $(dirname -- "$0")/envvar.sh;
 
 if [[ ! -d ${SITE_DIR} ]]; then
     echo "Error: ${SITE_DIR} doesn't exit!"

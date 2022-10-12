@@ -1,15 +1,9 @@
 #!/bin/bash
 # Update config.json
 
-PUBLIC_PATH=${PUBLIC_PATH:?"undefined"}
-API_NAME=${API_NAME:?"undefined"}
-API_HTTP=${API_HTTP:?"undefined"}
+source $(dirname -- "$0")/envvar.sh;
 
-SITE_DIR_ROOT="/app/site"
 CONFIG_JSON="config.json"
-
-SITE_DIR=$(echo $SITE_DIR_ROOT/$PUBLIC_PATH | tr -s /)
-SITE_DIR=${SITE_DIR%/} # e.g., /app/site/vue
 
 if [[ ! -d ${SITE_DIR} ]]; then
     echo "Error: ${SITE_DIR} doesn't exit!"

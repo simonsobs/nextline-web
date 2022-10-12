@@ -1,14 +1,7 @@
 #!/bin/bash
 # Copy the Vue files to the Vue publicPath
 
-PUBLIC_PATH=${PUBLIC_PATH:?"undefined"}
-
-DIST_DIR="/app/dist"
-SITE_DIR_ROOT="/app/site"
-
-SITE_DIR=$(echo $SITE_DIR_ROOT/$PUBLIC_PATH | tr -s /)
-SITE_DIR=${SITE_DIR%/} # e.g., /app/site/vue
-
+source $(dirname -- "$0")/envvar.sh;
 
 if [[ ! -d ${DIST_DIR} ]]
 then
