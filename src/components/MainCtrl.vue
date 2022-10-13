@@ -7,11 +7,32 @@
       <v-chip v-if="chip" :color="chip.color" class="text-capitalize mx-2">
         {{ nextlineState }}
       </v-chip>
+      <v-tooltip bottom open-delay="500" v-for="b in buttons" :key="b.text">
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            class="d-flex d-sm-none ml-2"
+            outlined
+            icon
+            color="primary"
+            :disabled="editing"
+            @click="onClick(b.method)"
+            v-bind="attrs"
+            v-on="on"
+          >
+            <!-- ml-2 is for the bug https://github.com/vuetifyjs/vuetify/issues/9756 -->
+            <v-icon left>
+              {{ b.icon }}
+            </v-icon>
+          </v-btn>
+        </template>
+        <span>{{ b.text }}</span>
+      </v-tooltip>
       <v-btn
+        class="d-none d-sm-flex"
+        v-for="b in buttons"
+        :key="`sm-${b.text}`"
         outlined
         text
-        v-for="b in buttons"
-        :key="b.text"
         color="primary"
         :disabled="editing"
         @click="onClick(b.method)"
