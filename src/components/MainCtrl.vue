@@ -86,7 +86,7 @@ interface Button {
 
 const buttons = ref<Button[]>([
   {
-    text: "Run",
+    text: "Start",
     method: "run",
     icon: "mdi-play",
     states: ["initialized"],
