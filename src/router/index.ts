@@ -2,7 +2,7 @@ import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
 
 import HomeView from "../views/HomeView.vue";
-import Runs from "@/views/Runs.vue";
+import Runs from "@/views/RunsView.vue";
 import Run from "@/views/RunView.vue";
 
 // Pinia must be plugged in before the router if a store is used in a route
