@@ -1,10 +1,3 @@
-<template>
-  <div class="g-container">
-    <v-breadcrumbs :items="breadcrumb" class="g-breadcrumbs"> </v-breadcrumbs>
-    <run-card v-if="run" class="g-card" :run="run"></run-card>
-  </div>
-</template>
-
 <script setup lang="ts">
 import { computed } from "vue";
 import { useRoute } from "vue-router/composables";
@@ -38,6 +31,13 @@ function readNodes(query: Query) {
 const nodes = computed(() => readNodes(query));
 const run = computed(() => nodes.value.find((n) => n.runNo === runNo));
 </script>
+
+<template>
+  <div class="g-container">
+    <v-breadcrumbs :items="breadcrumb" class="g-breadcrumbs"> </v-breadcrumbs>
+    <run-card v-if="run" class="g-card" :run="run"></run-card>
+  </div>
+</template>
 
 <style scoped>
 .g-container {
