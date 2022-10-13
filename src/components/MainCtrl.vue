@@ -30,22 +30,15 @@
         </template>
         <v-list>
           <v-list-item
-            :disabled="nextlineState !== 'running'"
-            @click="onClick('terminate')"
+            v-for="(b, i) in menuItems"
+            :key="i"
+            :disabled="editing || !b.states.includes(nextlineState)"
+            @click="onClick(b.method)"
           >
             <v-list-item-icon>
-              <v-icon> mdi-close-octagon-outline </v-icon>
+              <v-icon> {{ b.icon }} </v-icon>
             </v-list-item-icon>
-            <v-list-item-content> Terminate </v-list-item-content>
-          </v-list-item>
-          <v-list-item
-            :disabled="nextlineState !== 'running'"
-            @click="onClick('kill')"
-          >
-            <v-list-item-icon>
-              <v-icon> mdi-close-octagon </v-icon>
-            </v-list-item-icon>
-            <v-list-item-content> Kill </v-list-item-content>
+            <v-list-item-content> {{ b.text }} </v-list-item-content>
           </v-list-item>
         </v-list>
       </v-menu>
@@ -108,6 +101,21 @@ const buttons = ref<Button[]>([
     text: "Interrupt",
     method: "interrupt",
     icon: "mdi-close",
+    states: ["running"],
+  },
+]);
+
+const menuItems = ref<Button[]>([
+  {
+    text: "Terminate",
+    method: "terminate",
+    icon: "mdi-close-octagon-outline",
+    states: ["running"],
+  },
+  {
+    text: "Kill",
+    method: "kill",
+    icon: "mdi-close-octagon",
     states: ["running"],
   },
 ]);
