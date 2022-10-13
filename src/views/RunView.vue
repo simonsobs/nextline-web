@@ -29,12 +29,33 @@ function readNodes(query: Query) {
 }
 
 const nodes = computed(() => readNodes(query));
-const run = computed(() => nodes.value.find((n) => n.runNo === runNo));
+const index = computed(() => nodes.value.findIndex((n) => n.runNo === runNo));
+const run = computed(() => nodes.value[index.value]);
+const toPrev = computed(() => {
+  const prevIndex = index.value - 1;
+  if (prevIndex < 0) return;
+  return { name: "run", params: { runNo: nodes.value[prevIndex].runNo } };
+});
+const toNext = computed(() => {
+  const nextIndex = index.value + 1;
+  if (nextIndex >= nodes.value.length) return;
+  return { name: "run", params: { runNo: nodes.value[nextIndex].runNo } };
+});
 </script>
 
 <template>
   <div class="g-container">
-    <v-breadcrumbs :items="breadcrumb" class="g-breadcrumbs"> </v-breadcrumbs>
+    <div class="g-navi">
+      <v-breadcrumbs :items="breadcrumb"> </v-breadcrumbs>
+      <span class="pr-6">
+        <v-btn icon :disabled="!toPrev" :to="toPrev">
+          <v-icon> mdi-arrow-left-bold </v-icon>
+        </v-btn>
+        <v-btn icon :disabled="!toNext" :to="toNext">
+          <v-icon> mdi-arrow-right-bold </v-icon>
+        </v-btn>
+      </span>
+    </div>
     <run-card v-if="run" class="g-card" :run="run"></run-card>
   </div>
 </template>
@@ -48,11 +69,14 @@ const run = computed(() => nodes.value.find((n) => n.runNo === runNo));
   justify-content: center;
   grid-template-columns: minmax(min-content, 80%);
   grid-template-rows: min-content 1fr;
-  grid-template-areas: "breadcrumbs" "card";
+  grid-template-areas: "navi" "card";
 }
 
-.g-breadcrumbs {
-  grid-area: breadcrumbs;
+.g-navi {
+  grid-area: navi;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .g-card {
