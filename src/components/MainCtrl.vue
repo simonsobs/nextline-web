@@ -22,7 +22,7 @@
         {{ b.text }}
       </v-btn>
       <v-spacer></v-spacer>
-      <v-menu>
+      <v-menu offset-y>
         <template v-slot:activator="{ on, attr }">
           <v-btn icon v-bind="attr" v-on="on">
             <v-icon> mdi-dots-vertical </v-icon>
