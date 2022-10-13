@@ -90,12 +90,7 @@ watch(
 </script>
 
 <template>
-  <v-card
-    flat
-    class="g-card overflow-auto"
-    height="100%"
-    rounded="lg"
-  >
+  <v-card flat class="g-card overflow-auto" height="100%" rounded="lg">
     <div class="g-head">
       <v-card-title>
         Run: {{ run.runNo }}
