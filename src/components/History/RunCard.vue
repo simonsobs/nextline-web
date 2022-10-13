@@ -91,7 +91,6 @@ watch(
 
 <template>
   <v-card
-    v-if="run"
     flat
     class="g-card overflow-auto"
     height="100%"
