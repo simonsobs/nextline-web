@@ -10,10 +10,10 @@
       <v-btn
         outlined
         text
-        v-for="(b, i) in buttons"
-        :key="i"
+        v-for="b in buttons"
+        :key="b.text"
         color="primary"
-        :disabled="editing || !b.states.includes(nextlineState)"
+        :disabled="editing"
         @click="onClick(b.method)"
       >
         <v-icon left>
@@ -22,7 +22,7 @@
         {{ b.text }}
       </v-btn>
       <v-spacer></v-spacer>
-      <v-menu offset-y>
+      <v-menu offset-y v-if="menuItems.length">
         <template v-slot:activator="{ on, attr }">
           <v-btn icon v-bind="attr" v-on="on">
             <v-icon> mdi-dots-vertical </v-icon>
@@ -30,9 +30,9 @@
         </template>
         <v-list>
           <v-list-item
-            v-for="(b, i) in menuItems"
-            :key="i"
-            :disabled="editing || !b.states.includes(nextlineState)"
+            v-for="b in menuItems"
+            :key="b.text"
+            :disabled="editing"
             @click="onClick(b.method)"
           >
             <v-list-item-icon>
@@ -77,48 +77,64 @@ const traceIds = computed(
 );
 
 type Method = "run" | "reset" | "interrupt" | "terminate" | "kill";
-interface Button {
+type CommandUI = "button" | "menu";
+interface Command {
   method: Method;
   text: string;
   icon: string;
   states: string[];
+  ui: CommandUI[];
 }
 
-const buttons = ref<Button[]>([
+const commands = ref<Command[]>([
   {
     text: "Start",
     method: "run",
     icon: "mdi-play",
     states: ["initialized"],
+    ui: ["button"],
   },
   {
     text: "Reset",
     method: "reset",
     icon: "mdi-restore",
     states: ["initialized", "finished", "closed"],
+    ui: ["button"],
   },
   {
     text: "Interrupt",
     method: "interrupt",
     icon: "mdi-close",
     states: ["running"],
+    ui: ["button"],
   },
-]);
-
-const menuItems = ref<Button[]>([
   {
     text: "Terminate",
     method: "terminate",
     icon: "mdi-close-octagon-outline",
     states: ["running"],
+    ui: ["menu"],
   },
   {
     text: "Kill",
     method: "kill",
     icon: "mdi-close-octagon",
     states: ["running"],
+    ui: ["menu"],
   },
 ]);
+
+const buttons = computed(() =>
+  commands.value.filter(
+    (c) => c.ui.includes("button") && c.states.includes(nextlineState.value)
+  )
+);
+
+const menuItems = computed(() =>
+  commands.value.filter(
+    (c) => c.ui.includes("menu") && c.states.includes(nextlineState.value)
+  )
+);
 
 const chipConfig = ref({
   default: { color: null },
