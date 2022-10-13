@@ -15,6 +15,7 @@ declare module '@vue/runtime-core' {
     MainCtrl: typeof import('./src/components/MainCtrl.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    RunCard: typeof import('./src/components/History/RunCard.vue')['default']
     ScriptEditor: typeof import('./src/components/ScriptEditor.vue')['default']
     Stdout: typeof import('./src/components/Stdout.vue')['default']
     SystemBar: typeof import('./src/components/CodeExec/SystemBar.vue')['default']
