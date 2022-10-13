@@ -4,11 +4,11 @@ import * as monaco from "monaco-editor";
 
 type Run = {
   runNo: number;
-  state: string;
-  startedAt: string;
-  endedAt: string;
-  exception: string;
-  script: string;
+  state?: string | null | undefined;
+  startedAt?: string;
+  endedAt?: string;
+  exception?: string | null | undefined;
+  script?: string | null | undefined;
 };
 
 interface Props {
@@ -110,12 +110,12 @@ watch(
       <v-card-text class="text-body-1">
         Started at:
         <span class="font-weight-bold">
-          {{ formatDateTime(run.startedAt) }} </span
+          {{ formatDateTime(run.startedAt || "") }} </span
         ><br />
         <span>
           Ended at:
           <span class="font-weight-bold">
-            {{ formatDateTime(run.endedAt) }}
+            {{ formatDateTime(run.endedAt || "") }}
           </span>
         </span>
       </v-card-text>
