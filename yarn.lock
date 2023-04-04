@@ -1159,20 +1159,19 @@
     "@typescript-eslint/types" "5.39.0"
     eslint-visitor-keys "^3.3.0"
 
-"@urql/core@^3.0.0":
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/@urql/core/-/core-3.0.3.tgz#da054babb4d4aed26dc4503806b310ba6dd6eea1"
-  integrity sha512-raQP51ERNtg5BvlN8x8mHVRvk4K0ugWQ69n53BdkjKpXVV5kuWp7trnwriGv1fQKa8HuiGNSCfyslUucc0OVQg==
+"@urql/core@^3.2.0":
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/@urql/core/-/core-3.2.2.tgz#2a44015b536d72981822f715c96393d8e0ddc576"
+  integrity sha512-i046Cz8cZ4xIzGMTyHZrbdgzcFMcKD7+yhCAH5FwWBRjcKrc+RjEOuR9X5AMuBvr8c6IAaE92xAqa4wmlGfWTQ==
   dependencies:
-    "@graphql-typed-document-node/core" "^3.1.1"
-    wonka "^6.0.0"
+    wonka "^6.1.2"
 
-"@urql/vue@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@urql/vue/-/vue-1.0.2.tgz#c1179c216217135f0f1aaf0587fb2872494fb157"
-  integrity sha512-TBfMfu+aGmuudqAz4lE+VxlN+2y5xM0ubiQCTFsojCB4CkSa/D0n914ibhqbDtDzs2Ww5dlB/vof1ep1LGRMow==
+"@urql/vue@1.0.5":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@urql/vue/-/vue-1.0.5.tgz#f3ba91c81ac97476fa001abd366999ac4f304122"
+  integrity sha512-RiXiINAr/tBJTIRcbA+TPCwRvK/z3NJy7+NOQvXHV/c9nCDrmUgu7HqdVMtAmlh5jUIw3HR8nI8IrRUoJqchHw==
   dependencies:
-    "@urql/core" "^3.0.0"
+    "@urql/core" "^3.2.0"
     wonka "^6.0.0"
 
 "@vitejs/plugin-vue2@^1.1.2":
@@ -4154,10 +4153,10 @@ which@^2.0.1:
   dependencies:
     isexe "^2.0.0"
 
-wonka@^6.0.0:
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/wonka/-/wonka-6.1.0.tgz#65297ebf7031ae46d4b0c56da93950fb3ae5baaa"
-  integrity sha512-VgiMCz7BXOiDbgpVhf5iNhK7hurteY5Jv0fDJewUkY0s4fbxQD2iKqfGxNXNTwp2v3bgT8QVu2l5H7YdkZ5WIA==
+wonka@^6.0.0, wonka@^6.1.2:
+  version "6.3.1"
+  resolved "https://registry.yarnpkg.com/wonka/-/wonka-6.3.1.tgz#315b2a91e134c4032980836e6d97e13d0927634d"
+  integrity sha512-nJyGPcjuBiaLFn8QAlrHd+QjV9AlPO7snOWAhgx6aX0nQLMV6Wi0nqfrkmsXIH0efngbDOroOz2QyLnZMF16Hw==
 
 word-wrap@^1.2.3:
   version "1.2.3"
