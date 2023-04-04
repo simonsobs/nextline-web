@@ -19,7 +19,7 @@
     "path-browserify": "^1.0.1",
     "pinia": "^2.0.21",
     "subscriptions-transport-ws": "^0.11.0",
-    "vue": "^2.7.10",
+    "vue": "^2.7.14",
     "vue-class-component": "^7.2.3",
     "vue-property-decorator": "^9.1.2",
     "vue-router": "^3.6.4",
