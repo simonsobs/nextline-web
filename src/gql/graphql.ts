@@ -62,6 +62,7 @@ export type Mutation = {
   interrupt: Scalars['Boolean'];
   kill: Scalars['Boolean'];
   reset: Scalars['Boolean'];
+  schedule: MutationSchedule;
   sendPdbCommand: Scalars['Boolean'];
   terminate: Scalars['Boolean'];
 };
@@ -76,6 +77,34 @@ export type MutationSendPdbCommandArgs = {
   command: Scalars['String'];
   promptNo: Scalars['Int'];
   traceNo: Scalars['Int'];
+};
+
+export type MutationAutoMode = {
+  __typename?: 'MutationAutoMode';
+  turnOff: Scalars['Boolean'];
+  turnOn: Scalars['Boolean'];
+};
+
+export type MutationSchedule = {
+  __typename?: 'MutationSchedule';
+  autoMode: MutationAutoMode;
+  scheduler: MutationScheduler;
+};
+
+export type MutationScheduler = {
+  __typename?: 'MutationScheduler';
+  update: Scalars['Boolean'];
+};
+
+
+export type MutationSchedulerUpdateArgs = {
+  input: MutationSchedulerInput;
+};
+
+export type MutationSchedulerInput = {
+  apiUrl?: InputMaybe<Scalars['String']>;
+  lengthMinutes?: InputMaybe<Scalars['Int']>;
+  policy?: InputMaybe<Scalars['String']>;
 };
 
 export type PageInfo = {
@@ -130,6 +159,8 @@ export type Query = {
   hello: Scalars['String'];
   history: History;
   runNo: Scalars['Int'];
+  schedule: QuerySchedule;
+  settings: Scalars['String'];
   source: Array<Scalars['String']>;
   sourceLine: Scalars['String'];
   state: Scalars['String'];
@@ -144,6 +175,24 @@ export type QuerySourceArgs = {
 export type QuerySourceLineArgs = {
   fileName?: InputMaybe<Scalars['String']>;
   lineNo: Scalars['Int'];
+};
+
+export type QueryAutoMode = {
+  __typename?: 'QueryAutoMode';
+  state: Scalars['String'];
+};
+
+export type QuerySchedule = {
+  __typename?: 'QuerySchedule';
+  autoMode: QueryAutoMode;
+  scheduler: QueryScheduler;
+};
+
+export type QueryScheduler = {
+  __typename?: 'QueryScheduler';
+  apiUrl: Scalars['String'];
+  lengthMinutes: Scalars['Int'];
+  policy: Scalars['String'];
 };
 
 export type RunHistory = {
@@ -199,7 +248,8 @@ export type Subscription = {
   __typename?: 'Subscription';
   counter: Scalars['Int'];
   prompting: PromptingData;
-  runNo: Scalars['Int'];
+  runNo: Scalars['String'];
+  scheduleAutoModeState: Scalars['String'];
   state: Scalars['String'];
   stdout: Scalars['String'];
   traceIds: Array<Scalars['Int']>;
@@ -305,7 +355,7 @@ export type PromptingSubscription = { __typename?: 'Subscription', prompting: { 
 export type RunNoSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type RunNoSubscription = { __typename?: 'Subscription', runNo: number };
+export type RunNoSubscription = { __typename?: 'Subscription', runNo: string };
 
 export type StateSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
