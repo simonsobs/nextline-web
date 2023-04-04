@@ -7,7 +7,7 @@
     "serve": "vite preview",
     "build": "vite build",
     "lint": "eslint src",
-    "codegen": "graphql-codegen --config codegen.yml"
+    "codegen": "graphql-codegen --config codegen.ts"
   },
   "dependencies": {
     "@urql/vue": "1.0.5",
