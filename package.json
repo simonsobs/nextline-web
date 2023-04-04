@@ -26,10 +26,10 @@
     "vuetify": "^2.6.9"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "2.12.0",
-    "@graphql-codegen/typescript": "2.7.3",
-    "@graphql-codegen/typescript-operations": "^2.5.3",
-    "@graphql-codegen/typescript-vue-urql": "^2.3.3",
+    "@graphql-codegen/cli": "3.3.0",
+    "@graphql-codegen/typescript": "3.0.3",
+    "@graphql-codegen/typescript-operations": "^3.0.3",
+    "@graphql-codegen/typescript-vue-urql": "^2.3.6",
     "@rollup/plugin-graphql": "^1.1.0",
     "@types/node": "^18.15.11",
     "@typescript-eslint/eslint-plugin": "^5.35.1",
