@@ -357,6 +357,11 @@ export type RunNoSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 export type RunNoSubscription = { __typename?: 'Subscription', runNo: string };
 
+export type ScheduleAutoModeStateSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ScheduleAutoModeStateSubscription = { __typename?: 'Subscription', scheduleAutoModeState: string };
+
 export type StateSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -498,6 +503,15 @@ export const RunNoDocument = gql`
 
 export function useRunNoSubscription<R = RunNoSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, RunNoSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandlerArg<RunNoSubscription, R>) {
   return Urql.useSubscription<RunNoSubscription, R, RunNoSubscriptionVariables>({ query: RunNoDocument, ...options }, handler);
+};
+export const ScheduleAutoModeStateDocument = gql`
+    subscription ScheduleAutoModeState {
+  scheduleAutoModeState
+}
+    `;
+
+export function useScheduleAutoModeStateSubscription<R = ScheduleAutoModeStateSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, ScheduleAutoModeStateSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandlerArg<ScheduleAutoModeStateSubscription, R>) {
+  return Urql.useSubscription<ScheduleAutoModeStateSubscription, R, ScheduleAutoModeStateSubscriptionVariables>({ query: ScheduleAutoModeStateDocument, ...options }, handler);
 };
 export const StateDocument = gql`
     subscription State {
