@@ -30,8 +30,8 @@ const exception = ref(false);
 .g-container {
   display: grid;
   margin: 12px;
-  height: calc(100% - 2 * 12px);
-  width: calc(100% - 2 * 12px);
+  block-size: calc(100% - 2 * 12px);
+  inline-size: calc(100% - 2 * 12px);
   grid-template-columns: minmax(100px, 1fr);
   grid-template-rows: min-content min-content minmax(240px, 1fr) minmax(
       100px,
