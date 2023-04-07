@@ -287,6 +287,16 @@ export type TraceHistoryEdge = {
   node: TraceHistory;
 };
 
+export type AutoModeTurnOffMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AutoModeTurnOffMutation = { __typename?: 'Mutation', schedule: { __typename?: 'MutationSchedule', autoMode: { __typename?: 'MutationAutoMode', turnOff: boolean } } };
+
+export type AutoModeTurnOnMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AutoModeTurnOnMutation = { __typename?: 'Mutation', schedule: { __typename?: 'MutationSchedule', autoMode: { __typename?: 'MutationAutoMode', turnOn: boolean } } };
+
 export type ExecMutationVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -378,6 +388,32 @@ export type TraceIdsSubscriptionVariables = Exact<{ [key: string]: never; }>;
 export type TraceIdsSubscription = { __typename?: 'Subscription', traceIds: Array<number> };
 
 
+export const AutoModeTurnOffDocument = gql`
+    mutation AutoModeTurnOff {
+  schedule {
+    autoMode {
+      turnOff
+    }
+  }
+}
+    `;
+
+export function useAutoModeTurnOffMutation() {
+  return Urql.useMutation<AutoModeTurnOffMutation, AutoModeTurnOffMutationVariables>(AutoModeTurnOffDocument);
+};
+export const AutoModeTurnOnDocument = gql`
+    mutation AutoModeTurnOn {
+  schedule {
+    autoMode {
+      turnOn
+    }
+  }
+}
+    `;
+
+export function useAutoModeTurnOnMutation() {
+  return Urql.useMutation<AutoModeTurnOnMutation, AutoModeTurnOnMutationVariables>(AutoModeTurnOnDocument);
+};
 export const ExecDocument = gql`
     mutation Exec {
   exec
