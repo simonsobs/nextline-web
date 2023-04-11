@@ -11,7 +11,7 @@ a DAQ sequencer of the [Observatory Control System
 
 - [**nextline:**](https://github.com/simonsobs/nextline) (Python) The core functionality. Imported in _nextline-graphql._
 - [**nextline-graphql:**](https://github.com/simonsobs/nextline-graphql) (Python) The GraphQL API server
-- [**nextline-web:**](https://github.com/simonsobs/nextline-web) (JavaScript) this package. The front-end web app.
+- [**nextline-web:**](https://github.com/simonsobs/nextline-web) (TypeScript) this package. The front-end web app.
 
 ## How to run the Nextline front-end web app
 
