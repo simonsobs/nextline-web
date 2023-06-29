@@ -5,15 +5,17 @@ export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
+export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: string;
-  String: string;
-  Boolean: boolean;
-  Int: number;
-  Float: number;
-  DateTime: any;
+  ID: { input: string; output: string; }
+  String: { input: string; output: string; }
+  Boolean: { input: boolean; output: boolean; }
+  Int: { input: number; output: number; }
+  Float: { input: number; output: number; }
+  DateTime: { input: any; output: any; }
 };
 
 export type History = {
@@ -26,63 +28,63 @@ export type History = {
 
 
 export type HistoryPromptsArgs = {
-  after?: InputMaybe<Scalars['String']>;
-  before?: InputMaybe<Scalars['String']>;
-  first?: InputMaybe<Scalars['Int']>;
-  last?: InputMaybe<Scalars['Int']>;
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
 export type HistoryRunsArgs = {
-  after?: InputMaybe<Scalars['String']>;
-  before?: InputMaybe<Scalars['String']>;
-  first?: InputMaybe<Scalars['Int']>;
-  last?: InputMaybe<Scalars['Int']>;
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
 export type HistoryStdoutsArgs = {
-  after?: InputMaybe<Scalars['String']>;
-  before?: InputMaybe<Scalars['String']>;
-  first?: InputMaybe<Scalars['Int']>;
-  last?: InputMaybe<Scalars['Int']>;
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
 export type HistoryTracesArgs = {
-  after?: InputMaybe<Scalars['String']>;
-  before?: InputMaybe<Scalars['String']>;
-  first?: InputMaybe<Scalars['Int']>;
-  last?: InputMaybe<Scalars['Int']>;
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
-  exec: Scalars['Boolean'];
-  interrupt: Scalars['Boolean'];
-  kill: Scalars['Boolean'];
-  reset: Scalars['Boolean'];
+  exec: Scalars['Boolean']['output'];
+  interrupt: Scalars['Boolean']['output'];
+  kill: Scalars['Boolean']['output'];
+  reset: Scalars['Boolean']['output'];
   schedule: MutationSchedule;
-  sendPdbCommand: Scalars['Boolean'];
-  terminate: Scalars['Boolean'];
+  sendPdbCommand: Scalars['Boolean']['output'];
+  terminate: Scalars['Boolean']['output'];
 };
 
 
 export type MutationResetArgs = {
-  statement?: InputMaybe<Scalars['String']>;
+  statement?: InputMaybe<Scalars['String']['input']>;
 };
 
 
 export type MutationSendPdbCommandArgs = {
-  command: Scalars['String'];
-  promptNo: Scalars['Int'];
-  traceNo: Scalars['Int'];
+  command: Scalars['String']['input'];
+  promptNo: Scalars['Int']['input'];
+  traceNo: Scalars['Int']['input'];
 };
 
 export type MutationAutoMode = {
   __typename?: 'MutationAutoMode';
-  turnOff: Scalars['Boolean'];
-  turnOn: Scalars['Boolean'];
+  turnOff: Scalars['Boolean']['output'];
+  turnOn: Scalars['Boolean']['output'];
 };
 
 export type MutationSchedule = {
@@ -93,7 +95,7 @@ export type MutationSchedule = {
 
 export type MutationScheduler = {
   __typename?: 'MutationScheduler';
-  update: Scalars['Boolean'];
+  update: Scalars['Boolean']['output'];
 };
 
 
@@ -102,35 +104,35 @@ export type MutationSchedulerUpdateArgs = {
 };
 
 export type MutationSchedulerInput = {
-  apiUrl?: InputMaybe<Scalars['String']>;
-  lengthMinutes?: InputMaybe<Scalars['Int']>;
-  policy?: InputMaybe<Scalars['String']>;
+  apiUrl?: InputMaybe<Scalars['String']['input']>;
+  lengthMinutes?: InputMaybe<Scalars['Int']['input']>;
+  policy?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type PageInfo = {
   __typename?: 'PageInfo';
-  endCursor?: Maybe<Scalars['String']>;
-  hasNextPage: Scalars['Boolean'];
-  hasPreviousPage: Scalars['Boolean'];
-  startCursor?: Maybe<Scalars['String']>;
+  endCursor?: Maybe<Scalars['String']['output']>;
+  hasNextPage: Scalars['Boolean']['output'];
+  hasPreviousPage: Scalars['Boolean']['output'];
+  startCursor?: Maybe<Scalars['String']['output']>;
 };
 
 export type PromptHistory = {
   __typename?: 'PromptHistory';
-  command?: Maybe<Scalars['String']>;
-  endedAt?: Maybe<Scalars['DateTime']>;
-  event: Scalars['String'];
-  fileName?: Maybe<Scalars['String']>;
-  id: Scalars['Int'];
-  lineNo?: Maybe<Scalars['Int']>;
-  open: Scalars['Boolean'];
-  promptNo: Scalars['Int'];
+  command?: Maybe<Scalars['String']['output']>;
+  endedAt?: Maybe<Scalars['DateTime']['output']>;
+  event: Scalars['String']['output'];
+  fileName?: Maybe<Scalars['String']['output']>;
+  id: Scalars['Int']['output'];
+  lineNo?: Maybe<Scalars['Int']['output']>;
+  open: Scalars['Boolean']['output'];
+  promptNo: Scalars['Int']['output'];
   run: RunHistory;
-  runNo: Scalars['Int'];
-  startedAt: Scalars['DateTime'];
-  stdout?: Maybe<Scalars['String']>;
+  runNo: Scalars['Int']['output'];
+  startedAt: Scalars['DateTime']['output'];
+  stdout?: Maybe<Scalars['String']['output']>;
   trace: TraceHistory;
-  traceNo: Scalars['Int'];
+  traceNo: Scalars['Int']['output'];
 };
 
 export type PromptHistoryConnection = {
@@ -141,45 +143,45 @@ export type PromptHistoryConnection = {
 
 export type PromptHistoryEdge = {
   __typename?: 'PromptHistoryEdge';
-  cursor: Scalars['String'];
+  cursor: Scalars['String']['output'];
   node: PromptHistory;
 };
 
 export type PromptingData = {
   __typename?: 'PromptingData';
-  fileName: Scalars['String'];
-  lineNo: Scalars['Int'];
-  prompting: Scalars['Int'];
-  traceEvent: Scalars['String'];
+  fileName: Scalars['String']['output'];
+  lineNo: Scalars['Int']['output'];
+  prompting: Scalars['Int']['output'];
+  traceEvent: Scalars['String']['output'];
 };
 
 export type Query = {
   __typename?: 'Query';
-  exception?: Maybe<Scalars['String']>;
-  hello: Scalars['String'];
+  exception?: Maybe<Scalars['String']['output']>;
+  hello: Scalars['String']['output'];
   history: History;
-  runNo: Scalars['Int'];
+  runNo: Scalars['Int']['output'];
   schedule: QuerySchedule;
-  settings: Scalars['String'];
-  source: Array<Scalars['String']>;
-  sourceLine: Scalars['String'];
-  state: Scalars['String'];
+  settings: Scalars['String']['output'];
+  source: Array<Scalars['String']['output']>;
+  sourceLine: Scalars['String']['output'];
+  state: Scalars['String']['output'];
 };
 
 
 export type QuerySourceArgs = {
-  fileName?: InputMaybe<Scalars['String']>;
+  fileName?: InputMaybe<Scalars['String']['input']>;
 };
 
 
 export type QuerySourceLineArgs = {
-  fileName?: InputMaybe<Scalars['String']>;
-  lineNo: Scalars['Int'];
+  fileName?: InputMaybe<Scalars['String']['input']>;
+  lineNo: Scalars['Int']['input'];
 };
 
 export type QueryAutoMode = {
   __typename?: 'QueryAutoMode';
-  state: Scalars['String'];
+  state: Scalars['String']['output'];
 };
 
 export type QuerySchedule = {
@@ -190,21 +192,21 @@ export type QuerySchedule = {
 
 export type QueryScheduler = {
   __typename?: 'QueryScheduler';
-  apiUrl: Scalars['String'];
-  lengthMinutes: Scalars['Int'];
-  policy: Scalars['String'];
+  apiUrl: Scalars['String']['output'];
+  lengthMinutes: Scalars['Int']['output'];
+  policy: Scalars['String']['output'];
 };
 
 export type RunHistory = {
   __typename?: 'RunHistory';
-  endedAt?: Maybe<Scalars['DateTime']>;
-  exception?: Maybe<Scalars['String']>;
-  id: Scalars['Int'];
+  endedAt?: Maybe<Scalars['DateTime']['output']>;
+  exception?: Maybe<Scalars['String']['output']>;
+  id: Scalars['Int']['output'];
   prompts: Array<PromptHistory>;
-  runNo: Scalars['Int'];
-  script?: Maybe<Scalars['String']>;
-  startedAt?: Maybe<Scalars['DateTime']>;
-  state?: Maybe<Scalars['String']>;
+  runNo: Scalars['Int']['output'];
+  script?: Maybe<Scalars['String']['output']>;
+  startedAt?: Maybe<Scalars['DateTime']['output']>;
+  state?: Maybe<Scalars['String']['output']>;
   stdouts: Array<StdoutHistory>;
   traces: Array<TraceHistory>;
 };
@@ -217,19 +219,19 @@ export type RunHistoryConnection = {
 
 export type RunHistoryEdge = {
   __typename?: 'RunHistoryEdge';
-  cursor: Scalars['String'];
+  cursor: Scalars['String']['output'];
   node: RunHistory;
 };
 
 export type StdoutHistory = {
   __typename?: 'StdoutHistory';
-  id: Scalars['Int'];
+  id: Scalars['Int']['output'];
   run: RunHistory;
-  runNo: Scalars['Int'];
-  text?: Maybe<Scalars['String']>;
+  runNo: Scalars['Int']['output'];
+  text?: Maybe<Scalars['String']['output']>;
   trace: TraceHistory;
-  traceNo: Scalars['Int'];
-  writtenAt?: Maybe<Scalars['DateTime']>;
+  traceNo: Scalars['Int']['output'];
+  writtenAt?: Maybe<Scalars['DateTime']['output']>;
 };
 
 export type StdoutHistoryConnection = {
@@ -240,39 +242,39 @@ export type StdoutHistoryConnection = {
 
 export type StdoutHistoryEdge = {
   __typename?: 'StdoutHistoryEdge';
-  cursor: Scalars['String'];
+  cursor: Scalars['String']['output'];
   node: StdoutHistory;
 };
 
 export type Subscription = {
   __typename?: 'Subscription';
-  counter: Scalars['Int'];
+  counter: Scalars['Int']['output'];
   prompting: PromptingData;
-  runNo: Scalars['String'];
-  scheduleAutoModeState: Scalars['String'];
-  state: Scalars['String'];
-  stdout: Scalars['String'];
-  traceIds: Array<Scalars['Int']>;
+  runNo: Scalars['String']['output'];
+  scheduleAutoModeState: Scalars['String']['output'];
+  state: Scalars['String']['output'];
+  stdout: Scalars['String']['output'];
+  traceIds: Array<Scalars['Int']['output']>;
 };
 
 
 export type SubscriptionPromptingArgs = {
-  traceId: Scalars['Int'];
+  traceId: Scalars['Int']['input'];
 };
 
 export type TraceHistory = {
   __typename?: 'TraceHistory';
-  endedAt?: Maybe<Scalars['DateTime']>;
-  id: Scalars['Int'];
+  endedAt?: Maybe<Scalars['DateTime']['output']>;
+  id: Scalars['Int']['output'];
   prompts: Array<PromptHistory>;
   run: RunHistory;
-  runNo: Scalars['Int'];
-  startedAt: Scalars['DateTime'];
-  state: Scalars['String'];
+  runNo: Scalars['Int']['output'];
+  startedAt: Scalars['DateTime']['output'];
+  state: Scalars['String']['output'];
   stdouts: Array<StdoutHistory>;
-  taskNo?: Maybe<Scalars['Int']>;
-  threadNo: Scalars['Int'];
-  traceNo: Scalars['Int'];
+  taskNo?: Maybe<Scalars['Int']['output']>;
+  threadNo: Scalars['Int']['output'];
+  traceNo: Scalars['Int']['output'];
 };
 
 export type TraceHistoryConnection = {
@@ -283,7 +285,7 @@ export type TraceHistoryConnection = {
 
 export type TraceHistoryEdge = {
   __typename?: 'TraceHistoryEdge';
-  cursor: Scalars['String'];
+  cursor: Scalars['String']['output'];
   node: TraceHistory;
 };
 
@@ -313,16 +315,16 @@ export type KillMutationVariables = Exact<{ [key: string]: never; }>;
 export type KillMutation = { __typename?: 'Mutation', kill: boolean };
 
 export type ResetMutationVariables = Exact<{
-  statement?: InputMaybe<Scalars['String']>;
+  statement?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
 export type ResetMutation = { __typename?: 'Mutation', reset: boolean };
 
 export type SendPdbCommandMutationVariables = Exact<{
-  command: Scalars['String'];
-  promptNo: Scalars['Int'];
-  traceNo: Scalars['Int'];
+  command: Scalars['String']['input'];
+  promptNo: Scalars['Int']['input'];
+  traceNo: Scalars['Int']['input'];
 }>;
 
 
@@ -344,7 +346,7 @@ export type RunsQueryVariables = Exact<{ [key: string]: never; }>;
 export type RunsQuery = { __typename?: 'Query', history: { __typename?: 'History', runs: { __typename?: 'RunHistoryConnection', edges: Array<{ __typename?: 'RunHistoryEdge', node: { __typename?: 'RunHistory', runNo: number, state?: string | null, startedAt?: any | null, endedAt?: any | null, script?: string | null, exception?: string | null } }> } } };
 
 export type SourceQueryVariables = Exact<{
-  fileName?: InputMaybe<Scalars['String']>;
+  fileName?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
@@ -356,7 +358,7 @@ export type CounterSubscriptionVariables = Exact<{ [key: string]: never; }>;
 export type CounterSubscription = { __typename?: 'Subscription', counter: number };
 
 export type PromptingSubscriptionVariables = Exact<{
-  traceId: Scalars['Int'];
+  traceId: Scalars['Int']['input'];
 }>;
 
 
