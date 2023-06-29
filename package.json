@@ -23,7 +23,7 @@
     "vue-class-component": "^7.2.3",
     "vue-property-decorator": "^9.1.2",
     "vue-router": "^3.6.4",
-    "vuetify": "^2.6.13"
+    "vuetify": "^2.6.15"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "3.3.0",
