@@ -62,11 +62,24 @@
         </v-list-item>
       </v-list>
     </v-menu>
+    <v-dialog v-model="dialog" max-width="290">
+      <v-card>
+        <v-card-title> Start running the script? </v-card-title>
+        <v-card-text> Are you sure to start? </v-card-text>
+        <v-card-actions>
+          <v-btn text color="grey darken-2" @click="dialog = false">
+            Cancel
+          </v-btn>
+          <v-spacer></v-spacer>
+          <v-btn text color="primary" @click="onStartConfirmed"> Start </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-card-actions>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { watch, ref, computed } from "vue";
 
 import { useStore } from "@/stores/main";
 
@@ -173,7 +186,7 @@ const chip = computed(
 
 async function onClick(method: Method) {
   if (method === "run") {
-    await executeExec({});
+    showConfirmationDialog();
   } else if (method === "reset") {
     await executeReset({});
   } else if (method === "interrupt") {
@@ -190,4 +203,21 @@ const { executeMutation: executeReset } = useResetMutation();
 const { executeMutation: executeInterrupt } = useInterruptMutation();
 const { executeMutation: executeTerminate } = useTerminateMutation();
 const { executeMutation: executeKill } = useKillMutation();
+
+function showConfirmationDialog() {
+  dialog.value = true;
+}
+
+async function onStartConfirmed() {
+  dialog.value = false;
+  await executeExec({});
+}
+
+watch(nextlineState, () => {
+  if (nextlineState.value !== "initialized") {
+    dialog.value = false;
+  }
+});
+
+const dialog = ref(false);
 </script>
