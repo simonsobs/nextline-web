@@ -1,5 +1,5 @@
 import { defineConfig, loadEnv } from "vite";
-import vue from "@vitejs/plugin-vue2";
+import vue from "@vitejs/plugin-vue";
 import loadVersion from "vite-plugin-package-version";
 import graphql from "@rollup/plugin-graphql";
 import { VuetifyResolver } from "unplugin-vue-components/resolvers";
@@ -14,7 +14,15 @@ export default ({ mode }) => {
   return defineConfig({
     server: { port: 8081 },
     plugins: [
-      vue(),
+      vue({
+        template: {
+          compilerOptions: {
+            compatConfig: {
+              MODE: 2,
+            },
+          },
+        },
+      }),
       loadVersion(),
       // @ts-ignore
       graphql(),
@@ -31,6 +39,9 @@ export default ({ mode }) => {
       alias: {
         "@": path.resolve(__dirname, "src"),
         path: "path-browserify",
+        alias: {
+          vue: "@vue/compat",
+        },
       },
     },
   });
