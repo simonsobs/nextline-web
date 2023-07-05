@@ -71,7 +71,7 @@
 
 <script setup lang="ts">
 import { ref, computed, watchEffect } from "vue";
-import { useRoute } from "vue-router/composables";
+import { useRoute } from "vue-router";
 
 import { useConfigStore } from "@/stores/config";
 
