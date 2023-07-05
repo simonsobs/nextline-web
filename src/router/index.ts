@@ -1,18 +1,10 @@
-import Vue from "vue";
-import VueRouter, { RouteConfig } from "vue-router";
+import { RouteRecordRaw, createRouter, createWebHashHistory } from "vue-router";
 
 import HomeView from "../views/HomeView.vue";
 import RunsView from "@/views/RunsView.vue";
 import RunView from "@/views/RunView.vue";
 
-// Pinia must be plugged in before the router if a store is used in a route
-// https://github.com/vuejs/pinia/discussions/723#discussioncomment-2110660
-// import { PiniaVuePlugin } from "pinia";
-// Vue.use(PiniaVuePlugin);
-
-Vue.use(VueRouter);
-
-const routes: Array<RouteConfig> = [
+const routes: RouteRecordRaw[] = [
   {
     path: "/",
     name: "home",
@@ -50,9 +42,11 @@ const routes: Array<RouteConfig> = [
   },
 ];
 
-const router = new VueRouter({
-  mode: "history",
-  base: import.meta.env.VITE_PUBLIC_PATH,
+// TODO: need to check if this is the right way to set the base
+const router = createRouter({
+  // mode: "history",
+  // base: import.meta.env.VITE_PUBLIC_PATH,
+  history: createWebHashHistory(import.meta.env.VITE_PUBLIC_PATH),
   routes,
 });
 

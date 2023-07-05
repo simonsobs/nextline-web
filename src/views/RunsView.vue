@@ -41,7 +41,7 @@
 
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { useRouter } from "vue-router/composables";
+import { useRouter } from "vue-router";
 
 import { useRunsQuery } from "@/gql/graphql";
 
