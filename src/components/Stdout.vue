@@ -1,6 +1,6 @@
 <template>
   <v-card flat height="100%" color="background lighten-4">
-    <v-system-bar color="primary" dark>
+    <v-system-bar color="primary" dark absolute>
       <v-icon>mdi-window-maximize</v-icon>
       <span>stdout</span>
       <v-spacer></v-spacer>

@@ -1,6 +1,6 @@
 <template>
   <v-card flat height="100%" class="grey lighten-4">
-    <v-system-bar color="primary" dark>
+    <v-system-bar color="primary" dark absolute>
       <v-icon> mdi-language-python </v-icon>
       <span>&lt;string&gt;</span>
     </v-system-bar>
