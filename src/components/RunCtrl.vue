@@ -7,16 +7,15 @@
       {{ nextlineState }}
     </v-chip>
     <v-tooltip bottom open-delay="500" v-for="b in buttons" :key="b.text">
-      <template v-slot:activator="{ on, attrs }">
+      <template v-slot:activator="{ props }">
         <v-btn
-          v-bind="attrs"
+          v-bind="props"
           class="d-flex d-sm-none ml-2"
           outlined
           icon
           color="primary"
           :disabled="editing"
           @click="onClick(b.method)"
-          v-on="on"
         >
           <!-- ml-2 is for the bug https://github.com/vuetifyjs/vuetify/issues/9756 -->
           <v-icon left>
@@ -43,8 +42,8 @@
     </v-btn>
     <v-spacer></v-spacer>
     <v-menu offset-y v-if="menuItems.length">
-      <template v-slot:activator="{ on, attr }">
-        <v-btn v-bind="attr" icon v-on="on">
+      <template v-slot:activator="{ props }">
+        <v-btn v-bind="props" icon>
           <v-icon> mdi-dots-vertical </v-icon>
         </v-btn>
       </template>
@@ -55,10 +54,10 @@
           :disabled="editing"
           @click="onClick(b.method)"
         >
-          <v-list-item-icon>
+          <template v-slot:prepend>
             <v-icon> {{ b.icon }} </v-icon>
-          </v-list-item-icon>
-          <v-list-item-content> {{ b.text }} </v-list-item-content>
+          </template>
+          {{ b.text }}
         </v-list-item>
       </v-list>
     </v-menu>

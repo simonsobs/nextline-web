@@ -17,12 +17,12 @@
             <v-list-item-action class="mr-5">
               <v-icon v-text="item.icon"></v-icon>
             </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title
-                v-text="item.title"
-                class="capitalize condensed-font font-weight-medium"
-              ></v-list-item-title>
-            </v-list-item-content>
+            <!-- <v-list-item-content> -->
+            <v-list-item-title
+              v-text="item.title"
+              class="capitalize condensed-font font-weight-medium"
+            ></v-list-item-title>
+            <!-- </v-list-item-content> -->
           </v-list-item>
         </v-list>
       </v-card>
@@ -62,9 +62,14 @@
       </v-btn>
     </v-app-bar>
     <v-main>
-      <keep-alive>
+      <router-view :key="route.fullPath" v-slot="{ Component }">
+        <keep-alive>
+          <component :is="Component" />
+        </keep-alive>
+      </router-view>
+      <!-- <keep-alive>
         <router-view :key="route.fullPath"></router-view>
-      </keep-alive>
+      </keep-alive> -->
     </v-main>
   </v-app>
 </template>

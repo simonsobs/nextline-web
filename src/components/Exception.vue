@@ -13,11 +13,11 @@ import { ref, watch } from "vue";
 import { useExceptionQuery, useStateSubscription } from "@/gql/graphql";
 
 interface Props {
-  value: boolean;
+  modelValue: boolean;
 }
 
 interface Emits {
-  (e: "input", value: boolean): void;
+  (event: "update:modelValue", value: boolean): void;
 }
 
 const props = defineProps<Props>();
@@ -41,7 +41,7 @@ const exception = ref(null as string | null | undefined);
 const alert = ref(false);
 
 watch(props, (val) => {
-  alert.value = val.value;
+  alert.value = val.modelValue;
 });
 
 watch(query.data, (val) => {
@@ -51,6 +51,6 @@ watch(query.data, (val) => {
 
 watch(alert, (val) => {
   if (!val) exception.value = null;
-  emit("input", val);
+  emit("update:modelValue", val);
 });
 </script>

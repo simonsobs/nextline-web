@@ -5,14 +5,13 @@
       <span>stdout</span>
       <v-spacer></v-spacer>
       <v-tooltip bottom open-delay="500">
-        <template v-slot:activator="{ on, attrs }">
+        <template v-slot:activator="{ props }">
           <v-btn
-            v-bind="attrs"
+            v-bind="props"
             icon
             x-small
             :disabled="!data?.stdout"
             @click="clear"
-            v-on="on"
           >
             <v-icon>mdi-eraser</v-icon>
           </v-btn>

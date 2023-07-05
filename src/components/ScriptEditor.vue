@@ -7,15 +7,14 @@
     <div class="g-container">
       <v-card-actions class="flex-row flex-wrap pa-1 grey lighten-4">
         <v-tooltip bottom open-delay="500" v-for="(b, i) in buttons" :key="i">
-          <template v-slot:activator="{ on, attrs }">
+          <template v-slot:activator="{ props }">
             <v-btn
-              v-bind="attrs"
+              v-bind="props"
               color="primary"
               icon
               outlined
               @click="onClick(b.method)"
               :disabled="b.disabled"
-              v-on="on"
               class="ma-1"
             >
               <v-icon>{{ b.icon }}</v-icon>
@@ -40,11 +39,11 @@ import * as monaco from "monaco-editor";
 import { useSourceQuery, useResetMutation } from "@/gql/graphql";
 
 interface Props {
-  value: boolean;
+  modelValue: boolean;
 }
 
 interface Emits {
-  (e: "input", value: boolean): void;
+  (event: "update:modelValue", value: boolean): void;
 }
 
 const props = defineProps<Props>();
@@ -113,7 +112,7 @@ const editing = computed(() => {
 });
 
 watch(editing, (val) => {
-  emit("input", val);
+  emit("update:modelValue", val);
 });
 
 type Method = "save" | "reset";

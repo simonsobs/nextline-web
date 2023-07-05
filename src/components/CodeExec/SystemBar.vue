@@ -2,8 +2,8 @@
   <v-system-bar dark :color="state.prompting ? 'primary' : 'grey'">
     <v-icon> mdi-language-python </v-icon>
     <v-tooltip bottom open-delay="500">
-      <template v-slot:activator="{ on, attrs }">
-        <span v-bind="attrs" v-on="on">{{ basename }}</span>
+      <template v-slot:activator="{ props }">
+        <span v-bind="props">{{ basename }}</span>
       </template>
       <span>{{ state.fileName }}</span>
     </v-tooltip>
