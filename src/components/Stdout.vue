@@ -7,11 +7,11 @@
       <v-tooltip bottom open-delay="500">
         <template v-slot:activator="{ on, attrs }">
           <v-btn
+            v-bind="attrs"
             icon
             x-small
             :disabled="!data?.stdout"
             @click="clear"
-            v-bind="attrs"
             v-on="on"
           >
             <v-icon>mdi-eraser</v-icon>

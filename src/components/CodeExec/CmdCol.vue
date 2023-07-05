@@ -3,12 +3,12 @@
     <v-tooltip bottom open-delay="500" v-for="(b, i) in buttons" :key="i">
       <template v-slot:activator="{ on, attrs }">
         <v-btn
+          v-bind="attrs"
           color="primary"
           icon
           outlined
           :disabled="disabled"
           @click="pdbCommand(b.command)"
-          v-bind="attrs"
           v-on="on"
           class="ma-1"
         >
