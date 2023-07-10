@@ -1,11 +1,10 @@
-// import Vue from "vue";
-// import Vuetify from "vuetify/lib/framework";
-// import colors from "vuetify/lib/util/colors";
-
 import "vuetify/styles";
-import { createVuetify } from "vuetify";
+import { createVuetify, ThemeDefinition } from "vuetify";
 import * as components from "vuetify/components";
 import * as directives from "vuetify/directives";
+
+// https://github.com/vuetifyjs/vuetify/issues/16346
+import colors from "vuetify/lib/util/colors.mjs";
 
 // Vue.use(Vuetify);
 
@@ -22,10 +21,28 @@ import * as directives from "vuetify/directives";
 //     },
 //   },
 // });
+//
+
+console.log(colors.blueGrey.darken2);
+
+const customLightTheme: ThemeDefinition = {
+  dark: false,
+  colors: {
+    primary: colors.blueGrey.darken2,
+    accent: colors.orange.base,
+    background: colors.grey.lighten3,
+  },
+};
 
 const vuetify = createVuetify({
   components,
   directives,
+  theme: {
+    defaultTheme: "customLightTheme",
+    themes: {
+      customLightTheme,
+    },
+  },
 });
 
 export default vuetify;
