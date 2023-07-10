@@ -1,7 +1,7 @@
 <template>
   <div class="g-container">
     <v-card flat min-width="400px" color="background lighten-4">
-      <v-system-bar color="primary" dark>
+      <v-system-bar color="primary" dark style="position: static;">
         <span> System bar </span>
         <v-spacer></v-spacer>
         <v-icon>mdi-minus</v-icon>
@@ -24,7 +24,7 @@
       </v-card-text>
     </v-card>
     <v-card flat disabled min-width="400px" color="background lighten-4">
-      <v-system-bar color="primary" dark>
+      <v-system-bar color="primary" dark style="position: static;">
         <span> System bar </span>
         <v-spacer></v-spacer>
         <v-icon>mdi-minus</v-icon>
