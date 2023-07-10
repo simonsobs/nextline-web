@@ -1,4 +1,4 @@
-import { RouteRecordRaw, createRouter, createWebHashHistory } from "vue-router";
+import { RouteRecordRaw, createRouter, createWebHistory } from "vue-router";
 
 import HomeView from "../views/HomeView.vue";
 import RunsView from "@/views/RunsView.vue";
@@ -46,7 +46,7 @@ const routes: RouteRecordRaw[] = [
 const router = createRouter({
   // mode: "history",
   // base: import.meta.env.VITE_PUBLIC_PATH,
-  history: createWebHashHistory(import.meta.env.VITE_PUBLIC_PATH),
+  history: createWebHistory(import.meta.env.VITE_PUBLIC_PATH),
   routes,
 });
 
