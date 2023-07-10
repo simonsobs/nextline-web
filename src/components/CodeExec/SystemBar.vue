@@ -1,5 +1,5 @@
 <template>
-  <v-system-bar dark :color="state.prompting ? 'primary' : 'grey'">
+  <v-system-bar dark :color="state.prompting ? 'primary' : 'grey'" style="position: static;">
     <v-icon> mdi-language-python </v-icon>
     <v-tooltip bottom open-delay="500">
       <template v-slot:activator="{ props }">
