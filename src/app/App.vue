@@ -1,10 +1,15 @@
 <template>
   <v-app>
-    <v-navigation-drawer v-model="drawer" app clipped disable-resize-watcher>
+    <v-navigation-drawer v-model="drawer" temporary disable-resize-watcher>
       <v-card flat>
-        <v-app-bar dense flat dark class="primary lighten-1 font-weight-bold">
+        <!-- <v-app-bar dense flat dark class="primary lighten-1 font-weight-bold">
           {{ title }}
-        </v-app-bar>
+        </v-app-bar> -->
+        <template v-slot:prepend>
+          <v-list>
+            <v-list-item :title="title" density="compact"> </v-list-item>
+          </v-list>
+        </template>
         <v-list>
           <v-list-item
             link
@@ -13,24 +18,20 @@
             :key="i"
             :to="item.to"
             :exact="item.exact"
+            :prepend-icon="item.icon"
+            :title="item.title"
+            @click="drawer = false"
           >
-            <v-list-item-action class="mr-5">
-              <v-icon v-text="item.icon"></v-icon>
-            </v-list-item-action>
-            <!-- <v-list-item-content> -->
-            <v-list-item-title
-              v-text="item.title"
-              class="capitalize condensed-font font-weight-medium"
-            ></v-list-item-title>
-            <!-- </v-list-item-content> -->
           </v-list-item>
         </v-list>
       </v-card>
-      <v-bottom-navigation absolute class="px-3 justify-start align-center">
-        <span class="grey--text text-caption"> v{{ version }} </span>
-      </v-bottom-navigation>
+      <template v-slot:append>
+        <v-list>
+          <v-list-item :title="`v${version}`" disabled> </v-list-item>
+        </v-list>
+      </template>
     </v-navigation-drawer>
-    <v-app-bar app dense flat clipped-left dark class="primary">
+    <v-app-bar flat clipped-left dark color="primary" density="compact">
       <v-app-bar-nav-icon @click="drawer = !drawer" class="d-sm-none">
       </v-app-bar-nav-icon>
       <v-toolbar-title class="pl-2">
@@ -116,13 +117,15 @@ watchEffect(() => {
 </script>
 
 <style>
-#app {
+/* #app {
   background-color: var(--v-background-lighten3);
-}
+} */
 
 html,
 body,
+#app,
 .v-application,
+.v-application__wrap,
 .v-application--wrap,
 .v-main__wrap {
   height: 100%;
