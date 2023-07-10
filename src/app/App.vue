@@ -2,12 +2,13 @@
   <v-app>
     <v-navigation-drawer v-model="drawer" temporary disable-resize-watcher>
       <v-card flat>
-        <!-- <v-app-bar dense flat dark class="primary lighten-1 font-weight-bold">
-          {{ title }}
-        </v-app-bar> -->
         <template v-slot:prepend>
           <v-list>
-            <v-list-item :title="title" density="compact"> </v-list-item>
+            <v-list-item density="compact">
+              <template v-slot:title>
+                <span class="text-primary font-weight-bold"> {{ title }} </span>
+              </template>
+            </v-list-item>
           </v-list>
         </template>
         <v-list>
@@ -31,7 +32,7 @@
         </v-list>
       </template>
     </v-navigation-drawer>
-    <v-app-bar flat clipped-left dark color="primary" density="compact">
+    <v-app-bar flat color="primary" density="compact">
       <v-app-bar-nav-icon @click="drawer = !drawer" class="d-sm-none">
       </v-app-bar-nav-icon>
       <v-toolbar-title class="pl-2">
@@ -68,9 +69,6 @@
           <component :is="Component" />
         </keep-alive>
       </router-view>
-      <!-- <keep-alive>
-        <router-view :key="route.fullPath"></router-view>
-      </keep-alive> -->
     </v-main>
   </v-app>
 </template>
