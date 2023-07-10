@@ -6,15 +6,9 @@
       <v-spacer></v-spacer>
       <v-tooltip bottom open-delay="500">
         <template v-slot:activator="{ props }">
-          <v-btn
-            v-bind="props"
-            icon
-            x-small
-            :disabled="!data?.stdout"
-            @click="clear"
-          >
-            <v-icon>mdi-eraser</v-icon>
-          </v-btn>
+          <v-icon v-bind="props" :disabled="!data?.stdout" @click="clear">
+            mdi-eraser
+          </v-icon>
         </template>
         <span>Clear</span>
       </v-tooltip>
