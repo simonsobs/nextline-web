@@ -23,8 +23,6 @@ import colors from "vuetify/lib/util/colors.mjs";
 // });
 //
 
-console.log(colors.blueGrey.darken2);
-
 const customLightTheme: ThemeDefinition = {
   dark: false,
   colors: {
