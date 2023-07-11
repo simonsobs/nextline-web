@@ -39,6 +39,11 @@ const vuetify = createVuetify({
   directives,
   theme: {
     defaultTheme: "customLightTheme",
+    variations: {
+      colors: ["primary", "accent", "background"],
+      lighten: 5,
+      darken: 5,
+    },
     themes: {
       customLightTheme,
     },

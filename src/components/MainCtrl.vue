@@ -1,5 +1,5 @@
 <template>
-  <v-card flat class="grey lighten-5 d-flex">
+  <v-card flat class="bg-grey-lighten-5 d-flex">
     <schedule-ctrl></schedule-ctrl>
     <run-ctrl></run-ctrl>
   </v-card>

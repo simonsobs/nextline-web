@@ -1,7 +1,7 @@
 <template>
   <div class="g-container">
     <v-layout>
-      <v-card flat min-width="400px" color="background lighten-4">
+      <v-card flat min-width="400px" color="background-lighten-4">
         <v-system-bar color="primary" dark style="position: static">
           <span> System bar </span>
           <v-spacer></v-spacer>
@@ -9,7 +9,7 @@
           <v-icon>mdi-checkbox-blank-outline</v-icon>
           <v-icon>mdi-close</v-icon>
         </v-system-bar>
-        <v-toolbar flat color="primary lighten-2" dark extension-height="36px">
+        <v-toolbar flat color="primary-lighten-2" dark extension-height="36px">
           <v-app-bar-nav-icon></v-app-bar-nav-icon>
           <v-toolbar-title> Tool bar </v-toolbar-title>
           <v-spacer></v-spacer>
@@ -22,7 +22,7 @@
               align-with-title
               height="36px"
               hide-slider
-              active-class="background lighten-4 primary--text"
+              active-class="bg-background-lighten-4 text-primary"
             >
               <v-tab
                 v-for="item in items"
@@ -52,7 +52,7 @@
       </v-card>
     </v-layout>
     <v-layout>
-      <v-card flat min-width="400px" color="background lighten-4">
+      <v-card flat min-width="400px" color="background-lighten-4">
         <v-system-bar color="primary" dark style="position: static;">
           <span> System bar </span>
           <v-spacer></v-spacer>
@@ -66,8 +66,8 @@
           height="36px"
           hide-slider
           dark
-          background-color="primary lighten-2"
-          active-class="background lighten-4 primary--text"
+          background-color="primary-lighten-2"
+          active-class="bg-background-lighten-4 text-primary"
         >
           <v-tab
             v-for="item in items"

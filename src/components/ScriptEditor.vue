@@ -5,13 +5,13 @@
     v-layout is there to prevent the height of v-system-bar from being included
     in the padding top of v-main.
    -->
-    <v-card flat height="100%" class="grey lighten-4" style="width: 100%">
+    <v-card flat height="100%" class="bg-grey-lighten-4" style="width: 100%">
       <v-system-bar color="primary" dark style="position: static">
         <v-icon> mdi-language-python </v-icon>
         <span>&lt;string&gt;</span>
       </v-system-bar>
       <div class="g-container">
-        <v-card-actions class="flex-row flex-wrap pa-1 grey lighten-4">
+        <v-card-actions class="flex-row flex-wrap pa-1 grey-lighten-4">
           <v-tooltip bottom open-delay="500" v-for="(b, i) in buttons" :key="i">
             <template v-slot:activator="{ props }">
               <v-btn
