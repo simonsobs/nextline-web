@@ -1,7 +1,16 @@
-FROM node:18.15-alpine as build
+FROM node:18.16-alpine as build
+
+# https://github.com/docker/getting-started/issues/124
+RUN apk add --no-cache python3 g++ make
 
 COPY ./ app
 WORKDIR /app
+
+RUN apk --no-cache --virtual build-dependencies add \
+  python3 \
+  make \
+  g++
+
 RUN yarn
 COPY docker/env.local .env.local
 RUN yarn build
