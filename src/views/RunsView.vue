@@ -1,6 +1,12 @@
 <template>
   <div class="g-container">
-    <v-card flat class="overflow-auto" rounded="lg" max-width="1200">
+    <v-card
+      flat
+      class="overflow-auto"
+      rounded="lg"
+      max-width="1200"
+      style="height: min-content"
+    >
       <v-card-text>
         <v-data-table
           :headers="headers"
@@ -8,40 +14,47 @@
           item-key="runNo"
           :items-per-page="10"
           :hide-default-footer="false"
-          sort-by="runNo"
+          :sort-by="sortBy"
           :sort-desc="true"
           @click:row="onClickRow"
         >
           <template v-slot:item.runNo="{ item }">
             <span class="font-weight-bold primary--text">
-              {{ item.runNo }}
+              {{ item.selectable.runNo }}
             </span>
           </template>
           <template v-slot:item.state="{ item }">
-            <v-chip :color="stateChipColor[item.state]" class="text-capitalize">
-              {{ item.state }}
+            <v-chip
+              :color="stateChipColor[item.selectable.state]"
+              class="text-capitalize"
+            >
+              {{ item.selectable.state }}
             </v-chip>
           </template>
           <template v-slot:item.startedAt="{ item }">
-            {{ formatDateTime(item.startedAt) }}
+            {{ formatDateTime(item.selectable.startedAt) }}
           </template>
           <template v-slot:item.endedAt="{ item }">
-            {{ formatDateTime(item.endedAt) }}
+            {{ formatDateTime(item.selectable.endedAt) }}
           </template>
           <template v-slot:item.exception="{ item }">
-            <v-icon v-if="!item.exception" color="teal"> mdi-check </v-icon>
+            <v-icon v-if="!item.selectable.exception" color="teal">
+              mdi-check
+            </v-icon>
             <v-icon v-else color="red">mdi-close</v-icon>
           </template>
         </v-data-table>
         <!-- <pre> {{ runs }} </pre> -->
       </v-card-text>
     </v-card>
+    <pre></pre>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed, ref, reactive } from "vue";
 import { useRouter } from "vue-router";
+import { VDataTable } from "vuetify/labs/VDataTable";
 
 import { useRunsQuery } from "@/gql/graphql";
 
@@ -63,15 +76,15 @@ function readNodes(query: Query) {
 const nodes = computed(() => readNodes(query));
 
 const headers = ref([
-  { text: "Run No.", value: "runNo" },
-  { text: "State", value: "state" },
-  { text: "Started at", value: "startedAt" },
-  { text: "Ended at", value: "endedAt" },
-  { text: "", value: "exception" },
+  { title: "Run No.", key: "runNo" },
+  { title: "State", key: "state" },
+  { title: "Started at", key: "startedAt" },
+  { title: "Ended at", key: "endedAt" },
+  { title: "", key: "exception" },
 ]);
 
-function onClickRow(item: any) {
-  router.push({ name: "run", params: { runNo: item.runNo } });
+function onClickRow(event, item: any) {
+  router.push({ name: "run", params: { runNo: item.item.selectable.runNo } });
 }
 
 const stateChipColor = ref({
@@ -81,6 +94,13 @@ const stateChipColor = ref({
   finished: "warning",
   closed: "warning",
 });
+
+const sortBy = reactive([
+  {
+    key: "runNo",
+    order: "desc", // boolean | "asc" | "desc"
+  },
+]);
 
 function formatDateTime(dateTime: string) {
   if (!dateTime) return;
