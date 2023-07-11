@@ -18,7 +18,7 @@
                 v-bind="props"
                 color="primary"
                 icon
-                outlined
+                variant="outlined"
                 @click="onClick(b.method)"
                 :disabled="b.disabled"
                 class="ma-1"

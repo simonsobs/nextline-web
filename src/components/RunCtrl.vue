@@ -30,7 +30,7 @@
       v-for="b in buttons"
       :key="`sm-${b.text}`"
       outlined
-      text
+      variant="text"
       color="primary"
       :disabled="editing"
       @click="onClick(b.method)"
@@ -66,11 +66,11 @@
         <v-card-title> Start running the script? </v-card-title>
         <v-card-text> Are you sure to start? </v-card-text>
         <v-card-actions>
-          <v-btn text color="grey darken-2" @click="dialog = false">
+          <v-btn variant="text" color="grey-darken-2" @click="dialog = false">
             Cancel
           </v-btn>
           <v-spacer></v-spacer>
-          <v-btn text color="primary" @click="onStartConfirmed"> Start </v-btn>
+          <v-btn variant="text" color="primary" @click="onStartConfirmed"> Start </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

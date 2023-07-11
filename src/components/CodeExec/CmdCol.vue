@@ -6,7 +6,7 @@
           v-bind="props"
           color="primary"
           icon
-          outlined
+          variant="outlined"
           :disabled="disabled"
           @click="pdbCommand(b.command)"
           class="ma-1"
