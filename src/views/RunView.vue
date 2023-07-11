@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed } from "vue";
-import { useRoute } from "vue-router/composables";
+import { computed, ref } from "vue";
+import { useRoute } from "vue-router";
 
 import { useRunsQuery } from "@/gql/graphql";
 
@@ -10,8 +10,8 @@ const route = useRoute();
 const runNo = Number(route.params.runNo);
 
 const breadcrumb = computed(() => [
-  { text: "Runs", to: { name: "runs" }, exact: true },
-  { text: `Run ${runNo}`, to: { name: "run", params: { runNo } } },
+  { title: "Runs", to: { name: "runs" }, exact: true },
+  { title: `Run ${runNo}`, to: { name: "run", params: { runNo } } },
 ]);
 
 const query = useRunsQuery();
@@ -48,10 +48,10 @@ const toNext = computed(() => {
     <div class="g-navi">
       <v-breadcrumbs :items="breadcrumb"> </v-breadcrumbs>
       <span class="pr-6">
-        <v-btn icon :disabled="!toPrev" :to="toPrev">
+        <v-btn icon variant="plain" :to="toPrev" v-if="toPrev">
           <v-icon> mdi-arrow-left-bold </v-icon>
         </v-btn>
-        <v-btn icon :disabled="!toNext" :to="toNext">
+        <v-btn icon variant="plain" :to="toNext" v-if="toNext">
           <v-icon> mdi-arrow-right-bold </v-icon>
         </v-btn>
       </span>

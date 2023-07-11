@@ -1,10 +1,16 @@
 <template>
   <v-app>
-    <v-navigation-drawer v-model="drawer" app clipped disable-resize-watcher>
+    <v-navigation-drawer v-model="drawer" temporary disable-resize-watcher>
       <v-card flat>
-        <v-app-bar dense flat dark class="primary lighten-1 font-weight-bold">
-          {{ title }}
-        </v-app-bar>
+        <template v-slot:prepend>
+          <v-list>
+            <v-list-item density="compact">
+              <template v-slot:title>
+                <span class="text-primary font-weight-bold"> {{ title }} </span>
+              </template>
+            </v-list-item>
+          </v-list>
+        </template>
         <v-list>
           <v-list-item
             link
@@ -13,24 +19,20 @@
             :key="i"
             :to="item.to"
             :exact="item.exact"
+            :prepend-icon="item.icon"
+            :title="item.title"
+            @click="drawer = false"
           >
-            <v-list-item-action class="mr-5">
-              <v-icon v-text="item.icon"></v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title
-                v-text="item.title"
-                class="capitalize condensed-font font-weight-medium"
-              ></v-list-item-title>
-            </v-list-item-content>
           </v-list-item>
         </v-list>
       </v-card>
-      <v-bottom-navigation absolute class="px-3 justify-start align-center">
-        <span class="grey--text text-caption"> v{{ version }} </span>
-      </v-bottom-navigation>
+      <template v-slot:append>
+        <v-list>
+          <v-list-item :title="`v${version}`" disabled> </v-list-item>
+        </v-list>
+      </template>
     </v-navigation-drawer>
-    <v-app-bar app dense flat clipped-left dark class="primary">
+    <v-app-bar flat color="primary" density="compact">
       <v-app-bar-nav-icon @click="drawer = !drawer" class="d-sm-none">
       </v-app-bar-nav-icon>
       <v-toolbar-title class="pl-2">
@@ -62,16 +64,18 @@
       </v-btn>
     </v-app-bar>
     <v-main>
-      <keep-alive>
-        <router-view :key="route.fullPath"></router-view>
-      </keep-alive>
+      <router-view :key="route.fullPath" v-slot="{ Component }">
+        <keep-alive>
+          <component :is="Component" />
+        </keep-alive>
+      </router-view>
     </v-main>
   </v-app>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, watchEffect } from "vue";
-import { useRoute } from "vue-router/composables";
+import { useRoute } from "vue-router";
 
 import { useConfigStore } from "@/stores/config";
 
@@ -111,13 +115,15 @@ watchEffect(() => {
 </script>
 
 <style>
-#app {
+/* #app {
   background-color: var(--v-background-lighten3);
-}
+} */
 
 html,
 body,
+#app,
 .v-application,
+.v-application__wrap,
 .v-application--wrap,
 .v-main__wrap {
   height: 100%;

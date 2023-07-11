@@ -1,19 +1,53 @@
-import Vue from "vue";
-import Vuetify from "vuetify/lib/framework";
-import colors from "vuetify/lib/util/colors";
+import "vuetify/styles";
+import { createVuetify, ThemeDefinition } from "vuetify";
+import * as components from "vuetify/components";
+import * as directives from "vuetify/directives";
+import { md3 } from "vuetify/blueprints";
 
-Vue.use(Vuetify);
+// https://github.com/vuetifyjs/vuetify/issues/16346
+import colors from "vuetify/lib/util/colors.mjs";
 
-export default new Vuetify({
+// Vue.use(Vuetify);
+
+// export default new Vuetify({
+//   theme: {
+//     dark: false,
+//     options: { customProperties: true, variations: true },
+//     themes: {
+//       light: {
+//         primary: colors.blueGrey.darken2,
+//         accent: colors.orange.base,
+//         background: colors.grey.base, // https://stackoverflow.com/a/59720255/7309855
+//       },
+//     },
+//   },
+// });
+//
+
+const customLightTheme: ThemeDefinition = {
+  dark: false,
+  colors: {
+    primary: colors.blueGrey.darken2,
+    accent: colors.orange.base,
+    background: colors.grey.lighten3,
+  },
+};
+
+const vuetify = createVuetify({
+  components,
+  directives,
+  blueprint: md3,
   theme: {
-    dark: false,
-    options: { customProperties: true, variations: true },
+    defaultTheme: "customLightTheme",
+    variations: {
+      colors: ["primary", "accent", "background"],
+      lighten: 5,
+      darken: 5,
+    },
     themes: {
-      light: {
-        primary: colors.blueGrey.darken2,
-        accent: colors.orange.base,
-        background: colors.grey.base, // https://stackoverflow.com/a/59720255/7309855
-      },
+      customLightTheme,
     },
   },
 });
+
+export default vuetify;

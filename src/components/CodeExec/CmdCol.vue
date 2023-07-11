@@ -1,15 +1,14 @@
 <template>
   <v-card-actions class="flex-row flex-wrap pa-1">
     <v-tooltip bottom open-delay="500" v-for="(b, i) in buttons" :key="i">
-      <template v-slot:activator="{ on, attrs }">
+      <template v-slot:activator="{ props }">
         <v-btn
+          v-bind="props"
           color="primary"
           icon
-          outlined
+          variant="outlined"
           :disabled="disabled"
           @click="pdbCommand(b.command)"
-          v-bind="attrs"
-          v-on="on"
           class="ma-1"
         >
           <v-icon>{{ b.icon }}</v-icon>

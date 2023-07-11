@@ -1,29 +1,36 @@
 <template>
-  <v-card
-    flat
-    height="100%"
-    :ripple="false"
-    tabindex="0"
-    @keydown.stop.prevent.capture="keyboardEvent = $event"
-    class="code-exec grey lighten-4"
-    style="min-height: 0"
-  >
-    <template v-if="prompting">
-      <system-bar :state="prompting"></system-bar>
-      <div class="g-container">
-        <cmd-col
-          :traceNo="traceId"
-          :promptNo="prompting.prompting"
-          :disabled="!prompting.prompting"
-          :keyboard-event="keyboardEvent"
-        ></cmd-col>
-        <v-divider></v-divider>
-        <div style="height: 100%">
-          <code-col :state="prompting"></code-col>
+  <v-layout full-height style="width: 100%">
+    <!--
+    v-layout-can be removed when v-system-bar is removed.
+    v-layout is there to prevent the height of v-system-bar from being included
+    in the padding top of v-main.
+   -->
+    <v-card
+      flat
+      height="100%"
+      :ripple="false"
+      tabindex="0"
+      @keydown.stop.prevent.capture="keyboardEvent = $event"
+      class="code-exec bg-grey-lighten-4"
+      style="min-height: 0; width: 100%"
+    >
+      <template v-if="prompting">
+        <system-bar :state="prompting"></system-bar>
+        <div class="g-container">
+          <cmd-col
+            :traceNo="traceId"
+            :promptNo="prompting.prompting"
+            :disabled="!prompting.prompting"
+            :keyboard-event="keyboardEvent"
+          ></cmd-col>
+          <v-divider></v-divider>
+          <div style="height: 100%">
+            <code-col :state="prompting"></code-col>
+          </div>
         </div>
-      </div>
-    </template>
-  </v-card>
+      </template>
+    </v-card>
+  </v-layout>
 </template>
 
 <script setup lang="ts">
@@ -56,7 +63,6 @@ watch(keyboardEvent, (val) => {
 watch(prompting, (val) => {
   // console.log(document.activeElement);
 });
-
 </script>
 
 <style scoped>
