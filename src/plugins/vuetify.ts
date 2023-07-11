@@ -2,6 +2,7 @@ import "vuetify/styles";
 import { createVuetify, ThemeDefinition } from "vuetify";
 import * as components from "vuetify/components";
 import * as directives from "vuetify/directives";
+import { md3 } from "vuetify/blueprints";
 
 // https://github.com/vuetifyjs/vuetify/issues/16346
 import colors from "vuetify/lib/util/colors.mjs";
@@ -35,6 +36,7 @@ const customLightTheme: ThemeDefinition = {
 const vuetify = createVuetify({
   components,
   directives,
+  blueprint: md3,
   theme: {
     defaultTheme: "customLightTheme",
     variations: {
