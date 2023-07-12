@@ -32,21 +32,21 @@
         </v-list>
       </template>
     </v-navigation-drawer>
-    <v-app-bar flat color="primary" density="compact">
-      <v-app-bar-nav-icon @click="drawer = !drawer" class="d-sm-none">
-      </v-app-bar-nav-icon>
-      <v-toolbar-title class="pl-2">
+    <v-app-bar flat density="compact">
+      <template v-slot:prepend>
+        <v-app-bar-nav-icon @click="drawer = !drawer" class="d-sm-none">
+        </v-app-bar-nav-icon>
+      </template>
+      <v-app-bar-title>
         <router-link
           :to="{ name: 'home' }"
-          class="font-weight-bold text-decoration-none"
+          class="text-decoration-none"
           style="color: inherit"
         >
           {{ title }}
         </router-link>
-      </v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-spacer></v-spacer>
-      <v-spacer></v-spacer>
+      </v-app-bar-title>
+      <v-spacer class="d-none d-sm-block"></v-spacer>
       <router-link
         v-for="item in naviItems"
         :to="item.to"
@@ -55,13 +55,11 @@
       >
         {{ item.title }}
       </router-link>
-      <v-spacer></v-spacer>
-      <span class="primary--text text--lighten-3 subtitle-2">
-        {{ version }}
-      </span>
-      <v-btn icon :href="graphqlUrl" target="_blank">
-        <v-icon> mdi-graphql </v-icon>
-      </v-btn>
+      <v-spacer class="d-none d-sm-block"></v-spacer>
+      <template v-slot:append>
+        <span> {{ version }} </span>
+        <v-btn icon="mdi-graphql" :href="graphqlUrl" target="_blank"> </v-btn>
+      </template>
     </v-app-bar>
     <v-main>
       <router-view :key="route.fullPath" v-slot="{ Component }">
@@ -115,16 +113,11 @@ watchEffect(() => {
 </script>
 
 <style>
-/* #app {
-  background-color: var(--v-background-lighten3);
-} */
-
 html,
 body,
 #app,
 .v-application,
 .v-application__wrap,
-.v-application--wrap,
 .v-main__wrap {
   height: 100%;
 }
