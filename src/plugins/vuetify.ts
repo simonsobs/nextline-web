@@ -3,6 +3,7 @@ import { createVuetify, ThemeDefinition } from "vuetify";
 import * as components from "vuetify/components";
 import * as directives from "vuetify/directives";
 import { md3 } from "vuetify/blueprints";
+import { aliases, mdi } from "vuetify/iconsets/mdi";
 
 // https://github.com/vuetifyjs/vuetify/issues/16346
 import colors from "vuetify/lib/util/colors.mjs";
@@ -48,6 +49,11 @@ const vuetify = createVuetify({
     themes: {
       customLightTheme,
     },
+  },
+  icons: {
+    defaultSet: "mdi",
+    aliases,
+    sets: { mdi },
   },
 });
 
