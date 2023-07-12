@@ -125,4 +125,8 @@ body,
 .v-main {
   height: calc(100% - 48px); /* 48px: the height of the app bar */
 }
+
+.v-btn {
+  text-transform: capitalize;
+}
 </style>
