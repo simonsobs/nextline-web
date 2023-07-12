@@ -29,6 +29,7 @@ const customLightTheme: ThemeDefinition = {
   colors: {
     primary: colors.blueGrey.darken2,
     accent: colors.orange.base,
+    surface: colors.blueGrey.lighten5,
     background: colors.grey.lighten3,
   },
 };
@@ -40,7 +41,7 @@ const vuetify = createVuetify({
   theme: {
     defaultTheme: "customLightTheme",
     variations: {
-      colors: ["primary", "accent", "background"],
+      colors: ["primary", "accent", "surface", "background"],
       lighten: 5,
       darken: 5,
     },
