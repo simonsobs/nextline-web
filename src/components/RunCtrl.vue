@@ -3,9 +3,9 @@
     <span>
       Run: <span class="font-weight-medium"> {{ runNo }} </span>
     </span>
-    <v-chip v-if="chip" :color="chip.color" class="text-capitalize mx-2">
+    <span class="text-capitalize mx-3">
       {{ nextlineState }}
-    </v-chip>
+    </span>
     <v-tooltip bottom open-delay="500" v-for="b in buttons" :key="b.text">
       <template v-slot:activator="{ props }">
         <v-btn
@@ -29,15 +29,12 @@
       class="d-none d-sm-flex"
       v-for="b in buttons"
       :key="`sm-${b.text}`"
-      outlined
-      variant="text"
+      variant="outlined"
       color="primary"
       :disabled="editing"
       @click="onClick(b.method)"
+      :prepend-icon="b.icon"
     >
-      <v-icon left>
-        {{ b.icon }}
-      </v-icon>
       {{ b.text }}
     </v-btn>
     <v-spacer></v-spacer>
@@ -70,7 +67,9 @@
             Cancel
           </v-btn>
           <v-spacer></v-spacer>
-          <v-btn variant="text" color="primary" @click="onStartConfirmed"> Start </v-btn>
+          <v-btn variant="text" color="primary" @click="onStartConfirmed">
+            Start
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -89,7 +88,6 @@ import {
   useTerminateMutation,
   useKillMutation,
   useStateSubscription,
-  useTraceIdsSubscription,
   useRunNoSubscription,
 } from "@/gql/graphql";
 import { storeToRefs } from "pinia";
@@ -101,11 +99,6 @@ const nextlineState = computed(
 
 const runNoSubscription = useRunNoSubscription();
 const runNo = computed(() => runNoSubscription.data?.value?.runNo);
-
-const traceIdsSubscription = useTraceIdsSubscription();
-const traceIds = computed(
-  () => traceIdsSubscription.data?.value?.traceIds || []
-);
 
 type Method = "run" | "reset" | "interrupt" | "terminate" | "kill";
 type CommandUI = "button" | "menu";
@@ -167,21 +160,8 @@ const menuItems = computed(() =>
   )
 );
 
-const chipConfig = ref({
-  default: { color: null },
-  initialized: { color: "success" },
-  running: { color: "primary" },
-  exited: { color: "warning" },
-  finished: { color: "warning" },
-  closed: { color: "warning" },
-});
-
 const store = useStore();
 const { modified: editing } = storeToRefs(store);
-
-const chip = computed(
-  () => chipConfig.value[nextlineState.value] || chipConfig.value.default
-);
 
 async function onClick(method: Method) {
   if (method === "run") {

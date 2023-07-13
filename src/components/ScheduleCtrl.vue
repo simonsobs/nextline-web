@@ -1,12 +1,12 @@
 <template>
   <v-card-actions>
-    <v-chip color="primary text-capitalize mx-2">
+    <span class="text-capitalize mx-3">
       {{ scheduleAutoModeState }}
-    </v-chip>
-    <v-btn outlined text @click="turnOn" v-if="scheduleAutoModeState == 'off'">
+    </span>
+    <v-btn variant="outlined" @click="turnOn" v-if="scheduleAutoModeState == 'off'">
       turn on
     </v-btn>
-    <v-btn outlined text @click="turnOff" v-else> turn off </v-btn>
+    <v-btn variant="outlined" @click="turnOff" v-else> turn off </v-btn>
   </v-card-actions>
 </template>
 
