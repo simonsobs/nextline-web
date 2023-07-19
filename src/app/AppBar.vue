@@ -23,9 +23,10 @@
       {{ item.title }}
     </router-link>
     <v-spacer class="d-none d-sm-block"></v-spacer>
+    <span class="d-none d-sm-inline"> {{ version }} </span>
+    <v-btn icon="mdi-graphql" :href="apiHttp" target="_blank"> </v-btn>
     <template v-slot:append>
-      <span class="d-none d-sm-inline"> {{ version }} </span>
-      <v-btn icon="mdi-graphql" :href="apiHttp" target="_blank"> </v-btn>
+      <schedule-ctrl></schedule-ctrl>
     </template>
   </v-app-bar>
 </template>
@@ -35,6 +36,7 @@ import { ref, computed } from "vue";
 
 import { useConfigStore } from "@/stores/config";
 import naviItems from "./navi-items";
+import ScheduleCtrl from "@/components/ScheduleCtrl.vue";
 
 interface Emits {
   (event: "toggleDrawer"): void;
@@ -42,7 +44,6 @@ interface Emits {
 defineEmits<Emits>();
 
 const configStore = useConfigStore();
-
 
 const version = ref(import.meta.env.PACKAGE_VERSION);
 
