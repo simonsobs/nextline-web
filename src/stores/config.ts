@@ -4,9 +4,14 @@ import axios from "axios";
 import * as path from "path";
 
 interface Config {
+  appName?: string;
   apiName?: string;
   apiHttp?: string;
 }
+
+const defaultConfig: Config = {
+  appName: "Nextline",
+};
 
 export const useConfigStore = defineStore("config", () => {
   const url = ref(path.join(import.meta.env.VITE_PUBLIC_PATH, "config.json"));
@@ -18,7 +23,7 @@ export const useConfigStore = defineStore("config", () => {
     error.value = null;
     try {
       const response = await axios.get<Config>(url.value);
-      config.value = response.data;
+      config.value = { ...defaultConfig, ...response.data };
     } catch (e) {
       error.value = e;
     } finally {

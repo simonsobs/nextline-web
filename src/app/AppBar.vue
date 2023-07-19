@@ -48,8 +48,8 @@ const graphqlUrl = computed(() => configStore.config?.apiHttp);
 const version = ref(import.meta.env.PACKAGE_VERSION);
 
 const title = computed(() => {
-  const pre = "Nextline";
-  const name = configStore.config?.apiName;
-  return name ? `${pre}: ${name}` : pre;
+  const appName = configStore.config?.appName || "loading...";
+  const apiName = configStore.config?.apiName || "";
+  return `${appName}: ${apiName}`
 });
 </script>

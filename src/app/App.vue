@@ -26,9 +26,9 @@ const configStore = useConfigStore();
 const drawer = ref(false);
 
 const title = computed(() => {
-  const pre = "Nextline";
-  const name = configStore.config?.apiName;
-  return name ? `${pre}: ${name}` : pre;
+  const appName = configStore.config?.appName || "loading...";
+  const apiName = configStore.config?.apiName || "";
+  return `${appName}: ${apiName}`;
 });
 
 watchEffect(() => {
