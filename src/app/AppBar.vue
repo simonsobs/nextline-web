@@ -25,7 +25,7 @@
     <v-spacer class="d-none d-sm-block"></v-spacer>
     <template v-slot:append>
       <span class="d-none d-sm-inline"> {{ version }} </span>
-      <v-btn icon="mdi-graphql" :href="graphqlUrl" target="_blank"> </v-btn>
+      <v-btn icon="mdi-graphql" :href="apiHttp" target="_blank"> </v-btn>
     </template>
   </v-app-bar>
 </template>
@@ -43,10 +43,10 @@ defineEmits<Emits>();
 
 const configStore = useConfigStore();
 
-const graphqlUrl = computed(() => configStore.config?.apiHttp);
 
 const version = ref(import.meta.env.PACKAGE_VERSION);
 
 const appName = computed(() => configStore.config?.appName || "loading...");
 const apiName = computed(() => configStore.config?.apiName || "");
+const apiHttp = computed(() => configStore.config?.apiHttp);
 </script>
