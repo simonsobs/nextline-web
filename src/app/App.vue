@@ -1,37 +1,6 @@
 <template>
   <v-app>
-    <v-navigation-drawer v-model="drawer" temporary disable-resize-watcher>
-      <v-card flat>
-        <template v-slot:prepend>
-          <v-list>
-            <v-list-item density="compact">
-              <template v-slot:title>
-                <span class="text-primary font-weight-bold"> {{ title }} </span>
-              </template>
-            </v-list-item>
-          </v-list>
-        </template>
-        <v-list>
-          <v-list-item
-            link
-            router
-            v-for="(item, i) in naviItems"
-            :key="i"
-            :to="item.to"
-            :exact="item.exact"
-            :prepend-icon="item.icon"
-            :title="item.title"
-            @click="drawer = false"
-          >
-          </v-list-item>
-        </v-list>
-      </v-card>
-      <template v-slot:append>
-        <v-list>
-          <v-list-item :title="`v${version}`" disabled> </v-list-item>
-        </v-list>
-      </template>
-    </v-navigation-drawer>
+    <navigation-drawer v-model="drawer"></navigation-drawer>
     <v-app-bar flat density="compact">
       <template v-slot:prepend>
         <v-app-bar-nav-icon @click="drawer = !drawer" class="d-sm-none">
@@ -76,6 +45,7 @@ import { ref, computed, watchEffect } from "vue";
 import { useRoute } from "vue-router";
 
 import { useConfigStore } from "@/stores/config";
+import NavigationDrawer from "./NavigationDrawer.vue";
 
 const route = useRoute();
 const configStore = useConfigStore();
