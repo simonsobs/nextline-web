@@ -24,7 +24,7 @@
     </router-link>
     <v-spacer class="d-none d-sm-block"></v-spacer>
     <template v-slot:append>
-      <span> {{ version }} </span>
+      <span class="d-none d-sm-inline"> {{ version }} </span>
       <v-btn icon="mdi-graphql" :href="graphqlUrl" target="_blank"> </v-btn>
     </template>
   </v-app-bar>
