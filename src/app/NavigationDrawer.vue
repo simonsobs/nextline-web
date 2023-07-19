@@ -38,6 +38,8 @@ import { ref, computed, watch, watchEffect } from "vue";
 
 import { useConfigStore } from "@/stores/config";
 
+import naviItems from "./navi-items";
+
 interface Props {
   modelValue: boolean;
 }
@@ -60,21 +62,6 @@ watch(props, (val) => {
 watch(drawer, (val) => {
   emit("update:modelValue", val);
 });
-
-const naviItems = ref([
-  {
-    icon: "mdi-home",
-    title: "Main",
-    to: { name: "home" },
-    exact: true,
-  },
-  {
-    icon: "mdi-history",
-    title: "History",
-    to: { name: "runs" },
-    exact: false,
-  },
-]);
 
 const version = ref(import.meta.env.PACKAGE_VERSION);
 

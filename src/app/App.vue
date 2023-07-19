@@ -46,26 +46,12 @@ import { useRoute } from "vue-router";
 
 import { useConfigStore } from "@/stores/config";
 import NavigationDrawer from "./NavigationDrawer.vue";
+import naviItems from "./navi-items";
 
 const route = useRoute();
 const configStore = useConfigStore();
 
 const drawer = ref(false);
-
-const naviItems = ref([
-  {
-    icon: "mdi-home",
-    title: "Main",
-    to: { name: "home" },
-    exact: true,
-  },
-  {
-    icon: "mdi-history",
-    title: "History",
-    to: { name: "runs" },
-    exact: false,
-  },
-]);
 
 const graphqlUrl = computed(() => configStore.config?.apiHttp);
 
