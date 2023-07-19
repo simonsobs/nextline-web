@@ -5,7 +5,7 @@
         <v-list>
           <v-list-item density="compact">
             <template v-slot:title>
-              <span class="text-primary font-weight-bold"> {{ title }} </span>
+              <span class="text-primary font-weight-bold"> {{ appName }} </span>
             </template>
           </v-list-item>
         </v-list>
@@ -34,7 +34,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, watchEffect } from "vue";
+import { ref, computed, watch } from "vue";
 
 import { useConfigStore } from "@/stores/config";
 
@@ -65,13 +65,5 @@ watch(drawer, (val) => {
 
 const version = ref(import.meta.env.PACKAGE_VERSION);
 
-const title = computed(() => {
-  const pre = "Nextline";
-  const name = configStore.config?.apiName;
-  return name ? `${pre}: ${name}` : pre;
-});
-
-watchEffect(() => {
-  document.title = title.value || "loading...";
-});
+const appName = computed(() => configStore.config?.appName || "loading...");
 </script>
