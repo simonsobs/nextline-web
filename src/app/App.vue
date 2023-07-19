@@ -1,35 +1,7 @@
 <template>
   <v-app>
     <navigation-drawer v-model="drawer"></navigation-drawer>
-    <v-app-bar flat density="compact">
-      <template v-slot:prepend>
-        <v-app-bar-nav-icon @click="drawer = !drawer" class="d-sm-none">
-        </v-app-bar-nav-icon>
-      </template>
-      <v-app-bar-title>
-        <router-link
-          :to="{ name: 'home' }"
-          class="text-decoration-none"
-          style="color: inherit"
-        >
-          {{ title }}
-        </router-link>
-      </v-app-bar-title>
-      <v-spacer class="d-none d-sm-block"></v-spacer>
-      <router-link
-        v-for="item in naviItems"
-        :to="item.to"
-        class="text-decoration-none mx-3 d-none d-sm-block"
-        style="color: inherit"
-      >
-        {{ item.title }}
-      </router-link>
-      <v-spacer class="d-none d-sm-block"></v-spacer>
-      <template v-slot:append>
-        <span> {{ version }} </span>
-        <v-btn icon="mdi-graphql" :href="graphqlUrl" target="_blank"> </v-btn>
-      </template>
-    </v-app-bar>
+    <app-bar @toggle-drawer="drawer = !drawer"></app-bar>
     <v-main>
       <router-view :key="route.fullPath" v-slot="{ Component }">
         <keep-alive>
@@ -46,16 +18,12 @@ import { useRoute } from "vue-router";
 
 import { useConfigStore } from "@/stores/config";
 import NavigationDrawer from "./NavigationDrawer.vue";
-import naviItems from "./navi-items";
+import AppBar from "./AppBar.vue";
 
 const route = useRoute();
 const configStore = useConfigStore();
 
 const drawer = ref(false);
-
-const graphqlUrl = computed(() => configStore.config?.apiHttp);
-
-const version = ref(import.meta.env.PACKAGE_VERSION);
 
 const title = computed(() => {
   const pre = "Nextline";
