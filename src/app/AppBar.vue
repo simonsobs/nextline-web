@@ -4,15 +4,15 @@
       <v-app-bar-nav-icon @click="$emit('toggleDrawer')" class="d-sm-none">
       </v-app-bar-nav-icon>
     </template>
-    <v-app-bar-title>
+    <template v-slot:title>
       <router-link
         :to="{ name: 'home' }"
         class="text-decoration-none"
         style="color: inherit"
       >
-        {{ title }}
+        <span class="d-none d-sm-inline"> {{ appName }}: </span> {{ apiName }}
       </router-link>
-    </v-app-bar-title>
+    </template>
     <v-spacer class="d-none d-sm-block"></v-spacer>
     <router-link
       v-for="item in naviItems"
@@ -47,9 +47,6 @@ const graphqlUrl = computed(() => configStore.config?.apiHttp);
 
 const version = ref(import.meta.env.PACKAGE_VERSION);
 
-const title = computed(() => {
-  const appName = configStore.config?.appName || "loading...";
-  const apiName = configStore.config?.apiName || "";
-  return `${appName}: ${apiName}`
-});
+const appName = computed(() => configStore.config?.appName || "loading...");
+const apiName = computed(() => configStore.config?.apiName || "");
 </script>
