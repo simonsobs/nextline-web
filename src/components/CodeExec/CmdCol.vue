@@ -1,26 +1,48 @@
 <template>
   <v-card-actions class="flex-row flex-wrap pa-1">
-    <v-tooltip bottom open-delay="500" v-for="(b, i) in buttons" :key="i">
+    <v-btn
+      variant="flat"
+      prepend-icon="mdi-skip-next"
+      :disabled="disabled"
+      @click="pdbCommand('next')"
+    >
+      1 line
+    </v-btn>
+    <v-btn
+      variant="outlined"
+      prepend-icon="mdi-play"
+      :disabled="disabled"
+      @click="pdbCommand('continue')"
+    >
+      continue running
+    </v-btn>
+    <v-spacer></v-spacer>
+    <v-menu offset-y>
       <template v-slot:activator="{ props }">
-        <v-btn
-          v-bind="props"
-          color="primary"
-          icon
-          variant="outlined"
-          :disabled="disabled"
-          @click="pdbCommand(b.command)"
-          class="ma-1"
-        >
-          <v-icon>{{ b.icon }}</v-icon>
+        <v-btn v-bind="props" icon>
+          <v-icon> mdi-dots-horizontal</v-icon>
         </v-btn>
       </template>
-      <span>{{ b.text }}</span>
-    </v-tooltip>
+      <v-list>
+        <v-list-item @click="pdbCommand('step')">
+          <template v-slot:prepend>
+            <v-icon> mdi-debug-step-into </v-icon>
+          </template>
+          Step Into A Function
+        </v-list-item>
+        <v-list-item @click="pdbCommand('return')">
+          <template v-slot:prepend>
+            <v-icon> mdi-keyboard-return </v-icon>
+          </template>
+          Run Until Return
+        </v-list-item>
+      </v-list>
+    </v-menu>
   </v-card-actions>
 </template>
 
 <script setup lang="ts">
-import { reactive, ref, watch, withDefaults } from "vue";
+import { reactive, watch, withDefaults } from "vue";
 
 import { useSendPdbCommandMutation } from "@/gql/graphql";
 
@@ -34,14 +56,6 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   disabled: false,
 });
-
-// Use ref() instead of reactive() because of a Vue-2 only limitation
-const buttons = ref([
-  { text: "(N)ext", command: "next", icon: "mdi-skip-next" },
-  { text: "(S)tep", command: "step", icon: "mdi-debug-step-into" },
-  { text: "(R)eturn", command: "return", icon: "mdi-keyboard-return" },
-  { text: "(C)ontinue", command: "continue", icon: "mdi-play" },
-]);
 
 const keyboardShortcuts = reactive({
   n: "next",
