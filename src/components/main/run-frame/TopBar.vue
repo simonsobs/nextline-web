@@ -1,53 +1,75 @@
 <template>
-  <v-card flat class="d-flex">
-    <v-card-actions class="flex-wrap" style="row-gap: 8px">
+  <v-card flat>
+    <v-card-actions>
       <span>
         Run: <span class="font-weight-medium"> {{ runNo }} </span>
       </span>
       <span class="text-capitalize text-primary font-weight-bold mx-3">
         {{ nextlineState }}
       </span>
-      <v-btn
-        v-for="b in buttons"
-        :key="`sm-${b.text}`"
-        variant="outlined"
-        color="primary"
-        :disabled="editing"
-        @click="onClick(b.method)"
-        :prepend-icon="b.icon"
-      >
-        {{ b.text }}
-      </v-btn>
-      <v-spacer></v-spacer>
-      <v-menu offset-y v-if="menuItems.length">
-        <template v-slot:activator="{ props }">
-          <v-btn v-bind="props" icon>
-            <v-icon> mdi-dots-vertical </v-icon>
-          </v-btn>
-        </template>
-        <v-list>
-          <v-list-item
-            v-for="b in menuItems"
-            :key="b.text"
-            :disabled="editing"
-            @click="onClick(b.method)"
-          >
-            <template v-slot:prepend>
-              <v-icon> {{ b.icon }} </v-icon>
-            </template>
-            {{ b.text }}
-          </v-list-item>
-        </v-list>
-      </v-menu>
-      <v-dialog v-model="dialog" max-width="290">
-        <run-confirmation-dialog
-          @confirm="onStartConfirmed"
-          @cancel="dialog = false"
+      <template v-if="nextlineState === 'initialized'">
+        <v-btn
+          variant="flat"
+          prepend-icon="mdi-play"
+          :disabled="editing"
+          @click="showConfirmationDialog"
         >
-        </run-confirmation-dialog>
-      </v-dialog>
+          start
+        </v-btn>
+        <v-btn
+          variant="outlined"
+          prepend-icon="mdi-restore"
+          :disabled="editing"
+          @click="executeReset"
+        >
+          reset
+        </v-btn>
+      </template>
+      <template v-else-if="nextlineState === 'running'">
+        <v-btn
+          variant="outlined"
+          prepend-icon="mdi-close"
+          @click="executeInterrupt"
+        >
+          interrupt
+        </v-btn>
+        <v-spacer></v-spacer>
+        <v-menu offset-y>
+          <template v-slot:activator="{ props }">
+            <v-btn v-bind="props" icon>
+              <v-icon> mdi-dots-horizontal</v-icon>
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item @click="executeTerminate({})">
+              <template v-slot:prepend>
+                <v-icon> mdi-close-octagon-outline </v-icon>
+              </template>
+              terminate
+            </v-list-item>
+            <v-list-item @click="executeKill({})">
+              <template v-slot:prepend>
+                <v-icon> mdi-close-octagon </v-icon>
+              </template>
+              kill
+            </v-list-item>
+          </v-list>
+        </v-menu>
+      </template>
+      <template v-else-if="nextlineState === 'finished'">
+        <v-btn variant="flat" prepend-icon="mdi-restore" @click="executeReset">
+          reset
+        </v-btn>
+      </template>
     </v-card-actions>
   </v-card>
+  <v-dialog v-model="dialog" max-width="290">
+    <run-confirmation-dialog
+      @confirm="onStartConfirmed"
+      @cancel="dialog = false"
+    >
+    </run-confirmation-dialog>
+  </v-dialog>
 </template>
 
 <script setup lang="ts">
@@ -75,82 +97,8 @@ const nextlineState = computed(
 const runNoSubscription = useRunNoSubscription();
 const runNo = computed(() => runNoSubscription.data?.value?.runNo);
 
-type Method = "run" | "reset" | "interrupt" | "terminate" | "kill";
-type CommandUI = "button" | "menu";
-interface Command {
-  method: Method;
-  text: string;
-  icon: string;
-  states: string[];
-  ui: CommandUI[];
-}
-
-const commands = ref<Command[]>([
-  {
-    text: "Start",
-    method: "run",
-    icon: "mdi-play",
-    states: ["initialized"],
-    ui: ["button"],
-  },
-  {
-    text: "Reset",
-    method: "reset",
-    icon: "mdi-restore",
-    states: ["initialized", "finished", "closed"],
-    ui: ["button"],
-  },
-  {
-    text: "Interrupt",
-    method: "interrupt",
-    icon: "mdi-close",
-    states: ["running"],
-    ui: ["button"],
-  },
-  {
-    text: "Terminate",
-    method: "terminate",
-    icon: "mdi-close-octagon-outline",
-    states: ["running"],
-    ui: ["menu"],
-  },
-  {
-    text: "Kill",
-    method: "kill",
-    icon: "mdi-close-octagon",
-    states: ["running"],
-    ui: ["menu"],
-  },
-]);
-
-const buttons = computed(() =>
-  commands.value.filter(
-    (c) => c.ui.includes("button") && c.states.includes(nextlineState.value)
-  )
-);
-
-const menuItems = computed(() =>
-  commands.value.filter(
-    (c) => c.ui.includes("menu") && c.states.includes(nextlineState.value)
-  )
-);
-
 const store = useStore();
 const { modified: editing } = storeToRefs(store);
-
-async function onClick(method: Method) {
-  if (method === "run") {
-    showConfirmationDialog();
-  } else if (method === "reset") {
-    await executeReset({});
-  } else if (method === "interrupt") {
-    await executeInterrupt({});
-  } else if (method === "terminate") {
-    await executeTerminate({});
-  } else if (method === "kill") {
-    await executeKill({});
-  }
-}
 
 const { executeMutation: executeExec } = useExecMutation();
 const { executeMutation: executeReset } = useResetMutation();
