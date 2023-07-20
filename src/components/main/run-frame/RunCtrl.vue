@@ -1,79 +1,81 @@
 <template>
-  <v-card-actions class="flex-wrap" style="row-gap: 8px">
-    <span>
-      Run: <span class="font-weight-medium"> {{ runNo }} </span>
-    </span>
-    <span class="text-capitalize text-primary font-weight-bold mx-3 ">
-      {{ nextlineState }}
-    </span>
-    <v-tooltip bottom open-delay="500" v-for="b in buttons" :key="b.text">
-      <template v-slot:activator="{ props }">
-        <v-btn
-          v-bind="props"
-          class="d-flex d-sm-none ml-2"
-          outlined
-          icon
-          color="primary"
-          :disabled="editing"
-          @click="onClick(b.method)"
-        >
-          <!-- ml-2 is for the bug https://github.com/vuetifyjs/vuetify/issues/9756 -->
-          <v-icon left>
-            {{ b.icon }}
-          </v-icon>
-        </v-btn>
-      </template>
-      <span>{{ b.text }}</span>
-    </v-tooltip>
-    <v-btn
-      class="d-none d-sm-flex"
-      v-for="b in buttons"
-      :key="`sm-${b.text}`"
-      variant="outlined"
-      color="primary"
-      :disabled="editing"
-      @click="onClick(b.method)"
-      :prepend-icon="b.icon"
-    >
-      {{ b.text }}
-    </v-btn>
-    <v-spacer></v-spacer>
-    <v-menu offset-y v-if="menuItems.length">
-      <template v-slot:activator="{ props }">
-        <v-btn v-bind="props" icon>
-          <v-icon> mdi-dots-vertical </v-icon>
-        </v-btn>
-      </template>
-      <v-list>
-        <v-list-item
-          v-for="b in menuItems"
-          :key="b.text"
-          :disabled="editing"
-          @click="onClick(b.method)"
-        >
-          <template v-slot:prepend>
-            <v-icon> {{ b.icon }} </v-icon>
-          </template>
-          {{ b.text }}
-        </v-list-item>
-      </v-list>
-    </v-menu>
-    <v-dialog v-model="dialog" max-width="290">
-      <v-card>
-        <v-card-title> Start running the script? </v-card-title>
-        <v-card-text> Are you sure to start? </v-card-text>
-        <v-card-actions>
-          <v-btn variant="text" color="grey-darken-2" @click="dialog = false">
-            Cancel
+  <v-card flat class="d-flex">
+    <v-card-actions class="flex-wrap" style="row-gap: 8px">
+      <span>
+        Run: <span class="font-weight-medium"> {{ runNo }} </span>
+      </span>
+      <span class="text-capitalize text-primary font-weight-bold mx-3">
+        {{ nextlineState }}
+      </span>
+      <v-tooltip bottom open-delay="500" v-for="b in buttons" :key="b.text">
+        <template v-slot:activator="{ props }">
+          <v-btn
+            v-bind="props"
+            class="d-flex d-sm-none ml-2"
+            outlined
+            icon
+            color="primary"
+            :disabled="editing"
+            @click="onClick(b.method)"
+          >
+            <!-- ml-2 is for the bug https://github.com/vuetifyjs/vuetify/issues/9756 -->
+            <v-icon left>
+              {{ b.icon }}
+            </v-icon>
           </v-btn>
-          <v-spacer></v-spacer>
-          <v-btn variant="text" color="primary" @click="onStartConfirmed">
-            Start
+        </template>
+        <span>{{ b.text }}</span>
+      </v-tooltip>
+      <v-btn
+        class="d-none d-sm-flex"
+        v-for="b in buttons"
+        :key="`sm-${b.text}`"
+        variant="outlined"
+        color="primary"
+        :disabled="editing"
+        @click="onClick(b.method)"
+        :prepend-icon="b.icon"
+      >
+        {{ b.text }}
+      </v-btn>
+      <v-spacer></v-spacer>
+      <v-menu offset-y v-if="menuItems.length">
+        <template v-slot:activator="{ props }">
+          <v-btn v-bind="props" icon>
+            <v-icon> mdi-dots-vertical </v-icon>
           </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-  </v-card-actions>
+        </template>
+        <v-list>
+          <v-list-item
+            v-for="b in menuItems"
+            :key="b.text"
+            :disabled="editing"
+            @click="onClick(b.method)"
+          >
+            <template v-slot:prepend>
+              <v-icon> {{ b.icon }} </v-icon>
+            </template>
+            {{ b.text }}
+          </v-list-item>
+        </v-list>
+      </v-menu>
+      <v-dialog v-model="dialog" max-width="290">
+        <v-card>
+          <v-card-title> Start running the script? </v-card-title>
+          <v-card-text> Are you sure to start? </v-card-text>
+          <v-card-actions>
+            <v-btn variant="text" color="grey-darken-2" @click="dialog = false">
+              Cancel
+            </v-btn>
+            <v-spacer></v-spacer>
+            <v-btn variant="text" color="primary" @click="onStartConfirmed">
+              Start
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-card-actions>
+  </v-card>
 </template>
 
 <script setup lang="ts">

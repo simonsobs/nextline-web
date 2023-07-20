@@ -1,7 +1,7 @@
 <template>
   <div class="g-container">
     <div class="g-ctrl">
-      <main-ctrl></main-ctrl>
+      <run-ctrl></run-ctrl>
     </div>
     <div v-show="exception" class="g-exception">
       <exception v-model="exception"></exception>
@@ -18,7 +18,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 
-import MainCtrl from "./MainCtrl.vue";
+import RunCtrl from "./RunCtrl.vue";
 import Stdout from "@/components/Stdout.vue";
 import Exception from "@/components/Exception.vue";
 import LayoutScript from "@/components/LayoutScript.vue";
