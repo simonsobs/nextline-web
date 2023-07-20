@@ -11,23 +11,23 @@
         <span>&lt;string&gt;</span>
       </v-system-bar>
       <div class="g-container">
-        <v-card-actions class="flex-row flex-wrap pa-1 grey-lighten-4">
-          <v-tooltip bottom open-delay="500" v-for="(b, i) in buttons" :key="i">
-            <template v-slot:activator="{ props }">
-              <v-btn
-                v-bind="props"
-                color="primary"
-                icon
-                variant="outlined"
-                @click="onClick(b.method)"
-                :disabled="b.disabled"
-                class="ma-1"
-              >
-                <v-icon>{{ b.icon }}</v-icon>
-              </v-btn>
-            </template>
-            <span>{{ b.text }}</span>
-          </v-tooltip>
+        <v-card-actions class="flex-row flex-wrap grey-lighten-4">
+          <v-btn
+            variant="outlined"
+            prepend-icon="mdi-content-save"
+            :disabled="!editing"
+            @click="onClick('save')"
+          >
+            save
+          </v-btn>
+          <v-btn
+            variant="outlined"
+            prepend-icon="mdi-reload"
+            :disabled="!editing"
+            @click="onClick('reset')"
+          >
+            discard changes
+          </v-btn>
         </v-card-actions>
         <v-divider></v-divider>
         <div style="height: 100%">
@@ -123,27 +123,6 @@ watch(editing, (val) => {
 });
 
 type Method = "save" | "reset";
-interface Button {
-  method: Method;
-  text: string;
-  icon: string;
-  disabled: boolean;
-}
-
-const buttons = computed<Button[]>(() => [
-  {
-    text: "Save",
-    method: "save",
-    disabled: !editing.value,
-    icon: "mdi-content-save",
-  },
-  {
-    text: "Reset",
-    method: "reset",
-    disabled: !editing.value,
-    icon: "mdi-reload",
-  },
-]);
 
 async function onClick(method: Method) {
   if (method === "save") await save();
