@@ -3,7 +3,7 @@
     <span>
       Run: <span class="font-weight-medium"> {{ runNo }} </span>
     </span>
-    <span class="text-capitalize mx-3">
+    <span class="text-capitalize text-primary font-weight-bold mx-3 ">
       {{ nextlineState }}
     </span>
     <v-tooltip bottom open-delay="500" v-for="b in buttons" :key="b.text">
