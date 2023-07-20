@@ -1,8 +1,8 @@
 import { RouteRecordRaw, createRouter, createWebHistory } from "vue-router";
 
-import HomeView from "../views/HomeView.vue";
-import RunsView from "@/views/RunsView.vue";
-import RunView from "@/views/RunView.vue";
+import HomeView from "../views/main/HomeView.vue";
+import RunsView from "@/views/db/RunsView.vue";
+import RunView from "@/views/db/RunView.vue";
 
 const routes: RouteRecordRaw[] = [
   {
@@ -28,17 +28,17 @@ const routes: RouteRecordRaw[] = [
   {
     path: "/scratch",
     name: "scratch",
-    component: () => import("@/views/ScratchView.vue"),
+    component: () => import("@/views/scratch/ScratchView.vue"),
   },
   {
     path: "/scratch/theme",
     name: "scratch-theme",
-    component: () => import("@/views/ScratchThemeView.vue"),
+    component: () => import("@/views/scratch/ScratchThemeView.vue"),
   },
   {
     path: "/scratch/urql",
     name: "scratch-urql",
-    component: () => import("@/views/ScratchUrql.vue"),
+    component: () => import("@/views/scratch/ScratchUrql.vue"),
   },
 ];
 
