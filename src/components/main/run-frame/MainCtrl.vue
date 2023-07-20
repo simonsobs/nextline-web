@@ -5,5 +5,5 @@
 </template>
 
 <script setup lang="ts">
-import RunCtrl from "@/components/RunCtrl.vue";
+import RunCtrl from "./RunCtrl.vue";
 </script>

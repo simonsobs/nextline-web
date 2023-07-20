@@ -18,7 +18,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 
-import MainCtrl from "@/components/MainCtrl.vue";
+import MainCtrl from "./MainCtrl.vue";
 import Stdout from "@/components/Stdout.vue";
 import Exception from "@/components/Exception.vue";
 import LayoutScript from "@/components/LayoutScript.vue";
