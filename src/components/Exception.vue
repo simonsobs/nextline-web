@@ -1,5 +1,5 @@
 <template>
-  <v-alert v-model="alert" dismissible type="error" class="my-2">
+  <v-alert v-model="alert" closable type="error" variant="tonal" class="my-2">
     <pre
       v-text="exception"
       style="white-space: pre-wrap; overflow-wrap: anywhere"
