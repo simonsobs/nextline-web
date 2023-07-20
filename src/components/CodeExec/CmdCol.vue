@@ -28,7 +28,7 @@ interface Props {
   traceNo: number;
   promptNo: number;
   disabled?: boolean;
-  keyboardEvent?: KeyboardEvent;
+  keyboardEvent?: KeyboardEvent | null;
 }
 
 const props = withDefaults(defineProps<Props>(), {
