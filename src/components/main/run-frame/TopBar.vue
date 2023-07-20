@@ -40,19 +40,11 @@
         </v-list>
       </v-menu>
       <v-dialog v-model="dialog" max-width="290">
-        <v-card>
-          <v-card-title> Start running the script? </v-card-title>
-          <v-card-text> Are you sure to start? </v-card-text>
-          <v-card-actions>
-            <v-btn variant="text" color="grey-darken-2" @click="dialog = false">
-              Cancel
-            </v-btn>
-            <v-spacer></v-spacer>
-            <v-btn variant="text" color="primary" @click="onStartConfirmed">
-              Start
-            </v-btn>
-          </v-card-actions>
-        </v-card>
+        <run-confirmation-dialog
+          @confirm="onStartConfirmed"
+          @cancel="dialog = false"
+        >
+        </run-confirmation-dialog>
       </v-dialog>
     </v-card-actions>
   </v-card>
@@ -73,6 +65,7 @@ import {
   useRunNoSubscription,
 } from "@/gql/graphql";
 import { storeToRefs } from "pinia";
+import RunConfirmationDialog from "./RunConfirmationDialog.vue";
 
 const stateSubscription = useStateSubscription();
 const nextlineState = computed(
