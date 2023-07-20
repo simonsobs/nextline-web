@@ -7,7 +7,7 @@
       <span class="text-capitalize text-primary font-weight-bold mx-3">
         {{ nextlineState }}
       </span>
-      <template v-if="nextlineState === 'initialized'">
+      <template v-if="!autoMode && nextlineState === 'initialized'">
         <v-btn
           variant="flat"
           prepend-icon="mdi-play"
@@ -56,7 +56,7 @@
           </v-list>
         </v-menu>
       </template>
-      <template v-else-if="nextlineState === 'finished'">
+      <template v-else-if="!autoMode && nextlineState === 'finished'">
         <v-btn variant="flat" prepend-icon="mdi-restore" @click="executeReset">
           reset
         </v-btn>
@@ -76,6 +76,7 @@
 import { watch, ref, computed } from "vue";
 
 import { useStore } from "@/stores/main";
+import { useScheduleStore } from "@/stores/schedule";
 
 import {
   useResetMutation,
@@ -99,6 +100,9 @@ const runNo = computed(() => runNoSubscription.data?.value?.runNo);
 
 const store = useStore();
 const { modified: editing } = storeToRefs(store);
+
+const scheduleStore = useScheduleStore();
+const { autoMode } = storeToRefs(scheduleStore);
 
 const { executeMutation: executeExec } = useExecMutation();
 const { executeMutation: executeReset } = useResetMutation();
