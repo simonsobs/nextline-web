@@ -10,7 +10,6 @@
       rounded="0"
     >
       <template v-if="prompting">
-        <!-- <system-bar :state="prompting"></system-bar> -->
         <div class="g-header">
           <cmd-col
             :traceNo="traceId"
