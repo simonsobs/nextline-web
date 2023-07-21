@@ -2,11 +2,11 @@
   <div style="height: 100%">
     <div class="g-container">
       <template v-if="nextlineState?.state == 'running' && traceIds">
-        <code-exec
+        <trace-frame
           :traceId="traceId"
           v-for="traceId in traceIds.traceIds"
           :key="traceId"
-        ></code-exec>
+        ></trace-frame>
       </template>
       <script-editor v-else v-model="editing"></script-editor>
     </div>
@@ -18,7 +18,7 @@ import { computed, ref, watch } from "vue";
 
 import { useStore } from "@/stores/main";
 
-import CodeExec from "./CodeExec.vue";
+import TraceFrame from "./TraceFrame.vue";
 import ScriptEditor from "./ScriptEditor.vue";
 
 import { useStateSubscription, useTraceIdsSubscription } from "@/gql/graphql";
