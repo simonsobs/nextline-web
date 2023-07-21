@@ -52,7 +52,9 @@ onMounted(() => {
   });
 });
 
-let decorationsCollection: monaco.editor.IEditorDecorationsCollection | undefined;
+let decorationsCollection:
+  | monaco.editor.IEditorDecorationsCollection
+  | undefined;
 
 function markCurrentLine() {
   if (!editor) return;
