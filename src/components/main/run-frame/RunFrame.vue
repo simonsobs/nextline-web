@@ -6,8 +6,8 @@
     <div v-show="exception" class="g-exception">
       <exception v-model="exception"></exception>
     </div>
-    <div class="g-code">
-      <layout-script></layout-script>
+    <div class="g-trace-frames">
+      <trace-frames></trace-frames>
     </div>
     <div class="g-stdout">
       <console-frame></console-frame>
@@ -21,7 +21,7 @@ import { ref } from "vue";
 import TopBar from "./TopBar.vue";
 import ConsoleFrame from "@/components/main/console-frame/ConsoleFrame.vue";
 import Exception from "@/components/Exception.vue";
-import LayoutScript from "@/components/LayoutScript.vue";
+import TraceFrames from "@/components/main/trace-frame/Layout.vue";
 
 const exception = ref(false);
 </script>
@@ -37,7 +37,7 @@ const exception = ref(false);
       100px,
       20vh
     );
-  grid-template-areas: "ctrl" "exception" "code" "stdout";
+  grid-template-areas: "ctrl" "exception" "traces" "stdout";
   row-gap: 12px;
 }
 .g-ctrl {
@@ -46,8 +46,8 @@ const exception = ref(false);
 .g-exception {
   grid-area: exception;
 }
-.g-code {
-  grid-area: code;
+.g-trace-frames {
+  grid-area: traces;
 }
 .g-stdout {
   grid-area: stdout;
