@@ -2,7 +2,6 @@
   <v-layout full-height style="width: 100%">
     <v-card
       flat
-      height="100%"
       :ripple="false"
       tabindex="0"
       @keydown.stop.prevent.capture="keyboardEvent = $event"
