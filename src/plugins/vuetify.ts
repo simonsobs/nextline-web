@@ -31,7 +31,8 @@ const customLightTheme: ThemeDefinition = {
     primary: colors.blueGrey.darken2,
     accent: colors.orange.base,
     surface: colors.blueGrey.lighten5,
-    background: colors.grey.lighten3,
+    // background: colors.grey.lighten3,
+    background: colors.blueGrey.lighten5,
   },
 };
 
