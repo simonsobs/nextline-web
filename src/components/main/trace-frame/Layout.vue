@@ -1,16 +1,15 @@
 <template>
   <div style="height: 100%">
-    <div
-      v-if="nextlineState?.state == 'running' && traceIds"
-      class="g-container"
-    >
-      <code-exec
-        :traceId="traceId"
-        v-for="traceId in traceIds.traceIds"
-        :key="traceId"
-      ></code-exec>
+    <div class="g-container">
+      <template v-if="nextlineState?.state == 'running' && traceIds">
+        <code-exec
+          :traceId="traceId"
+          v-for="traceId in traceIds.traceIds"
+          :key="traceId"
+        ></code-exec>
+      </template>
+      <script-editor v-else v-model="editing"></script-editor>
     </div>
-    <script-editor v-else v-model="editing"></script-editor>
   </div>
 </template>
 
@@ -43,7 +42,7 @@ const traceIds = computed(() => traceIdSubscription.data.value);
 <style scoped>
 .g-container {
   display: grid;
-  height: 100%;
+  block-size: 100%;
   grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
   gap: 6px;
 }
