@@ -58,8 +58,6 @@ const prompting = computed(() => subscription.data.value?.prompting);
 
 const basename = computed(() => {
   const fileName = prompting?.value?.fileName || "";
-  // if (fileName === "<string>") return "";
-  // return path.basename(fileName);
   return fileName === "<string>" ? "" : path.basename(fileName);
 });
 
