@@ -2,11 +2,9 @@
   <v-layout full-height style="width: 100%">
     <v-card
       flat
-      height="100%"
       color="surface-darken-1 px-2 pt-0 pb-2"
       rounded="0"
       class="g-container"
-      style="width: 100%"
     >
       <v-card-actions class="g-header py-1">
         <span class="text-body-2 font-weight-medium"> stdout </span>
@@ -25,10 +23,7 @@
           <span>Clear</span>
         </v-tooltip>
       </v-card-actions>
-      <v-card-text
-        id="main"
-        class="g-content bg-surface-lighten-1 py-1"
-      >
+      <v-card-text id="main" class="g-content bg-surface-lighten-1 py-1">
         <pre
           class="overflow-auto">{{ data?.stdout }}<span ref="bottom"></span></pre>
       </v-card-text>
