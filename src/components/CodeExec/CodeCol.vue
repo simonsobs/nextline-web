@@ -80,16 +80,11 @@ function scroll() {
   editor.revealLineInCenter(lineNo);
 }
 
-const fileName = ref("");
-watchEffect(() => {
-  fileName.value = state.value.fileName;
-});
-// The watchEffect() above is used here because the following computed() doesn't
-// work. It triggers refetching every time the state changes even when the
-// fileName doesn't change.
-// const fileName = computed(() => state.value.fileName);
+const fileName = computed(() => state.value.fileName);
 
+// @ts-ignore
 const query = useSourceQuery({ variables: { fileName } });
+
 const sourceLines = computed(() => query.data.value?.source || []);
 const source = computed(() => sourceLines.value.join("\n"));
 
