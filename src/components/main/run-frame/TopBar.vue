@@ -57,7 +57,12 @@
         </v-menu>
       </template>
       <template v-else-if="!autoMode && nextlineState === 'finished'">
-        <v-btn variant="flat" prepend-icon="mdi-restore" @click="executeReset">
+        <v-btn
+          variant="flat"
+          prepend-icon="mdi-restore"
+          :disabled="editing"
+          @click="executeReset"
+        >
           reset
         </v-btn>
       </template>
