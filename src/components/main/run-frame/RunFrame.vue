@@ -10,7 +10,7 @@
       <layout-script></layout-script>
     </div>
     <div class="g-stdout">
-      <stdout></stdout>
+      <console-frame></console-frame>
     </div>
   </div>
 </template>
@@ -19,7 +19,7 @@
 import { ref } from "vue";
 
 import TopBar from "./TopBar.vue";
-import Stdout from "@/components/main/console-frame/Stdout.vue";
+import ConsoleFrame from "@/components/main/console-frame/ConsoleFrame.vue";
 import Exception from "@/components/Exception.vue";
 import LayoutScript from "@/components/LayoutScript.vue";
 
