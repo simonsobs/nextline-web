@@ -1,6 +1,9 @@
 <template>
   <v-layout full-height style="width: 100%">
     <v-card flat class="g-container bg-grey-lighten-4" rounded="0">
+      <div class="g-content">
+        <div ref="editor" style="height: 100%; max-height: 100%"></div>
+      </div>
       <v-card-actions class="g-header flex-row flex-wrap">
         <v-btn
           variant="outlined"
@@ -19,9 +22,6 @@
           discard changes
         </v-btn>
       </v-card-actions>
-      <div class="g-content">
-        <div ref="editor" style="height: 100%; max-height: 100%"></div>
-      </div>
     </v-card>
   </v-layout>
 </template>
@@ -138,16 +138,17 @@ function reset() {
   block-size: 100%;
   inline-size: 100%;
   grid-template-columns: minmax(100px, 1fr);
-  grid-template-rows: min-content minmax(0, 1fr);
-  grid-template-areas: "header" "content";
-}
-
-.g-header {
-  grid-area: header;
+  grid-template-rows: minmax(0, 1fr) min-content ;
+  grid-template-areas: "content" "header" ;
 }
 
 .g-content {
   grid-area: content;
   block-size: 100%;
 }
+
+.g-header {
+  grid-area: header;
+}
+
 </style>

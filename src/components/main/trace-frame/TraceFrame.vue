@@ -9,13 +9,10 @@
       rounded="0"
     >
       <template v-if="prompting">
+        <div class="g-content">
+          <code-col :state="prompting"></code-col>
+        </div>
         <div class="g-header">
-          <cmd-col
-            :traceNo="traceId"
-            :promptNo="prompting.prompting"
-            :disabled="!prompting.prompting"
-            :keyboard-event="keyboardEvent"
-          ></cmd-col>
           <v-card-text v-if="basename">
             <v-tooltip bottom open-delay="500">
               <template v-slot:activator="{ props }">
@@ -24,9 +21,12 @@
               <span>{{ prompting.fileName }}</span>
             </v-tooltip>
           </v-card-text>
-        </div>
-        <div class="g-content">
-          <code-col :state="prompting"></code-col>
+          <cmd-col
+            :traceNo="traceId"
+            :promptNo="prompting.prompting"
+            :disabled="!prompting.prompting"
+            :keyboard-event="keyboardEvent"
+          ></cmd-col>
         </div>
       </template>
     </v-card>
@@ -83,16 +83,16 @@ watch(prompting, (val) => {
   block-size: 100%;
   inline-size: 100%;
   grid-template-columns: minmax(100px, 1fr);
-  grid-template-rows: min-content minmax(0, 1fr);
-  grid-template-areas: "header" "content";
-}
-
-.g-header {
-  grid-area: header;
+  grid-template-rows: minmax(0, 1fr) min-content;
+  grid-template-areas: "content" "header";
 }
 
 .g-content {
   grid-area: content;
   block-size: 100%;
+}
+
+.g-header {
+  grid-area: header;
 }
 </style>
