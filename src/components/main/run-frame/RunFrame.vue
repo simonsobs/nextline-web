@@ -19,7 +19,7 @@
 import { ref } from "vue";
 
 import TopBar from "./TopBar.vue";
-import Stdout from "@/components/Stdout.vue";
+import Stdout from "@/components/main/console-frame/Stdout.vue";
 import Exception from "@/components/Exception.vue";
 import LayoutScript from "@/components/LayoutScript.vue";
 
