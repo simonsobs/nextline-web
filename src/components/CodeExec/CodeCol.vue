@@ -3,15 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import {
-  onMounted,
-  ref,
-  computed,
-  watch,
-  nextTick,
-  toRef,
-  watchEffect,
-} from "vue";
+import { onMounted, ref, computed, watch, nextTick, toRef } from "vue";
 import * as monaco from "monaco-editor";
 
 import { PromptingData, useSourceQuery } from "@/gql/graphql";
