@@ -1,45 +1,33 @@
 <template>
   <v-layout full-height style="width: 100%">
-    <!--
-    v-layout-can be removed when v-system-bar is removed.
-    v-layout is there to prevent the height of v-system-bar from being included
-    in the padding top of v-main.
-   -->
-    <v-card flat height="100%" class="bg-grey-lighten-4" style="width: 100%">
-      <v-system-bar color="primary" dark style="position: static">
-        <v-icon> mdi-language-python </v-icon>
-        <span>&lt;string&gt;</span>
-      </v-system-bar>
-      <div class="g-container">
-        <v-card-actions class="flex-row flex-wrap grey-lighten-4">
-          <v-btn
-            variant="outlined"
-            prepend-icon="mdi-content-save"
-            :disabled="!editing"
-            @click="onClick('save')"
-          >
-            save
-          </v-btn>
-          <v-btn
-            variant="outlined"
-            prepend-icon="mdi-reload"
-            :disabled="!editing"
-            @click="onClick('reset')"
-          >
-            discard changes
-          </v-btn>
-        </v-card-actions>
-        <v-divider></v-divider>
-        <div style="height: 100%">
-          <div ref="editor" style="height: 100%; max-height: 100%"></div>
-        </div>
+    <v-card flat class="g-container" rounded="0">
+      <v-card-actions class="g-header flex-row flex-wrap">
+        <v-btn
+          variant="outlined"
+          prepend-icon="mdi-content-save"
+          :disabled="!editing"
+          @click="onClick('save')"
+        >
+          save
+        </v-btn>
+        <v-btn
+          variant="outlined"
+          prepend-icon="mdi-reload"
+          :disabled="!editing"
+          @click="onClick('reset')"
+        >
+          discard changes
+        </v-btn>
+      </v-card-actions>
+      <div class="g-content">
+        <div ref="editor" style="height: 100%; max-height: 100%"></div>
       </div>
     </v-card>
   </v-layout>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, computed, watch, watchEffect } from "vue";
+import { onMounted, ref, computed, watch } from "vue";
 import { watchDebounced } from "@vueuse/core";
 import * as monaco from "monaco-editor";
 
@@ -147,8 +135,19 @@ function reset() {
 <style scoped>
 .g-container {
   display: grid;
-  height: calc(100% - 24px); /* 24px: system bar */
+  block-size: 100%;
+  inline-size: 100%;
   grid-template-columns: minmax(100px, 1fr);
-  grid-template-rows: min-content min-content minmax(0, 1fr);
+  grid-template-rows: min-content minmax(0, 1fr);
+  grid-template-areas: "header" "content";
+}
+
+.g-header {
+  grid-area: header;
+}
+
+.g-content {
+  grid-area: content;
+  block-size: 100%;
 }
 </style>
