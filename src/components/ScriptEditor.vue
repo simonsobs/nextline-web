@@ -1,6 +1,6 @@
 <template>
   <v-layout full-height style="width: 100%">
-    <v-card flat class="g-container" rounded="0">
+    <v-card flat class="g-container bg-grey-lighten-4" rounded="0">
       <v-card-actions class="g-header flex-row flex-wrap">
         <v-btn
           variant="outlined"
