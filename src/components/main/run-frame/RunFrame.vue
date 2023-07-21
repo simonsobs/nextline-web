@@ -38,7 +38,7 @@ const exception = ref(false);
       20vh
     );
   grid-template-areas: "ctrl" "exception" "code" "stdout";
-  row-gap: 6px;
+  row-gap: 12px;
 }
 .g-ctrl {
   grid-area: ctrl;
