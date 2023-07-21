@@ -1,28 +1,35 @@
 <template>
   <v-layout full-height style="width: 100%">
-    <!--
-    v-layout-can be removed when v-system-bar is removed.
-    v-layout is there to prevent the height of v-system-bar from being included
-    in the padding top of v-main.
-   -->
-    <v-card flat height="100%" color="background-lighten-4" style="width: 100%">
-      <v-system-bar color="primary" dark style="position: static">
-        <v-icon>mdi-window-maximize</v-icon>
-        <span>stdout</span>
+    <v-card
+      flat
+      height="100%"
+      color="surface-darken-1 px-2 pt-0 pb-2"
+      rounded="0"
+      class="g-container"
+      style="width: 100%"
+    >
+      <v-card-actions class="g-header py-1">
+        <span class="text-body-2 font-weight-medium"> stdout </span>
         <v-spacer></v-spacer>
         <v-tooltip bottom open-delay="500">
           <template v-slot:activator="{ props }">
-            <v-icon v-bind="props" :disabled="!data?.stdout" @click="clear">
-              mdi-eraser
-            </v-icon>
+            <v-btn
+              v-bind="props"
+              icon="mdi-eraser"
+              density="compact"
+              :disabled="!data?.stdout"
+              @click="clear"
+            >
+            </v-btn>
           </template>
           <span>Clear</span>
         </v-tooltip>
-      </v-system-bar>
-      <!-- <v-app-bar dense flat color="secondary"></v-app-bar> -->
-      <v-card-text style="height: calc(100% - 24px)" class="py-1">
+      </v-card-actions>
+      <v-card-text
+        id="main"
+        class="g-content bg-surface-lighten-1 py-1"
+      >
         <pre
-          style="height: 100%"
           class="overflow-auto">{{ data?.stdout }}<span ref="bottom"></span></pre>
       </v-card-text>
     </v-card>
@@ -52,3 +59,28 @@ function clear() {
 const bottom = ref(null as HTMLElement | null);
 const data = ref(subscription.data);
 </script>
+
+<style scoped>
+.g-container {
+  display: grid;
+  block-size: 100%;
+  inline-size: 100%;
+  grid-template-columns: minmax(100px, 1fr);
+  grid-template-rows: min-content minmax(24px, 1fr);
+  grid-template-areas: "header" "content";
+}
+
+.g-header {
+  grid-area: header;
+  min-block-size: min-content; /* override v-card-actions */
+  block-size: min-content;
+}
+
+.g-content {
+  grid-area: content;
+}
+
+.g-content > pre {
+  block-size: 100%;
+}
+</style>
