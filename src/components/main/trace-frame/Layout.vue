@@ -19,8 +19,8 @@ import { computed, ref, watch } from "vue";
 
 import { useStore } from "@/stores/main";
 
-import CodeExec from "@/components/CodeExec/CodeExec.vue";
-import ScriptEditor from "@/components/ScriptEditor.vue";
+import CodeExec from "./CodeExec.vue";
+import ScriptEditor from "./ScriptEditor.vue";
 
 import { useStateSubscription, useTraceIdsSubscription } from "@/gql/graphql";
 
