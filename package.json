@@ -10,6 +10,7 @@
     "codegen": "graphql-codegen --config codegen.ts"
   },
   "dependencies": {
+    "@material/material-color-utilities": "^0.2.7",
     "@urql/vue": "1.0.5",
     "@vue/compat": "^3.3.4",
     "@vueuse/core": "^9.3.0",
