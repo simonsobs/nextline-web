@@ -77,10 +77,14 @@ async function pdbCommand(command: string) {
 watch(
   () => props.keyboardEvent,
   async (event) => {
-    if (!event) return;
     if (props.disabled) return;
+    if (!event) return;
+    if(event.metaKey) return;
+    if(event.ctrlKey) return;
     const command = keyboardShortcuts[event.key];
     if (!command) return;
+    event.preventDefault();
+    event.stopPropagation();
     await pdbCommand(command);
   }
 );

@@ -4,7 +4,7 @@
       flat
       :ripple="false"
       tabindex="0"
-      @keydown.stop.prevent.capture="keyboardEvent = $event"
+      @keydown.capture="keyboardEvent = $event"
       class="g-container code-exec bg-grey-lighten-4"
       rounded="0"
     >
