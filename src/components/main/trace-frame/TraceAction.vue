@@ -17,11 +17,9 @@
       continue running
     </v-btn>
     <v-spacer></v-spacer>
-    <v-menu offset-y>
+    <v-menu location="top">
       <template v-slot:activator="{ props }">
-        <v-btn v-bind="props" icon>
-          <v-icon> mdi-dots-horizontal</v-icon>
-        </v-btn>
+        <v-btn v-bind="props" icon="mdi-dots-horizontal" :disabled="disabled"> </v-btn>
       </template>
       <v-list>
         <v-list-item @click="pdbCommand('step')">
@@ -79,8 +77,8 @@ watch(
   async (event) => {
     if (props.disabled) return;
     if (!event) return;
-    if(event.metaKey) return;
-    if(event.ctrlKey) return;
+    if (event.metaKey) return;
+    if (event.ctrlKey) return;
     const command = keyboardShortcuts[event.key];
     if (!command) return;
     event.preventDefault();
