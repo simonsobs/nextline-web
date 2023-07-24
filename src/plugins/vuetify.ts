@@ -11,7 +11,7 @@ import colors from "vuetify/lib/util/colors.mjs";
 import { fromSourceColor } from "./material-color-old";
 import { generateLightAndDarkThemesFromSourceColor } from "./material-color";
 
-const baseColor: string = colors.blueGrey.darken2;
+const baseColor: string = colors.blueGrey.base;
 
 const [dynamicLight, dynamicDark] =
   generateLightAndDarkThemesFromSourceColor(baseColor);
