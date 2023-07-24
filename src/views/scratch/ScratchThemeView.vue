@@ -19,7 +19,7 @@
         </v-toolbar>
         <v-card-text>
           <pre>{{ $vuetify.theme.currentTheme }}</pre>
-          <v-btn absolute bottom right fab color="accent">
+          <v-btn absolute bottom right fab color="secondary">
             <v-icon> mdi-plus </v-icon>
           </v-btn>
         </v-card-text>
