@@ -3,12 +3,14 @@ import {
   argbFromHex,
   hexFromArgb,
   MaterialDynamicColors,
-  SchemeContent,
+  SchemeFidelity,
   Hct,
 } from "@material/material-color-utilities";
 
 // https://github.com/material-foundation/material-color-utilities/issues/98
 // https://github.com/material-foundation/material-color-utilities/blob/main/typescript/dynamiccolor/dynamic_color_test.ts
+// https://material.io/blog/tone-based-surface-color-m3
+// https://youtu.be/vnDhq8W98O4?t=648
 
 const dynamicColors = [
   MaterialDynamicColors.background,
@@ -68,9 +70,8 @@ function generateLightAndDarkThemesFromSourceColor(
 ): [VuetifyTheme, VuetifyTheme] {
   const sourceColorHct = Hct.fromInt(argbFromHex(sourceColor));
 
-  // Use SchemeContent for now. Other schema exists in @material/material-color-utilities.
-  const lightScheme = new SchemeContent(sourceColorHct, false, contrastLevel);
-  const darkScheme = new SchemeContent(sourceColorHct, true, contrastLevel);
+  const lightScheme = new SchemeFidelity(sourceColorHct, false, contrastLevel);
+  const darkScheme = new SchemeFidelity(sourceColorHct, true, contrastLevel);
 
   const lightColors: VuetifyTheme["colors"] = Object.fromEntries(
     dynamicColors.map((color) => [
