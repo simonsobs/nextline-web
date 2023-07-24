@@ -21,12 +21,12 @@
               <span>{{ prompting.fileName }}</span>
             </v-tooltip>
           </v-card-text>
-          <cmd-col
+          <trace-action
             :traceNo="traceId"
             :promptNo="prompting.prompting"
             :disabled="!prompting.prompting"
             :keyboard-event="keyboardEvent"
-          ></cmd-col>
+          ></trace-action>
         </div>
       </template>
     </v-card>
@@ -39,7 +39,7 @@ import path from "path";
 
 import { usePromptingSubscription } from "@/gql/graphql";
 
-import CmdCol from "./CmdCol.vue";
+import TraceAction from "./TraceAction.vue";
 import CodeCol from "./CodeCol.vue";
 
 interface Props {
