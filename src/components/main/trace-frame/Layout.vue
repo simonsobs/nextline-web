@@ -43,7 +43,8 @@ const traceIds = computed(() => traceIdSubscription.data.value);
 .g-container {
   display: grid;
   block-size: 100%;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  inline-size: 100%;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 6px;
 }
 </style>

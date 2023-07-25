@@ -1,5 +1,6 @@
 <template>
-  <v-layout full-height style="width: 100%">
+  <!-- <v-layout full-height style="max-inline-size: 100%"> -->
+  <v-layout full-height>
     <v-card flat class="g-container" rounded="0">
       <div class="g-content">
         <div ref="editor" style="height: 100%; max-height: 100%"></div>
@@ -145,6 +146,7 @@ function reset() {
 .g-content {
   grid-area: content;
   block-size: 100%;
+  inline-size: 100%;
 }
 
 .g-header {
