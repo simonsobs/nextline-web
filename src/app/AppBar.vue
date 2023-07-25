@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar flat density="compact">
+  <v-app-bar flat density="compact" color="surface-container-low">
     <template v-slot:prepend>
       <v-app-bar-nav-icon @click="$emit('toggleDrawer')" class="d-sm-none">
       </v-app-bar-nav-icon>

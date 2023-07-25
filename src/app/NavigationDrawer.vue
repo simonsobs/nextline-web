@@ -1,6 +1,11 @@
 <template>
-  <v-navigation-drawer v-model="drawer" temporary disable-resize-watcher>
-    <v-card flat>
+  <v-navigation-drawer
+    v-model="drawer"
+    temporary
+    disable-resize-watcher
+    color="surface-container"
+  >
+    <v-card flat style="background-color: inherit">
       <template v-slot:prepend>
         <v-list>
           <v-list-item density="compact">
