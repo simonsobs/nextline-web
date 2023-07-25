@@ -1,19 +1,10 @@
 <template>
-  <!-- <v-layout full-height style="max-inline-size: 100%"> -->
   <v-layout full-height>
     <v-card flat class="g-container" rounded="0">
       <div class="g-content">
         <div ref="editor" style="height: 100%; max-height: 100%"></div>
       </div>
-      <v-card-actions class="g-header flex-row flex-wrap">
-        <v-btn
-          variant="outlined"
-          prepend-icon="mdi-content-save"
-          :disabled="!editing"
-          @click="onClick('save')"
-        >
-          save
-        </v-btn>
+      <v-card-actions class="g-header flex-row flex-wrap justify-end">
         <v-btn
           variant="outlined"
           prepend-icon="mdi-reload"
@@ -21,6 +12,14 @@
           @click="onClick('reset')"
         >
           discard changes
+        </v-btn>
+        <v-btn
+          variant="flat"
+          prepend-icon="mdi-content-save"
+          :disabled="!editing"
+          @click="onClick('save')"
+        >
+          save
         </v-btn>
       </v-card-actions>
     </v-card>

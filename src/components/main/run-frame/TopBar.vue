@@ -1,12 +1,14 @@
 <template>
-  <v-card flat>
-    <v-card-actions>
+  <div>
+    <v-card-actions id="main">
       <span>
-        Run: <span class="font-weight-medium"> {{ runNo }} </span>
+        <span class="font-weight-medium"> Run: {{ runNo }} </span>
+        ⋅
+        <span class="text-capitalize text-primary font-weight-bold">
+          {{ nextlineState }}
+        </span>
       </span>
-      <span class="text-capitalize text-primary font-weight-bold mx-3">
-        {{ nextlineState }}
-      </span>
+      <v-spacer></v-spacer>
       <template v-if="!autoMode && nextlineState === 'initialized'">
         <v-btn
           variant="flat"
@@ -15,14 +17,6 @@
           @click="showConfirmationDialog"
         >
           start
-        </v-btn>
-        <v-btn
-          variant="outlined"
-          prepend-icon="mdi-restore"
-          :disabled="editing"
-          @click="executeReset"
-        >
-          reset
         </v-btn>
       </template>
       <template v-else-if="nextlineState === 'running'">
@@ -33,12 +27,10 @@
         >
           interrupt
         </v-btn>
-        <v-spacer></v-spacer>
+        <!-- <v-spacer></v-spacer> -->
         <v-menu offset-y>
           <template v-slot:activator="{ props }">
-            <v-btn v-bind="props" icon>
-              <v-icon> mdi-dots-horizontal</v-icon>
-            </v-btn>
+            <v-btn v-bind="props" icon="mdi-dots-horizontal"> </v-btn>
           </template>
           <v-list>
             <v-list-item @click="executeTerminate({})">
@@ -67,7 +59,7 @@
         </v-btn>
       </template>
     </v-card-actions>
-  </v-card>
+  </div>
   <v-dialog v-model="dialog" max-width="290">
     <run-confirmation-dialog
       @confirm="onStartConfirmed"
@@ -132,3 +124,13 @@ watch(nextlineState, () => {
 
 const dialog = ref(false);
 </script>
+
+<style scoped>
+#main {
+  padding: 0 4px;
+  display: flex;
+  align-items: baseline;
+  column-gap: 4px;
+  min-height: 0; /* override v-card-actions */
+}
+</style>

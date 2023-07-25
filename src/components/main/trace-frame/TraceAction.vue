@@ -1,13 +1,5 @@
 <template>
-  <v-card-actions class="flex-row flex-wrap pa-1">
-    <v-btn
-      variant="flat"
-      prepend-icon="mdi-skip-next"
-      :disabled="disabled"
-      @click="pdbCommand('next')"
-    >
-      1 line
-    </v-btn>
+  <v-card-actions class="flex-row flex-wrap justify-end pa-1">
     <v-btn
       variant="outlined"
       prepend-icon="mdi-play"
@@ -16,7 +8,14 @@
     >
       continue running
     </v-btn>
-    <v-spacer></v-spacer>
+    <v-btn
+      variant="flat"
+      prepend-icon="mdi-skip-next"
+      :disabled="disabled"
+      @click="pdbCommand('next')"
+    >
+      1 line
+    </v-btn>
     <v-menu location="top">
       <template v-slot:activator="{ props }">
         <v-btn v-bind="props" icon="mdi-dots-horizontal" :disabled="disabled"> </v-btn>
