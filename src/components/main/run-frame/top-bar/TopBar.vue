@@ -1,13 +1,7 @@
 <template>
   <div>
     <v-card-actions id="main">
-      <span>
-        <span class="font-weight-medium"> Run: {{ runNo }} </span>
-        ⋅
-        <span class="text-capitalize text-primary font-weight-bold">
-          {{ nextlineState }}
-        </span>
-      </span>
+      <span-run-no-state></span-run-no-state>
       <v-spacer></v-spacer>
       <template v-if="!autoMode && nextlineState === 'initialized'">
         <v-btn
@@ -82,18 +76,16 @@ import {
   useTerminateMutation,
   useKillMutation,
   useStateSubscription,
-  useRunNoSubscription,
 } from "@/gql/graphql";
 import { storeToRefs } from "pinia";
 import RunConfirmationDialog from "./RunConfirmationDialog.vue";
+import SpanRunNoState from "./SpanRunNoState.vue";
 
 const stateSubscription = useStateSubscription();
 const nextlineState = computed(
   () => stateSubscription.data?.value?.state || "unknown"
 );
 
-const runNoSubscription = useRunNoSubscription();
-const runNo = computed(() => runNoSubscription.data?.value?.runNo);
 
 const store = useStore();
 const { modified: editing } = storeToRefs(store);
