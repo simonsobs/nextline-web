@@ -78,6 +78,12 @@ onMounted(() => {
     lineHeight: 24,
     automaticLayout: true,
     scrollBeyondLastLine: false,
+    glyphMargin: true,
+    readOnly: false,
+    matchBrackets: "always",
+    selectionHighlight: true,
+    occurrencesHighlight: true,
+    renderLineHighlight: "line",
     theme: "nextline",
   });
 });
