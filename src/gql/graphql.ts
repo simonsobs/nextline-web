@@ -340,6 +340,11 @@ export type ExceptionQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type ExceptionQuery = { __typename?: 'Query', exception?: string | null };
 
+export type QRunNoQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type QRunNoQuery = { __typename?: 'Query', runNo: number };
+
 export type RunsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -351,6 +356,11 @@ export type SourceQueryVariables = Exact<{
 
 
 export type SourceQuery = { __typename?: 'Query', source: Array<string> };
+
+export type QStateQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type QStateQuery = { __typename?: 'Query', state: string };
 
 export type CounterSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
@@ -479,6 +489,15 @@ export const ExceptionDocument = gql`
 export function useExceptionQuery(options: Omit<Urql.UseQueryArgs<never, ExceptionQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<ExceptionQuery>({ query: ExceptionDocument, ...options });
 };
+export const QRunNoDocument = gql`
+    query QRunNo {
+  runNo
+}
+    `;
+
+export function useQRunNoQuery(options: Omit<Urql.UseQueryArgs<never, QRunNoQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<QRunNoQuery>({ query: QRunNoDocument, ...options });
+};
 export const RunsDocument = gql`
     query Runs {
   history {
@@ -509,6 +528,15 @@ export const SourceDocument = gql`
 
 export function useSourceQuery(options: Omit<Urql.UseQueryArgs<never, SourceQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<SourceQuery>({ query: SourceDocument, ...options });
+};
+export const QStateDocument = gql`
+    query QState {
+  state
+}
+    `;
+
+export function useQStateQuery(options: Omit<Urql.UseQueryArgs<never, QStateQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<QStateQuery>({ query: QStateDocument, ...options });
 };
 export const CounterDocument = gql`
     subscription Counter {
