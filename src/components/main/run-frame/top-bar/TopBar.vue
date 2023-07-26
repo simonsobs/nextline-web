@@ -3,7 +3,7 @@
     <v-card-actions id="main">
       <span-run-no-state></span-run-no-state>
       <v-spacer></v-spacer>
-      <template v-if="!autoMode && nextlineState === 'initialized'">
+      <template v-if="!autoMode && state === 'initialized'">
         <v-btn
           variant="flat"
           prepend-icon="mdi-play"
@@ -13,7 +13,7 @@
           start
         </v-btn>
       </template>
-      <template v-else-if="nextlineState === 'running'">
+      <template v-else-if="state === 'running'">
         <v-btn
           variant="outlined"
           prepend-icon="mdi-close"
@@ -43,7 +43,7 @@
           </v-list>
         </v-menu>
       </template>
-      <template v-else-if="!autoMode && nextlineState === 'finished'">
+      <template v-else-if="!autoMode && state === 'finished'">
         <v-btn
           variant="flat"
           prepend-icon="mdi-restore"
@@ -76,15 +76,17 @@ import {
   useInterruptMutation,
   useTerminateMutation,
   useKillMutation,
+  useQStateQuery,
   useStateSubscription,
 } from "@/gql/graphql";
 import { storeToRefs } from "pinia";
 import RunConfirmationDialog from "./RunConfirmationDialog.vue";
 import SpanRunNoState from "./SpanRunNoState.vue";
 
+const stateQuery = useQStateQuery();
 const stateSubscription = useStateSubscription();
-const nextlineState = computed(
-  () => stateSubscription.data?.value?.state || "unknown"
+const state = computed(
+  () => stateSubscription.data?.value?.state || stateQuery.data?.value?.state
 );
 
 const store = useStore();
@@ -108,8 +110,8 @@ async function onStartConfirmed() {
   await executeExec({});
 }
 
-watch(nextlineState, () => {
-  if (nextlineState.value !== "initialized") {
+watch(state, () => {
+  if (state.value !== "initialized") {
     dialog.value = false;
   }
 });
