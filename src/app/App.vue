@@ -13,28 +13,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { ref } from "vue";
 import { useRoute } from "vue-router";
-import { useTitle } from "@vueuse/core";
+import { useSetTitle } from "./set-title";
 
-import { useConfigStore } from "@/stores/config";
 import NavigationDrawer from "./NavigationDrawer.vue";
 import AppBar from "./AppBar.vue";
 
 const route = useRoute();
-const configStore = useConfigStore();
-
 const drawer = ref(false);
 
-const title = computed(() => {
-  if (configStore.loading) return "loading...";
-  const appName = configStore.config?.appName || "";
-  const apiName = configStore.config?.apiName || "";
-  return `${appName}: ${apiName}`;
-});
-
-// https://vueuse.org/core/useTitle/
-useTitle(title);
+useSetTitle();
 </script>
 
 <style>
