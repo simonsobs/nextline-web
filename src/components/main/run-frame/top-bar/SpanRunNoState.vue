@@ -1,9 +1,9 @@
 <template>
   <span>
-    <span class="font-weight-medium"> Run: {{ runNo }} </span>
+    <span class="font-weight-medium"> Run: {{ runNo || "unknown" }} </span>
     ⋅
     <span class="text-capitalize text-primary font-weight-bold">
-      {{ state }}
+      {{ state || "unknown" }}
     </span>
   </span>
 </template>
@@ -22,10 +22,7 @@ const stateQuery = useQStateQuery();
 const stateSubscription = useStateSubscription();
 
 const state = computed(
-  () =>
-    stateSubscription.data?.value?.state ||
-    stateQuery.data?.value?.state ||
-    "unknown"
+  () => stateSubscription.data?.value?.state || stateQuery.data?.value?.state
 );
 
 const runNoQuery = useQRunNoQuery();
