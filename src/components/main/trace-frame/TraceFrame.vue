@@ -25,7 +25,6 @@
             :traceNo="traceId"
             :promptNo="prompting.prompting"
             :disabled="!prompting.prompting"
-            :keyboard-event="keyboardEvent"
           ></trace-action>
         </div>
       </template>
@@ -34,11 +33,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from "vue";
+import { computed, ref, watch, toRefs } from "vue";
 import path from "path";
 
 import { usePromptingSubscription } from "@/gql/graphql";
-
+import { useKeyboardShortcuts } from "./keyboard-shortcuts";
 import TraceAction from "./TraceAction.vue";
 import CodeCol from "./CodeCol.vue";
 
@@ -60,6 +59,12 @@ const basename = computed(() => {
   const fileName = prompting?.value?.fileName || "";
   return fileName === "<string>" ? "" : path.basename(fileName);
 });
+
+const { traceId: traceNo } = toRefs(props);
+const promptNo = computed(() => prompting.value?.prompting || 0);
+const disabled = computed(() => !promptNo.value);
+
+useKeyboardShortcuts(traceNo, promptNo, disabled, keyboardEvent);
 
 watch(keyboardEvent, (val) => {
   // console.log(val);

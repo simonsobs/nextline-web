@@ -40,32 +40,26 @@
 </template>
 
 <script setup lang="ts">
-import { withDefaults, toRefs } from "vue";
+import { withDefaults } from "vue";
 import { useSendPdbCommandMutation } from "@/gql/graphql";
-import { useKeyboardShortcuts } from "./keyboard-shortcuts";
 
 interface Props {
   traceNo: number;
   promptNo: number;
   disabled?: boolean;
-  keyboardEvent?: KeyboardEvent | null;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   disabled: false,
 });
 
-const { promptNo, traceNo, disabled, keyboardEvent } = toRefs(props);
-
 const { executeMutation } = useSendPdbCommandMutation();
 
 async function pdbCommand(command: string) {
   await executeMutation({
     command,
-    promptNo: promptNo.value,
-    traceNo: traceNo.value,
+    promptNo: props.promptNo,
+    traceNo: props.traceNo,
   });
 }
-
-useKeyboardShortcuts(traceNo, promptNo, disabled, keyboardEvent);
 </script>
