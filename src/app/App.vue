@@ -13,8 +13,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watchEffect } from "vue";
+import { ref, computed } from "vue";
 import { useRoute } from "vue-router";
+import { useTitle } from "@vueuse/core";
 
 import { useConfigStore } from "@/stores/config";
 import NavigationDrawer from "./NavigationDrawer.vue";
@@ -26,14 +27,14 @@ const configStore = useConfigStore();
 const drawer = ref(false);
 
 const title = computed(() => {
-  const appName = configStore.config?.appName || "loading...";
+  if (configStore.loading) return "loading...";
+  const appName = configStore.config?.appName || "";
   const apiName = configStore.config?.apiName || "";
   return `${appName}: ${apiName}`;
 });
 
-watchEffect(() => {
-  document.title = title.value || "loading...";
-});
+// https://vueuse.org/core/useTitle/
+useTitle(title);
 </script>
 
 <style>
