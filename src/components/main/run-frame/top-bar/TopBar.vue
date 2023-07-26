@@ -24,7 +24,8 @@
         <!-- <v-spacer></v-spacer> -->
         <v-menu offset-y>
           <template v-slot:activator="{ props }">
-            <v-btn v-bind="props" icon="mdi-dots-horizontal"> </v-btn>
+            <v-btn v-bind="props" icon="mdi-dots-horizontal" density="compact">
+            </v-btn>
           </template>
           <v-list>
             <v-list-item @click="executeTerminate({})">
