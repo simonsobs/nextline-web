@@ -12,15 +12,7 @@ export default ({ mode }) => {
   return defineConfig({
     server: { port: 8081 },
     plugins: [
-      vue({
-        template: {
-          compilerOptions: {
-            compatConfig: {
-              MODE: 3,
-            },
-          },
-        },
-      }),
+      vue(),
       loadVersion(),
       // @ts-ignore
       graphql(),
@@ -34,9 +26,6 @@ export default ({ mode }) => {
       alias: {
         "@": path.resolve(__dirname, "src"),
         path: "path-browserify",
-        alias: {
-          vue: "@vue/compat",
-        },
       },
     },
   });
