@@ -29,16 +29,16 @@ const exception = ref(false);
 <style scoped>
 .g-container {
   display: grid;
-  margin: 12px;
-  block-size: calc(100% - 2 * 12px);
-  inline-size: calc(100% - 2 * 12px);
+  margin: 8px;
+  block-size: calc(100% - 2 * 8px);
+  inline-size: calc(100% - 2 * 8px);
   grid-template-columns: minmax(100px, 1fr);
   grid-template-rows: min-content min-content minmax(240px, 1fr) minmax(
       100px,
-      20vh
+      25vh
     );
   grid-template-areas: "ctrl" "exception" "traces" "stdout";
-  row-gap: 12px;
+  row-gap: 8px;
 }
 .g-ctrl {
   grid-area: ctrl;
