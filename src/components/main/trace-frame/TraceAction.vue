@@ -18,7 +18,8 @@
     </v-btn>
     <v-menu location="top">
       <template v-slot:activator="{ props }">
-        <v-btn v-bind="props" icon="mdi-dots-horizontal" :disabled="disabled"> </v-btn>
+        <v-btn v-bind="props" icon="mdi-dots-horizontal" :disabled="disabled">
+        </v-btn>
       </template>
       <v-list>
         <v-list-item @click="pdbCommand('step')">
@@ -39,9 +40,9 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, watch, withDefaults } from "vue";
-
+import { withDefaults, toRefs } from "vue";
 import { useSendPdbCommandMutation } from "@/gql/graphql";
+import { useKeyboardShortcuts } from "./keyboard-shortcuts";
 
 interface Props {
   traceNo: number;
@@ -54,35 +55,17 @@ const props = withDefaults(defineProps<Props>(), {
   disabled: false,
 });
 
-const keyboardShortcuts = reactive({
-  n: "next",
-  c: "continue",
-  r: "return",
-  s: "step",
-});
+const { promptNo, traceNo, disabled, keyboardEvent } = toRefs(props);
 
 const { executeMutation } = useSendPdbCommandMutation();
 
 async function pdbCommand(command: string) {
   await executeMutation({
     command,
-    promptNo: props.promptNo,
-    traceNo: props.traceNo,
+    promptNo: promptNo.value,
+    traceNo: traceNo.value,
   });
 }
 
-watch(
-  () => props.keyboardEvent,
-  async (event) => {
-    if (props.disabled) return;
-    if (!event) return;
-    if (event.metaKey) return;
-    if (event.ctrlKey) return;
-    const command = keyboardShortcuts[event.key];
-    if (!command) return;
-    event.preventDefault();
-    event.stopPropagation();
-    await pdbCommand(command);
-  }
-);
+useKeyboardShortcuts(traceNo, promptNo, disabled, keyboardEvent);
 </script>
