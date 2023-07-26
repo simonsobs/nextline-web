@@ -11,11 +11,27 @@
 <script setup lang="ts">
 import { computed } from "vue";
 
-import { useStateSubscription, useRunNoSubscription } from "@/gql/graphql";
+import {
+  useQStateQuery,
+  useQRunNoQuery,
+  useStateSubscription,
+  useRunNoSubscription,
+} from "@/gql/graphql";
 
+const stateQuery = useQStateQuery();
 const stateSubscription = useStateSubscription();
-const state = computed(() => stateSubscription.data?.value?.state || "unknown");
 
+const state = computed(
+  () =>
+    stateSubscription.data?.value?.state ||
+    stateQuery.data?.value?.state ||
+    "unknown"
+);
+
+const runNoQuery = useQRunNoQuery();
 const runNoSubscription = useRunNoSubscription();
-const runNo = computed(() => runNoSubscription.data?.value?.runNo);
+
+const runNo = computed(
+  () => runNoSubscription.data?.value?.runNo || runNoQuery.data?.value?.runNo
+);
 </script>
