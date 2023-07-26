@@ -87,7 +87,6 @@ const nextlineState = computed(
   () => stateSubscription.data?.value?.state || "unknown"
 );
 
-
 const store = useStore();
 const { modified: editing } = storeToRefs(store);
 
@@ -122,8 +121,10 @@ const dialog = ref(false);
 #main {
   padding: 0 4px;
   display: flex;
+  flex-wrap: wrap;
   align-items: baseline;
+  align-content: center;
   column-gap: 4px;
-  min-height: 0; /* override v-card-actions */
+  min-height: 0px; /* override v-card-actions */
 }
 </style>
