@@ -3,15 +3,7 @@
     <v-card-actions id="main">
       <span-run-no-state></span-run-no-state>
       <v-spacer></v-spacer>
-      <template v-if="!autoMode && state === 'initialized'">
-        <action-initialized></action-initialized>
-      </template>
-      <template v-else-if="state === 'running'">
-        <action-running></action-running>
-      </template>
-      <template v-else-if="!autoMode && state === 'finished'">
-        <action-finished></action-finished>
-      </template>
+      <component :is="actionComponent" v-if="actionComponent"></component>
     </v-card-actions>
   </div>
 </template>
@@ -36,6 +28,29 @@ const state = computed(
 
 const scheduleStore = useScheduleStore();
 const { autoMode } = storeToRefs(scheduleStore);
+
+// Use "any" because Component causes an error for unknown reason
+const actionComponent = computed<any | null>(() => {
+  if (autoMode.value) {
+    switch (state.value) {
+      case "running":
+        return ActionRunning;
+      default:
+        return null;
+    }
+  } else {
+    switch (state.value) {
+      case "initialized":
+        return ActionInitialized;
+      case "running":
+        return ActionRunning;
+      case "finished":
+        return ActionFinished;
+      default:
+        return null;
+    }
+  }
+});
 </script>
 
 <style scoped>
