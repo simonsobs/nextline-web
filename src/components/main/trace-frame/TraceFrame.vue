@@ -33,7 +33,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch, toRefs } from "vue";
+import { computed, ref, toRefs } from "vue";
 import path from "path";
 
 import { usePromptingSubscription } from "@/gql/graphql";
@@ -65,14 +65,6 @@ const promptNo = computed(() => prompting.value?.prompting || 0);
 const disabled = computed(() => !promptNo.value);
 
 useKeyboardShortcuts(traceNo, promptNo, disabled, keyboardEvent);
-
-watch(keyboardEvent, (val) => {
-  // console.log(val);
-});
-
-watch(prompting, (val) => {
-  // console.log(document.activeElement);
-});
 </script>
 
 <style scoped>
