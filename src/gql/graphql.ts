@@ -60,6 +60,7 @@ export type HistoryTracesArgs = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  continuous: MutationContinuous;
   exec: Scalars['Boolean']['output'];
   interrupt: Scalars['Boolean']['output'];
   kill: Scalars['Boolean']['output'];
@@ -85,6 +86,11 @@ export type MutationAutoMode = {
   __typename?: 'MutationAutoMode';
   turnOff: Scalars['Boolean']['output'];
   turnOn: Scalars['Boolean']['output'];
+};
+
+export type MutationContinuous = {
+  __typename?: 'MutationContinuous';
+  runAndContinue: Scalars['Boolean']['output'];
 };
 
 export type MutationSchedule = {
@@ -321,6 +327,11 @@ export type ResetMutationVariables = Exact<{
 
 export type ResetMutation = { __typename?: 'Mutation', reset: boolean };
 
+export type RunAndContinueMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type RunAndContinueMutation = { __typename?: 'Mutation', continuous: { __typename?: 'MutationContinuous', runAndContinue: boolean } };
+
 export type SendPdbCommandMutationVariables = Exact<{
   command: Scalars['String']['input'];
   promptNo: Scalars['Int']['input'];
@@ -461,6 +472,17 @@ export const ResetDocument = gql`
 
 export function useResetMutation() {
   return Urql.useMutation<ResetMutation, ResetMutationVariables>(ResetDocument);
+};
+export const RunAndContinueDocument = gql`
+    mutation RunAndContinue {
+  continuous {
+    runAndContinue
+  }
+}
+    `;
+
+export function useRunAndContinueMutation() {
+  return Urql.useMutation<RunAndContinueMutation, RunAndContinueMutationVariables>(RunAndContinueDocument);
 };
 export const SendPdbCommandDocument = gql`
     mutation SendPdbCommand($command: String!, $promptNo: Int!, $traceNo: Int!) {
