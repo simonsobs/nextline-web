@@ -1,6 +1,6 @@
 <template>
   <v-card class="pa-2">
-    <v-card-title> Run the script interactively? </v-card-title>
+    <v-card-title> Run the script? </v-card-title>
     <v-card-text class="font-weight-medium"> {{ apiName }}</v-card-text>
     <v-card-text>
       Press <span class="font-italic">yes</span> to confirm.
