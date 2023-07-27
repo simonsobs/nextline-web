@@ -1,9 +1,15 @@
 <template>
   <v-card class="pa-2">
-    <v-card-title> Run the script? </v-card-title>
-    <v-card-text class="font-weight-medium"> {{ apiName }}</v-card-text>
+    <v-card-title> Run (non-interactive)? </v-card-title>
     <v-card-text>
-      Press <span class="font-italic">yes</span> to confirm.
+      You are about to run the script on the server
+      <span class="font-weight-medium font-italic"> {{ apiName }} </span> in the
+      non-interactive mode.
+    </v-card-text>
+    <v-card-text>
+      If you need to run interactively line by line, please press
+      <span class="font-italic">cancel</span> and then press the
+      <span class="font-italic">run interactively</span> button.
     </v-card-text>
     <v-card-actions>
       <v-btn variant="text" color="grey-darken-2" @click="$emit('cancel')">
@@ -11,7 +17,7 @@
       </v-btn>
       <v-spacer></v-spacer>
       <v-btn variant="flat" color="primary" @click="$emit('confirm')">
-        yes
+        start
       </v-btn>
     </v-card-actions>
   </v-card>
