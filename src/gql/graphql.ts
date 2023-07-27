@@ -163,6 +163,7 @@ export type PromptingData = {
 
 export type Query = {
   __typename?: 'Query';
+  continuous: QueryContinuous;
   exception?: Maybe<Scalars['String']['output']>;
   hello: Scalars['String']['output'];
   history: History;
@@ -188,6 +189,11 @@ export type QuerySourceLineArgs = {
 export type QueryAutoMode = {
   __typename?: 'QueryAutoMode';
   state: Scalars['String']['output'];
+};
+
+export type QueryContinuous = {
+  __typename?: 'QueryContinuous';
+  continuousEnabled: Scalars['Boolean']['output'];
 };
 
 export type QuerySchedule = {
@@ -254,6 +260,7 @@ export type StdoutHistoryEdge = {
 
 export type Subscription = {
   __typename?: 'Subscription';
+  continuousEnabled: Scalars['Boolean']['output'];
   counter: Scalars['Int']['output'];
   prompting: PromptingData;
   runNo: Scalars['String']['output'];
@@ -346,6 +353,11 @@ export type TerminateMutationVariables = Exact<{ [key: string]: never; }>;
 
 export type TerminateMutation = { __typename?: 'Mutation', terminate: boolean };
 
+export type QContinuousEnabledQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type QContinuousEnabledQuery = { __typename?: 'Query', continuous: { __typename?: 'QueryContinuous', continuousEnabled: boolean } };
+
 export type ExceptionQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -372,6 +384,11 @@ export type QStateQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type QStateQuery = { __typename?: 'Query', state: string };
+
+export type ContinuousEnabledSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ContinuousEnabledSubscription = { __typename?: 'Subscription', continuousEnabled: boolean };
 
 export type CounterSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
@@ -502,6 +519,17 @@ export const TerminateDocument = gql`
 export function useTerminateMutation() {
   return Urql.useMutation<TerminateMutation, TerminateMutationVariables>(TerminateDocument);
 };
+export const QContinuousEnabledDocument = gql`
+    query QContinuousEnabled {
+  continuous {
+    continuousEnabled
+  }
+}
+    `;
+
+export function useQContinuousEnabledQuery(options: Omit<Urql.UseQueryArgs<never, QContinuousEnabledQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<QContinuousEnabledQuery>({ query: QContinuousEnabledDocument, ...options });
+};
 export const ExceptionDocument = gql`
     query Exception {
   exception
@@ -559,6 +587,15 @@ export const QStateDocument = gql`
 
 export function useQStateQuery(options: Omit<Urql.UseQueryArgs<never, QStateQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<QStateQuery>({ query: QStateDocument, ...options });
+};
+export const ContinuousEnabledDocument = gql`
+    subscription ContinuousEnabled {
+  continuousEnabled
+}
+    `;
+
+export function useContinuousEnabledSubscription<R = ContinuousEnabledSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, ContinuousEnabledSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandlerArg<ContinuousEnabledSubscription, R>) {
+  return Urql.useSubscription<ContinuousEnabledSubscription, R, ContinuousEnabledSubscriptionVariables>({ query: ContinuousEnabledDocument, ...options }, handler);
 };
 export const CounterDocument = gql`
     subscription Counter {

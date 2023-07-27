@@ -1,0 +1,5 @@
+query QContinuousEnabled {
+  continuous {
+    continuousEnabled
+  }
+}
