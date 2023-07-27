@@ -1,15 +1,15 @@
 <template>
   <v-card class="pa-2">
-    <v-card-title> Start running the script? </v-card-title>
-    <v-card-text> {{ apiName }}</v-card-text>
-    <v-card-text> Are you sure to start? </v-card-text>
+    <v-card-title> Run the script interactively? </v-card-title>
+    <v-card-text class="font-weight-medium"> {{ apiName }}</v-card-text>
+    <v-card-text> Are you sure to run? </v-card-text>
     <v-card-actions>
       <v-btn variant="text" color="grey-darken-2" @click="$emit('cancel')">
         cancel
       </v-btn>
       <v-spacer></v-spacer>
       <v-btn variant="flat" color="primary" @click="$emit('confirm')">
-        start
+        yes
       </v-btn>
     </v-card-actions>
   </v-card>

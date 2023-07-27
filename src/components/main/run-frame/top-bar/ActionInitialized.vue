@@ -5,14 +5,14 @@
     :disabled="editing"
     @click="showConfirmationDialog"
   >
-    start
+    run interactively
   </v-btn>
-  <v-dialog v-model="dialog" max-width="290">
-    <run-confirmation-dialog
-      @confirm="onStartConfirmed"
-      @cancel="dialog = false"
+  <v-dialog v-model="dialogRunInter" max-width="340">
+    <run-inter-confirmation-dialog
+      @confirm="onRunInterConfirmed"
+      @cancel="dialogRunInter = false"
     >
-    </run-confirmation-dialog>
+    </run-inter-confirmation-dialog>
   </v-dialog>
 </template>
 
@@ -27,7 +27,7 @@ import {
   useStateSubscription,
 } from "@/gql/graphql";
 import { storeToRefs } from "pinia";
-import RunConfirmationDialog from "./RunConfirmationDialog.vue";
+import RunInterConfirmationDialog from "./RunInterConfirmationDialog.vue";
 
 const stateQuery = useQStateQuery();
 const stateSubscription = useStateSubscription();
@@ -42,19 +42,19 @@ const { modified: editing } = storeToRefs(store);
 const { executeMutation: executeExec } = useExecMutation();
 
 function showConfirmationDialog() {
-  dialog.value = true;
+  dialogRunInter.value = true;
 }
 
-async function onStartConfirmed() {
-  dialog.value = false;
+async function onRunInterConfirmed() {
+  dialogRunInter.value = false;
   await executeExec({});
 }
 
 watch(state, () => {
   if (state.value !== "initialized") {
-    dialog.value = false;
+    dialogRunInter.value = false;
   }
 });
 
-const dialog = ref(false);
+const dialogRunInter = ref(false);
 </script>
