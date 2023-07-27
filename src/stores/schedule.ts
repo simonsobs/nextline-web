@@ -1,11 +1,17 @@
 import { computed } from "vue";
 import { defineStore } from "pinia";
-import { useScheduleAutoModeStateSubscription } from "@/gql/graphql";
+import {
+  useQScheduleAutoModeStateQuery,
+  useScheduleAutoModeStateSubscription,
+} from "@/gql/graphql";
 
 export const useScheduleStore = defineStore("schedule", () => {
+  const autoModeStateQuery = useQScheduleAutoModeStateQuery();
   const autoModeStateSubscription = useScheduleAutoModeStateSubscription();
   const autoModeState = computed(
-    () => autoModeStateSubscription.data?.value?.scheduleAutoModeState
+    () =>
+      autoModeStateSubscription.data?.value?.scheduleAutoModeState ||
+      autoModeStateQuery.data?.value?.schedule.autoMode.state
   );
 
   const autoMode = computed(() => {
