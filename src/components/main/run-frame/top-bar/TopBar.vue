@@ -2,7 +2,6 @@
   <div>
     <v-card-actions id="main">
       <span-run-no-state></span-run-no-state>
-      <v-spacer></v-spacer>
       <component :is="actionComponent" v-if="actionComponent"></component>
     </v-card-actions>
   </div>

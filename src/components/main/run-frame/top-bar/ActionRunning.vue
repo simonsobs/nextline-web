@@ -1,4 +1,5 @@
 <template>
+  <v-spacer></v-spacer>
   <v-btn variant="outlined" prepend-icon="mdi-close" @click="executeInterrupt">
     interrupt
   </v-btn>
