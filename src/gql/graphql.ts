@@ -373,6 +373,11 @@ export type RunsQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type RunsQuery = { __typename?: 'Query', history: { __typename?: 'History', runs: { __typename?: 'RunHistoryConnection', edges: Array<{ __typename?: 'RunHistoryEdge', node: { __typename?: 'RunHistory', runNo: number, state?: string | null, startedAt?: any | null, endedAt?: any | null, script?: string | null, exception?: string | null } }> } } };
 
+export type QScheduleAutoModeStateQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type QScheduleAutoModeStateQuery = { __typename?: 'Query', schedule: { __typename?: 'QuerySchedule', autoMode: { __typename?: 'QueryAutoMode', state: string } } };
+
 export type SourceQueryVariables = Exact<{
   fileName?: InputMaybe<Scalars['String']['input']>;
 }>;
@@ -569,6 +574,19 @@ export const RunsDocument = gql`
 
 export function useRunsQuery(options: Omit<Urql.UseQueryArgs<never, RunsQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<RunsQuery>({ query: RunsDocument, ...options });
+};
+export const QScheduleAutoModeStateDocument = gql`
+    query QScheduleAutoModeState {
+  schedule {
+    autoMode {
+      state
+    }
+  }
+}
+    `;
+
+export function useQScheduleAutoModeStateQuery(options: Omit<Urql.UseQueryArgs<never, QScheduleAutoModeStateQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<QScheduleAutoModeStateQuery>({ query: QScheduleAutoModeStateDocument, ...options });
 };
 export const SourceDocument = gql`
     query Source($fileName: String) {
