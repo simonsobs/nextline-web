@@ -11,14 +11,14 @@
   >
     run
   </v-btn>
-  <v-dialog v-model="dialogRunInter" max-width="340">
+  <v-dialog v-model="dialogRunInter" max-width="400">
     <run-inter-confirmation-dialog
       @confirm="onRunInterConfirmed"
       @cancel="dialogRunInter = false"
     >
     </run-inter-confirmation-dialog>
   </v-dialog>
-  <v-dialog v-model="dialogRun" max-width="340">
+  <v-dialog v-model="dialogRun" max-width="400">
     <run-confirmation-dialog
       @confirm="onRunConfirmed"
       @cancel="dialogRun = false"
