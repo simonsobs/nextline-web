@@ -45,6 +45,6 @@ const continuousEnabledSubscription = useContinuousEnabledSubscription();
 const continuousEnabled = computed(
   () =>
     continuousEnabledSubscription.data?.value?.continuousEnabled ||
-    continuousEnabledQuery.data?.value?.continuous.continuousEnabled
+    continuousEnabledQuery.data?.value?.continuousEnabled
 );
 </script>

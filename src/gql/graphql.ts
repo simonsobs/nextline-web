@@ -60,11 +60,11 @@ export type HistoryTracesArgs = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  continuous: MutationContinuous;
   exec: Scalars['Boolean']['output'];
   interrupt: Scalars['Boolean']['output'];
   kill: Scalars['Boolean']['output'];
   reset: Scalars['Boolean']['output'];
+  runAndContinue: Scalars['Boolean']['output'];
   schedule: MutationSchedule;
   sendPdbCommand: Scalars['Boolean']['output'];
   terminate: Scalars['Boolean']['output'];
@@ -86,11 +86,6 @@ export type MutationAutoMode = {
   __typename?: 'MutationAutoMode';
   turnOff: Scalars['Boolean']['output'];
   turnOn: Scalars['Boolean']['output'];
-};
-
-export type MutationContinuous = {
-  __typename?: 'MutationContinuous';
-  runAndContinue: Scalars['Boolean']['output'];
 };
 
 export type MutationSchedule = {
@@ -163,7 +158,7 @@ export type PromptingData = {
 
 export type Query = {
   __typename?: 'Query';
-  continuous: QueryContinuous;
+  continuousEnabled: Scalars['Boolean']['output'];
   exception?: Maybe<Scalars['String']['output']>;
   hello: Scalars['String']['output'];
   history: History;
@@ -189,11 +184,6 @@ export type QuerySourceLineArgs = {
 export type QueryAutoMode = {
   __typename?: 'QueryAutoMode';
   state: Scalars['String']['output'];
-};
-
-export type QueryContinuous = {
-  __typename?: 'QueryContinuous';
-  continuousEnabled: Scalars['Boolean']['output'];
 };
 
 export type QuerySchedule = {
@@ -337,7 +327,7 @@ export type ResetMutation = { __typename?: 'Mutation', reset: boolean };
 export type RunAndContinueMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type RunAndContinueMutation = { __typename?: 'Mutation', continuous: { __typename?: 'MutationContinuous', runAndContinue: boolean } };
+export type RunAndContinueMutation = { __typename?: 'Mutation', runAndContinue: boolean };
 
 export type SendPdbCommandMutationVariables = Exact<{
   command: Scalars['String']['input'];
@@ -356,7 +346,7 @@ export type TerminateMutation = { __typename?: 'Mutation', terminate: boolean };
 export type QContinuousEnabledQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type QContinuousEnabledQuery = { __typename?: 'Query', continuous: { __typename?: 'QueryContinuous', continuousEnabled: boolean } };
+export type QContinuousEnabledQuery = { __typename?: 'Query', continuousEnabled: boolean };
 
 export type ExceptionQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -497,9 +487,7 @@ export function useResetMutation() {
 };
 export const RunAndContinueDocument = gql`
     mutation RunAndContinue {
-  continuous {
-    runAndContinue
-  }
+  runAndContinue
 }
     `;
 
@@ -526,9 +514,7 @@ export function useTerminateMutation() {
 };
 export const QContinuousEnabledDocument = gql`
     query QContinuousEnabled {
-  continuous {
-    continuousEnabled
-  }
+  continuousEnabled
 }
     `;
 
