@@ -1,6 +1,7 @@
 import {
   createClient,
-  defaultExchanges,
+  cacheExchange,
+  fetchExchange,
   subscriptionExchange,
 } from "@urql/core";
 // import { createClient as createWSClient } from "graphql-ws";
@@ -31,7 +32,8 @@ export function createUrqlClient(url: string) {
     url: url,
     requestPolicy: "network-only",
     exchanges: [
-      ...defaultExchanges,
+      cacheExchange,
+      fetchExchange,
       subscriptionExchange({
         forwardSubscription: (operation) =>
           subscriptionClient.request(operation),
