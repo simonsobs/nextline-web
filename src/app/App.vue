@@ -16,12 +16,19 @@
 import { ref } from "vue";
 import { useRoute } from "vue-router";
 import { useSetTitle } from "./set-title";
+import { useTheme } from "vuetify";
+
+import { defineThemes } from "@/monaco-editor";
 
 import NavigationDrawer from "./NavigationDrawer.vue";
 import AppBar from "./AppBar.vue";
 
 const route = useRoute();
 const drawer = ref(false);
+
+const theme = useTheme();
+defineThemes(theme);
+
 
 useSetTitle();
 </script>
