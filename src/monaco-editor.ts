@@ -1,35 +1,41 @@
 import * as monaco from "monaco-editor";
-import { ThemeInstance } from "vuetify";
+import { useTheme, ThemeDefinition } from "vuetify";
 
-export function defineThemes(theme: ThemeInstance) {
+export function useMonacoEditorTheme() {
+  const theme = useTheme();
+  defineThemes(theme.current.value);
+}
+
+function defineThemes(theme: ThemeDefinition) {
   // https://github.com/microsoft/monaco-editor/issues/1762
   // https://github.com/microsoft/monaco-editor/blob/main/src/basic-languages/python/python.ts
 
-  const current = theme.current.value;
+  if (!theme.colors) return;
 
-  const rules = [{ token: "keyword", foreground: current.colors["tertiary"] }];
+  const rules = [{ token: "keyword", foreground: theme.colors["tertiary"] }];
   const colors = {
-    "editor.foreground": current.colors["on-surface"],
-    "editor.background": current.colors["surface-container-lowest"],
-    "editorCursor.foreground": current.colors["secondary"],
-    "editorLineNumber.foreground": current.colors["outline-variant"],
-    "editor.selectionBackground": current.colors["surface-dim"],
-    "editor.inactiveSelectionBackground": current.colors["surface-dim"],
+    "editor.foreground": theme.colors["on-surface"],
+    "editor.background": theme.colors["surface-container-lowest"],
+    "editorCursor.foreground": theme.colors["secondary"],
+    "editorLineNumber.foreground": theme.colors["outline-variant"],
+    "editor.selectionBackground": theme.colors["surface-dim"],
+    "editor.inactiveSelectionBackground": theme.colors["surface-dim"],
   };
   const colorsEditor = {
     ...colors,
-    "editor.lineHighlightBackground": current.colors["surface-dim"],
-    "editorLineNumber.activeForeground": current.colors["primary"],
+    "editor.lineHighlightBackground": theme.colors["surface-dim"],
+    "editorLineNumber.activeForeground": theme.colors["primary"],
   };
   const colorsViewer = {
     ...colors,
-    "editorLineNumber.activeForeground": current.colors["surface-dim"],
+    "editorLineNumber.activeForeground": theme.colors["surface-dim"],
   };
 
   monaco.editor.defineTheme("nextline", {
     base: "vs",
     inherit: true,
     rules,
+    // @ts-ignore
     colors: colorsEditor,
   });
 
@@ -37,6 +43,7 @@ export function defineThemes(theme: ThemeInstance) {
     base: "vs",
     inherit: true,
     rules,
+    // @ts-ignore
     colors: colorsViewer,
   });
 }
