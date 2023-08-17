@@ -1,4 +1,4 @@
-FROM node:18.16-alpine as build
+FROM node:18.17-alpine as build
 
 # https://github.com/docker/getting-started/issues/124
 RUN apk add --no-cache python3 g++ make
