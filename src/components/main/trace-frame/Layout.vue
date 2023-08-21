@@ -21,7 +21,10 @@ import { useStore } from "@/stores/main";
 import TraceFrame from "./TraceFrame.vue";
 import ScriptEditor from "./ScriptEditor.vue";
 
-import { useStateSubscription, useTraceIdsSubscription } from "@/gql/graphql";
+import {
+  useStateSubscription,
+  useTraceIdsSubscription,
+} from "@/graphql/codegen/generated";
 
 const editing = ref(false);
 

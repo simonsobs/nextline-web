@@ -45,7 +45,7 @@ import { useScheduleStore } from "@/stores/schedule";
 import {
   useAutoModeTurnOffMutation,
   useAutoModeTurnOnMutation,
-} from "@/gql/graphql";
+} from "@/graphql/codegen/generated";
 
 const scheduleStore = useScheduleStore();
 const { executeMutation: turnOn } = useAutoModeTurnOnMutation();

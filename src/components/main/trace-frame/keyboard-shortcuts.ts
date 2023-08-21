@@ -1,6 +1,6 @@
 import { watch, MaybeRefOrGetter, toValue } from "vue";
 
-import { useSendPdbCommandMutation } from "@/gql/graphql";
+import { useSendPdbCommandMutation } from "@/graphql/codegen/generated";
 
 const keyboardShortcuts = new Map([
   ["n", "next"],

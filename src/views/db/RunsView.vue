@@ -56,7 +56,7 @@ import { computed, ref, reactive } from "vue";
 import { useRouter } from "vue-router";
 import { VDataTable } from "vuetify/labs/VDataTable";
 
-import { useRunsQuery } from "@/gql/graphql";
+import { useRunsQuery } from "@/graphql/codegen/generated";
 
 const router = useRouter();
 const query = useRunsQuery();

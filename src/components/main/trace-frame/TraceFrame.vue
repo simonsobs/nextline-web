@@ -36,7 +36,7 @@
 import { computed, ref, toRefs } from "vue";
 import path from "path";
 
-import { usePromptingSubscription } from "@/gql/graphql";
+import { usePromptingSubscription } from "@/graphql/codegen/generated";
 import { useKeyboardShortcuts } from "./keyboard-shortcuts";
 import TraceAction from "./TraceAction.vue";
 import CodeCol from "./CodeCol.vue";

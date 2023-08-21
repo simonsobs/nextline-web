@@ -41,7 +41,7 @@
 
 <script setup lang="ts">
 import { withDefaults } from "vue";
-import { useSendPdbCommandMutation } from "@/gql/graphql";
+import { useSendPdbCommandMutation } from "@/graphql/codegen/generated";
 
 interface Props {
   traceNo: number;

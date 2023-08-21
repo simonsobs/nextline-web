@@ -30,7 +30,7 @@ import {
   useInterruptMutation,
   useTerminateMutation,
   useKillMutation,
-} from "@/gql/graphql";
+} from "@/graphql/codegen/generated";
 
 const { executeMutation: executeInterrupt } = useInterruptMutation();
 const { executeMutation: executeTerminate } = useTerminateMutation();

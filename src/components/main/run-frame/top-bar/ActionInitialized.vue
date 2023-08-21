@@ -37,7 +37,7 @@ import {
   useRunAndContinueMutation,
   useQStateQuery,
   useStateSubscription,
-} from "@/gql/graphql";
+} from "@/graphql/codegen/generated";
 import { storeToRefs } from "pinia";
 import RunInterConfirmationDialog from "./RunInterConfirmationDialog.vue";
 import RunConfirmationDialog from "./RunConfirmationDialog.vue";

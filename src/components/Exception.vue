@@ -10,7 +10,10 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
 
-import { useExceptionQuery, useStateSubscription } from "@/gql/graphql";
+import {
+  useExceptionQuery,
+  useStateSubscription,
+} from "@/graphql/codegen/generated";
 
 interface Props {
   modelValue: boolean;

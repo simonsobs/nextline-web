@@ -12,7 +12,10 @@ import { computed } from "vue";
 
 import { useScheduleStore } from "@/stores/schedule";
 
-import { useQStateQuery, useStateSubscription } from "@/gql/graphql";
+import {
+  useQStateQuery,
+  useStateSubscription,
+} from "@/graphql/codegen/generated";
 import { storeToRefs } from "pinia";
 import SpanRunNoState from "./SpanRunNoState.vue";
 import ActionInitialized from "./ActionInitialized.vue";

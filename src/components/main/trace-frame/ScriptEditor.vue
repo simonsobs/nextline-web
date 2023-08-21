@@ -31,7 +31,7 @@ import { onMounted, ref, computed, watch } from "vue";
 import { watchDebounced } from "@vueuse/core";
 import * as monaco from "monaco-editor";
 
-import { useSourceQuery, useResetMutation } from "@/gql/graphql";
+import { useSourceQuery, useResetMutation } from "@/graphql/codegen/generated";
 
 interface Props {
   modelValue: boolean;

@@ -2,7 +2,7 @@
 import { computed, ref } from "vue";
 import { useRoute } from "vue-router";
 
-import { useRunsQuery } from "@/gql/graphql";
+import { useRunsQuery } from "@/graphql/codegen/generated";
 
 import RunCard from "@/components/History/RunCard.vue";
 

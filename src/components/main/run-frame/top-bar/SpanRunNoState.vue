@@ -24,7 +24,7 @@ import {
   useStateSubscription,
   useRunNoSubscription,
   useContinuousEnabledSubscription,
-} from "@/gql/graphql";
+} from "@/graphql/codegen/generated";
 
 const runNoQuery = useQRunNoQuery();
 const runNoSubscription = useRunNoSubscription();

@@ -34,7 +34,7 @@
 <script setup lang="ts">
 import { ref, nextTick } from "vue";
 
-import { useStdoutSubscription } from "@/gql/graphql";
+import { useStdoutSubscription } from "@/graphql/codegen/generated";
 
 const handleSubscription = (
   messages = { stdout: "" },

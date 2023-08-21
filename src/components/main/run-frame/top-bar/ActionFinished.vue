@@ -12,7 +12,7 @@
 
 <script setup lang="ts">
 import { useStore } from "@/stores/main";
-import { useResetMutation } from "@/gql/graphql";
+import { useResetMutation } from "@/graphql/codegen/generated";
 import { storeToRefs } from "pinia";
 const store = useStore();
 const { modified: editing } = storeToRefs(store);

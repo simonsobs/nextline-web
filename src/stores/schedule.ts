@@ -3,7 +3,7 @@ import { defineStore } from "pinia";
 import {
   useQScheduleAutoModeStateQuery,
   useScheduleAutoModeStateSubscription,
-} from "@/gql/graphql";
+} from "@/graphql/codegen/generated";
 
 export const useScheduleStore = defineStore("schedule", () => {
   const autoModeStateQuery = useQScheduleAutoModeStateQuery();
