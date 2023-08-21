@@ -26,6 +26,7 @@
     <span class="d-none d-sm-inline"> {{ version }} </span>
     <v-btn icon="mdi-graphql" :href="apiHttp" target="_blank"> </v-btn>
     <template v-slot:append>
+      <toggle-dark-mode-button></toggle-dark-mode-button>
       <schedule-ctrl></schedule-ctrl>
     </template>
   </v-app-bar>
@@ -37,6 +38,7 @@ import { ref, computed } from "vue";
 import { useConfig } from "@/utils/config";
 import naviItems from "./navi-items";
 import ScheduleCtrl from "@/components/ScheduleCtrl.vue";
+import ToggleDarkModeButton from "@/components/utils/ToggleDarkModeButton.vue";
 
 interface Emits {
   (event: "toggleDrawer"): void;
