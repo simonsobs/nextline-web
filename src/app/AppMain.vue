@@ -15,6 +15,8 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useRoute } from "vue-router";
+
+import { useColorTheme } from "@/utils/color-theme";
 import { useSetTitle } from "./set-title";
 
 import { useMonacoEditorTheme } from "@/monaco-editor";
@@ -25,6 +27,7 @@ import AppBar from "./AppBar.vue";
 const route = useRoute();
 const drawer = ref(false);
 
+useColorTheme();
 useMonacoEditorTheme();
 
 useSetTitle();
