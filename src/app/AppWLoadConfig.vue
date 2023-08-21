@@ -1,8 +1,9 @@
 <template>
-  <provide-urql-client v-if="!(loading || error)">
+  <div v-if="error">{{ error }}</div>
+  <div v-else-if="loading"></div>
+  <provide-urql-client v-else>
     <app> </app>
   </provide-urql-client>
-  <div v-else-if="error">{{ error }}</div>
 </template>
 
 <script setup lang="ts">
