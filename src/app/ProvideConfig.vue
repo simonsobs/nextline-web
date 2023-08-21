@@ -1,12 +1,13 @@
 <template>
-  <slot></slot>
+  <div v-if="error">{{ error }}</div>
+  <div v-else-if="loading"></div>
+  <provide-config-exe v-else-if="config" :config="config">
+    <slot></slot>
+  </provide-config-exe>
 </template>
 
 <script setup lang="ts">
-import { useProvideConfig, Config } from "@/utils/config";
-interface Props {
-  config: Config;
-}
-const prop = defineProps<Props>();
-useProvideConfig(prop.config);
+import { useLoadConfig } from "@/utils/config";
+import ProvideConfigExe from "./ProvideConfigExe.vue";
+const { config, loading, error } = useLoadConfig();
 </script>
