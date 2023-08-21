@@ -25,12 +25,12 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-import { useConfigStore } from "@/stores/config";
+import { useConfig } from "@/utils/config";
 interface Emits {
   (event: "confirm"): void;
   (event: "cancel"): void;
 }
 defineEmits<Emits>();
-const configStore = useConfigStore();
-const apiName = computed(() => configStore.config?.apiName || "");
+const { config } = useConfig();
+const apiName = computed(() => config.value.apiName || "");
 </script>

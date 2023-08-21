@@ -34,7 +34,7 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
 
-import { useConfigStore } from "@/stores/config";
+import { useConfig } from "@/utils/config";
 import naviItems from "./navi-items";
 import ScheduleCtrl from "@/components/ScheduleCtrl.vue";
 
@@ -43,11 +43,11 @@ interface Emits {
 }
 defineEmits<Emits>();
 
-const configStore = useConfigStore();
+const { config } = useConfig();
 
 const version = ref(import.meta.env.PACKAGE_VERSION);
 
-const appName = computed(() => configStore.config?.appName || "loading...");
-const apiName = computed(() => configStore.config?.apiName || "");
-const apiHttp = computed(() => configStore.config?.apiHttp);
+const appName = computed(() => config.value.appName || "loading...");
+const apiName = computed(() => config.value.apiName || "");
+const apiHttp = computed(() => config.value.apiHttp);
 </script>

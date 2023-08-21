@@ -41,7 +41,7 @@
 <script setup lang="ts">
 import { ref, computed, watch } from "vue";
 
-import { useConfigStore } from "@/stores/config";
+import { useConfig } from "@/utils/config";
 
 import naviItems from "./navi-items";
 
@@ -56,7 +56,7 @@ interface Emits {
 const props = defineProps<Props>();
 const emit = defineEmits<Emits>();
 
-const configStore = useConfigStore();
+const { config } = useConfig();
 
 const drawer = ref(false);
 
@@ -70,5 +70,5 @@ watch(drawer, (val) => {
 
 const version = ref(import.meta.env.PACKAGE_VERSION);
 
-const appName = computed(() => configStore.config?.appName || "loading...");
+const appName = computed(() => config.value.appName || "loading...");
 </script>

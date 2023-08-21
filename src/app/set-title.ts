@@ -1,13 +1,12 @@
-import { computed } from "vue";
+import { computed, toValue } from "vue";
 import { useTitle } from "@vueuse/core";
-import { useConfigStore } from "@/stores/config";
+import { useConfig } from "@/utils/config";
 
 function useSetTitle() {
-  const configStore = useConfigStore();
+  const { config } = useConfig();
   const title = computed(() => {
-    if (configStore.loading) return "loading...";
-    const appName = configStore.config?.appName || "";
-    const apiName = configStore.config?.apiName || "";
+    const appName = toValue(config).appName;
+    const apiName = toValue(config).apiName;
     return `${appName}: ${apiName}`;
   });
 
