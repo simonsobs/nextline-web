@@ -8,6 +8,8 @@ import { aliases, mdi } from "vuetify/iconsets/mdi";
 // https://github.com/vuetifyjs/vuetify/issues/16346
 import colors from "vuetify/lib/util/colors.mjs";
 
+import "@/styles/variables.scss";
+
 import { fromSourceColor } from "./material-color-old";
 import { generateLightAndDarkThemesFromSourceColor } from "./material-color";
 
