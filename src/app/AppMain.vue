@@ -16,6 +16,7 @@
 import { ref } from "vue";
 import { useRoute } from "vue-router";
 
+import { useProvideClient } from "@/graphql/urql";
 import { useColorTheme } from "@/utils/color-theme";
 import { useSetTitle } from "./set-title";
 
@@ -25,6 +26,7 @@ import AppBar from "./AppBar.vue";
 const route = useRoute();
 const drawer = ref(false);
 
+useProvideClient();
 useColorTheme();
 useSetTitle();
 </script>
