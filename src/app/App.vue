@@ -2,7 +2,9 @@
   <div v-if="error">{{ error }}</div>
   <div v-else-if="loading"></div>
   <provide-config v-else-if="config" :config="config">
-    <app> </app>
+    <provide-urql-client>
+      <app> </app>
+    </provide-urql-client>
   </provide-config>
 </template>
 
@@ -12,6 +14,7 @@
  */
 import { useLoadConfig } from "@/utils/config";
 import ProvideConfig from "./ProvideConfig.vue";
-import App from "./AppWLoadConfig.vue";
+import ProvideUrqlClient from "./ProvideUrqlClient.vue";
+import App from "./AppMain.vue";
 const { config, loading, error } = useLoadConfig();
 </script>
