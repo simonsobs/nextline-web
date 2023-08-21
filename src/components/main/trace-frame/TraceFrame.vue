@@ -5,7 +5,7 @@
       :ripple="false"
       tabindex="0"
       @keydown.capture="keyboardEvent = $event"
-      class="g-container code-exec bg-grey-lighten-4"
+      class="g-container code-exec"
       rounded="0"
     >
       <template v-if="prompting">
