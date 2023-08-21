@@ -19,7 +19,7 @@ import { useRoute } from "vue-router";
 import { useColorTheme } from "@/utils/color-theme";
 import { useSetTitle } from "./set-title";
 
-import { useMonacoEditorTheme } from "@/monaco-editor";
+import { useMonacoEditorTheme } from "@/utils/color-theme/monaco-editor";
 
 import NavigationDrawer from "./NavigationDrawer.vue";
 import AppBar from "./AppBar.vue";
