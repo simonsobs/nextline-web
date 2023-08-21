@@ -2,6 +2,8 @@
 import { ref, toRefs, watch } from "vue";
 import * as monaco from "monaco-editor";
 
+import { useDarkMode } from "@/utils/color-theme";
+
 type Run = {
   runNo: number;
   state?: string | null | undefined;
@@ -16,6 +18,8 @@ interface Props {
 }
 
 const props = defineProps<Props>();
+
+const { isDark } = useDarkMode();
 
 const { run } = toRefs(props);
 
@@ -81,9 +85,18 @@ watch(
       selectionHighlight: false,
       occurrencesHighlight: false,
       renderLineHighlight: "none",
-      theme: "nextline-viewer",
+      theme: isDark.value ? "nextline-viewer-dark" : "nextline-viewer-light",
     });
     val.style.height = `${editor.getContentHeight()}px`;
+  },
+  { immediate: true }
+);
+watch(
+  isDark,
+  (val) => {
+    monaco.editor.setTheme(
+      val ? "nextline-viewer-dark" : "nextline-viewer-light"
+    );
   },
   { immediate: true }
 );
