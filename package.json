@@ -13,6 +13,7 @@
     "@material/material-color-utilities": "^0.2.7",
     "@urql/vue": "1.1.2",
     "@vueuse/core": "^10.3.0",
+    "@vueuse/integrations": "^10.3.0",
     "axios": "^1.4.0",
     "graphql": "^15.8.0",
     "graphql-ws": "^5.10.1",
