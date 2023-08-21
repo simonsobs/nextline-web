@@ -1,12 +1,12 @@
 import {
   createClient,
+  provideClient,
   cacheExchange,
   fetchExchange,
   subscriptionExchange,
-} from "@urql/core";
+} from "@urql/vue";
 // import { createClient as createWSClient } from "graphql-ws";
 import { SubscriptionClient } from "subscriptions-transport-ws";
-
 
 // https://formidable.com/open-source/urql/docs/advanced/subscriptions/
 // https://github.com/enisdenjo/graphql-ws/blob/master/README.md
@@ -15,7 +15,7 @@ import { SubscriptionClient } from "subscriptions-transport-ws";
 // However, graphql-ws doesn't seem to work with urql at the moment:
 // https://qiita.com/mu-suke08/items/6dc353dd641e352f350e
 
-export function createUrqlClient(url: string) {
+export function useProvideClient(url: string) {
   // WebSocket endpoint. "ws://" for "http://" and "wss://" for "https://"
   const wsEndpoint = url.replace(/^http/i, "ws");
 
@@ -28,7 +28,7 @@ export function createUrqlClient(url: string) {
     reconnect: true,
   });
 
-  return createClient({
+  const client = createClient({
     url: url,
     requestPolicy: "network-only",
     exchanges: [
@@ -46,4 +46,6 @@ export function createUrqlClient(url: string) {
       }),
     ],
   });
+  
+  provideClient(client);
 }
