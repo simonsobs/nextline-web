@@ -8,6 +8,8 @@ import {
 // import { createClient as createWSClient } from "graphql-ws";
 import { SubscriptionClient } from "subscriptions-transport-ws";
 
+import { useConfig } from "@/utils/config";
+
 // https://formidable.com/open-source/urql/docs/advanced/subscriptions/
 // https://github.com/enisdenjo/graphql-ws/blob/master/README.md
 // https://github.com/apollographql/subscriptions-transport-ws/blob/master/README.md
@@ -15,7 +17,10 @@ import { SubscriptionClient } from "subscriptions-transport-ws";
 // However, graphql-ws doesn't seem to work with urql at the moment:
 // https://qiita.com/mu-suke08/items/6dc353dd641e352f350e
 
-export function useProvideClient(url: string) {
+export function useProvideClient() {
+  const { config } = useConfig();
+  const url = config.value.apiHttp;
+
   // WebSocket endpoint. "ws://" for "http://" and "wss://" for "https://"
   const wsEndpoint = url.replace(/^http/i, "ws");
 
@@ -46,6 +51,6 @@ export function useProvideClient(url: string) {
       }),
     ],
   });
-  
+
   provideClient(client);
 }
