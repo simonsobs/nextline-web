@@ -31,20 +31,12 @@ useSetTitle();
 </script>
 
 <style>
-html,
-body,
-#app,
-.v-application,
-.v-application__wrap,
-.v-main__wrap {
-  height: 100%;
-}
-
 .v-main {
   height: calc(100% - 48px); /* 48px: the height of the app bar */
 }
 
-.v-btn {
-  text-transform: capitalize;
+/* v-main__wrap probably doesn't exit in Vuetify 3 */
+.v-main__wrap {
+  height: 100%;
 }
 </style>

@@ -3,3 +3,15 @@
 
 // https://fonts.google.com/specimen/Fira+Code
 @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;700&display=swap');
+
+html,
+body,
+#app,
+.v-application,
+.v-application__wrap {
+  height: 100%;
+}
+
+.v-btn {
+  text-transform: capitalize;
+}
