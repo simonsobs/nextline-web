@@ -8,6 +8,6 @@
 
 <script setup lang="ts">
 import ProvideConfig from "@/utils/config/ProvideConfig.vue";
-import ProvideUrqlClient from "./ProvideUrqlClient.vue";
+import ProvideUrqlClient from "@/graphql/urql/ProvideClient.vue";
 import App from "./AppMain.vue";
 </script>
