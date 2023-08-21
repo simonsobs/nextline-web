@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import ProvideConfig from "./ProvideConfig.vue";
+import ProvideConfig from "@/utils/config/ProvideConfig.vue";
 import ProvideUrqlClient from "./ProvideUrqlClient.vue";
 import App from "./AppMain.vue";
 </script>
