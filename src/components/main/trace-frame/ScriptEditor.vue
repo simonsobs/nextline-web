@@ -31,6 +31,7 @@ import { onMounted, ref, computed, watch } from "vue";
 import { watchDebounced } from "@vueuse/core";
 import * as monaco from "monaco-editor";
 
+import { useDarkMode } from "@/utils/color-theme";
 import { useSourceQuery, useResetMutation } from "@/graphql/codegen/generated";
 
 interface Props {
@@ -43,6 +44,8 @@ interface Emits {
 
 const props = defineProps<Props>();
 const emit = defineEmits<Emits>();
+
+const { isDark } = useDarkMode();
 
 const source = ref("");
 
@@ -83,9 +86,17 @@ onMounted(() => {
     selectionHighlight: true,
     occurrencesHighlight: true,
     renderLineHighlight: "line",
-    theme: "nextline",
+    theme: isDark.value ? "nextline-dark" : "nextline-light",
   });
 });
+
+watch(
+  isDark,
+  (val) => {
+    monaco.editor.setTheme(val ? "nextline-dark" : "nextline-light");
+  },
+  { immediate: true }
+);
 
 const query = useSourceQuery();
 const savedSourceLines = computed(() => query.data.value?.source || []);
@@ -144,8 +155,8 @@ function reset() {
   block-size: 100%;
   inline-size: 100%;
   grid-template-columns: minmax(100px, 1fr);
-  grid-template-rows: minmax(0, 1fr) min-content ;
-  grid-template-areas: "content" "header" ;
+  grid-template-rows: minmax(0, 1fr) min-content;
+  grid-template-areas: "content" "header";
 }
 
 .g-content {
@@ -157,5 +168,4 @@ function reset() {
 .g-header {
   grid-area: header;
 }
-
 </style>

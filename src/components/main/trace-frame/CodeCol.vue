@@ -6,6 +6,7 @@
 import { onMounted, ref, computed, watch, nextTick, toRef } from "vue";
 import * as monaco from "monaco-editor";
 
+import { useDarkMode } from "@/utils/color-theme";
 import { PromptingData, useSourceQuery } from "@/graphql/codegen/generated";
 
 interface Props {
@@ -13,6 +14,9 @@ interface Props {
 }
 
 const props = defineProps<Props>();
+
+const { isDark } = useDarkMode();
+
 const state = toRef(props, "state");
 
 const refEditor = ref<HTMLElement | null>(null);
@@ -40,9 +44,19 @@ onMounted(() => {
     selectionHighlight: false,
     occurrencesHighlight: false,
     renderLineHighlight: "none",
-    theme: "nextline-viewer",
+    theme: isDark.value ? "nextline-viewer-dark" : "nextline-viewer-light",
   });
 });
+
+watch(
+  isDark,
+  (val) => {
+    monaco.editor.setTheme(
+      val ? "nextline-viewer-dark" : "nextline-viewer-light"
+    );
+  },
+  { immediate: true }
+);
 
 let decorationsCollection:
   | monaco.editor.IEditorDecorationsCollection

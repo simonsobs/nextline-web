@@ -3,10 +3,26 @@ import { useTheme, ThemeDefinition } from "vuetify";
 
 export function useMonacoEditorTheme() {
   const theme = useTheme();
-  defineThemes(theme.current.value);
+  defineThemes(
+    "nextline-light",
+    "nextline-viewer-light",
+    theme.themes.value.light,
+    "vs"
+  );
+  defineThemes(
+    "nextline-dark",
+    "nextline-viewer-dark",
+    theme.themes.value.dark,
+    "vs-dark"
+  );
 }
 
-function defineThemes(theme: ThemeDefinition) {
+function defineThemes(
+  name: string,
+  nameViewer: string,
+  theme: ThemeDefinition,
+  base: monaco.editor.BuiltinTheme
+) {
   // https://github.com/microsoft/monaco-editor/issues/1762
   // https://github.com/microsoft/monaco-editor/blob/main/src/basic-languages/python/python.ts
 
@@ -31,16 +47,16 @@ function defineThemes(theme: ThemeDefinition) {
     "editorLineNumber.activeForeground": theme.colors["surface-dim"],
   };
 
-  monaco.editor.defineTheme("nextline", {
-    base: "vs",
+  monaco.editor.defineTheme(name, {
+    base,
     inherit: true,
     rules,
     // @ts-ignore
     colors: colorsEditor,
   });
 
-  monaco.editor.defineTheme("nextline-viewer", {
-    base: "vs",
+  monaco.editor.defineTheme(nameViewer, {
+    base,
     inherit: true,
     rules,
     // @ts-ignore
