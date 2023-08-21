@@ -91,6 +91,7 @@ export type MutationAutoMode = {
 export type MutationSchedule = {
   __typename?: 'MutationSchedule';
   autoMode: MutationAutoMode;
+  loadScript: Scalars['Boolean']['output'];
   scheduler: MutationScheduler;
 };
 
