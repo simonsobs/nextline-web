@@ -35,7 +35,7 @@ useSetTitle();
 
 <style>
 .v-main {
-  height: calc(100% - 48px); /* 48px: the height of the app bar */
+  height: calc(100% - 64px); /* 64px: the height of the app bar */
 }
 
 /* v-main__wrap probably doesn't exit in Vuetify 3 */
