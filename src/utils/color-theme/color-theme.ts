@@ -3,6 +3,7 @@ import { useTheme } from "vuetify";
 
 import { generate } from "./material-color";
 import { useDarkMode } from "./dark-mode";
+import { useMonacoEditorTheme } from "./monaco-editor";
 
 export function useColorTheme() {
   useDarkMode();
@@ -21,4 +22,5 @@ export function useColorTheme() {
     },
     { immediate: true }
   );
+  useMonacoEditorTheme();
 }

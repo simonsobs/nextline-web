@@ -19,8 +19,6 @@ import { useRoute } from "vue-router";
 import { useColorTheme } from "@/utils/color-theme";
 import { useSetTitle } from "./set-title";
 
-import { useMonacoEditorTheme } from "@/utils/color-theme/monaco-editor";
-
 import NavigationDrawer from "./NavigationDrawer.vue";
 import AppBar from "./AppBar.vue";
 
@@ -28,8 +26,6 @@ const route = useRoute();
 const drawer = ref(false);
 
 useColorTheme();
-useMonacoEditorTheme();
-
 useSetTitle();
 </script>
 
