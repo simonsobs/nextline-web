@@ -18,6 +18,12 @@ const vuetify = createVuetify({
     aliases,
     sets: { mdi },
   },
+  defaults: {
+    // https://vuetifyjs.com/en/features/global-configuration/
+    VTooltip: {
+      openDelay: 800,
+    },
+  },
 });
 
 export default vuetify;
