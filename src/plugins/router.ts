@@ -42,10 +42,7 @@ const routes: RouteRecordRaw[] = [
   },
 ];
 
-// TODO: need to check if this is the right way to set the base
 const router = createRouter({
-  // mode: "history",
-  // base: import.meta.env.VITE_PUBLIC_PATH,
   history: createWebHistory(import.meta.env.VITE_PUBLIC_PATH),
   routes,
 });
