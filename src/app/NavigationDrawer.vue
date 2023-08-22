@@ -18,9 +18,12 @@
           :key="i"
           :to="item.to"
           :exact="item.exact"
-          :prepend-icon="item.icon"
           :title="item.title"
         >
+          <template v-slot:prepend="{ isActive }">
+            <v-icon :icon="`${isActive ? item.icon : `${item.icon}-outline`}`">
+            </v-icon>
+          </template>
         </v-list-item>
       </v-list>
     </v-card>
