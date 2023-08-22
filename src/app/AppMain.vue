@@ -1,7 +1,12 @@
 <template>
   <v-app>
     <navigation-drawer v-model="drawer"></navigation-drawer>
-    <app-bar @toggle-drawer="drawer = !drawer"></app-bar>
+    <app-bar>
+      <template v-slot:prepend>
+        <v-app-bar-nav-icon @click="drawer = !drawer" class="d-sm-none">
+        </v-app-bar-nav-icon>
+      </template>
+    </app-bar>
     <v-main>
       <router-view v-slot="{ Component }">
         <v-fade-transition>

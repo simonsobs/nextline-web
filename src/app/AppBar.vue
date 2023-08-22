@@ -1,8 +1,7 @@
 <template>
   <v-app-bar color="surface-container-low">
     <template v-slot:prepend>
-      <v-app-bar-nav-icon @click="$emit('toggleDrawer')" class="d-sm-none">
-      </v-app-bar-nav-icon>
+      <slot name="prepend" comment="slot for v-app-bar-nav-icon"> </slot>
     </template>
     <template v-slot:title>
       <router-link
@@ -39,11 +38,6 @@ import { useConfig } from "@/utils/config";
 import naviItems from "./navi-items";
 import ScheduleCtrl from "@/components/ScheduleCtrl.vue";
 import ToggleDarkModeButton from "@/components/utils/ToggleDarkModeButton.vue";
-
-interface Emits {
-  (event: "toggleDrawer"): void;
-}
-defineEmits<Emits>();
 
 const { config } = useConfig();
 
