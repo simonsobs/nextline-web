@@ -13,14 +13,11 @@
       </router-link>
     </template>
     <v-spacer class="d-none d-sm-block"></v-spacer>
-    <router-link
-      v-for="item in naviItems"
-      :to="item.to"
-      class="text-decoration-none mx-3 d-none d-sm-block"
-      style="color: inherit"
-    >
-      {{ item.title }}
-    </router-link>
+    <v-tabs v-model="tab" class="d-none d-sm-inline">
+      <v-tab :value="item.title" :to="item.to" v-for="item in naviItems">
+        <span class="text-none"> {{ item.title }} </span>
+      </v-tab>
+    </v-tabs>
     <v-spacer class="d-none d-sm-block"></v-spacer>
     <span class="d-none d-sm-inline"> {{ version }} </span>
     <v-btn icon="mdi-graphql" :href="apiHttp" target="_blank"> </v-btn>
@@ -46,4 +43,6 @@ const version = ref(import.meta.env.PACKAGE_VERSION);
 const appName = computed(() => config.value.appName || "loading...");
 const apiName = computed(() => config.value.apiName || "");
 const apiHttp = computed(() => config.value.apiHttp);
+
+const tab = ref<string | null>(null);
 </script>
