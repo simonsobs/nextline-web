@@ -37,14 +37,9 @@
 
 <script setup lang="ts">
 import { ref, computed } from "vue";
-
 import { useConfig } from "@/utils/config";
-
 import naviItems from "./navi-items";
-
 const { config } = useConfig();
-
 const version = ref(import.meta.env.PACKAGE_VERSION);
-
 const appName = computed(() => config.value.appName || "loading...");
 </script>
