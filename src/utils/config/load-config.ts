@@ -1,4 +1,4 @@
-import { ref, computed, toValue } from "vue";
+import { ref, computed, watch, toValue } from "vue";
 import { useAxios } from "@vueuse/integrations/useAxios";
 import * as path from "path";
 
@@ -12,7 +12,9 @@ export function useLoadConfigT<T extends object>(
     data,
     error: axiosError,
     isLoading: loading,
+    execute,
   } = useAxios<T>(toValue(configUrl));
+  watch(configUrl, () => execute());
 
   // undefined until data is loaded
   const config = computed<T | undefined>(
