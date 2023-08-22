@@ -16,7 +16,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from "vue";
 
-import { useStore } from "@/stores/main";
+import { useStore } from "@/plugins/pinia/stores/main";
 
 import TraceFrame from "./TraceFrame.vue";
 import ScriptEditor from "./ScriptEditor.vue";

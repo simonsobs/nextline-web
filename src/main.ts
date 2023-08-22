@@ -1,6 +1,6 @@
 import { createApp, h } from "vue";
 
-import pinia from "@/stores";
+import pinia from "@/plugins/pinia";
 import router from "@/plugins/router";
 import vuetify from "@/plugins/vuetify";
 

@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import { useStore } from "@/stores/main";
+import { useStore } from "@/plugins/pinia/stores/main";
 import { useResetMutation } from "@/graphql/codegen/generated";
 import { storeToRefs } from "pinia";
 const store = useStore();

@@ -11,7 +11,7 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-import { useScheduleStore } from "@/stores/schedule";
+import { useScheduleStore } from "@/plugins/pinia/stores/schedule";
 import DialogAutoMode from "@/components/DialogAutoMode.vue";
 
 const scheduleStore = useScheduleStore();

@@ -30,7 +30,7 @@
 <script setup lang="ts">
 import { watch, ref, computed } from "vue";
 
-import { useStore } from "@/stores/main";
+import { useStore } from "@/plugins/pinia/stores/main";
 
 import {
   useExecMutation,
