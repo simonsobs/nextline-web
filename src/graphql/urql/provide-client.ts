@@ -1,5 +1,7 @@
+import { ref, toRefs, toValue, watch } from "vue";
+import type { MaybeRefOrGetter } from "vue";
 import {
-  createClient,
+  createClient as createUrqlClient,
   provideClient,
   cacheExchange,
   fetchExchange,
@@ -10,18 +12,37 @@ import { createClient as createWSClient } from "graphql-ws";
 import { useConfig } from "@/utils/config";
 
 export function useProvideClient() {
-  const { config } = useConfig();
-  const url = config.value.apiHttp;
+  const url = useUrl();
+  const client = useClient(url);
+  provideClient(client);
+}
 
+function useUrl() {
+  const { config } = useConfig();
+  const { apiHttp: url } = toRefs(config.value);
+  return url;
+}
+
+function useClient(url: MaybeRefOrGetter<string>) {
+  const client = ref(createClient(toValue(url)));
+  watch(
+    () => toValue(url),
+    (val) => {
+      client.value = createClient(val);
+    }
+  );
+  return client;
+}
+
+function createClient(url: string) {
   // WebSocket endpoint. "ws://" for "http://" and "wss://" for "https://"
   const wsEndpoint = url.replace(/^http/i, "ws");
 
-  // for graphql-ws
   const wsClient = createWSClient({
     url: wsEndpoint,
   });
 
-  const client = createClient({
+  const client = createUrqlClient({
     url: url,
     requestPolicy: "network-only",
     exchanges: [
@@ -41,5 +62,5 @@ export function useProvideClient() {
     ],
   });
 
-  provideClient(client);
+  return client;
 }
