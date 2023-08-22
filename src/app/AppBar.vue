@@ -32,7 +32,7 @@
 import { ref, computed } from "vue";
 
 import { useConfig } from "@/utils/config";
-import naviItems from "./navi-items";
+import { useNaviItems } from "./navi-items";
 import ScheduleCtrl from "@/components/ScheduleCtrl.vue";
 import ToggleDarkModeButton from "@/components/utils/ToggleDarkModeButton.vue";
 
@@ -45,4 +45,5 @@ const apiName = computed(() => config.value.apiName || "");
 const apiHttp = computed(() => config.value.apiHttp);
 
 const tab = ref<string | null>(null);
+const { naviItems } = useNaviItems();
 </script>
