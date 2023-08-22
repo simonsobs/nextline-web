@@ -5,17 +5,9 @@ import {
   fetchExchange,
   subscriptionExchange,
 } from "@urql/vue";
-// import { createClient as createWSClient } from "graphql-ws";
-import { SubscriptionClient } from "subscriptions-transport-ws";
+import { createClient as createWSClient } from "graphql-ws";
 
 import { useConfig } from "@/utils/config";
-
-// https://formidable.com/open-source/urql/docs/advanced/subscriptions/
-// https://github.com/enisdenjo/graphql-ws/blob/master/README.md
-// https://github.com/apollographql/subscriptions-transport-ws/blob/master/README.md
-// TODO: switch to graphql-ws as subscriptions-transport-ws is no longer maintained.
-// However, graphql-ws doesn't seem to work with urql at the moment:
-// https://qiita.com/mu-suke08/items/6dc353dd641e352f350e
 
 export function useProvideClient() {
   const { config } = useConfig();
@@ -24,13 +16,9 @@ export function useProvideClient() {
   // WebSocket endpoint. "ws://" for "http://" and "wss://" for "https://"
   const wsEndpoint = url.replace(/^http/i, "ws");
 
-  //   // for graphql-ws
-  //   const wsClient = createWSClient({
-  //     url: wsEndpoint,
-  //   });
-
-  const subscriptionClient = new SubscriptionClient(wsEndpoint, {
-    reconnect: true,
+  // for graphql-ws
+  const wsClient = createWSClient({
+    url: wsEndpoint,
   });
 
   const client = createClient({
@@ -40,14 +28,15 @@ export function useProvideClient() {
       cacheExchange,
       fetchExchange,
       subscriptionExchange({
-        forwardSubscription: (operation) =>
-          subscriptionClient.request(operation),
-        // // for graphql-ws
-        // forwardSubscription: (operation) => ({
-        //   subscribe: (sink) => ({
-        //     unsubscribe: wsClient.subscribe(operation, sink),
-        //   }),
-        // }),
+        forwardSubscription(request) {
+          const input = { ...request, query: request.query || "" };
+          return {
+            subscribe(sink) {
+              const unsubscribe = wsClient.subscribe(input, sink);
+              return { unsubscribe };
+            },
+          };
+        },
       }),
     ],
   });
