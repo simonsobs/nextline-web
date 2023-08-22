@@ -1,4 +1,4 @@
-import { ref, computed } from "vue";
+import { ref, computed, toValue } from "vue";
 import { useAxios } from "@vueuse/integrations/useAxios";
 import * as path from "path";
 
@@ -6,13 +6,13 @@ import { defaultConfig, validateConfig } from "./config";
 import type { Config } from "./config";
 
 export function useLoadConfig() {
-  const url = ref(path.join(import.meta.env.VITE_PUBLIC_PATH, "config.json"));
+  const { configUrl } = useConfigUrl();
 
   const {
     data,
     error: axiosError,
     isLoading: loading,
-  } = useAxios<Config>(url.value);
+  } = useAxios<Config>(toValue(configUrl));
 
   // undefined until data is loaded
   const config = computed(
@@ -32,9 +32,18 @@ export function useLoadConfig() {
   const error = computed(() => axiosError.value || typeError.value);
 
   return {
-    url,
     loading,
     error,
     config,
+  };
+}
+
+function useConfigUrl() {
+  const configUrl = ref(
+    path.join(import.meta.env.VITE_PUBLIC_PATH, "config.json")
+  );
+
+  return {
+    configUrl,
   };
 }
