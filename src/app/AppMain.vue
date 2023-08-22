@@ -3,9 +3,9 @@
     <navigation-drawer v-model="drawer"></navigation-drawer>
     <app-bar @toggle-drawer="drawer = !drawer"></app-bar>
     <v-main>
-      <router-view :key="route.fullPath" v-slot="{ Component }">
+      <router-view v-slot="{ Component }">
         <keep-alive>
-          <component :is="Component" />
+          <component :key="route.fullPath" :is="Component" />
         </keep-alive>
       </router-view>
     </v-main>
