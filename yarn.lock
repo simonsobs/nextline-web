@@ -1484,7 +1484,7 @@
     "@0no-co/graphql.web" "^1.0.1"
     wonka "^6.3.2"
 
-"@urql/vue@1.1.2":
+"@urql/vue@^1.1.2":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@urql/vue/-/vue-1.1.2.tgz#9456f1b4a16b6a4c77546d290c54cc4f04288ac9"
   integrity sha512-ixfV0PTXcOl4KrZK24X+9B4rX9KSxqq1xhHZ0SOkAxgxMkomjJhtUl+9PuRL+LEzGWVr91OCEo68VPQ8uc5rBA==
