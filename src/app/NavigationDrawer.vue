@@ -1,10 +1,5 @@
 <template>
-  <v-navigation-drawer
-    v-model="drawer"
-    temporary
-    disable-resize-watcher
-    color="surface-container"
-  >
+  <v-navigation-drawer comment="fallthrough attributes">
     <v-card flat style="background-color: inherit">
       <template v-slot:prepend>
         <v-list>
@@ -25,7 +20,6 @@
           :exact="item.exact"
           :prepend-icon="item.icon"
           :title="item.title"
-          @click="drawer = false"
         >
         </v-list-item>
       </v-list>
@@ -39,34 +33,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from "vue";
+import { ref, computed } from "vue";
 
 import { useConfig } from "@/utils/config";
 
 import naviItems from "./navi-items";
 
-interface Props {
-  modelValue: boolean;
-}
-
-interface Emits {
-  (event: "update:modelValue", value: boolean): void;
-}
-
-const props = defineProps<Props>();
-const emit = defineEmits<Emits>();
-
 const { config } = useConfig();
-
-const drawer = ref(false);
-
-watch(props, (val) => {
-  drawer.value = val.modelValue;
-});
-
-watch(drawer, (val) => {
-  emit("update:modelValue", val);
-});
 
 const version = ref(import.meta.env.PACKAGE_VERSION);
 
