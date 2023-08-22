@@ -17,12 +17,12 @@ const routes: RouteRecordRaw[] = [
     component: () => import("@/views/AboutView.vue"),
   },
   {
-    path: "/history/runs",
+    path: "/db/runs",
     name: "runs",
     component: RunsView,
   },
   {
-    path: "/history/runs/:runNo",
+    path: "/db/runs/:runNo",
     name: "run",
     component: RunView,
   },
