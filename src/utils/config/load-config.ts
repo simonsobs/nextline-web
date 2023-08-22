@@ -19,7 +19,7 @@ export function useLoadConfig() {
     () => data.value && { ...defaultConfig, ...(data.value ?? {}) }
   );
 
-  const typeError = computed(() => {
+  const validationError = computed(() => {
     if (loading.value) return;
     if (!config.value) return;
     try {
@@ -29,7 +29,7 @@ export function useLoadConfig() {
     }
   });
 
-  const error = computed(() => axiosError.value || typeError.value);
+  const error = computed(() => axiosError.value || validationError.value);
 
   return {
     loading,
