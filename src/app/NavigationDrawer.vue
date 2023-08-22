@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer comment="fallthrough attributes">
+  <v-navigation-drawer disable-resize-watcher comment="fallthrough attributes">
     <v-card flat style="background-color: inherit">
       <template v-slot:prepend>
         <v-list>
