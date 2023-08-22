@@ -15,7 +15,7 @@ const naviItems: NaviItem[] = [
     exact: true,
   },
   {
-    icon: "mdi-history",
+    icon: "mdi-database",
     title: "History",
     to: { name: "runs" },
     exact: false,
