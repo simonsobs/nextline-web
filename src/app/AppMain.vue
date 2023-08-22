@@ -4,9 +4,11 @@
     <app-bar @toggle-drawer="drawer = !drawer"></app-bar>
     <v-main>
       <router-view v-slot="{ Component }">
-        <keep-alive>
-          <component :key="route.fullPath" :is="Component" />
-        </keep-alive>
+        <v-fade-transition>
+          <keep-alive>
+            <component :key="route.fullPath" :is="Component" />
+          </keep-alive>
+        </v-fade-transition>
       </router-view>
     </v-main>
   </v-app>
