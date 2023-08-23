@@ -1,4 +1,10 @@
-import { ref, watchEffect, toValue } from "vue";
+import {
+  ref,
+  computed,
+  watchEffect,
+  toValue,
+  MaybeRefOrGetter,
+} from "vue";
 import { useTheme } from "vuetify";
 
 import { generate } from "./material-color";
@@ -9,14 +15,13 @@ export function useColorTheme() {
   useDarkMode();
   const { sourceColor } = useSourceColor();
   const theme = useTheme();
+  const { light, dark } = useGenerated(sourceColor);
   watchEffect(() => {
-    const { light, dark } = generate(toValue(sourceColor));
+    // @ts-ignore
+    theme.themes.value.light.colors = toValue(light).colors;
 
     // @ts-ignore
-    theme.themes.value.light.colors = light.colors;
-
-    // @ts-ignore
-    theme.themes.value.dark.colors = dark.colors;
+    theme.themes.value.dark.colors = toValue(dark).colors;
   });
   useMonacoEditorTheme();
 }
@@ -24,4 +29,11 @@ export function useColorTheme() {
 function useSourceColor() {
   const sourceColor = ref("#607D8B"); // blue grey
   return { sourceColor };
+}
+
+function useGenerated(sourceColor: MaybeRefOrGetter<string>) {
+  const generated = computed(() => generate(toValue(sourceColor)));
+  const light = computed(() => generated.value.light);
+  const dark = computed(() => generated.value.dark);
+  return { light, dark };
 }
