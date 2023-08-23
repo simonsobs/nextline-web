@@ -4,6 +4,7 @@ import {
   hexFromArgb,
   MaterialDynamicColors,
   SchemeFidelity,
+  DynamicScheme,
   Hct,
 } from "@material/material-color-utilities";
 
@@ -64,6 +65,32 @@ const dynamicColors = [
   MaterialDynamicColors.onTertiaryFixedVariant,
 ];
 
+const toColors = (scheme: DynamicScheme) =>
+  Object.fromEntries(
+    dynamicColors.map((color) => [color.name, color.getArgb(scheme)])
+  );
+
+const toTheme = (scheme: DynamicScheme) => ({
+  dark: scheme.isDark,
+  colors: toColors(scheme),
+});
+
+const toVuetifyColors = (colors: Record<string, number>) =>
+  Object.fromEntries(
+    Object.entries(colors).map(([key, value]) => [
+      key.replace(/_/g, "-"),
+      hexFromArgb(value),
+    ])
+  );
+
+const toVuetifyTheme = (theme: {
+  dark: boolean;
+  colors: Record<string, number>;
+}) => ({
+  dark: theme.dark,
+  colors: toVuetifyColors(theme.colors),
+});
+
 function generate(
   sourceColor: string,
   contrastLevel: number = 0.0
@@ -73,31 +100,13 @@ function generate(
   const lightScheme = new SchemeFidelity(sourceColorHct, false, contrastLevel);
   const darkScheme = new SchemeFidelity(sourceColorHct, true, contrastLevel);
 
-  const lightColors: VuetifyTheme["colors"] = Object.fromEntries(
-    dynamicColors.map((color) => [
-      color.name.replace(/_/g, "-"),
-      hexFromArgb(color.getArgb(lightScheme)),
-    ])
-  );
+  const lightTheme = toTheme(lightScheme);
+  const darkTheme = toTheme(darkScheme);
 
-  const darkColors: VuetifyTheme["colors"] = Object.fromEntries(
-    dynamicColors.map((color) => [
-      color.name.replace(/_/g, "-"),
-      hexFromArgb(color.getArgb(darkScheme)),
-    ])
-  );
+  const lightVuetifyTheme: VuetifyTheme = toVuetifyTheme(lightTheme);
+  const darkVuetifyTheme: VuetifyTheme = toVuetifyTheme(darkTheme);
 
-  const lightTheme: VuetifyTheme = {
-    dark: false,
-    colors: lightColors,
-  };
-
-  const darkTheme: VuetifyTheme = {
-    dark: true,
-    colors: darkColors,
-  };
-
-  return { light: lightTheme, dark: darkTheme };
+  return { light: lightVuetifyTheme, dark: darkVuetifyTheme };
 }
 
 export { generate };
