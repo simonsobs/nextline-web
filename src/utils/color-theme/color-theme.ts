@@ -1,10 +1,5 @@
-import {
-  ref,
-  computed,
-  watchEffect,
-  toValue,
-  MaybeRefOrGetter,
-} from "vue";
+import { ref, computed, watchEffect, toValue } from "vue";
+import type { MaybeRefOrGetter } from "vue";
 import { useTheme } from "vuetify";
 
 import { generate } from "./material-color";
