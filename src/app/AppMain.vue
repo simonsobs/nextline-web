@@ -3,7 +3,7 @@
     <navigation-drawer v-model="drawer"></navigation-drawer>
     <app-bar>
       <template v-slot:prepend>
-        <v-app-bar-nav-icon @click="drawer = !drawer" class="d-sm-none">
+        <v-app-bar-nav-icon @click="drawer = !drawer" v-if="mobile">
         </v-app-bar-nav-icon>
       </template>
     </app-bar>
@@ -20,8 +20,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, watchEffect, toValue } from "vue";
 import { useRoute } from "vue-router";
+import { useDisplay } from "vuetify";
 
 import { useProvideClient } from "@/graphql/urql";
 import { useColorTheme } from "@/utils/color-theme";
@@ -31,7 +32,14 @@ import NavigationDrawer from "./NavigationDrawer.vue";
 import AppBar from "./AppBar.vue";
 
 const route = useRoute();
+
+const { mobile } = useDisplay();
 const drawer = ref(false);
+
+watchEffect(() => {
+  if (toValue(mobile)) return;
+  drawer.value = false;
+});
 
 useProvideClient();
 useColorTheme();
