@@ -40,7 +40,8 @@ useSetTitle();
 
 <style>
 .v-main {
-  height: calc(100% - 64px); /* 64px: the height of the app bar */
+  height: calc(100% - var(--v-layout-top));
+  /* --v-layout-top is the height of the app bar */
   overflow-y: scroll;
 }
 
