@@ -13,11 +13,7 @@
       </router-link>
     </template>
     <v-spacer class="d-none d-sm-block"></v-spacer>
-    <v-tabs v-model="tab" class="d-none d-sm-inline">
-      <v-tab :value="item.title" :to="item.to" v-for="item in naviItems">
-        <span class="text-none"> {{ item.title }} </span>
-      </v-tab>
-    </v-tabs>
+    <tab-navi class="d-none d-sm-inline"></tab-navi>
     <v-spacer class="d-none d-sm-block"></v-spacer>
     <span class="d-none d-sm-inline"> {{ version }} </span>
     <v-btn icon="mdi-graphql" :href="apiHttp" target="_blank"> </v-btn>
@@ -32,9 +28,10 @@
 import { ref, computed } from "vue";
 
 import { useConfig } from "@/utils/config";
-import { useNaviItems } from "./navi-items";
-import ScheduleCtrl from "@/components/ScheduleCtrl.vue";
+
+import TabNavi from "./TabNavi.vue";
 import ToggleDarkModeButton from "@/components/utils/ToggleDarkModeButton.vue";
+import ScheduleCtrl from "@/components/ScheduleCtrl.vue";
 
 const { config } = useConfig();
 
@@ -44,6 +41,4 @@ const appName = computed(() => config.value.appName || "loading...");
 const apiName = computed(() => config.value.apiName || "");
 const apiHttp = computed(() => config.value.apiHttp);
 
-const tab = ref<string | null>(null);
-const { naviItems } = useNaviItems();
 </script>
