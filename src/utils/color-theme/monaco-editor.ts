@@ -1,20 +1,27 @@
-import * as monaco from "monaco-editor";
+import { watchEffect, toValue } from "vue";
 import { useTheme, ThemeDefinition } from "vuetify";
+import * as monaco from "monaco-editor";
 
 export function useMonacoEditorTheme() {
-  const theme = useTheme();
-  defineThemes(
-    "nextline-light",
-    "nextline-viewer-light",
-    theme.themes.value.light,
-    "vs"
-  );
-  defineThemes(
-    "nextline-dark",
-    "nextline-viewer-dark",
-    theme.themes.value.dark,
-    "vs-dark"
-  );
+  const { themes } = useTheme();
+
+  watchEffect(() => {
+    defineThemes(
+      "nextline-light",
+      "nextline-viewer-light",
+      toValue(themes).light,
+      "vs"
+    );
+  });
+
+  watchEffect(() => {
+    defineThemes(
+      "nextline-dark",
+      "nextline-viewer-dark",
+      toValue(themes).dark,
+      "vs-dark"
+    );
+  });
 }
 
 function defineThemes(
