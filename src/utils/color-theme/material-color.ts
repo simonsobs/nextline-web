@@ -67,7 +67,7 @@ const dynamicColors = [
 function generate(
   sourceColor: string,
   contrastLevel: number = 0.0
-): [VuetifyTheme, VuetifyTheme] {
+): { light: VuetifyTheme; dark: VuetifyTheme } {
   const sourceColorHct = Hct.fromInt(argbFromHex(sourceColor));
 
   const lightScheme = new SchemeFidelity(sourceColorHct, false, contrastLevel);
@@ -97,7 +97,7 @@ function generate(
     colors: darkColors,
   };
 
-  return [lightTheme, darkTheme];
+  return { light: lightTheme, dark: darkTheme };
 }
 
 export { generate };

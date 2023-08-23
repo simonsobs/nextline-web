@@ -10,7 +10,7 @@ export function useColorTheme() {
   const { sourceColor } = useSourceColor();
   const theme = useTheme();
   watchEffect(() => {
-    const [light, dark] = generate(toValue(sourceColor));
+    const { light, dark } = generate(toValue(sourceColor));
 
     // @ts-ignore
     theme.themes.value.light.colors = light.colors;
