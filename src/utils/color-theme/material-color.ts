@@ -1,17 +1,73 @@
-import { ThemeDefinition as VuetifyTheme } from "vuetify";
+import { computed, toValue } from "vue";
+import type { MaybeRefOrGetter } from "vue";
 import {
   argbFromHex,
-  hexFromArgb,
   MaterialDynamicColors,
   SchemeFidelity,
   DynamicScheme,
   Hct,
 } from "@material/material-color-utilities";
 
-// https://github.com/material-foundation/material-color-utilities/issues/98
-// https://github.com/material-foundation/material-color-utilities/blob/main/typescript/dynamiccolor/dynamic_color_test.ts
-// https://material.io/blog/tone-based-surface-color-m3
-// https://youtu.be/vnDhq8W98O4?t=648
+/**
+ * The code to generate Dynamic Color of Material Design:
+ * https://m3.material.io/styles/color/dynamic-color/
+ *
+ * It uses material-color-utilities:
+ * https://github.com/material-foundation/material-color-utilities
+ *
+ * The code is based on dynamic_color_test.ts:
+ * https://github.com/material-foundation/material-color-utilities/blob/ce99247b6ba/typescript/dynamiccolor/dynamic_color_test.ts
+ *
+ * This issue has a link to the above file:
+ * https://github.com/material-foundation/material-color-utilities/issues/98
+ *
+ *
+ * This YouTube video explains the dynamic scheme:
+ * https://youtu.be/vnDhq8W98O4?t=648
+ *
+ * This blog post explains the surface colors:
+ * https://material.io/blog/tone-based-surface-color-m3
+ *
+ */
+
+export function useDynamicTheme(
+  sourceColor: MaybeRefOrGetter<string>,
+  dark: MaybeRefOrGetter<boolean>,
+  contrastLevel: MaybeRefOrGetter<number> = 0.0
+) {
+  const { scheme } = useDynamicScheme(sourceColor, dark, contrastLevel);
+  const theme = computed(() => schemeToTheme(toValue(scheme)));
+  return { theme };
+}
+
+function useDynamicScheme(
+  sourceColor: MaybeRefOrGetter<string>,
+  dark: MaybeRefOrGetter<boolean>,
+  contrastLevel: MaybeRefOrGetter<number> = 0.0
+) {
+  const sourceColorHct = computed(() =>
+    Hct.fromInt(argbFromHex(toValue(sourceColor)))
+  );
+  const scheme = computed<DynamicScheme>(
+    () =>
+      new SchemeFidelity(
+        toValue(sourceColorHct),
+        toValue(dark),
+        toValue(contrastLevel)
+      )
+  );
+  return { scheme };
+}
+
+const schemeToTheme = (scheme: DynamicScheme) => ({
+  dark: scheme.isDark,
+  colors: schemeToDynamicColors(scheme),
+});
+
+const schemeToDynamicColors = (scheme: DynamicScheme) =>
+  Object.fromEntries(
+    dynamicColors.map((color) => [color.name, color.getArgb(scheme)])
+  );
 
 const dynamicColors = [
   MaterialDynamicColors.background,
@@ -64,49 +120,3 @@ const dynamicColors = [
   MaterialDynamicColors.onTertiaryFixed,
   MaterialDynamicColors.onTertiaryFixedVariant,
 ];
-
-const toColors = (scheme: DynamicScheme) =>
-  Object.fromEntries(
-    dynamicColors.map((color) => [color.name, color.getArgb(scheme)])
-  );
-
-const toTheme = (scheme: DynamicScheme) => ({
-  dark: scheme.isDark,
-  colors: toColors(scheme),
-});
-
-const toVuetifyColors = (colors: Record<string, number>) =>
-  Object.fromEntries(
-    Object.entries(colors).map(([key, value]) => [
-      key.replace(/_/g, "-"),
-      hexFromArgb(value),
-    ])
-  );
-
-const toVuetifyTheme = (theme: {
-  dark: boolean;
-  colors: Record<string, number>;
-}) => ({
-  dark: theme.dark,
-  colors: toVuetifyColors(theme.colors),
-});
-
-function generate(
-  sourceColor: string,
-  contrastLevel: number = 0.0
-): { light: VuetifyTheme; dark: VuetifyTheme } {
-  const sourceColorHct = Hct.fromInt(argbFromHex(sourceColor));
-
-  const lightScheme = new SchemeFidelity(sourceColorHct, false, contrastLevel);
-  const darkScheme = new SchemeFidelity(sourceColorHct, true, contrastLevel);
-
-  const lightTheme = toTheme(lightScheme);
-  const darkTheme = toTheme(darkScheme);
-
-  const lightVuetifyTheme: VuetifyTheme = toVuetifyTheme(lightTheme);
-  const darkVuetifyTheme: VuetifyTheme = toVuetifyTheme(darkTheme);
-
-  return { light: lightVuetifyTheme, dark: darkVuetifyTheme };
-}
-
-export { generate };
