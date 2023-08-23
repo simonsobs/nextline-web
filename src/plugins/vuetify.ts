@@ -18,6 +18,9 @@ const vuetify = createVuetify({
     aliases,
     sets: { mdi },
   },
+  display: {
+    mobileBreakpoint: "md",
+  },
   defaults: {
     // https://vuetifyjs.com/en/features/global-configuration/
     VTooltip: {
