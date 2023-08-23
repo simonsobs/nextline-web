@@ -1,21 +1,13 @@
 <template>
   <v-navigation-drawer disable-resize-watcher comment="fallthrough attributes">
-    <v-card flat style="background-color: inherit">
-      <template v-slot:prepend>
-        <v-list>
-          <v-list-item density="compact">
-            <template v-slot:title>
-              <span class="text-primary font-weight-bold"> {{ appName }} </span>
-            </template>
-          </v-list-item>
-        </v-list>
-      </template>
-      <list-navi></list-navi>
-    </v-card>
+    <div class="px-8 py-5">
+      <span class="text-primary font-weight-bold"> {{ appName }} </span>
+    </div>
+    <list-navi></list-navi>
     <template v-slot:append>
-      <v-list>
-        <v-list-item :title="`v${version}`" disabled> </v-list-item>
-      </v-list>
+      <div class="ma-4 d-flex justify-space-around align-center">
+        <span class="text-secondary text-body-2">v{{ version }}</span>
+      </div>
     </template>
   </v-navigation-drawer>
 </template>
