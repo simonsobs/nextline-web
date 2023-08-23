@@ -10,22 +10,7 @@
           </v-list-item>
         </v-list>
       </template>
-      <v-list>
-        <v-list-item
-          link
-          router
-          v-for="(item, i) in naviItems"
-          :key="i"
-          :to="item.to"
-          :exact="item.exact"
-          :title="item.title"
-        >
-          <template v-slot:prepend="{ isActive }">
-            <v-icon :icon="`${isActive ? item.icon : `${item.icon}-outline`}`">
-            </v-icon>
-          </template>
-        </v-list-item>
-      </v-list>
+      <list-navi></list-navi>
     </v-card>
     <template v-slot:append>
       <v-list>
@@ -38,9 +23,8 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
 import { useConfig } from "@/utils/config";
-import { useNaviItems } from "./navi-items";
+import ListNavi from "./ListNavi.vue";
 const { config } = useConfig();
 const version = ref(import.meta.env.PACKAGE_VERSION);
 const appName = computed(() => config.value.appName || "loading...");
-const { naviItems } = useNaviItems();
 </script>
