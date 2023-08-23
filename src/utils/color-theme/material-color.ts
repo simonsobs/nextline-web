@@ -30,14 +30,14 @@ import {
  *
  */
 
-export function useDynamicTheme(
+export function useDynamicColors(
   sourceColor: MaybeRefOrGetter<string>,
   dark: MaybeRefOrGetter<boolean>,
   contrastLevel: MaybeRefOrGetter<number> = 0.0
 ) {
-  const { scheme } = useDynamicScheme(sourceColor, dark, contrastLevel);
-  const theme = computed(() => schemeToTheme(toValue(scheme)));
-  return { theme };
+  const scheme = useDynamicScheme(sourceColor, dark, contrastLevel);
+  const colors = computed(() => schemeToDynamicColors(toValue(scheme)));
+  return colors 
 }
 
 function useDynamicScheme(
@@ -56,13 +56,9 @@ function useDynamicScheme(
         toValue(contrastLevel)
       )
   );
-  return { scheme };
-}
 
-const schemeToTheme = (scheme: DynamicScheme) => ({
-  dark: scheme.isDark,
-  colors: schemeToDynamicColors(scheme),
-});
+  return scheme;
+}
 
 const schemeToDynamicColors = (scheme: DynamicScheme) =>
   Object.fromEntries(

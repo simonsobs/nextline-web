@@ -3,25 +3,29 @@ import type { MaybeRefOrGetter } from "vue";
 import { useTheme } from "vuetify";
 import { hexFromArgb } from "@material/material-color-utilities";
 
-import { useDynamicTheme } from "./material-color";
+import { useDynamicColors } from "./material-color";
 import { useDarkMode } from "./dark-mode";
 import { useMonacoEditorTheme } from "./monaco-editor";
 
 export function useColorTheme() {
   useDarkMode();
   const { sourceColor } = useSourceColor();
-  const { theme: light } = useGenerated(sourceColor, false);
-  const { theme: dark } = useGenerated(sourceColor, true);
+
+  const lightColors = useDynamicColors(sourceColor, false);
+  const darkColors = useDynamicColors(sourceColor, true);
+
+  const light = computed(() => toVuetifyColors(toValue(lightColors)));
+  const dark = computed(() => toVuetifyColors(toValue(darkColors)));
 
   const theme = useTheme();
   watchEffect(() => {
     // @ts-ignore
-    theme.themes.value.light.colors = toValue(light).colors;
+    theme.themes.value.light.colors = toValue(light);
   });
 
   watchEffect(() => {
     // @ts-ignore
-    theme.themes.value.dark.colors = toValue(dark).colors;
+    theme.themes.value.dark.colors = toValue(dark);
   });
 
   useMonacoEditorTheme();
@@ -32,24 +36,7 @@ function useSourceColor() {
   return { sourceColor };
 }
 
-function useGenerated(
-  sourceColor: MaybeRefOrGetter<string>,
-  dark: MaybeRefOrGetter<boolean>
-) {
-  const { theme: dynamic } = useDynamicTheme(sourceColor, dark);
-  const theme = computed(() => dynamicThemeToVuetifyTheme(toValue(dynamic)));
-  return { theme };
-}
-
-const dynamicThemeToVuetifyTheme = (theme: {
-  dark: boolean;
-  colors: Record<string, number>;
-}) => ({
-  dark: theme.dark,
-  colors: dynamicColorsToVuetifyColors(theme.colors),
-});
-
-const dynamicColorsToVuetifyColors = (colors: Record<string, number>) =>
+const toVuetifyColors = (colors: Record<string, number>) =>
   Object.fromEntries(
     Object.entries(colors).map(([key, value]) => [
       key.replace(/_/g, "-"),
