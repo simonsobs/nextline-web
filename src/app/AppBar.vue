@@ -12,12 +12,14 @@
         <span v-if="!mobile"> {{ appName }}: </span> {{ apiName }}
       </router-link>
     </template>
-    <v-spacer v-if="!mobile"></v-spacer>
-    <tab-navi v-if="!mobile"></tab-navi>
-    <v-spacer v-if="!mobile"></v-spacer>
-    <span v-if="!mobile"> {{ version }} </span>
-    <v-btn icon="mdi-graphql" :href="apiHttp" target="_blank"> </v-btn>
+    <template v-if="!mobile">
+      <v-spacer></v-spacer>
+      <tab-navi></tab-navi>
+      <v-spacer></v-spacer>
+    </template>
     <template v-slot:append>
+      <span v-if="!mobile"> {{ version }} </span>
+      <v-btn icon="mdi-graphql" :href="apiHttp" target="_blank"> </v-btn>
       <toggle-dark-mode-button></toggle-dark-mode-button>
       <schedule-ctrl></schedule-ctrl>
     </template>
