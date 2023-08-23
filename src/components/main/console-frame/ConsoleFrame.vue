@@ -2,7 +2,7 @@
   <v-layout full-height style="width: 100%">
     <v-card
       flat
-      color="surface-container-high px-2 pt-0 pb-2"
+      color="surface-container-low px-2 pt-0 pb-2"
       rounded="0"
       class="g-container"
     >
