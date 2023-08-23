@@ -8,7 +8,7 @@
       </template>
     </app-bar>
     <v-main>
-      <router-view v-slot="{ Component }">
+      <router-view v-slot="{ Component, route }">
         <v-fade-transition>
           <keep-alive>
             <component :key="route.fullPath" :is="Component" />
@@ -21,7 +21,6 @@
 
 <script setup lang="ts">
 import { ref, watchEffect, toValue } from "vue";
-import { useRoute } from "vue-router";
 import { useDisplay } from "vuetify";
 
 import { useProvideClient } from "@/graphql/urql";
@@ -31,19 +30,17 @@ import { useSetTitle } from "./set-title";
 import NavigationDrawer from "./NavigationDrawer.vue";
 import AppBar from "./AppBar.vue";
 
-const route = useRoute();
+useProvideClient();
+useColorTheme();
+useSetTitle();
 
 const { mobile } = useDisplay();
-const drawer = ref(false);
 
+const drawer = ref(false);
 watchEffect(() => {
   if (toValue(mobile)) return;
   drawer.value = false;
 });
-
-useProvideClient();
-useColorTheme();
-useSetTitle();
 </script>
 
 <style>
