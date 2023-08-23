@@ -44,9 +44,4 @@ useSetTitle();
   /* --v-layout-top is the height of the app bar */
   overflow-y: scroll;
 }
-
-/* v-main__wrap probably doesn't exit in Vuetify 3 */
-.v-main__wrap {
-  height: 100%;
-}
 </style>
