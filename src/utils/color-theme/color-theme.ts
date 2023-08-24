@@ -7,7 +7,8 @@ import { useDarkMode } from "./dark-mode";
 import { useMonacoEditorTheme } from "./monaco-editor";
 
 export function useColorTheme() {
-  useDarkMode();
+  // https://vuetifyjs.com/en/features/theme/
+  const { isDark } = useDarkMode();
   const { sourceColor } = useSourceColor();
 
   const lightColors = useDynamicColors(sourceColor, false);
@@ -25,6 +26,10 @@ export function useColorTheme() {
   watchEffect(() => {
     // @ts-ignore
     theme.themes.value.dark.colors = toValue(dark);
+  });
+
+  watchEffect(() => {
+    theme.global.name.value = toValue(isDark) ? "dark" : "light";
   });
 
   useMonacoEditorTheme();
