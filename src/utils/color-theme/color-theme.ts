@@ -1,4 +1,5 @@
 import { ref, computed, watchEffect, toValue } from "vue";
+import type { MaybeRefOrGetter } from "vue";
 import { useTheme } from "vuetify";
 import { hexFromArgb } from "@material/material-color-utilities";
 
@@ -14,25 +15,34 @@ export function useColorTheme() {
   const lightColors = useDynamicColors(sourceColor, false);
   const darkColors = useDynamicColors(sourceColor, true);
 
-  const light = computed(() => toVuetifyColors(toValue(lightColors)));
-  const dark = computed(() => toVuetifyColors(toValue(darkColors)));
+  useVuetifyTheme(lightColors, false);
+  useVuetifyTheme(darkColors, true);
 
   const theme = useTheme();
-  watchEffect(() => {
-    // @ts-ignore
-    theme.themes.value.light.colors = toValue(light);
-  });
-
-  watchEffect(() => {
-    // @ts-ignore
-    theme.themes.value.dark.colors = toValue(dark);
-  });
 
   watchEffect(() => {
     theme.global.name.value = toValue(isDark) ? "dark" : "light";
   });
 
   useMonacoEditorTheme();
+}
+
+function useVuetifyTheme(
+  dynamicColors: MaybeRefOrGetter<Record<string, number>>,
+  isDark: MaybeRefOrGetter<boolean>
+) {
+  const colors = computed(() => toVuetifyColors(toValue(dynamicColors)));
+  const { themes } = useTheme();
+  const theme = computed(
+    () => themes.value[toValue(isDark) ? "dark" : "light"]
+  );
+
+  watchEffect(() => {
+    // @ts-ignore
+    theme.value.colors = toValue(colors);
+  });
+
+  return theme;
 }
 
 function useSourceColor() {
