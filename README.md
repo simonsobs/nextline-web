@@ -1,3 +1,5 @@
+[![Unit tests](https://github.com/simonsobs/nextline-web/actions/workflows/unit-test.yml/badge.svg)](https://github.com/simonsobs/nextline-web/actions/workflows/unit-test.yml)
+
 # Nextline-web
 
 The front-end web app of [Nextline](https://github.com/simonsobs/nextline).
