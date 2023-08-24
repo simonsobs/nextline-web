@@ -4,9 +4,10 @@ import {
   argbFromHex,
   MaterialDynamicColors,
   SchemeFidelity,
-  DynamicScheme,
   Hct,
+  DynamicColor,
 } from "@material/material-color-utilities";
+import type { DynamicScheme } from "@material/material-color-utilities";
 
 /**
  * The code to generate Dynamic Color of Material Design:
@@ -60,59 +61,26 @@ function useDynamicScheme(
   return scheme;
 }
 
-const schemeToDynamicColors = (scheme: DynamicScheme) =>
+// An array of DynamicColor.
+// e.g., [MaterialDynamicColors.background, MaterialDynamicColors.onBackground, ...]
+const dynamicColors = Object.values(MaterialDynamicColors).filter(
+  (color): color is DynamicColor => color instanceof DynamicColor
+);
+
+// Literal type of the keys of MaterialDynamicColors whose value types are DynamicColor.
+// In other words, the names of the dynamic colors, e.g., "background", "onBackground", ..
+type ColorNames = {
+  [K in keyof typeof MaterialDynamicColors]: typeof MaterialDynamicColors[K] extends DynamicColor
+    ? K
+    : never;
+}[keyof typeof MaterialDynamicColors];
+
+export type DynamicColors = {
+  [K in ColorNames]: number;
+};
+
+const schemeToDynamicColors = (scheme: DynamicScheme): DynamicColors =>
+  // @ts-ignore
   Object.fromEntries(
     dynamicColors.map((color) => [color.name, color.getArgb(scheme)])
   );
-
-const dynamicColors = [
-  MaterialDynamicColors.background,
-  MaterialDynamicColors.onBackground,
-  MaterialDynamicColors.surface,
-  MaterialDynamicColors.surfaceDim,
-  MaterialDynamicColors.surfaceBright,
-  MaterialDynamicColors.surfaceContainerLowest,
-  MaterialDynamicColors.surfaceContainerLow,
-  MaterialDynamicColors.surfaceContainer,
-  MaterialDynamicColors.surfaceContainerHigh,
-  MaterialDynamicColors.surfaceContainerHighest,
-  MaterialDynamicColors.onSurface,
-  MaterialDynamicColors.surfaceVariant,
-  MaterialDynamicColors.onSurfaceVariant,
-  MaterialDynamicColors.inverseSurface,
-  MaterialDynamicColors.inverseOnSurface,
-  MaterialDynamicColors.outline,
-  MaterialDynamicColors.outlineVariant,
-  MaterialDynamicColors.shadow,
-  MaterialDynamicColors.scrim,
-  MaterialDynamicColors.surfaceTint,
-  MaterialDynamicColors.primary,
-  MaterialDynamicColors.onPrimary,
-  MaterialDynamicColors.primaryContainer,
-  MaterialDynamicColors.onPrimaryContainer,
-  MaterialDynamicColors.inversePrimary,
-  MaterialDynamicColors.secondary,
-  MaterialDynamicColors.onSecondary,
-  MaterialDynamicColors.secondaryContainer,
-  MaterialDynamicColors.onSecondaryContainer,
-  MaterialDynamicColors.tertiary,
-  MaterialDynamicColors.onTertiary,
-  MaterialDynamicColors.tertiaryContainer,
-  MaterialDynamicColors.onTertiaryContainer,
-  MaterialDynamicColors.error,
-  MaterialDynamicColors.onError,
-  MaterialDynamicColors.errorContainer,
-  MaterialDynamicColors.onErrorContainer,
-  MaterialDynamicColors.primaryFixed,
-  MaterialDynamicColors.primaryFixedDim,
-  MaterialDynamicColors.onPrimaryFixed,
-  MaterialDynamicColors.onPrimaryFixedVariant,
-  MaterialDynamicColors.secondaryFixed,
-  MaterialDynamicColors.secondaryFixedDim,
-  MaterialDynamicColors.onSecondaryFixed,
-  MaterialDynamicColors.onSecondaryFixedVariant,
-  MaterialDynamicColors.tertiaryFixed,
-  MaterialDynamicColors.tertiaryFixedDim,
-  MaterialDynamicColors.onTertiaryFixed,
-  MaterialDynamicColors.onTertiaryFixedVariant,
-];

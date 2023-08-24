@@ -2,8 +2,10 @@ import { ref, computed, watchEffect, toValue } from "vue";
 import type { MaybeRefOrGetter } from "vue";
 import { useTheme } from "vuetify";
 import { hexFromArgb } from "@material/material-color-utilities";
+import type { KebabCasedProperties } from "type-fest";
 
 import { useDynamicColors } from "./material-color";
+import type { DynamicColors } from "./material-color";
 import { useDarkMode } from "./dark-mode";
 import { useMonacoEditorTheme } from "./monaco-editor";
 
@@ -28,7 +30,7 @@ export function useColorTheme() {
 }
 
 function useVuetifyTheme(
-  dynamicColors: MaybeRefOrGetter<Record<string, number>>,
+  dynamicColors: MaybeRefOrGetter<DynamicColors>,
   isDark: MaybeRefOrGetter<boolean>
 ) {
   const colors = computed(() => toVuetifyColors(toValue(dynamicColors)));
@@ -50,10 +52,19 @@ function useSourceColor() {
   return { sourceColor };
 }
 
-const toVuetifyColors = (colors: Record<string, number>) =>
+const toVuetifyColors = (colors: DynamicColors): VuetifyColors =>
+  // @ts-ignore
   Object.fromEntries(
     Object.entries(colors).map(([key, value]) => [
       key.replace(/_/g, "-"),
       hexFromArgb(value),
     ])
   );
+
+// ColorNames are literal types of the keys of DynamicColors in kebab-case.
+// e.g., "background", "on-background", ...
+type ColorNames = keyof KebabCasedProperties<DynamicColors>;
+
+type VuetifyColors = {
+  [k in ColorNames]: string;
+};
