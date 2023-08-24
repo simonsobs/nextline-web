@@ -32,12 +32,12 @@ import {
 
 export function useDynamicColors(
   sourceColor: MaybeRefOrGetter<string>,
-  dark: MaybeRefOrGetter<boolean>,
+  dark: MaybeRefOrGetter<boolean> = false,
   contrastLevel: MaybeRefOrGetter<number> = 0.0
 ) {
   const scheme = useDynamicScheme(sourceColor, dark, contrastLevel);
   const colors = computed(() => schemeToDynamicColors(toValue(scheme)));
-  return colors 
+  return { colors, scheme };
 }
 
 function useDynamicScheme(

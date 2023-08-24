@@ -12,8 +12,8 @@ export function useColorTheme() {
   const { isDark } = useDarkMode();
   const { sourceColor } = useSourceColor();
 
-  const lightColors = useDynamicColors(sourceColor, false);
-  const darkColors = useDynamicColors(sourceColor, true);
+  const { colors: lightColors } = useDynamicColors(sourceColor, false);
+  const { colors: darkColors } = useDynamicColors(sourceColor, true);
 
   useVuetifyTheme(lightColors, false);
   useVuetifyTheme(darkColors, true);
