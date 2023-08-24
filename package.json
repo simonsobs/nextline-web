@@ -6,6 +6,7 @@
     "dev": "vite",
     "serve": "vite preview",
     "build": "vite build",
+    "test": "vitest",
     "lint": "eslint src",
     "codegen": "graphql-codegen --config codegen.ts"
   },
@@ -42,6 +43,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-vue": "^9.4.0",
     "graphql-tag": "^2.12.6",
+    "jsdom": "^22.1.0",
     "prettier": "^2.7.1",
     "rollup": "^3.25.3",
     "sass": "^1.65.1",
@@ -49,6 +51,7 @@
     "typescript": "~5.1.6",
     "vite": "^4.4.9",
     "vite-plugin-monaco-editor": "^1.1.0",
-    "vite-plugin-package-version": "^1.0.2"
+    "vite-plugin-package-version": "^1.0.2",
+    "vitest": "^0.34.2"
   }
 }
