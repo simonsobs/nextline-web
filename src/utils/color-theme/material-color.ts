@@ -117,9 +117,16 @@ type KeyOfMDCKebab = KebabCase<KeyOfMDC>;
 
 // ColorName and KeyOfMDCKebab must be the same.
 // The following two types must be both never.
-// NOTE: not sure how to raise an error if they are not never.
-type missing = Exclude<KeyOfMDCKebab, ColorName>;
-type extra = Exclude<ColorName, KeyOfMDCKebab>;
+type Missing = Exclude<KeyOfMDCKebab, ColorName>;
+type Extra = Exclude<ColorName, KeyOfMDCKebab>;
+
+// If these are not never, the expected errors below will not occur.
+
+// @ts-expect-error
+const missing: Missing = null as any;
+
+// @ts-expect-error
+const extra: Extra = null as any;
 
 export function useDynamicColors(
   sourceColor: MaybeRefOrGetter<string>,
