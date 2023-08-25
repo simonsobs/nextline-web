@@ -1,9 +1,9 @@
 <template>
   <div>
-    <v-card-actions id="main">
+    <div id="main">
       <span-run-no-state></span-run-no-state>
       <component :is="actionComponent" v-if="actionComponent"></component>
-    </v-card-actions>
+    </div>
   </div>
 </template>
 
@@ -63,6 +63,6 @@ const actionComponent = computed<any | null>(() => {
   align-items: baseline;
   align-content: center;
   column-gap: 4px;
-  min-height: 0px; /* override v-card-actions */
+  min-height: 38px;
 }
 </style>

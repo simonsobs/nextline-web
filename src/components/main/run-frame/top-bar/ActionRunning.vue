@@ -5,7 +5,12 @@
   </v-btn>
   <v-menu offset-y>
     <template v-slot:activator="{ props }">
-      <v-btn v-bind="props" icon="mdi-dots-horizontal" density="compact">
+      <v-btn
+        variant="text"
+        v-bind="props"
+        icon="mdi-dots-horizontal"
+        density="compact"
+      >
       </v-btn>
     </template>
     <v-list>
