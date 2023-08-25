@@ -7,7 +7,11 @@
       class="g-container"
     >
       <v-card-actions class="g-header py-1">
-        <span class="text-body-2 font-weight-medium"> stdout </span>
+        <v-tabs v-model="tab" density="compact">
+          <v-tab value="stdout">
+            <span class="text-none"> stdout </span>
+          </v-tab>
+        </v-tabs>
         <v-spacer></v-spacer>
         <v-tooltip bottom open-delay="500">
           <template v-slot:activator="{ props }">
@@ -53,6 +57,8 @@ function clear() {
 }
 const bottom = ref(null as HTMLElement | null);
 const data = ref(subscription.data);
+
+const tab = ref("stdout");
 </script>
 
 <style scoped>
