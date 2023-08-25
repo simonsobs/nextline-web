@@ -1,63 +1,38 @@
 <template>
-  <div class="g-container">
-    <v-layout>
-      <v-card flat min-width="400px" color="surface-container">
-        <v-system-bar color="primary" dark style="position: static">
-          <span> System bar </span>
-          <v-spacer></v-spacer>
-          <v-icon>mdi-minus</v-icon>
-          <v-icon>mdi-checkbox-blank-outline</v-icon>
-          <v-icon>mdi-close</v-icon>
-        </v-system-bar>
-        <v-toolbar flat color="primary-container" dark>
-          <v-app-bar-nav-icon color="on-primary-container"></v-app-bar-nav-icon>
-          <v-toolbar-title> Tool bar </v-toolbar-title>
-          <v-spacer></v-spacer>
-          <v-btn icon="mdi-magnify" color="on-primary-container"> </v-btn>
-        </v-toolbar>
-        <v-card-text>
-          <pre>{{ $vuetify.theme.currentTheme }}</pre>
-          <v-btn absolute bottom right fab color="primary-container">
-            <v-icon> mdi-plus </v-icon>
-          </v-btn>
-        </v-card-text>
-      </v-card>
-    </v-layout>
-    <v-layout>
-      <v-card flat disabled min-width="400px" color="surface-container">
-        <v-system-bar color="primary" dark style="position: static">
-          <span> System bar </span>
-          <v-spacer></v-spacer>
-          <v-icon>mdi-minus</v-icon>
-          <v-icon>mdi-checkbox-blank-outline</v-icon>
-          <v-icon>mdi-close</v-icon>
-        </v-system-bar>
-        <v-toolbar flat color="primary-container" dark>
-          <v-app-bar-nav-icon color="on-primary-container"></v-app-bar-nav-icon>
-          <v-toolbar-title> Tool bar </v-toolbar-title>
-          <v-spacer></v-spacer>
-          <v-btn icon="mdi-magnify" color="on-primary-container"> </v-btn>
-        </v-toolbar>
-        <v-card-text> Disabled </v-card-text>
-      </v-card>
-    </v-layout>
+  <div class="pt-5 px-5 pb-16" style="max-width: 960px; margin: auto">
+    <div class="text-h4 text-primary">Theme</div>
+    <v-container>
+      <v-row v-for="(c, k) in bgColors" :key="k">
+        <v-col cols="6">
+          <v-card variant="outlined">
+            <v-card-title :class="`bg-${k}`">
+              {{ k }}: {{ colors[k] }}
+            </v-card-title>
+          </v-card>
+        </v-col>
+        <v-col cols="6">
+          <v-card variant="outlined" v-if="`on-${k}` in colors">
+            <v-card-title :class="`bg-${k} text-on-${k}`">
+              {{ `on-${k}` }}: {{ colors[`on-${k}`] }}
+            </v-card-title>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
 </template>
 
-<script>
-export default {
-  name: "ScratchThemeView",
-};
-</script>
+<script setup lang="ts">
+import { ref, computed } from "vue";
+import { useTheme } from "vuetify";
 
-<style scoped>
-.g-container {
-  display: grid;
-  height: 100%;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-  gap: 6px;
-  justify-items: center;
-  align-items: start;
-  align-content: space-around;
-}
-</style>
+const theme = useTheme();
+
+const colors = computed(() => theme.current.value.colors);
+
+const bgColors = computed(() =>
+  Object.fromEntries(
+    Object.entries(colors.value).filter(([k, v]) => !k.startsWith("on-"))
+  )
+);
+</script>
