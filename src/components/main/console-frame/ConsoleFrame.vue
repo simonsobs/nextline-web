@@ -27,7 +27,7 @@
           <span>Clear</span>
         </v-tooltip>
       </v-card-actions>
-      <v-card-text id="main" class="g-content bg-surface-container-lowest py-1">
+      <v-card-text id="main" class="g-content py-1">
         <pre
           class="overflow-auto">{{ data?.stdout }}<span ref="bottom"></span></pre>
       </v-card-text>
