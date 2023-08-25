@@ -19,9 +19,9 @@ interface Props {
   modelValue: boolean;
 }
 
-interface Emits {
-  (event: "update:modelValue", value: boolean): void;
-}
+type Emits = {
+  "update:modelValue": [value: boolean];
+};
 
 const props = defineProps<Props>();
 const emit = defineEmits<Emits>();
