@@ -37,7 +37,7 @@ const { mobile } = useDisplay();
 const { drawer, toggleDrawer } = useDrawer();
 </script>
 
-<style>
+<style scoped>
 .v-main {
   height: calc(100% - var(--v-layout-top));
   /* --v-layout-top is the height of the app bar */
