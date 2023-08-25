@@ -1,9 +1,7 @@
 <template>
-  <div>
-    <div id="main">
-      <span-run-no-state></span-run-no-state>
-      <component :is="actionComponent" v-if="actionComponent"></component>
-    </div>
+  <div class="top-bar">
+    <span-run-no-state></span-run-no-state>
+    <component :is="actionComponent" v-if="actionComponent"></component>
   </div>
 </template>
 
@@ -14,7 +12,7 @@ const { actionComponent } = useActionComponent();
 </script>
 
 <style scoped>
-#main {
+.top-bar {
   padding: 0 4px;
   display: flex;
   flex-wrap: wrap;
