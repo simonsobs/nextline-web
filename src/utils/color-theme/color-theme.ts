@@ -1,13 +1,26 @@
 import { ref, computed, watchEffect, toValue } from "vue";
-import type { MaybeRefOrGetter } from "vue";
+import type { MaybeRefOrGetter, UnwrapRef } from "vue";
 import { useTheme } from "vuetify";
-import { hexFromArgb } from "@material/material-color-utilities";
-import type { KebabCasedProperties } from "type-fest";
+import type { ThemeDefinition } from "vuetify";
+import type { OmitIndexSignature } from "type-fest";
 
 import { useDynamicColors } from "./material-color";
-import type { DynamicColors } from "./material-color";
 import { useDarkMode } from "./dark-mode";
 import { useMonacoEditorTheme } from "./monaco-editor";
+
+type DynamicColors = UnwrapRef<ReturnType<typeof useDynamicColors>["colors"]>;
+type DynamicColorName = keyof DynamicColors;
+
+type VuetifyColors = NonNullable<ThemeDefinition["colors"]>;
+type RequiredVuetifyColors = OmitIndexSignature<Required<VuetifyColors>>;
+type VuetifyColorName = keyof RequiredVuetifyColors;
+
+type MissingColorName = Exclude<VuetifyColorName, DynamicColorName>;
+
+function useSourceColor() {
+  const sourceColor = ref("#607D8B"); // blue grey
+  return { sourceColor };
+}
 
 export function useColorTheme() {
   // https://vuetifyjs.com/en/features/theme/
@@ -17,8 +30,8 @@ export function useColorTheme() {
   const { colors: lightColors } = useDynamicColors(sourceColor, false);
   const { colors: darkColors } = useDynamicColors(sourceColor, true);
 
-  useVuetifyTheme(lightColors, false);
-  useVuetifyTheme(darkColors, true);
+  useSetDynamicColors(lightColors, false);
+  useSetDynamicColors(darkColors, true);
 
   const theme = useTheme();
 
@@ -29,42 +42,36 @@ export function useColorTheme() {
   useMonacoEditorTheme();
 }
 
-function useVuetifyTheme(
+function useSetDynamicColors(
   dynamicColors: MaybeRefOrGetter<DynamicColors>,
   isDark: MaybeRefOrGetter<boolean>
 ) {
-  const colors = computed(() => toVuetifyColors(toValue(dynamicColors)));
+  const missing = computed(() => createMissingColors(toValue(dynamicColors)));
+  const colors = computed(() => ({
+    ...toValue(dynamicColors),
+    ...toValue(missing),
+  }));
   const { themes } = useTheme();
   const theme = computed(
     () => themes.value[toValue(isDark) ? "dark" : "light"]
   );
 
   watchEffect(() => {
-    // @ts-ignore
     theme.value.colors = toValue(colors);
   });
 
   return theme;
 }
 
-function useSourceColor() {
-  const sourceColor = ref("#607D8B"); // blue grey
-  return { sourceColor };
+function createMissingColors(dynamicColors: DynamicColors): {
+  [K in MissingColorName]: string;
+} {
+  return {
+    success: dynamicColors.primary,
+    "on-success": dynamicColors["on-primary"],
+    info: dynamicColors.secondary,
+    "on-info": dynamicColors["on-secondary"],
+    warning: dynamicColors.error,
+    "on-warning": dynamicColors["on-error"],
+  };
 }
-
-const toVuetifyColors = (colors: DynamicColors): VuetifyColors =>
-  // @ts-ignore
-  Object.fromEntries(
-    Object.entries(colors).map(([key, value]) => [
-      key.replace(/_/g, "-"),
-      hexFromArgb(value),
-    ])
-  );
-
-// ColorNames are literal types of the keys of DynamicColors in kebab-case.
-// e.g., "background", "on-background", ...
-type ColorNames = keyof KebabCasedProperties<DynamicColors>;
-
-type VuetifyColors = {
-  [k in ColorNames]: string;
-};
