@@ -9,6 +9,7 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
+import type { Component } from "vue";
 
 import { useScheduleStore } from "@/plugins/pinia/stores/schedule";
 
@@ -31,8 +32,7 @@ const state = computed(
 const scheduleStore = useScheduleStore();
 const { autoMode } = storeToRefs(scheduleStore);
 
-// Use "any" because Component causes an error for unknown reason
-const actionComponent = computed<any | null>(() => {
+const actionComponent = computed<Component | null>(() => {
   if (autoMode.value) {
     switch (state.value) {
       case "running":
