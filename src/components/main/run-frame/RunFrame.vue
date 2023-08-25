@@ -20,7 +20,7 @@ import { ref } from "vue";
 
 import TopBar from "./top-bar/TopBar.vue";
 import ConsoleFrame from "@/components/main/console-frame/ConsoleFrame.vue";
-import Exception from "@/components/Exception.vue";
+import Exception from "@/components/exception/Exception.vue";
 import TraceFrames from "@/components/main/trace-frame/Layout.vue";
 
 const exception = ref(false);
