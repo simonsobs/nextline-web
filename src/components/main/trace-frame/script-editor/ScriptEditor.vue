@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from "vue";
+import { ref, computed, watch, watchEffect } from "vue";
 import { watchDebounced } from "@vueuse/core";
 
 import { useStore } from "@/plugins/pinia/stores/main";
@@ -47,22 +47,14 @@ const query = useSourceQuery();
 const savedSourceLines = computed(() => query.data.value?.source || []);
 const savedSource = computed(() => savedSourceLines.value.join("\n"));
 
-// watchEffect(() => {
-//   source.value = savedSource.value;
-//   model.setValue(savedSource.value);
-// });
+watchEffect(() => {
+  source.value = savedSource.value;
+});
 
-// Note: watchEffect() above is triggered by the change in nChangeContents for
-// unknown reason. Use watch() below instead.
-
-watch(
-  savedSource,
-  (val) => {
-    source.value = val;
-    model.setValue(val);
-  },
-  { immediate: true }
-);
+watch(source, (val) => {
+  if (val === model.getValue()) return;
+  model.setValue(val);
+});
 
 const editing = computed(() => {
   return source.value !== savedSource.value;
@@ -80,7 +72,6 @@ async function save() {
 }
 function reset() {
   query.executeQuery();
-  model.setValue(savedSource.value);
   source.value = savedSource.value;
 }
 </script>
