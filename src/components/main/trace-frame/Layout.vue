@@ -19,7 +19,7 @@ import { computed, ref, watch } from "vue";
 import { useStore } from "@/plugins/pinia/stores/main";
 
 import TraceFrame from "./TraceFrame.vue";
-import ScriptEditor from "./ScriptEditor.vue";
+import ScriptEditor from "./script-editor/ScriptEditor.vue";
 
 import {
   useStateSubscription,
