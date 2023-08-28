@@ -39,7 +39,7 @@ import path from "path";
 import { usePromptingSubscription } from "@/graphql/codegen/generated";
 import { useKeyboardShortcuts } from "./keyboard-shortcuts";
 import TraceAction from "./TraceAction.vue";
-import CodeCol from "./CodeCol.vue";
+import CodeCol from "./code-col/CodeCol.vue";
 
 interface Props {
   traceId: number;
