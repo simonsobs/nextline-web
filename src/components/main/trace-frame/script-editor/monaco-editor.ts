@@ -27,7 +27,7 @@ export function useMonacoEditor(
     () => {
       source.value = model.getValue();
     },
-    { debounce: 500, maxWait: 1000 }
+    { debounce: 50, maxWait: 100 }
   );
 
   watch(source, (val) => {
