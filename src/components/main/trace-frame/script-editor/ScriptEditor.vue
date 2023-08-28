@@ -4,7 +4,7 @@
       <div class="g-content">
         <div ref="editor" style="height: 100%; max-height: 100%"></div>
       </div>
-      <actions class="g-header" :editing="editing" @reset="reset" @save="save">
+      <actions class="g-header" :editing="modified" @reset="reset" @save="save">
       </actions>
     </v-card>
   </v-layout>
@@ -33,11 +33,11 @@ watchEffect(() => {
 
 useMonacoEditor(editor, source);
 
-const editing = computed(() => source.value !== savedSource.value);
+const modified = computed(() => source.value !== savedSource.value);
 
 const store = useStore();
 
-watch(editing, (val) => {
+watch(modified, (val) => {
   store.setModified(val);
 });
 
