@@ -11,47 +11,18 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, watchEffect } from "vue";
-
+import { ref, watch } from "vue";
 import { useStore } from "@/plugins/pinia/stores/main";
-import { useSourceQuery, useResetMutation } from "@/graphql/codegen/generated";
-
+import { useSource } from "./source";
 import { useMonacoEditor } from "./monaco-editor";
-
 import Actions from "./Actions.vue";
-
 const editor = ref<HTMLElement>();
-
-const query = useSourceQuery();
-const savedSourceLines = computed(() => query.data.value?.source || []);
-const savedSource = computed(() => savedSourceLines.value.join("\n"));
-
-const source = ref("");
-watchEffect(() => {
-  source.value = savedSource.value;
-});
-
+const { source, modified, save, reset } = useSource();
 useMonacoEditor(editor, source);
-
-const modified = computed(() => source.value !== savedSource.value);
-
 const store = useStore();
-
 watch(modified, (val) => {
   store.setModified(val);
 });
-
-const { executeMutation } = useResetMutation();
-
-async function save() {
-  await executeMutation({ statement: source.value });
-  query.executeQuery();
-}
-
-function reset() {
-  query.executeQuery();
-  source.value = savedSource.value;
-}
 </script>
 
 <style scoped>
