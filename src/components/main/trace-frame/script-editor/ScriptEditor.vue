@@ -33,9 +33,7 @@ watchEffect(() => {
 
 useMonacoEditor(editor, source);
 
-const editing = computed(() => {
-  return source.value !== savedSource.value;
-});
+const editing = computed(() => source.value !== savedSource.value);
 
 const store = useStore();
 
