@@ -1,17 +1,39 @@
 import { ref, watch, watchEffect, toValue, onMounted } from "vue";
-import type { MaybeRefOrGetter } from "vue";
+import type { Ref, MaybeRefOrGetter } from "vue";
+import { watchDebounced } from "@vueuse/core";
+
 import * as monaco from "monaco-editor";
 
 import { useDarkMode } from "@/utils/color-theme";
 
 export function useMonacoEditor(
-  element: MaybeRefOrGetter<HTMLElement | undefined>
+  element: MaybeRefOrGetter<HTMLElement | undefined>,
+  source: Ref<string>
 ) {
   const { isDark } = useDarkMode();
 
   const editor = ref<monaco.editor.IStandaloneCodeEditor>();
 
-  const model = monaco.editor.createModel("", "python");
+  const model = monaco.editor.createModel(toValue(source), "python");
+
+  const nChangeContents = ref(0);
+
+  model.onDidChangeContent((e) => {
+    nChangeContents.value += 1;
+  });
+
+  watchDebounced(
+    nChangeContents,
+    () => {
+      source.value = model.getValue();
+    },
+    { debounce: 500, maxWait: 1000 }
+  );
+
+  watch(source, (val) => {
+    if (val === model.getValue()) return;
+    model.setValue(val);
+  });
 
   onMounted(() => {
     const ele = toValue(element);

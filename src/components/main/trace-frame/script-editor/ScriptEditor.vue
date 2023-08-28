@@ -12,7 +12,6 @@
 
 <script setup lang="ts">
 import { ref, computed, watch, watchEffect } from "vue";
-import { watchDebounced } from "@vueuse/core";
 
 import { useStore } from "@/plugins/pinia/stores/main";
 import { useSourceQuery, useResetMutation } from "@/graphql/codegen/generated";
@@ -27,21 +26,7 @@ const source = ref("");
 
 const editor = ref<HTMLElement>();
 
-const { model } = useMonacoEditor(editor);
-
-const nChangeContents = ref(0);
-
-model.onDidChangeContent((e) => {
-  nChangeContents.value += 1;
-});
-
-watchDebounced(
-  nChangeContents,
-  () => {
-    source.value = model.getValue();
-  },
-  { debounce: 500, maxWait: 1000 }
-);
+useMonacoEditor(editor, source);
 
 const query = useSourceQuery();
 const savedSourceLines = computed(() => query.data.value?.source || []);
@@ -49,11 +34,6 @@ const savedSource = computed(() => savedSourceLines.value.join("\n"));
 
 watchEffect(() => {
   source.value = savedSource.value;
-});
-
-watch(source, (val) => {
-  if (val === model.getValue()) return;
-  model.setValue(val);
 });
 
 const editing = computed(() => {
