@@ -10,30 +10,11 @@ export function useMonacoEditor(
   element: MaybeRefOrGetter<HTMLElement | undefined>,
   source: Ref<string>
 ) {
-  const { isDark } = useDarkMode();
+  const model = monaco.editor.createModel(toValue(source), "python");
+  useUpdateSource(model, source);
 
   const editor = ref<monaco.editor.IStandaloneCodeEditor>();
-
-  const model = monaco.editor.createModel(toValue(source), "python");
-
-  const nChangeContents = ref(0);
-
-  model.onDidChangeContent((e) => {
-    nChangeContents.value += 1;
-  });
-
-  watchDebounced(
-    nChangeContents,
-    () => {
-      source.value = model.getValue();
-    },
-    { debounce: 50, maxWait: 100 }
-  );
-
-  watch(source, (val) => {
-    if (val === model.getValue()) return;
-    model.setValue(val);
-  });
+  const { isDark } = useDarkMode();
 
   onMounted(() => {
     const ele = toValue(element);
@@ -66,4 +47,25 @@ export function useMonacoEditor(
   });
 
   return { editor, model };
+}
+
+function useUpdateSource(model: monaco.editor.ITextModel, source: Ref<string>) {
+  const count = ref(0);
+
+  model.onDidChangeContent((e) => {
+    count.value += 1;
+  });
+
+  watchDebounced(
+    count,
+    () => {
+      source.value = model.getValue();
+    },
+    { debounce: 50, maxWait: 100 }
+  );
+
+  watch(source, (val) => {
+    if (val === model.getValue()) return;
+    model.setValue(val);
+  });
 }
