@@ -15,21 +15,13 @@ import { onMounted, ref, computed, watch } from "vue";
 import { watchDebounced } from "@vueuse/core";
 import * as monaco from "monaco-editor";
 
+import { useStore } from "@/plugins/pinia/stores/main";
 import { useDarkMode } from "@/utils/color-theme";
 import { useSourceQuery, useResetMutation } from "@/graphql/codegen/generated";
 
 import Actions from "./Actions.vue";
 
-interface Props {
-  modelValue: boolean;
-}
-
-interface Emits {
-  (event: "update:modelValue", value: boolean): void;
-}
-
-const props = defineProps<Props>();
-const emit = defineEmits<Emits>();
+const store = useStore();
 
 const { isDark } = useDarkMode();
 
@@ -110,7 +102,7 @@ const editing = computed(() => {
 });
 
 watch(editing, (val) => {
-  emit("update:modelValue", val);
+  store.setModified(val);
 });
 
 const { executeMutation } = useResetMutation();
