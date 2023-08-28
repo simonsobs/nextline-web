@@ -20,25 +20,24 @@ import { useMonacoEditor } from "./monaco-editor";
 
 import Actions from "./Actions.vue";
 
-const store = useStore();
-
-const source = ref("");
-
 const editor = ref<HTMLElement>();
-
-useMonacoEditor(editor, source);
 
 const query = useSourceQuery();
 const savedSourceLines = computed(() => query.data.value?.source || []);
 const savedSource = computed(() => savedSourceLines.value.join("\n"));
 
+const source = ref("");
 watchEffect(() => {
   source.value = savedSource.value;
 });
 
+useMonacoEditor(editor, source);
+
 const editing = computed(() => {
   return source.value !== savedSource.value;
 });
+
+const store = useStore();
 
 watch(editing, (val) => {
   store.setModified(val);
@@ -50,6 +49,7 @@ async function save() {
   await executeMutation({ statement: source.value });
   query.executeQuery();
 }
+
 function reset() {
   query.executeQuery();
   source.value = savedSource.value;
