@@ -4,24 +4,8 @@
       <div class="g-content">
         <div ref="editor" style="height: 100%; max-height: 100%"></div>
       </div>
-      <v-card-actions class="g-header flex-row flex-wrap justify-end">
-        <v-btn
-          variant="outlined"
-          prepend-icon="mdi-reload"
-          :disabled="!editing"
-          @click="onClick('reset')"
-        >
-          discard changes
-        </v-btn>
-        <v-btn
-          variant="flat"
-          prepend-icon="mdi-content-save"
-          :disabled="!editing"
-          @click="onClick('save')"
-        >
-          save
-        </v-btn>
-      </v-card-actions>
+      <actions class="g-header" :editing="editing" @reset="reset" @save="save">
+      </actions>
     </v-card>
   </v-layout>
 </template>
@@ -33,6 +17,8 @@ import * as monaco from "monaco-editor";
 
 import { useDarkMode } from "@/utils/color-theme";
 import { useSourceQuery, useResetMutation } from "@/graphql/codegen/generated";
+
+import Actions from "./Actions.vue";
 
 interface Props {
   modelValue: boolean;
@@ -127,17 +113,8 @@ watch(editing, (val) => {
   emit("update:modelValue", val);
 });
 
-type Method = "save" | "reset";
-
-async function onClick(method: Method) {
-  if (method === "save") await save();
-  else if (method === "reset") reset();
-  else {
-    // console.log("Unknown method:", method);
-  }
-}
-
 const { executeMutation } = useResetMutation();
+
 async function save() {
   await executeMutation({ statement: source.value });
   query.executeQuery();
