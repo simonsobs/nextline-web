@@ -116,27 +116,27 @@ watch(
 );
 </script>
 
-<style>
+<style scoped>
 .code-col {
   height: 100%;
   max-height: 100%;
 }
-.code-col .monaco-editor .cursors-layer > .cursor {
+.code-col:deep(.monaco-editor .cursors-layer > .cursor) {
   display: none !important;
 }
-.code-col .monaco-editor .currentLineContent {
-  background: var(--v-primary-lighten4);
+.code-col:deep(.monaco-editor .currentLineContent) {
+  background: rgb(var(--v-theme-surface-variant));
 }
-.code-col .monaco-editor .currentLineContentDim {
-  background: var(--v-background-lighten3);
+.code-col:deep(.monaco-editor .currentLineContentDim) {
+  background: rgb(var(--v-theme-surface-container));
 }
-.code-col .monaco-editor .currentLineMargin::before {
-  color: var(--v-primary-base);
+.code-col:deep(.monaco-editor .currentLineMargin::before) {
+  color: rgb(var(--v-theme-primary));
   content: "⮕";
   font-size: 24px;
 }
-.code-col .monaco-editor .currentLineMarginDim::before {
-  color: #b0bec5;
+.code-col:deep(.monaco-editor .currentLineMarginDim::before) {
+  color: rgb(var(--v-theme-surface-container-highest));
   content: "⮕";
   font-size: 24px;
 }
