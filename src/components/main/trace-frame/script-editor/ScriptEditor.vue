@@ -11,23 +11,23 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, computed, watch } from "vue";
+import { ref, computed, watch } from "vue";
 import { watchDebounced } from "@vueuse/core";
-import * as monaco from "monaco-editor";
 
 import { useStore } from "@/plugins/pinia/stores/main";
-import { useDarkMode } from "@/utils/color-theme";
 import { useSourceQuery, useResetMutation } from "@/graphql/codegen/generated";
+
+import { useMonacoEditor } from "./monaco-editor";
 
 import Actions from "./Actions.vue";
 
 const store = useStore();
 
-const { isDark } = useDarkMode();
-
 const source = ref("");
 
-const model = monaco.editor.createModel("", "python");
+const editor = ref<HTMLElement>();
+
+const { model } = useMonacoEditor(editor);
 
 const nChangeContents = ref(0);
 
@@ -41,39 +41,6 @@ watchDebounced(
     source.value = model.getValue();
   },
   { debounce: 500, maxWait: 1000 }
-);
-
-const editor = ref(null as HTMLElement | null);
-
-onMounted(() => {
-  if (!editor.value) return;
-  monaco.editor.create(editor.value, {
-    model,
-    minimap: { enabled: false },
-    scrollbar: { vertical: "auto", horizontal: "auto" },
-    fontFamily: "Fira Code",
-    fontSize: 14,
-    fontWeight: "500",
-    fontLigatures: true,
-    lineHeight: 24,
-    automaticLayout: true,
-    scrollBeyondLastLine: false,
-    glyphMargin: true,
-    readOnly: false,
-    matchBrackets: "always",
-    selectionHighlight: true,
-    occurrencesHighlight: true,
-    renderLineHighlight: "line",
-    theme: isDark.value ? "nextline-dark" : "nextline-light",
-  });
-});
-
-watch(
-  isDark,
-  (val) => {
-    monaco.editor.setTheme(val ? "nextline-dark" : "nextline-light");
-  },
-  { immediate: true }
 );
 
 const query = useSourceQuery();
