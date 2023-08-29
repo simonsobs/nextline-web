@@ -1,8 +1,13 @@
 // Vuetify supports 100, 300, 400, 500, 700, 900 font weights and italicized text
 // https://vuetifyjs.com/en/styles/text-and-typography/
 
-// https://fonts.google.com/specimen/Fira+Code
+// Fira Code: https://fonts.google.com/specimen/Fira+Code
+// For code in Monaco Editor
 @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;700&display=swap');
+
+// Noto Sans Japanese: https://fonts.google.com/noto/specimen/Noto+Sans+JP
+// For the arrow (⮕) in Monaco Editor Glyph Margin
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;300;400;500;700;900&display=swap');
 
 html,
 body,
