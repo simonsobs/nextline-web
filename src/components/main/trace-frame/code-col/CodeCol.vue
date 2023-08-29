@@ -128,16 +128,18 @@ watch(
   background: rgb(var(--v-theme-surface-variant));
 }
 .code-col:deep(.monaco-editor .currentLineContentDim) {
-  background: rgb(var(--v-theme-surface-container));
+  background: rgb(var(--v-theme-surface-container-highest));
 }
 .code-col:deep(.monaco-editor .currentLineMargin::before) {
   color: rgb(var(--v-theme-primary));
   content: "⮕";
+  font-family: 'Noto Sans JP', sans-serif;
   font-size: 24px;
 }
 .code-col:deep(.monaco-editor .currentLineMarginDim::before) {
   color: rgb(var(--v-theme-surface-container-highest));
   content: "⮕";
+  font-family: 'Noto Sans JP', sans-serif;
   font-size: 24px;
 }
 </style>
