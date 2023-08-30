@@ -3,11 +3,12 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, computed, watch, nextTick, toRef } from "vue";
-import * as monaco from "monaco-editor";
+import { ref, computed, watch, nextTick, toRefs, toValue } from "vue";
 
-import { useDarkMode } from "@/utils/color-theme";
-import { PromptingData, useSourceQuery } from "@/graphql/codegen/generated";
+import { PromptingData } from "@/graphql/codegen/generated";
+
+import { useMonacoEditor } from "./monaco-editor";
+import { useSource } from "./source";
 
 interface Props {
   state: PromptingData;
@@ -15,93 +16,34 @@ interface Props {
 
 const props = defineProps<Props>();
 
-const { isDark } = useDarkMode();
+const { state } = toRefs(props);
 
-const state = toRef(props, "state");
-
-const refEditor = ref<HTMLElement | null>(null);
-
-const model = monaco.editor.createModel("", "python");
-
-let editor: monaco.editor.IStandaloneCodeEditor | undefined;
-
-onMounted(() => {
-  if (!refEditor.value) return;
-  editor = monaco.editor.create(refEditor.value, {
-    model,
-    minimap: { enabled: false },
-    scrollbar: { vertical: "auto", horizontal: "auto" },
-    fontFamily: "Fira Code",
-    fontSize: 14,
-    fontWeight: "500",
-    fontLigatures: true,
-    lineHeight: 24,
-    automaticLayout: true,
-    scrollBeyondLastLine: false,
-    glyphMargin: true,
-    readOnly: true,
-    matchBrackets: "never",
-    selectionHighlight: false,
-    occurrencesHighlight: false,
-    renderLineHighlight: "none",
-    theme: isDark.value ? "nextline-viewer-dark" : "nextline-viewer-light",
-  });
-});
-
-watch(
-  isDark,
-  (val) => {
-    monaco.editor.setTheme(
-      val ? "nextline-viewer-dark" : "nextline-viewer-light"
-    );
-  },
-  { immediate: true }
-);
-
-let decorationsCollection:
-  | monaco.editor.IEditorDecorationsCollection
-  | undefined;
-
-function markCurrentLine() {
-  if (!editor) return;
-  const { lineNo, prompting } = state.value;
-  if (!(lineNo >= 1)) return;
-  decorationsCollection?.clear();
-  decorationsCollection = editor.createDecorationsCollection([
-    {
-      range: new monaco.Range(lineNo, 1, lineNo, 1),
-      options: {
-        isWholeLine: true,
-        className: prompting ? "currentLineContent" : "currentLineContentDim",
-        glyphMarginClassName: prompting
-          ? "currentLineMargin"
-          : "currentLineMarginDim",
-      },
-    },
-  ]);
-}
-
-function scroll() {
-  if (!editor) return;
-  const lineNo = state.value.lineNo;
-  if (!(lineNo >= 1)) return;
-  editor.revealLineInCenter(lineNo);
-}
+const refEditor = ref<HTMLElement>();
 
 const fileName = computed(() => state.value.fileName);
+const { source } = useSource(fileName);
 
-// @ts-ignore
-const query = useSourceQuery({ variables: { fileName } });
+const { model, markCurrentLine, scroll } = useMonacoEditor(refEditor, source);
 
-const sourceLines = computed(() => query.data.value?.source || []);
-const source = computed(() => sourceLines.value.join("\n"));
+function onUpdated() {
+  const st = toValue(state);
+  const { lineNo, prompting } = st;
+  scroll(lineNo);
+  const className = prompting ? "currentLineContent" : "currentLineContentDim";
+  const glyphMarginClassName = prompting
+    ? "currentLineMargin"
+    : "currentLineMarginDim";
+  markCurrentLine(lineNo, className, glyphMarginClassName);
+}
 
 watch(
   source,
   (val) => {
+    if (source.value === undefined) return;
     model.setValue(source.value);
-    nextTick(scroll);
-    nextTick(markCurrentLine);
+    nextTick(() => {
+      onUpdated();
+    });
   },
   { immediate: true }
 );
@@ -109,8 +51,10 @@ watch(
 watch(
   state,
   (val) => {
-    nextTick(scroll);
-    nextTick(markCurrentLine);
+    if (source.value === undefined) return;
+    nextTick(() => {
+      onUpdated();
+    });
   },
   { immediate: true }
 );
@@ -133,13 +77,13 @@ watch(
 .code-col:deep(.monaco-editor .currentLineMargin::before) {
   color: rgb(var(--v-theme-primary));
   content: "⮕";
-  font-family: 'Noto Sans JP', sans-serif;
+  font-family: "Noto Sans JP", sans-serif;
   font-size: 24px;
 }
 .code-col:deep(.monaco-editor .currentLineMarginDim::before) {
   color: rgb(var(--v-theme-surface-container-highest));
   content: "⮕";
-  font-family: 'Noto Sans JP', sans-serif;
+  font-family: "Noto Sans JP", sans-serif;
   font-size: 24px;
 }
 </style>
