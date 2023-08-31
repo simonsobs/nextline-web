@@ -35,6 +35,10 @@ useColorTheme();
 useSetTitle();
 const { mobile } = useDisplay();
 const { drawer, toggleDrawer } = useDrawer();
+
+globalThis.addEventListener("unhandledrejection", (event) => {
+  console.error(event);
+});
 </script>
 
 <style scoped>
