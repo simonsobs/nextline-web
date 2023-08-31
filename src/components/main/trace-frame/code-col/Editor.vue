@@ -29,10 +29,10 @@ const lineNo = computed(() => state.value.lineNo);
 const prompting = computed(() => state.value.prompting);
 
 const className = computed(() =>
-  prompting.value ? "currentLineContent" : "currentLineContentDim"
+  prompting.value ? "background-high" : "background-low"
 );
 const glyphMarginClassName = computed(() =>
-  prompting.value ? "currentLineMargin" : "currentLineMarginDim"
+  prompting.value ? "arrow-high" : "arrow-low"
 );
 
 useScroll(editor, lineNo);
@@ -51,19 +51,19 @@ watchEffect(() => {
 :deep(.monaco-editor .cursors-layer > .cursor) {
   display: none !important;
 }
-:deep(.monaco-editor .currentLineContent) {
+:deep(.monaco-editor .background-high) {
   background: rgb(var(--v-theme-surface-variant));
 }
-:deep(.monaco-editor .currentLineContentDim) {
+:deep(.monaco-editor .background-low) {
   background: rgb(var(--v-theme-surface-container-highest));
 }
-:deep(.monaco-editor .currentLineMargin::before) {
+:deep(.monaco-editor .arrow-high::before) {
   color: rgb(var(--v-theme-primary));
   content: "⮕";
   font-family: "Noto Sans JP", sans-serif;
   font-size: 24px;
 }
-:deep(.monaco-editor .currentLineMarginDim::before) {
+:deep(.monaco-editor .arrow-low::before) {
   color: rgb(var(--v-theme-surface-container-highest));
   content: "⮕";
   font-family: "Noto Sans JP", sans-serif;
