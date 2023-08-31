@@ -16,7 +16,9 @@
           <v-card-text v-if="basename">
             <v-tooltip bottom open-delay="500">
               <template v-slot:activator="{ props }">
-                <span v-bind="props">{{ basename }}</span>
+                <span v-bind="props" class="text-secondary">
+                  {{ basename }}
+                </span>
               </template>
               <span>{{ prompting.fileName }}</span>
             </v-tooltip>
