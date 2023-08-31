@@ -25,15 +25,19 @@ const { source } = useSource(fileName);
 
 const { model, markCurrentLine, scroll } = useMonacoEditor(refEditor, source);
 
+const lineNo = computed(() => state.value.lineNo);
+const prompting = computed(() => state.value.prompting);
+
+const className = computed(() =>
+  prompting.value ? "currentLineContent" : "currentLineContentDim"
+);
+const glyphMarginClassName = computed(() =>
+  prompting.value ? "currentLineMargin" : "currentLineMarginDim"
+);
+
 function onUpdated() {
-  const st = toValue(state);
-  const { lineNo, prompting } = st;
-  scroll(lineNo);
-  const className = prompting ? "currentLineContent" : "currentLineContentDim";
-  const glyphMarginClassName = prompting
-    ? "currentLineMargin"
-    : "currentLineMarginDim";
-  markCurrentLine(lineNo, className, glyphMarginClassName);
+  scroll(lineNo.value);
+  markCurrentLine(lineNo.value, className.value, glyphMarginClassName.value);
 }
 
 watch(
