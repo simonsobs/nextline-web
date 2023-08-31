@@ -6,7 +6,7 @@ import {
   watchEffect,
   onMounted,
 } from "vue";
-import type { Ref, MaybeRef, MaybeRefOrGetter } from "vue";
+import type { Ref, MaybeRefOrGetter } from "vue";
 import * as monaco from "monaco-editor";
 
 import { useDarkMode } from "@/utils/color-theme";
@@ -72,7 +72,7 @@ export function useScroll(
 }
 
 function useDecorationsCollection(
-  editor: MaybeRef<monaco.editor.IStandaloneCodeEditor | undefined>
+  editor: MaybeRefOrGetter<monaco.editor.IStandaloneCodeEditor | undefined>
 ) {
   const deltaDecos = ref<monaco.editor.IModelDeltaDecoration[]>([]);
   const decoCol = computed(() =>
@@ -99,7 +99,10 @@ function useDeltaDecoration() {
 }
 
 export function useMarkCurrentLine(
-  editor: MaybeRef<monaco.editor.IStandaloneCodeEditor | undefined>
+  editor: MaybeRefOrGetter<monaco.editor.IStandaloneCodeEditor | undefined>,
+  lineNo: MaybeRefOrGetter<number>,
+  className: MaybeRefOrGetter<string>,
+  glyphMarginClassName: MaybeRefOrGetter<string>
 ) {
   const { deltaDeco, range, options } = useDeltaDecoration();
   const { deltaDecos } = useDecorationsCollection(editor);
@@ -108,19 +111,13 @@ export function useMarkCurrentLine(
     deltaDecos.value = deltaDeco.value ? [deltaDeco.value] : [];
   });
 
-  function markCurrentLine(
-    lineNo: number,
-    className: string,
-    glyphMarginClassName: string
-  ) {
-    if (!(lineNo >= 1)) return;
-    range.value = new monaco.Range(lineNo, 1, lineNo, 1);
+  watchEffect(() => {
+    if (!(toValue(lineNo) >= 1)) return;
+    range.value = new monaco.Range(toValue(lineNo), 1, toValue(lineNo), 1);
     options.value = {
       isWholeLine: true,
-      className,
-      glyphMarginClassName,
+      className: toValue(className),
+      glyphMarginClassName: toValue(glyphMarginClassName),
     };
-  }
-
-  return { markCurrentLine };
+  });
 }

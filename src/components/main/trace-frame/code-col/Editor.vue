@@ -3,16 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import {
-  ref,
-  computed,
-  watch,
-  watchEffect,
-  nextTick,
-  toRefs,
-  toValue,
-} from "vue";
-
+import { ref, computed, watchEffect, toRefs, toValue } from "vue";
 import { PromptingData } from "@/graphql/codegen/generated";
 
 import {
@@ -33,12 +24,9 @@ const { state, source } = toRefs(props);
 const refEditor = ref<HTMLElement>();
 
 const { editor, model } = useMonacoEditor(refEditor, source);
-const { markCurrentLine } = useMarkCurrentLine(editor);
 
 const lineNo = computed(() => state.value.lineNo);
 const prompting = computed(() => state.value.prompting);
-
-useScroll(editor, lineNo);
 
 const className = computed(() =>
   prompting.value ? "currentLineContent" : "currentLineContentDim"
@@ -47,9 +35,8 @@ const glyphMarginClassName = computed(() =>
   prompting.value ? "currentLineMargin" : "currentLineMarginDim"
 );
 
-function onUpdated() {
-  markCurrentLine(lineNo.value, className.value, glyphMarginClassName.value);
-}
+useScroll(editor, lineNo);
+useMarkCurrentLine(editor, lineNo, className, glyphMarginClassName);
 
 watchEffect(() => {
   // This is unnecessary as the source doesn't change for a given instance.
@@ -58,16 +45,6 @@ watchEffect(() => {
   console.warn("The source has changed.");
   model.setValue(toValue(source));
 });
-
-watch(
-  [source, state, editor],
-  (val) => {
-    nextTick(() => {
-      onUpdated();
-    });
-  },
-  { immediate: true }
-);
 </script>
 
 <style scoped>
