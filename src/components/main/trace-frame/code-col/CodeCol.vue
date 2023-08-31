@@ -1,6 +1,6 @@
 <template>
   <editor
-    :key="fileName"
+    :key="source"
     :state="state"
     :source="source"
     v-if="source !== undefined"
