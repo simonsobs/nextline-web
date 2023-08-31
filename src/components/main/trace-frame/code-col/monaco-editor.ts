@@ -52,10 +52,7 @@ export function useMonacoEditor(
     );
   });
 
-  const { scroll } = useScroll(editor);
-  const { markCurrentLine } = useMarkCurrentLine(editor);
-
-  return { editor, model, markCurrentLine, scroll };
+  return { editor, model };
 }
 export function useScroll(
   editor: MaybeRef<monaco.editor.IStandaloneCodeEditor | undefined>

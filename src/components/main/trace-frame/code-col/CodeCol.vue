@@ -7,7 +7,7 @@ import { ref, computed, watch, nextTick, toRefs, toValue } from "vue";
 
 import { PromptingData } from "@/graphql/codegen/generated";
 
-import { useMonacoEditor } from "./monaco-editor";
+import { useMonacoEditor, useScroll, useMarkCurrentLine } from "./monaco-editor";
 import { useSource } from "./source";
 
 interface Props {
@@ -23,7 +23,9 @@ const refEditor = ref<HTMLElement>();
 const fileName = computed(() => state.value.fileName);
 const { source } = useSource(fileName);
 
-const { model, markCurrentLine, scroll } = useMonacoEditor(refEditor, source);
+const { editor, model } = useMonacoEditor(refEditor, source);
+const { scroll } = useScroll(editor);
+const { markCurrentLine } = useMarkCurrentLine(editor);
 
 const lineNo = computed(() => state.value.lineNo);
 const prompting = computed(() => state.value.prompting);
