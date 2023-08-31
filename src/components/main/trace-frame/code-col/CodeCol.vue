@@ -1,5 +1,5 @@
 <template>
-  <div class="code-col" ref="refEditor"></div>
+  <div ref="refEditor" style="height: 100%;"></div>
 </template>
 
 <script setup lang="ts">
@@ -65,26 +65,22 @@ watch(
 </script>
 
 <style scoped>
-.code-col {
-  height: 100%;
-  max-height: 100%;
-}
-.code-col:deep(.monaco-editor .cursors-layer > .cursor) {
+:deep(.monaco-editor .cursors-layer > .cursor) {
   display: none !important;
 }
-.code-col:deep(.monaco-editor .currentLineContent) {
+:deep(.monaco-editor .currentLineContent) {
   background: rgb(var(--v-theme-surface-variant));
 }
-.code-col:deep(.monaco-editor .currentLineContentDim) {
+:deep(.monaco-editor .currentLineContentDim) {
   background: rgb(var(--v-theme-surface-container-highest));
 }
-.code-col:deep(.monaco-editor .currentLineMargin::before) {
+:deep(.monaco-editor .currentLineMargin::before) {
   color: rgb(var(--v-theme-primary));
   content: "⮕";
   font-family: "Noto Sans JP", sans-serif;
   font-size: 24px;
 }
-.code-col:deep(.monaco-editor .currentLineMarginDim::before) {
+:deep(.monaco-editor .currentLineMarginDim::before) {
   color: rgb(var(--v-theme-surface-container-highest));
   content: "⮕";
   font-family: "Noto Sans JP", sans-serif;
