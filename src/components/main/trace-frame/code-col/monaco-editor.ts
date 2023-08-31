@@ -6,7 +6,7 @@ import {
   watchEffect,
   onMounted,
 } from "vue";
-import type { Ref, ShallowRef, MaybeRef, MaybeRefOrGetter } from "vue";
+import type { Ref, MaybeRef, MaybeRefOrGetter } from "vue";
 import * as monaco from "monaco-editor";
 
 import { useDarkMode } from "@/utils/color-theme";
@@ -55,18 +55,20 @@ export function useMonacoEditor(
   return { editor, model };
 }
 export function useScroll(
-  editor: MaybeRef<monaco.editor.IStandaloneCodeEditor | undefined>
+  editor: MaybeRefOrGetter<monaco.editor.IStandaloneCodeEditor | undefined>,
+  lineNo: MaybeRefOrGetter<number>
 ) {
-  function scroll(lineNo: number) {
-    const _editor = toValue(editor);
-    if (!_editor) {
-      console.error("editor is undefined");
-      return;
+  watchEffect(() => {
+    if (!toValue(editor)) return;
+    if (!(toValue(lineNo) >= 1)) return;
+    const lineCount = toValue(editor)?.getModel()?.getLineCount();
+    if (!(lineCount && lineCount >= toValue(lineNo))) {
+      console.warn(
+        `lineNo(${toValue(lineNo)}) is out of range: [1, ${lineCount}]`
+      );
     }
-    if (!(lineNo >= 1)) return;
-    _editor.revealLineInCenter(lineNo);
-  }
-  return { scroll };
+    toValue(editor)?.revealLineInCenter(toValue(lineNo));
+  });
 }
 
 function useDecorationsCollection(

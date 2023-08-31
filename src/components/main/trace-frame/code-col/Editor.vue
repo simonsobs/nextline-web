@@ -33,11 +33,12 @@ const { state, source } = toRefs(props);
 const refEditor = ref<HTMLElement>();
 
 const { editor, model } = useMonacoEditor(refEditor, source);
-const { scroll } = useScroll(editor);
 const { markCurrentLine } = useMarkCurrentLine(editor);
 
 const lineNo = computed(() => state.value.lineNo);
 const prompting = computed(() => state.value.prompting);
+
+useScroll(editor, lineNo);
 
 const className = computed(() =>
   prompting.value ? "currentLineContent" : "currentLineContentDim"
@@ -47,13 +48,14 @@ const glyphMarginClassName = computed(() =>
 );
 
 function onUpdated() {
-  scroll(lineNo.value);
   markCurrentLine(lineNo.value, className.value, glyphMarginClassName.value);
 }
 
 watchEffect(() => {
   // This is unnecessary as the source doesn't change for a given instance.
   // When the source changes, a new instance is created.
+  if (model.getValue() === toValue(source)) return;
+  console.warn("The source has changed.");
   model.setValue(toValue(source));
 });
 
@@ -66,7 +68,6 @@ watch(
   },
   { immediate: true }
 );
-
 </script>
 
 <style scoped>
