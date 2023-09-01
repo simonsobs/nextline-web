@@ -40,6 +40,7 @@ export function useMonacoEditor(
       automaticLayout: true,
       scrollBeyondLastLine: false,
       glyphMargin: true,
+      quickSuggestions: false,
       readOnly: true,
       matchBrackets: "never",
       selectionHighlight: false,
