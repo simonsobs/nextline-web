@@ -19,7 +19,7 @@ export function useMonacoEditor(
   const model = monaco.editor.createModel(toValue(source), "python");
   const editor = shallowRef<monaco.editor.IStandaloneCodeEditor>();
   const theme = computed(() =>
-    toValue(isDark) ? "nextline-viewer-dark" : "nextline-viewer-light"
+    toValue(isDark) ? "nextline-dark" : "nextline-light"
   );
 
   onMounted(() => {

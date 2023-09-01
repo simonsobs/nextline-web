@@ -6,27 +6,16 @@ export function useMonacoEditorTheme() {
   const { themes } = useTheme();
 
   watchEffect(() => {
-    defineThemes(
-      "nextline-light",
-      "nextline-viewer-light",
-      toValue(themes).light,
-      "vs"
-    );
+    defineThemes("nextline-light", toValue(themes).light, "vs");
   });
 
   watchEffect(() => {
-    defineThemes(
-      "nextline-dark",
-      "nextline-viewer-dark",
-      toValue(themes).dark,
-      "vs-dark"
-    );
+    defineThemes("nextline-dark", toValue(themes).dark, "vs-dark");
   });
 }
 
 function defineThemes(
   name: string,
-  nameViewer: string,
   theme: ThemeDefinition,
   base: monaco.editor.BuiltinTheme
 ) {
@@ -43,15 +32,8 @@ function defineThemes(
     "editorLineNumber.foreground": theme.colors["outline-variant"],
     "editor.selectionBackground": theme.colors["surface-dim"],
     "editor.inactiveSelectionBackground": theme.colors["surface-dim"],
-  };
-  const colorsEditor = {
-    ...colors,
-    "editor.lineHighlightBackground": theme.colors["surface-dim"],
+    "editor.lineHighlightBackground": theme.colors["surface-container-low"],
     "editorLineNumber.activeForeground": theme.colors["primary"],
-  };
-  const colorsViewer = {
-    ...colors,
-    "editorLineNumber.activeForeground": theme.colors["surface-dim"],
   };
 
   monaco.editor.defineTheme(name, {
@@ -59,14 +41,6 @@ function defineThemes(
     inherit: true,
     rules,
     // @ts-ignore
-    colors: colorsEditor,
-  });
-
-  monaco.editor.defineTheme(nameViewer, {
-    base,
-    inherit: true,
-    rules,
-    // @ts-ignore
-    colors: colorsViewer,
+    colors,
   });
 }
