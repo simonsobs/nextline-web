@@ -85,7 +85,7 @@ watch(
       selectionHighlight: false,
       occurrencesHighlight: false,
       renderLineHighlight: "none",
-      theme: isDark.value ? "nextline-viewer-dark" : "nextline-viewer-light",
+      theme: isDark.value ? "nextline-dark" : "nextline-light",
     });
     val.style.height = `${editor.getContentHeight()}px`;
   },
@@ -95,7 +95,7 @@ watch(
   isDark,
   (val) => {
     monaco.editor.setTheme(
-      val ? "nextline-viewer-dark" : "nextline-viewer-light"
+      val ? "nextline-dark" : "nextline-light"
     );
   },
   { immediate: true }
