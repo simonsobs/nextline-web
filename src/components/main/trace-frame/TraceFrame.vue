@@ -9,11 +9,8 @@
       rounded="0"
     >
       <template v-if="prompting">
-        <div class="g-content">
-          <code-col :state="prompting"></code-col>
-        </div>
-        <div class="g-header">
-          <v-card-text v-if="basename">
+        <div class="g-top-bar">
+          <v-card-text v-if="basename" class="px-1 py-0">
             <v-tooltip bottom open-delay="500">
               <template v-slot:activator="{ props }">
                 <span v-bind="props" class="text-secondary">
@@ -23,6 +20,11 @@
               <span>{{ prompting.fileName }}</span>
             </v-tooltip>
           </v-card-text>
+        </div>
+        <div class="g-content">
+          <code-col :state="prompting"></code-col>
+        </div>
+        <div class="g-bottom-bar">
           <trace-action
             :traceNo="traceId"
             :promptNo="prompting.prompting"
@@ -82,8 +84,12 @@ useKeyboardShortcuts(traceNo, promptNo, disabled, keyboardEvent);
   block-size: 100%;
   inline-size: 100%;
   grid-template-columns: minmax(100px, 1fr);
-  grid-template-rows: minmax(0, 1fr) min-content;
-  grid-template-areas: "content" "header";
+  grid-template-rows: min-content minmax(0, 1fr) min-content;
+  grid-template-areas: "top-bar" "content" "bottom-bar";
+}
+
+.g-top-bar {
+  grid-area: top-bar;
 }
 
 .g-content {
@@ -91,7 +97,7 @@ useKeyboardShortcuts(traceNo, promptNo, disabled, keyboardEvent);
   block-size: 100%;
 }
 
-.g-header {
-  grid-area: header;
+.g-bottom-bar {
+  grid-area: bottom-bar;
 }
 </style>
