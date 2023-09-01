@@ -121,8 +121,8 @@ export function useMarkCurrentLine(
     range.value = new monaco.Range(toValue(lineNo), 1, toValue(lineNo), 1);
     options.value = {
       isWholeLine: true,
-      className: toValue(className),
-      glyphMarginClassName: toValue(glyphMarginClassName),
+      className: toValue(className), // background color
+      glyphMarginClassName: toValue(glyphMarginClassName), // arrow
     };
   });
 }
