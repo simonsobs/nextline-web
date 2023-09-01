@@ -118,6 +118,12 @@ export function useMarkCurrentLine(
 
   watchEffect(() => {
     if (!(toValue(lineNo) >= 1)) return;
+    // To change the color of the line number.
+    toValue(editor)?.setPosition({ lineNumber: toValue(lineNo), column: 1 });
+  });
+
+  watchEffect(() => {
+    if (!(toValue(lineNo) >= 1)) return;
     range.value = new monaco.Range(toValue(lineNo), 1, toValue(lineNo), 1);
     options.value = {
       isWholeLine: true,
