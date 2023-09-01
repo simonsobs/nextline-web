@@ -13,19 +13,22 @@ import { useDarkMode } from "@/utils/color-theme";
 
 export function useMonacoEditor(
   element: MaybeRefOrGetter<HTMLElement | undefined>,
-  source: Ref<string | undefined>
+  source: Ref<string>
 ) {
   const { isDark } = useDarkMode();
-  const model = monaco.editor.createModel(source.value || "", "python");
+  const model = monaco.editor.createModel(toValue(source), "python");
   const editor = shallowRef<monaco.editor.IStandaloneCodeEditor>();
+  const theme = computed(() =>
+    toValue(isDark) ? "nextline-viewer-dark" : "nextline-viewer-light"
+  );
 
   onMounted(() => {
-    element = toValue(element);
-    if (!element) {
+    const ele = toValue(element);
+    if (!ele) {
       console.error("element is undefined");
       return;
     }
-    editor.value = monaco.editor.create(element, {
+    editor.value = monaco.editor.create(ele, {
       model,
       minimap: { enabled: false },
       scrollbar: { vertical: "auto", horizontal: "auto" },
@@ -42,14 +45,12 @@ export function useMonacoEditor(
       selectionHighlight: false,
       occurrencesHighlight: false,
       renderLineHighlight: "none",
-      theme: isDark.value ? "nextline-viewer-dark" : "nextline-viewer-light",
+      theme: toValue(theme),
     });
   });
 
   watchEffect(() => {
-    monaco.editor.setTheme(
-      toValue(isDark) ? "nextline-viewer-dark" : "nextline-viewer-light"
-    );
+    monaco.editor.setTheme(toValue(theme));
   });
 
   return { editor, model };
