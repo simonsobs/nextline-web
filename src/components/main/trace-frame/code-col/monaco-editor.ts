@@ -48,6 +48,10 @@ export function useMonacoEditor(
       theme: toValue(theme),
     });
   });
+  
+  // Note: All instances of Monaco Editor share the same theme.
+  //       It is not possible to have different themes for different instances.
+  //       https://github.com/Microsoft/monaco-editor/issues/338
 
   watchEffect(() => {
     monaco.editor.setTheme(toValue(theme));
