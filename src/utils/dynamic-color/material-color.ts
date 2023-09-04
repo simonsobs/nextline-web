@@ -19,15 +19,15 @@
  *
  */
 
-import { computed, toValue } from "vue";
-import type { MaybeRefOrGetter } from "vue";
+import { computed, toValue, shallowRef } from "vue";
+import type { MaybeRefOrGetter, ShallowRef } from "vue";
 import {
   argbFromHex,
   hexFromArgb,
   SchemeFidelity,
   Hct,
 } from "@material/material-color-utilities";
-import type { DynamicScheme } from "@material/material-color-utilities";
+import { DynamicScheme } from "@material/material-color-utilities";
 import { ColorNameMap } from "./colors";
 import type { ColorName } from "./colors";
 
@@ -36,22 +36,62 @@ export function useDynamicColors(
   dark: MaybeRefOrGetter<boolean> = false,
   contrastLevel: MaybeRefOrGetter<number> = 0.0
 ) {
-  const scheme = useDynamicScheme(sourceColor, dark, contrastLevel);
-  const colors = computed(() => schemeToDynamicColors(toValue(scheme)));
+  const sourceColorHct = computed(() => hctFromHex(toValue(sourceColor)));
+  const { colorsHct, scheme } = useDynamicColorsHct(
+    sourceColorHct,
+    dark,
+    contrastLevel
+  );
+  const colors = computed(() => colorsHctToColors(toValue(colorsHct)));
+
   return { colors, scheme };
 }
 
+export function useDynamicColorsHct(
+  sourceColorHct: MaybeRefOrGetter<Hct>,
+  dark: MaybeRefOrGetter<boolean> = false,
+  contrastLevel: MaybeRefOrGetter<number> = 0.0
+) {
+  const schemeClass = shallowRef(SchemeFidelity);
+  const scheme = useDynamicScheme(
+    schemeClass,
+    sourceColorHct,
+    dark,
+    contrastLevel
+  );
+  const colorsHct = computed(() => schemeToDynamicColorsHct(toValue(scheme)));
+
+  return { colorsHct, scheme };
+}
+
+function hctFromHex(hex: string) {
+  return Hct.fromInt(argbFromHex(hex));
+}
+
+function hexFromHct(hct: Hct) {
+  return hexFromArgb(hct.toInt());
+}
+
+interface SchemeClass {
+  new (
+    sourceColorHct: Hct,
+    isDark: boolean,
+    contrastLevel: number
+  ): DynamicScheme;
+}
+
+/**
+ * Create a dynamic scheme reactively.
+ */
 function useDynamicScheme(
-  sourceColor: MaybeRefOrGetter<string>,
+  dynamicColor: ShallowRef<SchemeClass>,
+  sourceColorHct: MaybeRefOrGetter<Hct>,
   dark: MaybeRefOrGetter<boolean>,
   contrastLevel: MaybeRefOrGetter<number> = 0.0
 ) {
-  const sourceColorHct = computed(() =>
-    Hct.fromInt(argbFromHex(toValue(sourceColor)))
-  );
-  const scheme = computed<DynamicScheme>(
+  const scheme = computed(
     () =>
-      new SchemeFidelity(
+      new dynamicColor.value(
         toValue(sourceColorHct),
         toValue(dark),
         toValue(contrastLevel)
@@ -65,5 +105,21 @@ const schemeToDynamicColors = (scheme: DynamicScheme) =>
     Object.entries(ColorNameMap).map(([colorName, dynamicColor]) => [
       colorName, // e.g., "on-surface"
       hexFromArgb(dynamicColor.getArgb(scheme)), // e.g., "#1A1B22"
+    ])
+  ) as { [k in ColorName]: string };
+
+const schemeToDynamicColorsHct = (scheme: DynamicScheme) =>
+  Object.fromEntries(
+    Object.entries(ColorNameMap).map(([colorName, dynamicColor]) => [
+      colorName, // e.g., "on-surface"
+      dynamicColor.getHct(scheme),
+    ])
+  ) as { [k in ColorName]: Hct };
+
+const colorsHctToColors = (colorsHct: { [k in ColorName]: Hct }) =>
+  Object.fromEntries(
+    Object.entries(colorsHct).map(([colorName, hct]) => [
+      colorName,
+      hexFromHct(hct),
     ])
   ) as { [k in ColorName]: string };
