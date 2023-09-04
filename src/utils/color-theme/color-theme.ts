@@ -27,8 +27,8 @@ export function useColorTheme() {
   const { isDark } = useDarkMode();
   const { sourceColor } = useSourceColor();
 
-  const { colors: lightColors } = useDynamicColors(sourceColor, false);
-  const { colors: darkColors } = useDynamicColors(sourceColor, true);
+  const { colors: lightColors } = useDynamicColors(sourceColor, {dark: false});
+  const { colors: darkColors } = useDynamicColors(sourceColor, {dark: true});
 
   useSetDynamicColors(lightColors, false);
   useSetDynamicColors(darkColors, true);

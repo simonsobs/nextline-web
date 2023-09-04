@@ -20,7 +20,7 @@
  */
 
 import { computed, toValue, shallowRef } from "vue";
-import type { MaybeRefOrGetter, ShallowRef } from "vue";
+import type { MaybeRefOrGetter, MaybeRef } from "vue";
 import {
   argbFromHex,
   hexFromArgb,
@@ -49,19 +49,24 @@ const SchemeNameMap = {
 
 type SchemeName = keyof typeof SchemeNameMap;
 
+interface UseDynamicColorsOptions {
+  dark?: boolean;
+  contrastLevel?: number;
+  schemeName?: SchemeName;
+}
+
+const useDynamicColorsOptionsDefault: Required<UseDynamicColorsOptions> = {
+  dark: false,
+  contrastLevel: 0.0,
+  schemeName: "fidelity",
+};
+
 export function useDynamicColors(
   sourceColor: MaybeRefOrGetter<string>,
-  dark: MaybeRefOrGetter<boolean> = false,
-  contrastLevel: MaybeRefOrGetter<number> = 0.0,
-  schemeName: MaybeRefOrGetter<SchemeName> = "fidelity"
+  options?: MaybeRef<UseDynamicColorsOptions>
 ) {
   const sourceColorHct = computed(() => hctFromHex(toValue(sourceColor)));
-  const { colorsHct, scheme } = useDynamicColorsHct(
-    sourceColorHct,
-    dark,
-    contrastLevel,
-    schemeName
-  );
+  const { colorsHct, scheme } = useDynamicColorsHct(sourceColorHct, options);
   const colors = computed(() => colorsHctToColors(toValue(colorsHct)));
 
   return { colors, scheme };
@@ -69,17 +74,9 @@ export function useDynamicColors(
 
 export function useDynamicColorsHct(
   sourceColorHct: MaybeRefOrGetter<Hct>,
-  dark: MaybeRefOrGetter<boolean> = false,
-  contrastLevel: MaybeRefOrGetter<number> = 0.0,
-  schemeName: MaybeRefOrGetter<SchemeName> = "fidelity"
+  options?: MaybeRef<UseDynamicColorsOptions>
 ) {
-  const schemeClass = shallowRef(SchemeNameMap[toValue(schemeName)]);
-  const scheme = useDynamicScheme(
-    schemeClass,
-    sourceColorHct,
-    dark,
-    contrastLevel
-  );
+  const scheme = useDynamicScheme(sourceColorHct, options);
   const colorsHct = computed(() => schemeToDynamicColorsHct(toValue(scheme)));
 
   return { colorsHct, scheme };
@@ -93,29 +90,21 @@ function hexFromHct(hct: Hct) {
   return hexFromArgb(hct.toInt());
 }
 
-interface SchemeClass {
-  new (
-    sourceColorHct: Hct,
-    isDark: boolean,
-    contrastLevel: number
-  ): DynamicScheme;
-}
-
 /**
  * Create a dynamic scheme reactively.
  */
 function useDynamicScheme(
-  dynamicColor: ShallowRef<SchemeClass>,
   sourceColorHct: MaybeRefOrGetter<Hct>,
-  dark: MaybeRefOrGetter<boolean>,
-  contrastLevel: MaybeRefOrGetter<number> = 0.0
+  options?: MaybeRef<UseDynamicColorsOptions>
 ) {
+  const _options = { ...useDynamicColorsOptionsDefault, ...toValue(options) };
+  const schemeClass = shallowRef(SchemeNameMap[toValue(_options.schemeName)]);
   const scheme = computed(
     () =>
-      new dynamicColor.value(
+      new schemeClass.value(
         toValue(sourceColorHct),
-        toValue(dark),
-        toValue(contrastLevel)
+        toValue(_options.dark),
+        toValue(_options.contrastLevel)
       )
   );
   return scheme;

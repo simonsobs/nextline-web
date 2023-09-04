@@ -7,7 +7,8 @@ describe("useDynamicColors", () => {
     const sourceColor = ref("#2196f3");
     const dark = ref(false);
     const contrastLevel = ref(0.0);
-    const { colors } = useDynamicColors(sourceColor, dark, contrastLevel);
+    const options = ref({ dark, contrastLevel });
+    const { colors } = useDynamicColors(sourceColor, options);
     expect(colors.value).toHaveProperty("primary");
   });
 });
