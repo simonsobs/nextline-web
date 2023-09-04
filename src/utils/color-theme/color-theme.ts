@@ -4,7 +4,7 @@ import { useTheme } from "vuetify";
 import type { ThemeDefinition } from "vuetify";
 import type { OmitIndexSignature } from "type-fest";
 
-import { useDynamicColors } from "./material-color";
+import { useDynamicColors } from "@/utils/dynamic-color";
 import { useDarkMode } from "./dark-mode";
 import { useMonacoEditorTheme } from "./monaco-editor";
 

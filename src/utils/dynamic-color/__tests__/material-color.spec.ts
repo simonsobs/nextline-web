@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { ref } from "vue";
-import { useDynamicColors } from "../material-color";
+import { useDynamicColors } from "..";
 
 describe("useDynamicColors", () => {
   it("returns the correct colors", () => {
