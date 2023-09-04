@@ -19,8 +19,8 @@
  *
  */
 
-import { computed, toValue, shallowRef } from "vue";
-import type { MaybeRefOrGetter, MaybeRef } from "vue";
+import { computed, toValue } from "vue";
+import type { MaybeRef } from "vue";
 import {
   argbFromHex,
   hexFromArgb,
@@ -49,36 +49,54 @@ const SchemeNameMap = {
 
 type SchemeName = keyof typeof SchemeNameMap;
 
-interface UseDynamicColorsOptions {
+interface Options {
   dark?: boolean;
   contrastLevel?: number;
   schemeName?: SchemeName;
 }
 
-const useDynamicColorsOptionsDefault: Required<UseDynamicColorsOptions> = {
+interface OptionsHex extends Options {
+  sourceColor?: string; // e.g., "#6750A4"
+}
+
+interface OptionsHct extends Options {
+  sourceColorHct?: Hct;
+}
+
+//  Default seed in https://www.figma.com/community/file/1035197037666593721/Visualizing-dynamic-color-in-your-app-with-Material-Design
+const DEFAULT_SOURCE_COLOR_HCT = hctFromHex("#6750A4");
+
+const Default: Required<OptionsHct> = {
+  sourceColorHct: DEFAULT_SOURCE_COLOR_HCT,
   dark: false,
   contrastLevel: 0.0,
   schemeName: "fidelity",
 };
 
-export function useDynamicColors(
-  sourceColor: MaybeRefOrGetter<string>,
-  options?: MaybeRef<UseDynamicColorsOptions>
-) {
-  const sourceColorHct = computed(() => hctFromHex(toValue(sourceColor)));
-  const { colorsHct, scheme } = useDynamicColorsHct(sourceColorHct, options);
+export function useDynamicColors(options?: MaybeRef<OptionsHex>) {
+  const hex = computed(() => options && toValue(options)?.sourceColor);
+
+  const hct = computed(() =>
+    hex.value === undefined ? undefined : hctFromHex(hex.value)
+  );
+
+  // Replace sourceColor with sourceColorHct.
+  const optionsHct = computed(() =>
+    (({ sourceColor, ...o }) => o)({
+      sourceColorHct: hct.value,
+      ...toValue(options),
+    })
+  );
+
+  const { colorsHct, scheme } = useDynamicColorsHct(optionsHct);
   const colors = computed(() => colorsHctToColors(toValue(colorsHct)));
 
   return { colors, scheme };
 }
 
-export function useDynamicColorsHct(
-  sourceColorHct: MaybeRefOrGetter<Hct>,
-  options?: MaybeRef<UseDynamicColorsOptions>
-) {
-  const scheme = useDynamicScheme(sourceColorHct, options);
+export function useDynamicColorsHct(options?: MaybeRef<OptionsHct>) {
+  const scheme = useDynamicScheme(options);
   const colorsHct = computed(() => schemeToDynamicColorsHct(toValue(scheme)));
-
   return { colorsHct, scheme };
 }
 
@@ -93,18 +111,17 @@ function hexFromHct(hct: Hct) {
 /**
  * Create a dynamic scheme reactively.
  */
-function useDynamicScheme(
-  sourceColorHct: MaybeRefOrGetter<Hct>,
-  options?: MaybeRef<UseDynamicColorsOptions>
-) {
-  const _options = { ...useDynamicColorsOptionsDefault, ...toValue(options) };
-  const schemeClass = shallowRef(SchemeNameMap[toValue(_options.schemeName)]);
+function useDynamicScheme(options?: MaybeRef<OptionsHct>) {
+  const _options = computed(() => ({ ...Default, ...toValue(options) }));
+  const schemeClass = computed(
+    () => SchemeNameMap[toValue(_options).schemeName]
+  );
   const scheme = computed(
     () =>
       new schemeClass.value(
-        toValue(sourceColorHct),
-        toValue(_options.dark),
-        toValue(_options.contrastLevel)
+        toValue(_options).sourceColorHct,
+        toValue(_options).dark,
+        toValue(_options).contrastLevel
       )
   );
   return scheme;

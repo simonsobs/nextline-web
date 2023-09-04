@@ -26,9 +26,19 @@ export function useColorTheme() {
   // https://vuetifyjs.com/en/features/theme/
   const { isDark } = useDarkMode();
   const { sourceColor } = useSourceColor();
+  
+  const optionsLight = computed(() => ({
+    sourceColor: toValue(sourceColor),
+    dark: false,
+  }));
+  
+  const optionsDark = computed(() => ({
+    sourceColor: toValue(sourceColor),
+    dark: true,
+  }));
 
-  const { colors: lightColors } = useDynamicColors(sourceColor, {dark: false});
-  const { colors: darkColors } = useDynamicColors(sourceColor, {dark: true});
+  const { colors: lightColors } = useDynamicColors(optionsLight);
+  const { colors: darkColors } = useDynamicColors(optionsDark);
 
   useSetDynamicColors(lightColors, false);
   useSetDynamicColors(darkColors, true);
