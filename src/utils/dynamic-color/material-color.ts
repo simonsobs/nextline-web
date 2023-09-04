@@ -28,8 +28,8 @@ import {
 } from "@material/material-color-utilities";
 import { DynamicScheme } from "@material/material-color-utilities";
 import { ColorNameMap } from "./colors";
-import { SchemeNameMap } from "./schemes";
 import type { ColorName } from "./colors";
+import { SchemeNameMap } from "./schemes";
 import type { SchemeName } from "./schemes";
 
 interface Options {
@@ -49,7 +49,7 @@ interface OptionsHct extends Options {
 //  Default seed in https://www.figma.com/community/file/1035197037666593721/Visualizing-dynamic-color-in-your-app-with-Material-Design
 const DEFAULT_SOURCE_COLOR_HCT = hctFromHex("#6750A4");
 
-const Default: Required<OptionsHct> = {
+const DEFAULT_OPTIONS: Required<OptionsHct> = {
   sourceColorHct: DEFAULT_SOURCE_COLOR_HCT,
   dark: false,
   contrastLevel: 0.0,
@@ -95,16 +95,18 @@ function hexFromHct(hct: Hct) {
  * Create a dynamic scheme reactively.
  */
 function useDynamicScheme(options?: MaybeRef<OptionsHct>) {
-  const _options = computed(() => ({ ...Default, ...toValue(options) }));
-  const schemeClass = computed(
-    () => SchemeNameMap[toValue(_options).schemeName]
-  );
+  const opt = computed(() => ({ ...DEFAULT_OPTIONS, ...toValue(options) }));
+  const schemeName = computed(() => opt.value.schemeName);
+  const schemeClass = computed(() => SchemeNameMap[schemeName.value]);
+  const sourceColorHct = computed(() => opt.value.sourceColorHct);
+  const dark = computed(() => opt.value.dark);
+  const contrastLevel = computed(() => opt.value.contrastLevel);
   const scheme = computed(
     () =>
       new schemeClass.value(
-        toValue(_options).sourceColorHct,
-        toValue(_options).dark,
-        toValue(_options).contrastLevel
+        sourceColorHct.value,
+        dark.value,
+        contrastLevel.value
       )
   );
   return scheme;
