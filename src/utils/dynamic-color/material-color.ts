@@ -24,30 +24,13 @@ import type { MaybeRef } from "vue";
 import {
   argbFromHex,
   hexFromArgb,
-  SchemeContent,
-  SchemeFidelity,
-  SchemeNeutral,
-  SchemeMonochrome,
-  SchemeVibrant,
-  SchemeExpressive,
-  SchemeTonalSpot,
   Hct,
 } from "@material/material-color-utilities";
 import { DynamicScheme } from "@material/material-color-utilities";
 import { ColorNameMap } from "./colors";
+import { SchemeNameMap } from "./schemes";
 import type { ColorName } from "./colors";
-
-const SchemeNameMap = {
-  content: SchemeContent,
-  fidelity: SchemeFidelity,
-  neutral: SchemeNeutral,
-  monochrome: SchemeMonochrome,
-  vibrant: SchemeVibrant,
-  expressive: SchemeExpressive,
-  "tonal-spot": SchemeTonalSpot,
-} as const;
-
-type SchemeName = keyof typeof SchemeNameMap;
+import type { SchemeName } from "./schemes";
 
 interface Options {
   dark?: boolean;
