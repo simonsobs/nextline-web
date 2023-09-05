@@ -38,11 +38,11 @@ interface Options {
   schemeName?: SchemeName;
 }
 
-interface OptionsHex extends Options {
+export interface OptionsHex extends Options {
   sourceColor?: string; // e.g., "#6750A4"
 }
 
-interface OptionsHct extends Options {
+export interface OptionsHct extends Options {
   sourceColorHct?: Hct;
 }
 
@@ -92,11 +92,11 @@ export function useDynamicColorsHct(options?: MaybeRef<OptionsHct>) {
   return { colorsHct, scheme };
 }
 
-function hctFromHex(hex: string) {
+export function hctFromHex(hex: string) {
   return Hct.fromInt(argbFromHex(hex));
 }
 
-function hexFromHct(hct: Hct) {
+export function hexFromHct(hct: Hct) {
   return hexFromArgb(hct.toInt());
 }
 

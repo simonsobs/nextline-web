@@ -1,1 +1,1 @@
-export { useDynamicColors } from "./material-color";
+export * from "./material-color";
