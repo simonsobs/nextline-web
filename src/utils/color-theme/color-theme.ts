@@ -4,11 +4,11 @@ import { useTheme } from "vuetify";
 import type { ThemeDefinition } from "vuetify";
 import type { OmitIndexSignature } from "type-fest";
 
-import { useDynamicColorsOld } from "@/utils/dynamic-color";
+import { useDynamicColors } from "@/utils/dynamic-color";
 import { useDarkMode } from "./dark-mode";
 import { useMonacoEditorTheme } from "./monaco-editor";
 
-type DynamicColors = UnwrapRef<ReturnType<typeof useDynamicColorsOld>["colors"]>;
+type DynamicColors = UnwrapRef<ReturnType<typeof useDynamicColors>["colors"]>;
 type DynamicColorName = keyof DynamicColors;
 
 type VuetifyColors = NonNullable<ThemeDefinition["colors"]>;
@@ -25,20 +25,13 @@ function useSourceColor() {
 export function useColorTheme() {
   // https://vuetifyjs.com/en/features/theme/
   const { isDark } = useDarkMode();
-  const { sourceColor } = useSourceColor();
-  
-  const optionsLight = computed(() => ({
-    sourceColor: toValue(sourceColor),
-    dark: false,
-  }));
-  
-  const optionsDark = computed(() => ({
-    sourceColor: toValue(sourceColor),
-    dark: true,
-  }));
+  const { sourceColor: sourceColorHex } = useSourceColor();
 
-  const { colors: lightColors } = useDynamicColorsOld(optionsLight);
-  const { colors: darkColors } = useDynamicColorsOld(optionsDark);
+  const optionsLight = { sourceColorHex, dark: false };
+  const optionsDark = { sourceColorHex, dark: true };
+
+  const { colors: lightColors } = useDynamicColors(optionsLight);
+  const { colors: darkColors } = useDynamicColors(optionsDark);
 
   useSetDynamicColors(lightColors, false);
   useSetDynamicColors(darkColors, true);
