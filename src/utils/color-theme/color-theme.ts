@@ -3,7 +3,7 @@ import * as monaco from "monaco-editor";
 
 import { useDynamicColors } from "@/utils/dynamic-color";
 import { useDarkMode } from "./dark-mode";
-import { useMonacoEditorTheme } from "./monaco-editor";
+import { useDynamicColorsOnMonacoEditor } from "./monaco-editor";
 import { useDynamicColorsOnVuetify, useDarkModeOnVuetify } from "./vuetify";
 
 function useSourceColor() {
@@ -23,9 +23,11 @@ export function useColorTheme() {
 
   useDynamicColorsOnVuetify(lightColors, false);
   useDynamicColorsOnVuetify(darkColors, true);
+  
+  useDynamicColorsOnMonacoEditor(lightColors, false);
+  useDynamicColorsOnMonacoEditor(darkColors, true);
 
   useDarkModeOnVuetify();
-  useMonacoEditorTheme();
   useDarkModeOnMonacoEditor();
 }
 

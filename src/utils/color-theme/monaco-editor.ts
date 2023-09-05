@@ -1,46 +1,48 @@
-import { watchEffect, toValue } from "vue";
-import { useTheme, ThemeDefinition } from "vuetify";
+import { computed, watchEffect, toValue } from "vue";
+import type { MaybeRef, UnwrapRef } from "vue";
 import * as monaco from "monaco-editor";
 
-export function useMonacoEditorTheme() {
-  const { themes } = useTheme();
+import { useDynamicColors } from "@/utils/dynamic-color";
 
-  watchEffect(() => {
-    defineThemes("nextline-light", toValue(themes).light, "vs");
-  });
+type DynamicColors = UnwrapRef<ReturnType<typeof useDynamicColors>["colors"]>;
 
+export function useDynamicColorsOnMonacoEditor(
+  dynamicColors: MaybeRef<DynamicColors>,
+  isDark: MaybeRef<boolean>
+) {
+  const name = computed(() =>
+    toValue(isDark) ? "nextline-dark" : "nextline-light"
+  );
+  const base = computed(() => (toValue(isDark) ? "vs-dark" : "vs"));
   watchEffect(() => {
-    defineThemes("nextline-dark", toValue(themes).dark, "vs-dark");
+    defineTheme(name.value, toValue(dynamicColors), base.value);
   });
 }
 
-function defineThemes(
+function defineTheme(
   name: string,
-  theme: ThemeDefinition,
+  dynamicColors: DynamicColors,
   base: monaco.editor.BuiltinTheme
 ) {
   // https://github.com/microsoft/monaco-editor/issues/1762
   // https://github.com/microsoft/monaco-editor/blob/main/src/basic-languages/python/python.ts
 
-  if (!theme.colors) return;
-
-  const rules = [{ token: "keyword", foreground: theme.colors["tertiary"] }];
+  const rules = [{ token: "keyword", foreground: dynamicColors.tertiary }];
   const colors = {
-    "editor.foreground": theme.colors["on-surface"],
-    "editor.background": theme.colors["surface-container-lowest"],
-    "editorCursor.foreground": theme.colors["secondary"],
-    "editorLineNumber.foreground": theme.colors["outline-variant"],
-    "editor.selectionBackground": theme.colors["surface-dim"],
-    "editor.inactiveSelectionBackground": theme.colors["surface-dim"],
-    "editor.lineHighlightBackground": theme.colors["surface-container-low"],
-    "editorLineNumber.activeForeground": theme.colors["primary"],
+    "editor.foreground": dynamicColors["on-surface"],
+    "editor.background": dynamicColors["surface-container-lowest"],
+    "editorCursor.foreground": dynamicColors["secondary"],
+    "editorLineNumber.foreground": dynamicColors["outline-variant"],
+    "editor.selectionBackground": dynamicColors["surface-dim"],
+    "editor.inactiveSelectionBackground": dynamicColors["surface-dim"],
+    "editor.lineHighlightBackground": dynamicColors["surface-container-low"],
+    "editorLineNumber.activeForeground": dynamicColors["primary"],
   };
 
   monaco.editor.defineTheme(name, {
     base,
     inherit: true,
     rules,
-    // @ts-ignore
     colors,
   });
 }
