@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`useDynamicColors > returns scheme 1`] = `
+exports[`useDynamicColors > returns colors 1`] = `
 {
   "background": "#fdf7ff",
   "error": "#ba1a1a",
