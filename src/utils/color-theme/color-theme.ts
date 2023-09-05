@@ -24,7 +24,6 @@ function useSourceColor() {
 
 export function useColorTheme() {
   // https://vuetifyjs.com/en/features/theme/
-  const { isDark } = useDarkMode();
   const { sourceColor: sourceColorHex } = useSourceColor();
 
   const optionsLight = { sourceColorHex, dark: false };
@@ -36,13 +35,17 @@ export function useColorTheme() {
   useSetDynamicColors(lightColors, false);
   useSetDynamicColors(darkColors, true);
 
-  const theme = useTheme();
-
-  watchEffect(() => {
-    theme.global.name.value = toValue(isDark) ? "dark" : "light";
-  });
-
+  useDarkModeOnVuetify();
   useMonacoEditorTheme();
+}
+
+function useDarkModeOnVuetify() {
+  const { isDark } = useDarkMode();
+  const themeName = computed(() => (isDark.value ? "dark" : "light"));
+  const theme = useTheme();
+  watchEffect(() => {
+    theme.global.name.value = themeName.value;
+  });
 }
 
 function useSetDynamicColors(
