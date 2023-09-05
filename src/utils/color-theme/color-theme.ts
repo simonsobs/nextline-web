@@ -19,11 +19,11 @@ type MissingColorName = Exclude<VuetifyColorName, DynamicColorName>;
 
 function useSourceColor() {
   const sourceColor = ref("#607D8B"); // blue grey
+  // const sourceColor = ref("#E91E63"); // pink
   return { sourceColor };
 }
 
 export function useColorTheme() {
-  // https://vuetifyjs.com/en/features/theme/
   const { sourceColor: sourceColorHex } = useSourceColor();
 
   const optionsLight = { sourceColorHex, dark: false };
@@ -32,8 +32,8 @@ export function useColorTheme() {
   const { colors: lightColors } = useDynamicColors(optionsLight);
   const { colors: darkColors } = useDynamicColors(optionsDark);
 
-  useSetDynamicColors(lightColors, false);
-  useSetDynamicColors(darkColors, true);
+  useDynamicColorsOnVuetify(lightColors, false);
+  useDynamicColorsOnVuetify(darkColors, true);
 
   useDarkModeOnVuetify();
   useMonacoEditorTheme();
@@ -48,10 +48,11 @@ function useDarkModeOnVuetify() {
   });
 }
 
-function useSetDynamicColors(
+function useDynamicColorsOnVuetify(
   dynamicColors: MaybeRefOrGetter<DynamicColors>,
   isDark: MaybeRefOrGetter<boolean>
 ) {
+  // https://vuetifyjs.com/en/features/theme/
   const missing = computed(() => createMissingColors(toValue(dynamicColors)));
   const colors = computed(() => ({
     ...toValue(dynamicColors),
