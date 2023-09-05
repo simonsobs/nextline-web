@@ -72,14 +72,23 @@ export function useDynamicColors(options?: MaybeRef<OptionsHex>) {
   );
 
   const { colorsHct, scheme } = useDynamicColorsHct(optionsHct);
-  const colors = computed(() => colorsHctToColors(toValue(colorsHct)));
+  const colors = computed(() => replaceHctWithHex(toValue(colorsHct)));
 
   return { colors, scheme };
 }
 
+const replaceHctWithHex = (colorsHct: { [k in ColorName]: Hct }) =>
+  // replace the object values while keeping the keys
+  Object.assign(
+    {},
+    ...Object.entries(colorsHct).map(([colorName, hct]) => ({
+      [colorName]: hexFromHct(hct),
+    }))
+  ) as { [k in ColorName]: string };
+
 export function useDynamicColorsHct(options?: MaybeRef<OptionsHct>) {
   const scheme = useDynamicScheme(options);
-  const colorsHct = computed(() => schemeToDynamicColorsHct(toValue(scheme)));
+  const colorsHct = computed(() => generateColorsFromScheme(toValue(scheme)));
   return { colorsHct, scheme };
 }
 
@@ -112,26 +121,10 @@ function useDynamicScheme(options?: MaybeRef<OptionsHct>) {
   return scheme;
 }
 
-const schemeToDynamicColors = (scheme: DynamicScheme) =>
-  Object.fromEntries(
-    Object.entries(ColorNameMap).map(([colorName, dynamicColor]) => [
-      colorName, // e.g., "on-surface"
-      hexFromArgb(dynamicColor.getArgb(scheme)), // e.g., "#1A1B22"
-    ])
-  ) as { [k in ColorName]: string };
-
-const schemeToDynamicColorsHct = (scheme: DynamicScheme) =>
-  Object.fromEntries(
-    Object.entries(ColorNameMap).map(([colorName, dynamicColor]) => [
-      colorName, // e.g., "on-surface"
-      dynamicColor.getHct(scheme),
-    ])
+const generateColorsFromScheme = (scheme: DynamicScheme) =>
+  Object.assign(
+    {},
+    ...Object.entries(ColorNameMap).map(([colorName, dynamicColor]) => ({
+      [colorName]: dynamicColor.getHct(scheme),
+    }))
   ) as { [k in ColorName]: Hct };
-
-const colorsHctToColors = (colorsHct: { [k in ColorName]: Hct }) =>
-  Object.fromEntries(
-    Object.entries(colorsHct).map(([colorName, hct]) => [
-      colorName,
-      hexFromHct(hct),
-    ])
-  ) as { [k in ColorName]: string };
