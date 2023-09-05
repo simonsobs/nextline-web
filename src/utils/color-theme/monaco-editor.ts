@@ -3,6 +3,7 @@ import type { MaybeRef, UnwrapRef } from "vue";
 import * as monaco from "monaco-editor";
 
 import { useDynamicColors } from "@/utils/dynamic-color";
+import { useDarkMode } from "./dark-mode";
 
 type DynamicColors = UnwrapRef<ReturnType<typeof useDynamicColors>["colors"]>;
 
@@ -44,5 +45,18 @@ function defineTheme(
     inherit: true,
     rules,
     colors,
+  });
+}
+
+export function useDarkModeOnMonacoEditor() {
+  // Note: All instances of Monaco Editor share the same theme.
+  //       It is not possible to have different themes for different instances.
+  //       https://github.com/Microsoft/monaco-editor/issues/338
+  const { isDark } = useDarkMode();
+  const themeName = computed(() =>
+    isDark.value ? "nextline-dark" : "nextline-light"
+  );
+  watchEffect(() => {
+    monaco.editor.setTheme(themeName.value);
   });
 }

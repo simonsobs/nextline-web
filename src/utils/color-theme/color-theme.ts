@@ -1,9 +1,10 @@
-import { ref, computed, watchEffect } from "vue";
-import * as monaco from "monaco-editor";
+import { ref } from "vue";
 
 import { useDynamicColors } from "@/utils/dynamic-color";
-import { useDarkMode } from "./dark-mode";
-import { useDynamicColorsOnMonacoEditor } from "./monaco-editor";
+import {
+  useDynamicColorsOnMonacoEditor,
+  useDarkModeOnMonacoEditor,
+} from "./monaco-editor";
 import { useDynamicColorsOnVuetify, useDarkModeOnVuetify } from "./vuetify";
 
 function useSourceColor() {
@@ -23,23 +24,10 @@ export function useColorTheme() {
 
   useDynamicColorsOnVuetify(lightColors, false);
   useDynamicColorsOnVuetify(darkColors, true);
-  
+
   useDynamicColorsOnMonacoEditor(lightColors, false);
   useDynamicColorsOnMonacoEditor(darkColors, true);
 
   useDarkModeOnVuetify();
   useDarkModeOnMonacoEditor();
-}
-
-function useDarkModeOnMonacoEditor() {
-  // Note: All instances of Monaco Editor share the same theme.
-  //       It is not possible to have different themes for different instances.
-  //       https://github.com/Microsoft/monaco-editor/issues/338
-  const { isDark } = useDarkMode();
-  const themeName = computed(() =>
-    isDark.value ? "nextline-dark" : "nextline-light"
-  );
-  watchEffect(() => {
-    monaco.editor.setTheme(themeName.value);
-  });
 }
