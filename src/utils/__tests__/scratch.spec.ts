@@ -33,5 +33,4 @@ test("useScratch() should be reactive", () => {
   scratch.value = "Hello Vue";
   expect(scratch.value).toBe("Hello Vue");
   expect(newScratch.value).toBe("Hello Vue");
-  console.log(newScratch === scratch);
 });
