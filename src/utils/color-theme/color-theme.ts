@@ -25,17 +25,10 @@ function useSourceColor() {
 export function useColorTheme() {
   // https://vuetifyjs.com/en/features/theme/
   const { isDark } = useDarkMode();
-  const { sourceColor } = useSourceColor();
-  
-  const optionsLight = computed(() => ({
-    sourceColor: toValue(sourceColor),
-    dark: false,
-  }));
-  
-  const optionsDark = computed(() => ({
-    sourceColor: toValue(sourceColor),
-    dark: true,
-  }));
+  const { sourceColor: sourceColorHex } = useSourceColor();
+
+  const optionsLight = { sourceColorHex, dark: false };
+  const optionsDark = { sourceColorHex, dark: true };
 
   const { colors: lightColors } = useDynamicColors(optionsLight);
   const { colors: darkColors } = useDynamicColors(optionsDark);
