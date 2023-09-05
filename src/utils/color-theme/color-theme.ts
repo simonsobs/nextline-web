@@ -4,11 +4,11 @@ import { useTheme } from "vuetify";
 import type { ThemeDefinition } from "vuetify";
 import type { OmitIndexSignature } from "type-fest";
 
-import { useDynamicColors } from "@/utils/dynamic-color";
+import { useDynamicColorsOld } from "@/utils/dynamic-color";
 import { useDarkMode } from "./dark-mode";
 import { useMonacoEditorTheme } from "./monaco-editor";
 
-type DynamicColors = UnwrapRef<ReturnType<typeof useDynamicColors>["colors"]>;
+type DynamicColors = UnwrapRef<ReturnType<typeof useDynamicColorsOld>["colors"]>;
 type DynamicColorName = keyof DynamicColors;
 
 type VuetifyColors = NonNullable<ThemeDefinition["colors"]>;
@@ -37,8 +37,8 @@ export function useColorTheme() {
     dark: true,
   }));
 
-  const { colors: lightColors } = useDynamicColors(optionsLight);
-  const { colors: darkColors } = useDynamicColors(optionsDark);
+  const { colors: lightColors } = useDynamicColorsOld(optionsLight);
+  const { colors: darkColors } = useDynamicColorsOld(optionsDark);
 
   useSetDynamicColors(lightColors, false);
   useSetDynamicColors(darkColors, true);

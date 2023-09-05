@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { ref, shallowRef } from "vue";
-import { useDynamicColors, useDynamicColorsHct, hctFromHex } from "..";
+import { useDynamicColorsOld, useDynamicColorsHct, hctFromHex } from "..";
 
 describe("useDynamicColors", () => {
   it("returns the correct colors", () => {
@@ -9,7 +9,7 @@ describe("useDynamicColors", () => {
       dark: false,
       contrastLevel: 0.0,
     });
-    const { colors } = useDynamicColors(options);
+    const { colors } = useDynamicColorsOld(options);
     expect(colors.value).toHaveProperty("primary");
     expect(colors.value).toMatchSnapshot();
   });

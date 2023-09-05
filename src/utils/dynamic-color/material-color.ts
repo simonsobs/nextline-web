@@ -56,7 +56,7 @@ const DEFAULT_OPTIONS: Required<OptionsHct> = {
   schemeName: "fidelity",
 };
 
-export function useDynamicColors(options?: MaybeRef<OptionsHex>) {
+export function useDynamicColorsOld(options?: MaybeRef<OptionsHex>) {
   const hex = computed(() => options && toValue(options)?.sourceColor);
 
   const hct = computed(() =>
