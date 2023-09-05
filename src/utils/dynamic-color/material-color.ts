@@ -87,7 +87,7 @@ const replaceHctWithHex = (colorsHct: { [k in ColorName]: Hct }) =>
   ) as { [k in ColorName]: string };
 
 export function useDynamicColorsHct(options?: MaybeRef<OptionsHct>) {
-  const scheme = useDynamicScheme(options);
+  const scheme = useDynamicSchemeOld(options);
   const colorsHct = computed(() => generateColorsFromScheme(toValue(scheme)));
   return { colorsHct, scheme };
 }
@@ -103,7 +103,7 @@ export function hexFromHct(hct: Hct) {
 /**
  * Create a dynamic scheme reactively.
  */
-function useDynamicScheme(options?: MaybeRef<OptionsHct>) {
+function useDynamicSchemeOld(options?: MaybeRef<OptionsHct>) {
   const opt = computed(() => ({ ...DEFAULT_OPTIONS, ...toValue(options) }));
   const schemeName = computed(() => opt.value.schemeName);
   const schemeClass = computed(() => SchemeNameMap[schemeName.value]);
