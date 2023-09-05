@@ -20,21 +20,15 @@
  */
 
 import { computed } from "vue";
-import type { MaybeRef } from "vue";
 import { hexFromArgb } from "@material/material-color-utilities";
 import type { DynamicScheme } from "@material/material-color-utilities";
 
 import { useDynamicScheme } from "./dynamic-scheme";
-import type { SchemeName } from "./schemes";
+import type { UseDynamicSchemeOptions } from "./dynamic-scheme";
 import { ColorNameMap } from "./colors";
 import type { ColorName } from "./colors";
 
-export type UseDynamicColorsOptions = {
-  schemeName?: MaybeRef<SchemeName>;
-  sourceColorHex?: MaybeRef<string>;
-  dark?: MaybeRef<boolean>;
-  contrastLevel?: MaybeRef<number>;
-};
+export interface UseDynamicColorsOptions extends UseDynamicSchemeOptions {}
 
 export function useDynamicColors(options?: UseDynamicColorsOptions) {
   const { scheme, ...rest } = useDynamicScheme(options);

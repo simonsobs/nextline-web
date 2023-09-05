@@ -4,12 +4,12 @@ import { argbFromHex, Hct } from "@material/material-color-utilities";
 import { SchemeNameMap } from "./schemes";
 import type { SchemeName } from "./schemes";
 
-export type UseDynamicSchemeOptions = {
+export interface UseDynamicSchemeOptions {
   schemeName?: MaybeRef<SchemeName>;
   sourceColorHex?: MaybeRef<string>;
   dark?: MaybeRef<boolean>;
   contrastLevel?: MaybeRef<number>;
-};
+}
 
 const optDefault: Required<UnwrapRef<UseDynamicSchemeOptions>> = {
   schemeName: "fidelity",
