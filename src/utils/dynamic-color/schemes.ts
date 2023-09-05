@@ -1,22 +1,21 @@
 import {
-  SchemeContent,
-  SchemeFidelity,
-  SchemeNeutral,
   SchemeMonochrome,
+  SchemeNeutral,
+  SchemeTonalSpot,
   SchemeVibrant,
   SchemeExpressive,
-  SchemeTonalSpot,
-  Hct,
+  SchemeFidelity,
+  SchemeContent,
 } from "@material/material-color-utilities";
 
 export const SchemeNameMap = {
-  content: SchemeContent,
-  fidelity: SchemeFidelity,
-  neutral: SchemeNeutral,
   monochrome: SchemeMonochrome,
+  neutral: SchemeNeutral,
+  "tonal-spot": SchemeTonalSpot,
   vibrant: SchemeVibrant,
   expressive: SchemeExpressive,
-  "tonal-spot": SchemeTonalSpot,
+  fidelity: SchemeFidelity,
+  content: SchemeContent,
 } as const;
 
 export type SchemeName = keyof typeof SchemeNameMap;
