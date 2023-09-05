@@ -18,6 +18,8 @@ const optDefault: Required<UnwrapRef<UseDynamicSchemeOptions>> = {
   contrastLevel: 0.0,
 };
 
+// "#6750A4" is the default seed in https://www.figma.com/community/file/1035197037666593721/Visualizing-dynamic-color-in-your-app-with-Material-Design
+
 export function useDynamicScheme(options?: UseDynamicSchemeOptions) {
   const schemeName = ref(options?.schemeName ?? optDefault.schemeName);
   const sourceColorHex = ref(
