@@ -9,18 +9,13 @@ import {
 import type { Ref, MaybeRefOrGetter } from "vue";
 import * as monaco from "monaco-editor";
 
-import { useDarkMode } from "@/utils/color-theme";
-
 export function useMonacoEditor(
   element: MaybeRefOrGetter<HTMLElement | undefined>,
   source: Ref<string>
 ) {
-  const { isDark } = useDarkMode();
+  // const { isDark } = useDarkMode();
   const model = monaco.editor.createModel(toValue(source), "python");
   const editor = shallowRef<monaco.editor.IStandaloneCodeEditor>();
-  const theme = computed(() =>
-    toValue(isDark) ? "nextline-dark" : "nextline-light"
-  );
 
   onMounted(() => {
     const ele = toValue(element);
@@ -46,16 +41,7 @@ export function useMonacoEditor(
       selectionHighlight: false,
       occurrencesHighlight: false,
       renderLineHighlight: "none",
-      theme: toValue(theme),
     });
-  });
-  
-  // Note: All instances of Monaco Editor share the same theme.
-  //       It is not possible to have different themes for different instances.
-  //       https://github.com/Microsoft/monaco-editor/issues/338
-
-  watchEffect(() => {
-    monaco.editor.setTheme(toValue(theme));
   });
 
   return { editor, model };

@@ -2,6 +2,7 @@ import { ref, computed, watchEffect, toValue } from "vue";
 import type { MaybeRefOrGetter, UnwrapRef } from "vue";
 import { useTheme } from "vuetify";
 import type { ThemeDefinition } from "vuetify";
+import * as monaco from "monaco-editor";
 import type { OmitIndexSignature } from "type-fest";
 
 import { useDynamicColors } from "@/utils/dynamic-color";
@@ -37,6 +38,7 @@ export function useColorTheme() {
 
   useDarkModeOnVuetify();
   useMonacoEditorTheme();
+  useDarkModeOnMonacoEditor();
 }
 
 function useDarkModeOnVuetify() {
@@ -45,6 +47,19 @@ function useDarkModeOnVuetify() {
   const theme = useTheme();
   watchEffect(() => {
     theme.global.name.value = themeName.value;
+  });
+}
+
+function useDarkModeOnMonacoEditor() {
+  // Note: All instances of Monaco Editor share the same theme.
+  //       It is not possible to have different themes for different instances.
+  //       https://github.com/Microsoft/monaco-editor/issues/338
+  const { isDark } = useDarkMode();
+  const themeName = computed(() =>
+    isDark.value ? "nextline-dark" : "nextline-light"
+  );
+  watchEffect(() => {
+    monaco.editor.setTheme(themeName.value);
   });
 }
 

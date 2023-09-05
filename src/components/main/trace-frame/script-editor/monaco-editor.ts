@@ -1,10 +1,8 @@
-import { ref, watch, watchEffect, toValue, onMounted } from "vue";
+import { ref, watch, toValue, onMounted } from "vue";
 import type { Ref, MaybeRefOrGetter } from "vue";
 import { watchDebounced } from "@vueuse/core";
 
 import * as monaco from "monaco-editor";
-
-import { useDarkMode } from "@/utils/color-theme";
 
 export function useMonacoEditor(
   element: MaybeRefOrGetter<HTMLElement | undefined>,
@@ -14,7 +12,6 @@ export function useMonacoEditor(
   useUpdateSource(model, source);
 
   const editor = ref<monaco.editor.IStandaloneCodeEditor>();
-  const { isDark } = useDarkMode();
 
   onMounted(() => {
     const ele = toValue(element);
@@ -37,14 +34,7 @@ export function useMonacoEditor(
       selectionHighlight: true,
       occurrencesHighlight: true,
       renderLineHighlight: "line",
-      theme: isDark.value ? "nextline-dark" : "nextline-light",
     });
-  });
-
-  watchEffect(() => {
-    monaco.editor.setTheme(
-      toValue(isDark) ? "nextline-dark" : "nextline-light"
-    );
   });
 
   return { editor, model };
