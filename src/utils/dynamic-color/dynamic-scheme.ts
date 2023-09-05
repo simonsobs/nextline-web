@@ -6,27 +6,29 @@ import type { SchemeName } from "./schemes";
 
 export type UseDynamicSchemeOptions = {
   schemeName?: MaybeRef<SchemeName>;
-  sourceColorArgb?: MaybeRef<number>;
+  sourceColorHex?: MaybeRef<string>;
   dark?: MaybeRef<boolean>;
   contrastLevel?: MaybeRef<number>;
 };
 
 const optDefault: Required<UnwrapRef<UseDynamicSchemeOptions>> = {
   schemeName: "fidelity",
-  sourceColorArgb: argbFromHex("#6750A4"),
+  sourceColorHex: "#6750A4",
   dark: false,
   contrastLevel: 0.0,
 };
 
 export function useDynamicScheme(options?: UseDynamicSchemeOptions) {
   const schemeName = ref(options?.schemeName ?? optDefault.schemeName);
-  const sourceColorArgb = ref(
-    options?.sourceColorArgb ?? optDefault.sourceColorArgb
+  const sourceColorHex = ref(
+    options?.sourceColorHex ?? optDefault.sourceColorHex
   );
   const dark = ref(options?.dark ?? optDefault.dark);
   const contrastLevel = ref(options?.contrastLevel ?? optDefault.contrastLevel);
   const schemeClass = computed(() => SchemeNameMap[schemeName.value]);
-  const sourceColorHct = computed(() => Hct.fromInt(sourceColorArgb.value));
+  const sourceColorHct = computed(() =>
+    Hct.fromInt(argbFromHex(sourceColorHex.value))
+  );
   const scheme = computed(
     () =>
       new schemeClass.value(
@@ -38,7 +40,7 @@ export function useDynamicScheme(options?: UseDynamicSchemeOptions) {
   return {
     scheme,
     schemeName,
-    sourceColorArgb,
+    sourceColorHex,
     dark,
     contrastLevel,
     schemeClass,

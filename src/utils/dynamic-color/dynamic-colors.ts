@@ -1,6 +1,7 @@
 import { computed } from "vue";
 import type { MaybeRef } from "vue";
-import { DynamicScheme } from "@material/material-color-utilities";
+import { hexFromArgb } from "@material/material-color-utilities";
+import type { DynamicScheme } from "@material/material-color-utilities";
 
 import { useDynamicScheme } from "./dynamic-scheme";
 import type { SchemeName } from "./schemes";
@@ -9,7 +10,7 @@ import type { ColorName } from "./colors";
 
 export type UseDynamicColorsOptions = {
   schemeName?: MaybeRef<SchemeName>;
-  sourceColorArgb?: MaybeRef<number>;
+  sourceColorHex?: MaybeRef<string>;
   dark?: MaybeRef<boolean>;
   contrastLevel?: MaybeRef<number>;
 };
@@ -24,6 +25,6 @@ const generateColors = (scheme: DynamicScheme) =>
   Object.assign(
     {},
     ...Object.entries(ColorNameMap).map(([colorName, dynamicColor]) => ({
-      [colorName]: dynamicColor.getArgb(scheme),
+      [colorName]: hexFromArgb(dynamicColor.getArgb(scheme)),
     }))
-  ) as { [k in ColorName]: number };
+  ) as { [k in ColorName]: string };
