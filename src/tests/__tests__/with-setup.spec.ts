@@ -1,19 +1,7 @@
-// Test composables with lifecycle hooks and provide/inject
-// https://vuejs.org/guide/scaling-up/testing.html#testing-composables
-
 import { describe, it, expect } from "vitest";
-import { createApp, ref, onMounted } from "vue";
+import { ref, onMounted } from "vue";
 
-export function withSetup(setup: () => void) {
-  const app = createApp({
-    setup() {
-      setup();
-      return () => {};
-    },
-  });
-  app.mount(document.createElement("div"));
-  return app;
-}
+import { withSetup } from "../test-utils";
 
 function useFoo(ini: number) {
   const foo = ref(0);
