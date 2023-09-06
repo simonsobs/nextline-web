@@ -13,7 +13,6 @@ export function useMonacoEditor(
   element: MaybeRefOrGetter<HTMLElement | undefined>,
   source: Ref<string>
 ) {
-  // const { isDark } = useDarkMode();
   const model = monaco.editor.createModel(toValue(source), "python");
   const editor = shallowRef<monaco.editor.IStandaloneCodeEditor>();
 
