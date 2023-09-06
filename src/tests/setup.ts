@@ -1,3 +1,7 @@
+/**
+ * This file is automatically loaded before each test.
+ * The file path is specified in vitest.config.ts.
+ */
 import { vi } from "vitest";
 
 // For monaco.editor.create()

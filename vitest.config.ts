@@ -10,7 +10,7 @@ export default mergeConfig(
       environment: "jsdom",
       exclude: [...configDefaults.exclude, "e2e/*"],
       root: fileURLToPath(new URL("./", import.meta.url)),
-      setupFiles: ["./vitest-setup.ts"],
+      setupFiles: ["./src/tests/setup.ts"],
       alias: [
         {
           // https://github.com/vitest-dev/vitest/discussions/1806#discussioncomment-3570047
