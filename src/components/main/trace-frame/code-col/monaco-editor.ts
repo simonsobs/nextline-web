@@ -12,9 +12,10 @@ import * as monaco from "monaco-editor";
 
 export function useMonacoEditor(
   element: MaybeRef<HTMLElement | undefined>,
-  source: Ref<string>
+  source?: MaybeRef<string>
 ) {
-  const model = monaco.editor.createModel(toValue(source), "python");
+  source = source === undefined ? ref("") : ref(source);
+  const model = monaco.editor.createModel(source.value, "python");
   const editor = shallowRef<monaco.editor.IStandaloneCodeEditor>();
 
   onMounted(() => {
@@ -44,7 +45,7 @@ export function useMonacoEditor(
     });
   });
 
-  return { editor, model };
+  return { editor, model, source };
 }
 export function useScroll(
   editor: MaybeRefOrGetter<monaco.editor.IStandaloneCodeEditor | undefined>,
