@@ -14,8 +14,10 @@ export function useMonacoEditor(
   element: MaybeRef<HTMLElement | undefined>,
   source?: MaybeRef<string>
 ) {
-  source = source === undefined ? ref("") : ref(source);
-  const model = monaco.editor.createModel(source.value, "python");
+
+  const { model, source: source_ } = useModel(source);
+  source = source_;
+
   const editor = shallowRef<monaco.editor.IStandaloneCodeEditor>();
 
   onMounted(() => {
@@ -47,6 +49,13 @@ export function useMonacoEditor(
 
   return { editor, model, source };
 }
+
+export function useModel(source?: MaybeRef<string>) {
+  source = source === undefined ? ref("") : ref(source);
+  const model = monaco.editor.createModel(source.value, "python");
+  return { model, source };
+}
+
 export function useScroll(
   editor: MaybeRefOrGetter<monaco.editor.IStandaloneCodeEditor | undefined>,
   lineNo: MaybeRefOrGetter<number>
