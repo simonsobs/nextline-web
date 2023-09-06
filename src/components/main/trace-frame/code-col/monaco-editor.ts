@@ -52,9 +52,12 @@ export function useMonacoEditor(
 }
 
 export function useModel(source?: MaybeRef<string>, language = "python") {
-  source = source === undefined ? ref("") : ref(source);
-  const model = monaco.editor.createModel(source.value, language);
-  return { model, source };
+  const _source = source === undefined ? ref("") : ref(source);
+  const model = monaco.editor.createModel(_source.value, language);
+  watchEffect(() => {
+    model.setValue(_source.value);
+  });
+  return { model, source: _source };
 }
 
 export function useScroll(
