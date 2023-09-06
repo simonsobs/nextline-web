@@ -2,22 +2,23 @@ import {
   ref,
   shallowRef,
   computed,
+  unref,
   toValue,
   watchEffect,
   onMounted,
 } from "vue";
-import type { Ref, MaybeRefOrGetter } from "vue";
+import type { Ref, MaybeRefOrGetter, MaybeRef } from "vue";
 import * as monaco from "monaco-editor";
 
 export function useMonacoEditor(
-  element: MaybeRefOrGetter<HTMLElement | undefined>,
+  element: MaybeRef<HTMLElement | undefined>,
   source: Ref<string>
 ) {
   const model = monaco.editor.createModel(toValue(source), "python");
   const editor = shallowRef<monaco.editor.IStandaloneCodeEditor>();
 
   onMounted(() => {
-    const ele = toValue(element);
+    const ele = unref(element);
     if (!ele) {
       console.error("element is undefined");
       return;
