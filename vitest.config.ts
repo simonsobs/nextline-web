@@ -10,6 +10,14 @@ export default mergeConfig(
       environment: "jsdom",
       exclude: [...configDefaults.exclude, "e2e/*"],
       root: fileURLToPath(new URL("./", import.meta.url)),
+      alias: [
+        {
+          // https://github.com/vitest-dev/vitest/discussions/1806#discussioncomment-3570047
+          find: /^monaco-editor$/,
+          replacement:
+            __dirname + "/node_modules/monaco-editor/esm/vs/editor/editor.api",
+        },
+      ],
     },
   })
 );
