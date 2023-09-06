@@ -15,3 +15,14 @@ Object.defineProperty(window, "matchMedia", {
     dispatchEvent: vi.fn(),
   })),
 });
+
+// For monaco.editor.create() with automaticLayout: true
+// https://stackoverflow.com/a/68680087/7309855
+Object.defineProperty(window, "ResizeObserver", {
+  writable: true,
+  value: vi.fn(() => ({
+    observe: vi.fn(),
+    unobserve: vi.fn(),
+    disconnect: vi.fn(),
+  })),
+});
