@@ -12,10 +12,11 @@ import * as monaco from "monaco-editor";
 
 export function useMonacoEditor(
   element: MaybeRef<HTMLElement | undefined>,
-  source?: MaybeRef<string>
+  source?: MaybeRef<string>,
+  language = "python"
 ) {
 
-  const { model, source: source_ } = useModel(source);
+  const { model, source: source_ } = useModel(source, language);
   source = source_;
 
   const editor = shallowRef<monaco.editor.IStandaloneCodeEditor>();
@@ -50,9 +51,9 @@ export function useMonacoEditor(
   return { editor, model, source };
 }
 
-export function useModel(source?: MaybeRef<string>) {
+export function useModel(source?: MaybeRef<string>, language = "python") {
   source = source === undefined ? ref("") : ref(source);
-  const model = monaco.editor.createModel(source.value, "python");
+  const model = monaco.editor.createModel(source.value, language);
   return { model, source };
 }
 
