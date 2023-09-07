@@ -1,26 +1,18 @@
 import { describe, it, expect } from "vitest";
 import { ref } from "vue";
+import { createEventHook } from '@vueuse/core'
 
 function useFoo() {
   const foo = ref(0);
-  const hooks: ((newVal: number) => void)[] = [];
+  const change = createEventHook<number>();
   const increment = () => {
     foo.value++;
-    hooks.forEach((hook) => hook(foo.value));
-  };
-  const onFooChange = (hook: (newVal: number) => void) => {
-    hooks.push(hook);
-    const stop = () => {
-      const index = hooks.indexOf(hook);
-      if (index === -1) return;
-      hooks.splice(index, 1);
-    };
-    return stop;
+	change.trigger(foo.value);
   };
   return {
     foo,
     increment,
-    onFooChange,
+    onFooChange: change.on,
   };
 }
 
@@ -36,15 +28,14 @@ describe("useFoo()", () => {
     const { foo, increment, onFooChange } = useFoo();
     expect(foo.value).toBe(0);
     let newVal = 0;
-    const stop = onFooChange((newVal_) => {
+    onFooChange((newVal_) => {
       newVal = newVal_;
     });
     increment();
     expect(foo.value).toBe(1);
     expect(newVal).toBe(1);
-    stop();
     increment();
     expect(foo.value).toBe(2);
-    expect(newVal).toBe(1);
+    expect(newVal).toBe(2);
   });
 });
