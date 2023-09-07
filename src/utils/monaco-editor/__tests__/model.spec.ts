@@ -12,29 +12,29 @@ describe("useModel()", () => {
 
   it("call with string source", () => {
     const source = "# Hello, world!";
-    const { model } = useModel(source);
+    const { model } = useModel({ source });
     expect(model.getValue()).toBe("# Hello, world!");
   });
 
   it("call with ref source", () => {
     const source = ref("# Hello, world!");
-    const { model, source: sourceReturned } = useModel(source);
+    const { model, source: sourceReturned } = useModel({ source });
     expect(sourceReturned === source).toBe(true);
     expect(model.getValue()).toBe("# Hello, world!");
   });
 
   it("source is reactive", async () => {
     const source = ref("# Hello, world!");
-    const { model } = useModel(source);
+    const { model } = useModel({ source });
     expect(model.getValue()).toBe("# Hello, world!");
     source.value = "# New source";
     await nextTick();
     expect(model.getValue()).toBe("# New source");
   });
-  
-  it('edit model', async () => {
+
+  it("edit model", async () => {
     const source = ref("# Hello, world!");
-    const { model } = useModel(source);
+    const { model } = useModel({ source });
     expect(model.getValue()).toBe("# Hello, world!");
     model.setValue("# New source");
     await new Promise((resolve) => setTimeout(resolve, 110));

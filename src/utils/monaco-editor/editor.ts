@@ -31,7 +31,7 @@ export function useMonacoEditor(
   source?: MaybeRef<string>,
   language?: string
 ) {
-  const { model, source: source_ } = useModel(source, language);
+  const { model, source: source_ } = useModel({source, language});
   source = source_;
 
   const editor = shallowRef<monaco.editor.IStandaloneCodeEditor>();
