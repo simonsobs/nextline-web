@@ -31,4 +31,16 @@ describe("useModel()", () => {
     await nextTick();
     expect(model.getValue()).toBe("# New source");
   });
+  
+  it('edit model', async () => {
+    const source = ref("# Hello, world!");
+    const { model } = useModel(source);
+    expect(model.getValue()).toBe("# Hello, world!");
+    model.setValue("# New source");
+    await new Promise((resolve) => setTimeout(resolve, 110));
+    expect(source.value).toBe("# New source");
+    model.setValue("# New source 2");
+    await new Promise((resolve) => setTimeout(resolve, 110));
+    expect(source.value).toBe("# New source 2");
+  });
 });
