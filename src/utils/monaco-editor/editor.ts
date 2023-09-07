@@ -29,7 +29,7 @@ const optionsViewer: monaco.editor.IEditorOptions = {
 export function useMonacoEditor(
   element: MaybeRef<HTMLElement | undefined>,
   source?: MaybeRef<string>,
-  language = "python"
+  language?: string
 ) {
   const { model, source: source_ } = useModel(source, language);
   source = source_;
