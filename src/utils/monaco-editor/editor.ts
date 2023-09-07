@@ -1,4 +1,4 @@
-import { shallowRef, unref, onMounted } from "vue";
+import { shallowRef, unref, onMounted, ref } from "vue";
 import type { MaybeRef } from "vue";
 import * as monaco from "monaco-editor";
 
@@ -19,6 +19,14 @@ const editorOptionsBase: monaco.editor.IEditorOptions = {
   quickSuggestions: false,
 };
 
+const editorOptionsEditor: monaco.editor.IEditorOptions = {
+  readOnly: false,
+  matchBrackets: "always",
+  selectionHighlight: true,
+  occurrencesHighlight: true,
+  renderLineHighlight: "line",
+};
+
 const editorOptionsViewer: monaco.editor.IEditorOptions = {
   readOnly: true,
   matchBrackets: "never",
@@ -27,12 +35,24 @@ const editorOptionsViewer: monaco.editor.IEditorOptions = {
   renderLineHighlight: "none",
 };
 
+type Mode = "editor" | "viewer";
+const defaultMode: Mode = "viewer";
+
+const modelOptionsMap: Record<Mode, monaco.editor.IEditorOptions> = {
+  editor: editorOptionsEditor,
+  viewer: editorOptionsViewer,
+};
+
 export interface UseMonacoEditorOptions extends UseModelOptions {
   element: MaybeRef<HTMLElement | undefined>;
+  mode?: MaybeRef<Mode>;
 }
 
 export function useMonacoEditor(options: UseMonacoEditorOptions) {
-  const { element, ...modelOptions } = options;
+  const { element, mode: mode_, ...modelOptions } = options;
+
+  const mode = ref(mode_ ?? defaultMode);
+
   const { model, source } = useModel(modelOptions);
 
   const editor = shallowRef<monaco.editor.IStandaloneCodeEditor>();
@@ -44,7 +64,7 @@ export function useMonacoEditor(options: UseMonacoEditorOptions) {
       return;
     }
     editor.value = monaco.editor.create(ele, { model, ...editorOptionsBase });
-    editor.value.updateOptions(editorOptionsViewer);
+    editor.value.updateOptions(modelOptionsMap[mode.value]);
   });
 
   return { editor, model, source };
