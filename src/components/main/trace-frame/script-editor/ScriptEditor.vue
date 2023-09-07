@@ -13,12 +13,12 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
 import { useStore } from "@/plugins/pinia/stores/main";
+import { useMonacoEditor } from "@/utils/monaco-editor";
 import { useSource } from "./source";
-import { useMonacoEditor } from "./monaco-editor";
 import Actions from "./Actions.vue";
 const editor = ref<HTMLElement>();
 const { source, modified, save, reset } = useSource();
-useMonacoEditor(editor, source);
+useMonacoEditor({ element: editor, source, mode: "editor" });
 const store = useStore();
 watch(modified, (val) => {
   store.setModified(val);

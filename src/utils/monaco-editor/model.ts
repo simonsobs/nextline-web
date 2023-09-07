@@ -31,6 +31,7 @@ export function useModel(options?: UseModelOptions) {
 
   // Update model when source changes.
   watchEffect(() => {
+    if(source.value === model.getValue()) return;
     model.setValue(source.value);
   });
 
