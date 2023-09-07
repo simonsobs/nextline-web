@@ -1,4 +1,4 @@
-import { shallowRef, unref, onMounted, ref } from "vue";
+import { shallowRef, unref, onMounted, ref, watchEffect } from "vue";
 import type { MaybeRef } from "vue";
 import * as monaco from "monaco-editor";
 
@@ -64,8 +64,11 @@ export function useMonacoEditor(options: UseMonacoEditorOptions) {
       return;
     }
     editor.value = monaco.editor.create(ele, { model, ...editorOptionsBase });
-    editor.value.updateOptions(modelOptionsMap[mode.value]);
   });
 
-  return { editor, model, source };
+  watchEffect(() => {
+    editor.value?.updateOptions(modelOptionsMap[mode.value]);
+  });
+
+  return { editor, model, source, mode };
 }
