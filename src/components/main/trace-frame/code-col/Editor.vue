@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watchEffect, toRefs, toValue } from "vue";
+import { ref, computed, toRefs } from "vue";
 import { PromptingData } from "@/graphql/codegen/generated";
 
 import {
@@ -23,7 +23,7 @@ const { state, source } = toRefs(props);
 
 const refEditor = ref<HTMLElement>();
 
-const { editor, model } = useMonacoEditor(refEditor, source);
+const { editor } = useMonacoEditor(refEditor, source);
 
 const lineNo = computed(() => state.value.lineNo);
 const prompting = computed(() => state.value.prompting);
@@ -37,14 +37,6 @@ const glyphMarginClassName = computed(() =>
 
 useScroll(editor, lineNo);
 useMarkCurrentLine(editor, lineNo, className, glyphMarginClassName);
-
-watchEffect(() => {
-  // This is unnecessary as the source doesn't change for a given instance.
-  // When the source changes, a new instance is created.
-  if (model.getValue() === toValue(source)) return;
-  console.warn("The source has changed.");
-  model.setValue(toValue(source));
-});
 </script>
 
 <style scoped>
