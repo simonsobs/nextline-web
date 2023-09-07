@@ -6,7 +6,7 @@
 import { ref, computed, toRefs } from "vue";
 import { PromptingData } from "@/graphql/codegen/generated";
 import { useMonacoEditor, useScroll } from "@/utils/monaco-editor";
-import { useMarkCurrentLine } from "./monaco-editor";
+import { useMarkCurrentLine } from "./mark-current-line";
 
 interface Props {
   state: PromptingData;
