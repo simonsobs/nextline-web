@@ -2,9 +2,9 @@ import { shallowRef, unref, onMounted } from "vue";
 import type { MaybeRef } from "vue";
 import * as monaco from "monaco-editor";
 
-import { useModel } from "@/utils/monaco-editor";
+import { useModel } from "./model";
 
-const optionsBase: monaco.editor.IEditorOptions = {
+const editorOptionsBase: monaco.editor.IEditorOptions = {
   minimap: { enabled: false },
   scrollbar: { vertical: "auto", horizontal: "auto" },
   fontFamily: "Fira Code",
@@ -18,7 +18,7 @@ const optionsBase: monaco.editor.IEditorOptions = {
   quickSuggestions: false,
 };
 
-const optionsViewer: monaco.editor.IEditorOptions = {
+const editorOptionsViewer: monaco.editor.IEditorOptions = {
   readOnly: true,
   matchBrackets: "never",
   selectionHighlight: false,
@@ -31,7 +31,7 @@ export function useMonacoEditor(
   source?: MaybeRef<string>,
   language?: string
 ) {
-  const { model, source: source_ } = useModel({source, language});
+  const { model, source: source_ } = useModel({ source, language });
   source = source_;
 
   const editor = shallowRef<monaco.editor.IStandaloneCodeEditor>();
@@ -42,8 +42,8 @@ export function useMonacoEditor(
       console.error("element is undefined");
       return;
     }
-    editor.value = monaco.editor.create(ele, { model, ...optionsBase });
-    editor.value.updateOptions(optionsViewer);
+    editor.value = monaco.editor.create(ele, { model, ...editorOptionsBase });
+    editor.value.updateOptions(editorOptionsViewer);
   });
 
   return { editor, model, source };
