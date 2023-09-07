@@ -3,7 +3,7 @@ import { ref } from "vue";
 
 import { withSetup } from "@/tests/test-utils";
 
-import { useMonacoEditor } from "../monaco-editor";
+import { useMonacoEditor } from "../editor";
 
 describe("useMonacoEditor", () => {
   let app!: ReturnType<typeof withSetup>;
