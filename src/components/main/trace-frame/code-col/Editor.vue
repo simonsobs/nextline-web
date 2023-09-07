@@ -5,8 +5,8 @@
 <script setup lang="ts">
 import { ref, computed, toRefs } from "vue";
 import { PromptingData } from "@/graphql/codegen/generated";
-import { useMonacoEditor } from "@/utils/monaco-editor";
-import { useScroll, useMarkCurrentLine } from "./monaco-editor";
+import { useMonacoEditor, useScroll } from "@/utils/monaco-editor";
+import { useMarkCurrentLine } from "./monaco-editor";
 
 interface Props {
   state: PromptingData;

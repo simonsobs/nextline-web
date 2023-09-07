@@ -2,23 +2,6 @@ import { ref, computed, toValue, watchEffect } from "vue";
 import type { MaybeRefOrGetter } from "vue";
 import * as monaco from "monaco-editor";
 
-export function useScroll(
-  editor: MaybeRefOrGetter<monaco.editor.IStandaloneCodeEditor | undefined>,
-  lineNo: MaybeRefOrGetter<number>
-) {
-  watchEffect(() => {
-    if (!toValue(editor)) return;
-    if (!(toValue(lineNo) >= 1)) return;
-    const lineCount = toValue(editor)?.getModel()?.getLineCount();
-    if (!(lineCount && lineCount >= toValue(lineNo))) {
-      console.warn(
-        `lineNo(${toValue(lineNo)}) is out of range: [1, ${lineCount}]`
-      );
-    }
-    toValue(editor)?.revealLineInCenter(toValue(lineNo));
-  });
-}
-
 function useDecorationsCollection(
   editor: MaybeRefOrGetter<monaco.editor.IStandaloneCodeEditor | undefined>
 ) {
