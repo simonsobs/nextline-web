@@ -1,6 +1,6 @@
 import { ref, watchEffect } from "vue";
 import type { MaybeRef } from "vue";
-import { useDebounceFn } from "@vueuse/core";
+import { useDebounceFn, createEventHook } from "@vueuse/core";
 import * as monaco from "monaco-editor";
 
 export interface UseModelOptions {
@@ -26,13 +26,16 @@ export function useModel(options?: UseModelOptions) {
   } = { ..._default, ...options };
 
   const source = ref(source_);
-
   const model = monaco.editor.createModel(source.value, language);
+  const beforeSetValue = createEventHook<null>();
+  const afterSetValue = createEventHook<null>();
 
   // Update model when source changes.
   watchEffect(() => {
-    if(source.value === model.getValue()) return;
+    if (source.value === model.getValue()) return;
+    beforeSetValue.trigger(null);
     model.setValue(source.value);
+    afterSetValue.trigger(null);
   });
 
   // Update source when model changes (debounced).
@@ -45,5 +48,10 @@ export function useModel(options?: UseModelOptions) {
   );
   model.onDidChangeContent(updateSource);
 
-  return { model, source };
+  return {
+    model,
+    source,
+    beforeSetValue: beforeSetValue.on,
+    afterSetValue: afterSetValue.on,
+  };
 }

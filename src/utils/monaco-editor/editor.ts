@@ -53,7 +53,8 @@ export function useMonacoEditor(options: UseMonacoEditorOptions) {
 
   const mode = ref(mode_ ?? defaultMode);
 
-  const { model, source } = useModel(modelOptions);
+  const { model, source, beforeSetValue, afterSetValue } =
+    useModel(modelOptions);
 
   const editor = shallowRef<monaco.editor.IStandaloneCodeEditor>();
 
@@ -68,6 +69,23 @@ export function useMonacoEditor(options: UseMonacoEditorOptions) {
 
   watchEffect(() => {
     editor.value?.updateOptions(modelOptionsMap[mode.value]);
+  });
+
+  let lastPosition: monaco.Position | null = null;
+
+  beforeSetValue(() => {
+    // save cursor position
+    if (!editor.value) return;
+    lastPosition = editor.value.getPosition();
+  });
+
+  afterSetValue(() => {
+    // restore cursor position
+    if (!editor.value) return;
+    if (!lastPosition) return;
+    editor.value.setPosition(lastPosition);
+    editor.value.focus();
+    lastPosition = null;
   });
 
   return { editor, model, source, mode };
