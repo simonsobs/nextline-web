@@ -8,8 +8,9 @@ import {
   onMounted,
 } from "vue";
 import type { MaybeRefOrGetter, MaybeRef } from "vue";
-import { useDebounceFn } from "@vueuse/core";
 import * as monaco from "monaco-editor";
+
+import { useModel } from "@/utils/monaco-editor";
 
 export function useMonacoEditor(
   element: MaybeRef<HTMLElement | undefined>,
@@ -49,33 +50,6 @@ export function useMonacoEditor(
   });
 
   return { editor, model, source };
-}
-
-export function useModel(
-  source?: MaybeRef<string>,
-  language = "python",
-  sourceUpdateDelayMilliseconds = 50,
-  sourceUpdateMaxWaitMilliseconds = 100
-) {
-  const _source = source === undefined ? ref("") : ref(source);
-  const model = monaco.editor.createModel(_source.value, language);
-  
-  // Update model when source changes.
-  watchEffect(() => {
-    model.setValue(_source.value);
-  });
-  
-  // Update source when model changes (debounced).
-  const updateSource = useDebounceFn(
-    () => {
-      _source.value = model.getValue();
-    },
-    sourceUpdateDelayMilliseconds,
-    { maxWait: sourceUpdateMaxWaitMilliseconds }
-  );
-  model.onDidChangeContent(updateSource);
-
-  return { model, source: _source };
 }
 
 export function useScroll(
