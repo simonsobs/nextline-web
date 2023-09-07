@@ -3,6 +3,7 @@ import type { MaybeRef } from "vue";
 import * as monaco from "monaco-editor";
 
 import { useModel } from "./model";
+import type { UseModelOptions } from "./model";
 
 const editorOptionsBase: monaco.editor.IEditorOptions = {
   minimap: { enabled: false },
@@ -26,13 +27,13 @@ const editorOptionsViewer: monaco.editor.IEditorOptions = {
   renderLineHighlight: "none",
 };
 
-export function useMonacoEditor(
-  element: MaybeRef<HTMLElement | undefined>,
-  source?: MaybeRef<string>,
-  language?: string
-) {
-  const { model, source: source_ } = useModel({ source, language });
-  source = source_;
+export interface UseMonacoEditorOptions extends UseModelOptions {
+  element: MaybeRef<HTMLElement | undefined>;
+}
+
+export function useMonacoEditor(options: UseMonacoEditorOptions) {
+  const { element, ...modelOptions } = options;
+  const { model, source } = useModel(modelOptions);
 
   const editor = shallowRef<monaco.editor.IStandaloneCodeEditor>();
 

@@ -19,7 +19,7 @@ describe("useMonacoEditor", () => {
     const element = ref(document.createElement("div"));
     const source = ref("# Hello, world!");
     app = withSetup(() => {
-      result = useMonacoEditor(element, source);
+      result = useMonacoEditor({ element, source });
     });
     const { editor, model } = result;
     expect(editor.value).toBeDefined();

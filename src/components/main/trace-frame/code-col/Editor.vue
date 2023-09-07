@@ -1,5 +1,5 @@
 <template>
-  <div ref="refEditor" style="height: 100%"></div>
+  <div ref="element" style="height: 100%"></div>
 </template>
 
 <script setup lang="ts">
@@ -17,9 +17,9 @@ const props = defineProps<Props>();
 
 const { state, source } = toRefs(props);
 
-const refEditor = ref<HTMLElement>();
+const element = ref<HTMLElement>();
 
-const { editor } = useMonacoEditor(refEditor, source);
+const { editor } = useMonacoEditor({ element, source });
 
 const lineNo = computed(() => state.value.lineNo);
 const prompting = computed(() => state.value.prompting);
