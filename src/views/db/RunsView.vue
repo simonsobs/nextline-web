@@ -1,53 +1,41 @@
 <template>
-  <div class="g-container">
-    <v-card
-      flat
-      class="overflow-auto"
-      rounded="lg"
-      max-width="1200"
-      style="height: min-content"
+  <div class="pt-5 px-5 pb-16" style="max-width: 960px; margin: auto">
+    <v-data-table
+      :headers="headers"
+      :items="nodes"
+      item-key="runNo"
+      :items-per-page="10"
+      :hide-default-footer="false"
+      :sort-by="sortBy"
+      :sort-desc="true"
+      @click:row="onClickRow"
     >
-      <v-card-text>
-        <v-data-table
-          :headers="headers"
-          :items="nodes"
-          item-key="runNo"
-          :items-per-page="10"
-          :hide-default-footer="false"
-          :sort-by="sortBy"
-          :sort-desc="true"
-          @click:row="onClickRow"
+      <template v-slot:item.runNo="{ item }">
+        <span class="font-weight-bold primary--text">
+          {{ item.selectable.runNo }}
+        </span>
+      </template>
+      <template v-slot:item.state="{ item }">
+        <v-chip
+          :color="stateChipColor[item.selectable.state]"
+          class="text-capitalize"
         >
-          <template v-slot:item.runNo="{ item }">
-            <span class="font-weight-bold primary--text">
-              {{ item.selectable.runNo }}
-            </span>
-          </template>
-          <template v-slot:item.state="{ item }">
-            <v-chip
-              :color="stateChipColor[item.selectable.state]"
-              class="text-capitalize"
-            >
-              {{ item.selectable.state }}
-            </v-chip>
-          </template>
-          <template v-slot:item.startedAt="{ item }">
-            {{ formatDateTime(item.selectable.startedAt) }}
-          </template>
-          <template v-slot:item.endedAt="{ item }">
-            {{ formatDateTime(item.selectable.endedAt) }}
-          </template>
-          <template v-slot:item.exception="{ item }">
-            <v-icon v-if="!item.selectable.exception" color="teal">
-              mdi-check
-            </v-icon>
-            <v-icon v-else color="red">mdi-close</v-icon>
-          </template>
-        </v-data-table>
-        <!-- <pre> {{ runs }} </pre> -->
-      </v-card-text>
-    </v-card>
-    <pre></pre>
+          {{ item.selectable.state }}
+        </v-chip>
+      </template>
+      <template v-slot:item.startedAt="{ item }">
+        {{ formatDateTime(item.selectable.startedAt) }}
+      </template>
+      <template v-slot:item.endedAt="{ item }">
+        {{ formatDateTime(item.selectable.endedAt) }}
+      </template>
+      <template v-slot:item.exception="{ item }">
+        <v-icon v-if="!item.selectable.exception" color="teal">
+          mdi-check
+        </v-icon>
+        <v-icon v-else color="red">mdi-close</v-icon>
+      </template>
+    </v-data-table>
   </div>
 </template>
 
@@ -117,29 +105,3 @@ function formatDateTime(dateTime: string) {
   return format.format(sinceEpoch);
 }
 </script>
-
-<style>
-/* .v-data-table {
-  width: 100%;
-}
-
-tbody {
-  width: 100%;
-}
-
-.v-data-table__wrapper {
-  width: 100%;
-  overflow-x: hidden !important;
-} */
-</style>
-
-<style scoped>
-.g-container {
-  display: grid;
-  margin: 12px;
-  height: calc(100% - 2 * 12px);
-  width: calc(100% - 2 * 12px);
-  justify-content: center;
-  grid-template-columns: minmax(min-content, 80%);
-}
-</style>
