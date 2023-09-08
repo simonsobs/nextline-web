@@ -11,6 +11,19 @@ RUN apk --no-cache --virtual build-dependencies add \
   make \
   g++
 
+# For "canvas": https://stackoverflow.com/a/66692565/7309855
+# canvas is onlye used in unit testing with monaco-editor.
+# It should be possible to write pacakge.json to avoid installing canvas in production.
+# But, I don't know how to do it.
+RUN apk add --update --no-cache \
+    jpeg-dev \
+    cairo-dev \
+    giflib-dev \
+    pango-dev \
+    libtool \
+    autoconf \
+    automake
+
 RUN yarn
 COPY docker/env.local .env.local
 RUN yarn build
