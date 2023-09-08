@@ -12,27 +12,22 @@
     >
       <template v-slot:item.runNo="{ item }">
         <span class="font-weight-bold primary--text">
-          {{ item.selectable.runNo }}
+          {{ item.raw.runNo }}
         </span>
       </template>
       <template v-slot:item.state="{ item }">
-        <v-chip
-          :color="stateChipColor[item.selectable.state]"
-          class="text-capitalize"
-        >
-          {{ item.selectable.state }}
-        </v-chip>
+        <span class="text-capitalize text-primary font-weight-bold">
+          {{ item.raw.state }}
+        </span>
       </template>
       <template v-slot:item.startedAt="{ item }">
-        {{ formatDateTime(item.selectable.startedAt) }}
+        {{ formatDateTime(item.raw.startedAt) }}
       </template>
       <template v-slot:item.endedAt="{ item }">
-        {{ formatDateTime(item.selectable.endedAt) }}
+        {{ formatDateTime(item.raw.endedAt) }}
       </template>
       <template v-slot:item.exception="{ item }">
-        <v-icon v-if="!item.selectable.exception" color="teal">
-          mdi-check
-        </v-icon>
+        <v-icon v-if="!item.raw.exception" color="primary"> mdi-check </v-icon>
         <v-icon v-else color="red">mdi-close</v-icon>
       </template>
     </v-data-table>
@@ -71,17 +66,9 @@ const headers = ref([
   { title: "", key: "exception" },
 ]);
 
-function onClickRow(event, item: any) {
+function onClickRow(event: Event, item: any) {
   router.push({ name: "run", params: { runNo: item.item.selectable.runNo } });
 }
-
-const stateChipColor = ref({
-  initialized: "success",
-  running: "primary",
-  exited: "warning",
-  finished: "warning",
-  closed: "warning",
-});
 
 const sortBy = reactive([
   {
