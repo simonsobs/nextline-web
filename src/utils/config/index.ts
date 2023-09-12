@@ -1,4 +1,4 @@
-import type { MaybeRefOrGetter, InjectionKey, Ref } from "vue";
+import type { MaybeRefOrGetter } from "vue";
 
 import { defaultConfig, validateConfig } from "./config";
 import type { Config } from "./config";
@@ -8,20 +8,18 @@ import { useProvideConfigT } from "./provide-config";
 
 export type { Config };
 
-export const injectionKey: InjectionKey<Ref<Config>> = Symbol("config");
-
 /**
  * Get the config from the parent component.
  * In the parent component, use `useProvideConfig` to provide the config.
  */
-export const useConfig = () => useConfigT<Config>(injectionKey);
+export const useConfig = () => useConfigT<Config>();
 
 /**
  * Provide the config to the child components.
  * In the child components, use `useConfig` to get the config.
  */
 export const useProvideConfig = (config: MaybeRefOrGetter<Config>) =>
-  useProvideConfigT<Config>(injectionKey, config);
+  useProvideConfigT<Config>(config);
 
 /**
  * Read the config from the config file.
