@@ -1,5 +1,5 @@
-import { ref, computed, watch, toValue } from "vue";
-import { useAxios } from "@vueuse/integrations/useAxios";
+import { ref, computed } from "vue";
+import { useFetch } from "@vueuse/core";
 import * as path from "path";
 
 export function useLoadConfigT<T extends object>(
@@ -10,11 +10,11 @@ export function useLoadConfigT<T extends object>(
 
   const {
     data,
-    error: axiosError,
-    isLoading: loading,
-    execute,
-  } = useAxios<T>(toValue(configUrl));
-  watch(configUrl, () => execute());
+    error: fetchError,
+    isFinished,
+  } = useFetch<T>(configUrl, { refetch: true }).json();
+
+  const loading = computed(() => !isFinished.value);
 
   // undefined until data is loaded
   const config = computed<T | undefined>(
@@ -27,11 +27,12 @@ export function useLoadConfigT<T extends object>(
     try {
       validate(config.value);
     } catch (e) {
+      console.error(e);
       return e;
     }
   });
 
-  const error = computed(() => axiosError.value || validationError.value);
+  const error = computed(() => fetchError.value || validationError.value);
 
   return {
     loading,
