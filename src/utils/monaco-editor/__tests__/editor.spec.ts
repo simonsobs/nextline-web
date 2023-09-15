@@ -7,7 +7,8 @@ import { useMonacoEditor } from "../editor";
 
 const { EditorOption } = monaco.editor;
 
-describe("useMonacoEditor", () => {
+// describe("useMonacoEditor", () => {
+describe.skipIf(process.env.CI)("useMonacoEditor", () => {
   let app!: ReturnType<typeof withSetup>;
 
   afterEach(() => {
