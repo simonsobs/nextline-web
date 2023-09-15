@@ -2,111 +2,115 @@ import { describe, it, expect, vi, afterEach } from "vitest";
 import { until } from "@vueuse/core";
 import { useLoadConfigT } from "../load-config";
 
-global.fetch = vi.fn();
+globalThis.fetch = vi.fn();
 
-describe("useLoadConfigT", () => {
-  afterEach(() => {
-    vi.mocked(global.fetch).mockReset();
-  });
-
-  type Response = Awaited<ReturnType<typeof global.fetch>>;
-
-  // @ts-expect-error
-  const createResponse = (data: any): Response => ({
+const createResponse = (data: any) =>
+  ({
     json: () => new Promise((resolve) => resolve(data)),
     ok: true,
     status: 200,
     statusText: "OK",
-  });
+  } as Response);
 
-  const defaultData = {
-    apiName: "localhost",
-    appName: "Nextline",
-  };
+const response404 = {
+  json: () => new Promise((resolve) => resolve({})),
+  ok: false,
+  status: 404,
+  statusText: "Not Found",
+} as Response;
+
+type Config = {
+  apiUrl: string;
+  apiVersion: number;
+};
+
+const defaultConfig = {
+  apiUrl: "http://localhost:5001",
+  apiVersion: 1.0,
+};
+
+const validateConfig = (config: Config) => {
+  if (typeof config.apiUrl !== "string") throw Error("apiUrl is not string");
+  if (config?.apiUrl === "") throw Error("apiUrl is empty");
+
+  if (typeof config.apiVersion !== "number")
+    throw Error("apiVersion is not number");
+};
+
+describe("useLoadConfigT", () => {
+  afterEach(() => {
+    vi.mocked(globalThis.fetch).mockReset();
+  });
 
   it("should return data", async () => {
     const responseData = {
-      apiHttp: "http://localhost:8000",
-      appName: "Nextline",
-      apiName: "remote",
+      apiUrl: "http://example.com/api",
+      apiVersion: 2.0,
     };
-    vi.mocked(fetch).mockResolvedValue(createResponse(responseData));
-
-    const { config, loading } = useLoadConfigT();
-    await until(loading).toBe(false);
-
     const expected = { ...responseData };
+    vi.mocked(fetch).mockResolvedValue(createResponse(responseData));
+    const { config, loading, error } = useLoadConfigT<Config>();
+    expect(config.value).toBeNull();
+    expect(loading.value).toBe(true);
+    await until(loading).toBe(false);
+    expect(error.value).toBeUndefined();
     expect(config.value).toEqual(expected);
+  });
+
+  it("should return 404 error", async () => {
+    vi.mocked(fetch).mockResolvedValue(response404);
+    const { config, loading, error } = useLoadConfigT<Config>();
+    expect(config.value).toBeNull();
+    expect(loading.value).toBe(true);
+    await until(loading).toBe(false);
+    expect(error.value).toEqual("Not Found");
+    expect(config.value).toBeNull();
   });
 
   it("should merge with default", async () => {
     const responseData = {
-      apiHttp: "http://localhost:8000",
-      apiName: "remote",
+      apiVersion: 2.0,
     };
+    const expected = { ...defaultConfig, ...responseData };
     vi.mocked(fetch).mockResolvedValue(createResponse(responseData));
-
-    const { config, loading } = useLoadConfigT(defaultData);
+    const { config, loading, error } = useLoadConfigT<Config>(defaultConfig);
+    expect(config.value).toBeNull();
+    expect(loading.value).toBe(true);
     await until(loading).toBe(false);
-
-    const expected = { ...defaultData, ...responseData };
+    expect(error.value).toBeUndefined();
     expect(config.value).toEqual(expected);
   });
 
   it("should validate", async () => {
     const responseData = {
-      apiHttp: "http://localhost:8000",
-      apiName: "remote",
+      apiVersion: 2.0,
     };
+    const expected = { ...defaultConfig, ...responseData };
     vi.mocked(fetch).mockResolvedValue(createResponse(responseData));
-
-    const validate = (config: typeof responseData) => {
-      if (config.apiName !== "remote") {
-        throw new Error("apiName must be remote");
-      }
-    };
-
-    const { config, loading, error } = useLoadConfigT(defaultData, validate);
+    const { config, loading, error } = useLoadConfigT<Config>(
+      defaultConfig,
+      validateConfig
+    );
+    expect(config.value).toBeNull();
+    expect(loading.value).toBe(true);
     await until(loading).toBe(false);
-
     expect(error.value).toBeUndefined();
-
-    const expected = { ...defaultData, ...responseData };
     expect(config.value).toEqual(expected);
   });
 
   it("should return validation error", async () => {
     const responseData = {
-      apiHttp: "http://localhost:8000",
-      apiName: "localhost",
+      apiUrl: "",
     };
     vi.mocked(fetch).mockResolvedValue(createResponse(responseData));
-
-    const validate = (config: typeof responseData) => {
-      if (config.apiName !== "remote") {
-        throw new Error("apiName must be remote");
-      }
-    };
-
-    const { loading, error } = useLoadConfigT(defaultData, validate);
+    const { config, loading, error } = useLoadConfigT<Config>(
+      defaultConfig,
+      validateConfig
+    );
+    expect(config.value).toBeNull();
+    expect(loading.value).toBe(true);
     await until(loading).toBe(false);
-
-    expect(error.value.message).toEqual("apiName must be remote");
-  });
-
-  it("should return 404 error", async () => {
-    // @ts-expect-error
-    const response: Response = {
-      json: () => new Promise((resolve) => resolve({})),
-      ok: false,
-      status: 404,
-      statusText: "Not Found",
-    };
-    vi.mocked(fetch).mockResolvedValue(response);
-
-    const { loading, error } = useLoadConfigT();
-    await until(loading).toBe(false);
-
-    expect(error.value).toEqual("Not Found");
+    expect(error.value.message).toEqual("apiUrl is empty");
+    expect(config.value).toBeNull();
   });
 });
