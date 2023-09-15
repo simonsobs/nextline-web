@@ -17,15 +17,15 @@ export function useLoadConfigT<T extends object>(
   const loading = computed(() => !isFinished.value);
 
   // null until data is loaded
-  const config = computed<T | null>(
+  const toBeValidated = computed<T | null>(
     () => data.value && { ...defaultConfig, ...(data.value ?? {}) }
   );
 
   const validationError = computed(() => {
     if (loading.value) return;
-    if (!config.value) return;
+    if (!toBeValidated.value) return;
     try {
-      validate(config.value);
+      validate(toBeValidated.value);
     } catch (e) {
       // console.error(e);
       return e;
@@ -33,6 +33,8 @@ export function useLoadConfigT<T extends object>(
   });
 
   const error = computed(() => fetchError.value || validationError.value);
+
+  const config = computed<T | null>(() => error.value ? null : toBeValidated.value);
 
   return {
     loading,
