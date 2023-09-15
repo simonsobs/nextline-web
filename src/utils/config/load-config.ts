@@ -27,7 +27,7 @@ export function useLoadConfigT<T extends object>(
     try {
       validate(config.value);
     } catch (e) {
-      console.error(e);
+      // console.error(e);
       return e;
     }
   });
