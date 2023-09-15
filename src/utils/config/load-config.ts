@@ -12,12 +12,12 @@ export function useLoadConfigT<T extends object>(
     data,
     error: fetchError,
     isFinished,
-  } = useFetch<T>(configUrl, { refetch: true }).json();
+  } = useFetch<T>(configUrl, { refetch: true }).json<T>();
 
   const loading = computed(() => !isFinished.value);
 
-  // undefined until data is loaded
-  const config = computed<T | undefined>(
+  // null until data is loaded
+  const config = computed<T | null>(
     () => data.value && { ...defaultConfig, ...(data.value ?? {}) }
   );
 
