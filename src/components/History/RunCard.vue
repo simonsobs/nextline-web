@@ -122,8 +122,11 @@ watch(
         Uncaught exception:
       </v-card-subtitle>
       <v-card-text v-if="run.exception">
-        <v-alert outlined type="error" class="overflow-x-auto">
-          {{ run.exception }}
+        <v-alert type="error" variant="tonal">
+          <pre
+            v-text="run.exception"
+            class="overflow-x-auto"
+          ></pre>
         </v-alert>
       </v-card-text>
     </div>
