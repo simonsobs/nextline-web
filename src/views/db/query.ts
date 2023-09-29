@@ -10,7 +10,7 @@ interface QueryResponse {
   executeQuery: (opts?: { requestPolicy?: "network-only" }) => PromiseLike<any>;
 }
 
-export function useQueryResponse(queryResponse: QueryResponse) {
+export function useQueryState(queryResponse: QueryResponse) {
   const { refresh, refreshing } = useRefresh(queryResponse);
   const loading = computed(
     () => unref(queryResponse.fetching) || unref(refreshing)

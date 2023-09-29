@@ -45,7 +45,7 @@ import { useRouter } from "vue-router";
 
 import { useRunsQuery } from "@/graphql/codegen/generated";
 
-import { useQueryResponse, useConnection } from "./query";
+import { useQueryState, useConnection } from "./query";
 import { useOverride } from "./override";
 
 import RefreshButton from "./RefreshButton.vue";
@@ -54,7 +54,7 @@ const queryResponse = useRunsQuery();
 const connection = computed(() => queryResponse.data?.value?.history.runs);
 
 const query = {
-  ...useQueryResponse(queryResponse),
+  ...useQueryState(queryResponse),
   ...useConnection(connection),
 };
 
