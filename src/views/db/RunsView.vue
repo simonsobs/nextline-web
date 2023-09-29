@@ -12,22 +12,22 @@
     >
       <template v-slot:item.runNo="{ item }">
         <span class="font-weight-bold primary--text">
-          {{ item.raw.runNo }}
+          {{ item.runNo }}
         </span>
       </template>
       <template v-slot:item.state="{ item }">
         <span class="text-capitalize text-primary font-weight-bold">
-          {{ item.raw.state }}
+          {{ item.state }}
         </span>
       </template>
       <template v-slot:item.startedAt="{ item }">
-        {{ formatDateTime(item.raw.startedAt) }}
+        {{ formatDateTime(item.startedAt) }}
       </template>
       <template v-slot:item.endedAt="{ item }">
-        {{ formatDateTime(item.raw.endedAt) }}
+        {{ formatDateTime(item.endedAt) }}
       </template>
       <template v-slot:item.exception="{ item }">
-        <v-icon v-if="!item.raw.exception" color="primary"> mdi-check </v-icon>
+        <v-icon v-if="!item.exception" color="primary"> mdi-check </v-icon>
         <v-icon v-else color="red">mdi-close</v-icon>
       </template>
     </v-data-table>
@@ -67,7 +67,7 @@ const headers = ref([
 ]);
 
 function onClickRow(event: Event, item: any) {
-  router.push({ name: "run", params: { runNo: item.item.selectable.runNo } });
+  router.push({ name: "run", params: { runNo: item.item.runNo } });
 }
 
 const sortBy = reactive([
