@@ -1,1 +1,1 @@
-export { useProvideClient } from "./provide-client";
+export * from "./provide-client";
