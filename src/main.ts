@@ -6,7 +6,10 @@ import vuetify from "@/plugins/vuetify";
 
 import App from "@/app/App.vue";
 
+import DevToolCheckboxes from "@/components/dev/DevToolCheckboxes.vue";
+
 createApp({ render: () => h(App) })
+  .component("DevToolCheckboxes", DevToolCheckboxes)
   .use(pinia)
   .use(router)
   .use(vuetify)
