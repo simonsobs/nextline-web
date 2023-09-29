@@ -1,5 +1,5 @@
-import { ref, toRefs, toValue, watch } from "vue";
-import type { MaybeRefOrGetter } from "vue";
+import { ref, unref, toRefs, watchEffect } from "vue";
+import type { Ref, MaybeRef } from "vue";
 import {
   createClient as createUrqlClient,
   provideClient,
@@ -7,6 +7,7 @@ import {
   fetchExchange,
   subscriptionExchange,
 } from "@urql/vue";
+import type { Client } from "@urql/vue";
 import { createClient as createWSClient } from "graphql-ws";
 
 import { useConfig } from "@/utils/config";
@@ -23,14 +24,11 @@ function useUrl() {
   return url;
 }
 
-function useClient(url: MaybeRefOrGetter<string>) {
-  const client = ref(createClient(toValue(url)));
-  watch(
-    () => toValue(url),
-    (val) => {
-      client.value = createClient(val);
-    }
-  );
+function useClient(url: MaybeRef<string>) {
+  const client = ref() as Ref<Client>;
+  watchEffect(() => {
+    client.value = createClient(unref(url));
+  });
   return client;
 }
 
