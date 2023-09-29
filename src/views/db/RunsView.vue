@@ -37,24 +37,22 @@ import { useRouter } from "vue-router";
 
 import { useRunsQuery } from "@/graphql/codegen/generated";
 
-const override = ref({});
+import { useQueryResponse, useConnection } from "./query";
+import { useOverride } from "./override";
+
+const queryResponse = useRunsQuery();
+const connection = computed(() => queryResponse.data?.value?.history.runs);
+
+const query = {
+  ...useQueryResponse(queryResponse),
+  ...useConnection(connection),
+};
+
+const { override, loading, error, nodes } = useOverride(query);
+
+const refresh = query.refresh;
 
 const router = useRouter();
-const query = useRunsQuery();
-
-type Query = typeof query;
-
-function readEdges(query: Query) {
-  const edgesAndNulls = query.data.value?.history.runs.edges;
-  if (!edgesAndNulls) return [];
-  return edgesAndNulls.flatMap((e) => (e ? [e] : []));
-}
-
-function readNodes(query: Query) {
-  return readEdges(query).flatMap((e) => (e.node ? e.node : []));
-}
-
-const nodes = computed(() => readNodes(query));
 
 const headers = ref([
   { title: "Run No.", key: "runNo" },

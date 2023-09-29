@@ -4,6 +4,6 @@ export interface Edge<Node> {
 }
 
 export interface Connection<Node> {
-  totalCount: number;
+  totalCount?: number;
   edges: (Edge<Node> | null)[];
 }
