@@ -41,6 +41,11 @@ const routes: RouteRecordRaw[] = [
     name: "scratch-urql",
     component: () => import("@/views/scratch/ScratchUrql.vue"),
   },
+  {
+    path: '/:pathMatch(.*)*',
+    name: "NotFound",
+    component: () => import("@/views/NotFoundView.vue")
+  },
 ];
 
 const router = createRouter({
