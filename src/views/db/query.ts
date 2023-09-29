@@ -1,5 +1,5 @@
-import { computed, ref, unref } from "vue";
-import type { Ref } from "vue";
+import { computed, ref, unref, toValue } from "vue";
+import type { Ref, MaybeRefOrGetter } from "vue";
 import { refThrottled } from "@vueuse/core";
 
 import type { Connection } from "./type";
@@ -36,16 +36,17 @@ function useRefresh(query: {
 }
 
 export function useConnection<Node>(
-  connection: Ref<Connection<Node> | null | undefined>
+  connection: MaybeRefOrGetter<Connection<Node> | null | undefined>
 ) {
-  const notFound = computed(() => connection.value === null);
+  const value = computed(() => toValue(connection));
+  const notFound = computed(() => unref(value) === null);
   const edges = computed(
-    () => connection.value?.edges.flatMap((e) => (e ? [e] : [])) || []
+    () => unref(value)?.edges.flatMap((e) => (e ? [e] : [])) || []
   );
   const nodes = computed<Node[]>(() =>
     edges.value.flatMap((e) => e.node || [])
   );
   const empty = computed(() => nodes.value.length === 0);
 
-  return { notFound, edges, nodes, empty };
+  return { connection: value, notFound, edges, nodes, empty };
 }
