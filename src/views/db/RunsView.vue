@@ -4,12 +4,20 @@
       :headers="headers"
       :items="items"
       item-key="runNo"
+      :loading="loading"
       :items-per-page="10"
       :hide-default-footer="false"
       :sort-by="sortBy"
       :sort-desc="true"
       @click:row="onClickRow"
     >
+      <template v-slot:top>
+        <v-alert v-if="error" variant="tonal" type="error">
+          {{ error }}
+        </v-alert>
+        <refresh-button :disabled="loading" @refresh="refresh">
+        </refresh-button>
+      </template>
       <template v-slot:item.runNo="{ item }">
         <span class="font-weight-bold primary--text">
           {{ item.runNo }}
@@ -39,6 +47,8 @@ import { useRunsQuery } from "@/graphql/codegen/generated";
 
 import { useQueryResponse, useConnection } from "./query";
 import { useOverride } from "./override";
+
+import RefreshButton from "./RefreshButton.vue";
 
 const queryResponse = useRunsQuery();
 const connection = computed(() => queryResponse.data?.value?.history.runs);
