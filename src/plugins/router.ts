@@ -27,6 +27,11 @@ const routes: RouteRecordRaw[] = [
     component: RunView,
   },
   {
+    path: '/dev',
+    name: "dev",
+    component: () => import("@/views/DevView.vue")
+  },
+  {
     path: "/scratch",
     name: "scratch",
     component: () => import("@/views/scratch/ScratchView.vue"),
