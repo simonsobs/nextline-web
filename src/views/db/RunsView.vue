@@ -77,7 +77,7 @@ function onClickRow(event: Event, item: any) {
 const sortBy = reactive([
   {
     key: "runNo",
-    order: "desc", // boolean | "asc" | "desc"
+    order: "desc" as const, // boolean | "asc" | "desc"
   },
 ]);
 
