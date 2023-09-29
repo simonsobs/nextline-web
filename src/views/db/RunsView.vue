@@ -1,5 +1,5 @@
 <template>
-  <div class="pt-5 px-5 pb-16" style="max-width: 960px; margin: auto">
+  <div class="g-container">
     <v-data-table
       :headers="headers"
       :items="nodes"
@@ -31,6 +31,8 @@
         <v-icon v-else color="red">mdi-close</v-icon>
       </template>
     </v-data-table>
+    <dev-tool-checkboxes top="20px" right="-5px" v-model="override">
+    </dev-tool-checkboxes>
   </div>
 </template>
 
@@ -40,6 +42,8 @@ import { useRouter } from "vue-router";
 import { VDataTable } from "vuetify/labs/VDataTable";
 
 import { useRunsQuery } from "@/graphql/codegen/generated";
+
+const override = ref({});
 
 const router = useRouter();
 const query = useRunsQuery();
@@ -92,3 +96,11 @@ function formatDateTime(dateTime: string) {
   return format.format(sinceEpoch);
 }
 </script>
+<style scoped>
+.g-container {
+  position: relative;
+  max-width: 960px;
+  margin: auto;
+  padding: 20px 20px 64px 20px;
+}
+</style>
