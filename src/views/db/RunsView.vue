@@ -2,7 +2,7 @@
   <div class="g-container">
     <v-data-table
       :headers="headers"
-      :items="nodes"
+      :items="items"
       item-key="runNo"
       :items-per-page="10"
       :hide-default-footer="false"
@@ -20,12 +20,6 @@
           {{ item.state }}
         </span>
       </template>
-      <template v-slot:item.startedAt="{ item }">
-        {{ formatDateTime(item.startedAt) }}
-      </template>
-      <template v-slot:item.endedAt="{ item }">
-        {{ formatDateTime(item.endedAt) }}
-      </template>
       <template v-slot:item.exception="{ item }">
         <v-icon v-if="!item.exception" color="primary"> mdi-check </v-icon>
         <v-icon v-else color="red">mdi-close</v-icon>
@@ -38,6 +32,7 @@
 
 <script setup lang="ts">
 import { computed, ref, reactive } from "vue";
+import type { UnwrapRef } from "vue";
 import { useRouter } from "vue-router";
 import { VDataTable } from "vuetify/labs/VDataTable";
 
@@ -70,10 +65,6 @@ const headers = ref([
   { title: "", key: "exception" },
 ]);
 
-function onClickRow(event: Event, item: any) {
-  router.push({ name: "run", params: { runNo: item.item.runNo } });
-}
-
 const sortBy = reactive([
   {
     key: "runNo",
@@ -94,6 +85,23 @@ function formatDateTime(dateTime: string) {
     hour12: false,
   });
   return format.format(sinceEpoch);
+}
+
+const items = computed(() =>
+  nodes.value.map((n) => ({
+    runNo: n.runNo,
+    state: n.state,
+    startedAt: formatDateTime(n.startedAt),
+    endedAt: formatDateTime(n.endedAt),
+    exception: !!n.exception,
+    to: { name: "run", params: { runNo: n.runNo } },
+  }))
+);
+
+type Item = UnwrapRef<(typeof items.value)[0]>;
+
+function onClickRow(event: Event, value: { item: Item }) {
+  router.push(value.item.to);
 }
 </script>
 <style scoped>
