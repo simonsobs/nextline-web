@@ -1,12 +1,13 @@
 import { ref, computed } from "vue";
 import type { Ref } from "vue";
 
-import type { Edge } from "./type";
+import type { Connection, Edge } from "./type";
 
 interface Query<Node> {
   loading: Ref<boolean>;
   error: Ref<Error | undefined>;
   notFound: Ref<boolean>;
+  connection: Ref<Connection<Node> | null | undefined>;
   edges: Ref<Edge<Node>[]>;
   nodes: Ref<Node[]>;
   empty: Ref<boolean>;
@@ -27,6 +28,13 @@ export function useOverride<Node>(query: Query<Node>) {
     () => override.value.notFound || query.notFound.value
   );
 
+  const connection = computed(() => {
+    if (override.value.notFound) return null;
+    if (override.value.empty)
+      return { ...query.connection.value, totalCount: 0, edges: [] };
+    return query.connection.value;
+  });
+
   const edges = computed(() =>
     override.value.empty || override.value.notFound ? [] : query.edges.value
   );
@@ -39,5 +47,14 @@ export function useOverride<Node>(query: Query<Node>) {
     override.value.error ? new Error("test") : query.error.value
   );
 
-  return { override, loading, empty, notFound, error, edges, nodes };
+  return {
+    override,
+    loading,
+    empty,
+    notFound,
+    error,
+    connection,
+    edges,
+    nodes,
+  };
 }

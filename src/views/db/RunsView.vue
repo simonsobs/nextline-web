@@ -51,14 +51,14 @@ import { useOverride } from "./override";
 import RefreshButton from "./RefreshButton.vue";
 
 const queryResponse = useRunsQuery();
-const connection = () => queryResponse.data?.value?.history.runs;
+const _connection = () => queryResponse.data?.value?.history.runs;
 
 const query = {
   ...useQueryState(queryResponse),
-  ...useConnection(connection),
+  ...useConnection(_connection),
 };
 
-const { override, loading, error, nodes } = useOverride(query);
+const { override, loading, error, nodes, connection } = useOverride(query);
 
 const refresh = query.refresh;
 
