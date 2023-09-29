@@ -34,7 +34,6 @@
 import { computed, ref, reactive } from "vue";
 import type { UnwrapRef } from "vue";
 import { useRouter } from "vue-router";
-import { VDataTable } from "vuetify/labs/VDataTable";
 
 import { useRunsQuery } from "@/graphql/codegen/generated";
 
