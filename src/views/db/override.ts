@@ -3,9 +3,12 @@ import type { Ref } from "vue";
 
 import type { Connection, Edge } from "./type";
 
-interface Query<Node> {
+interface QueryResponse {
   fetching: Ref<boolean>;
   error: Ref<Error | undefined>;
+}
+
+interface Unpacked<Node> {
   notFound: Ref<boolean>;
   connection: Ref<Connection<Node> | null | undefined>;
   edges: Ref<Edge<Node>[]>;
@@ -13,7 +16,10 @@ interface Query<Node> {
   empty: Ref<boolean>;
 }
 
-export function useOverride<Node>(query: Query<Node>) {
+export function useOverride<Node>(
+  queryResponse: QueryResponse,
+  unpacked: Unpacked<Node>
+) {
   const override = ref({
     fetching: false,
     error: false,
@@ -21,30 +27,32 @@ export function useOverride<Node>(query: Query<Node>) {
     notFound: false,
   });
 
-  const fetching = computed(() => override.value.fetching || query.fetching.value);
+  const fetching = computed(
+    () => override.value.fetching || queryResponse.fetching.value
+  );
 
-  const empty = computed(() => override.value.empty || query.empty.value);
+  const empty = computed(() => override.value.empty || unpacked.empty.value);
   const notFound = computed(
-    () => override.value.notFound || query.notFound.value
+    () => override.value.notFound || unpacked.notFound.value
   );
 
   const connection = computed(() => {
     if (override.value.notFound) return null;
     if (override.value.empty)
-      return { ...query.connection.value, totalCount: 0, edges: [] };
-    return query.connection.value;
+      return { ...unpacked.connection.value, totalCount: 0, edges: [] };
+    return unpacked.connection.value;
   });
 
   const edges = computed(() =>
-    override.value.empty || override.value.notFound ? [] : query.edges.value
+    override.value.empty || override.value.notFound ? [] : unpacked.edges.value
   );
 
   const nodes = computed(() =>
-    override.value.empty || override.value.notFound ? [] : query.nodes.value
+    override.value.empty || override.value.notFound ? [] : unpacked.nodes.value
   );
 
   const error = computed(() =>
-    override.value.error ? new Error("test") : query.error.value
+    override.value.error ? new Error("test") : queryResponse.error.value
   );
 
   return {

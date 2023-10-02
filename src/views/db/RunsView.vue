@@ -52,13 +52,12 @@ import RefreshButton from "./RefreshButton.vue";
 
 const queryResponse = useRunsQuery();
 const _connection = () => queryResponse.data?.value?.history.runs;
+const unpacked = useUnpack(_connection);
 
-const query = {
-  ...queryResponse,
-  ...useUnpack(_connection),
-};
-
-const { override, fetching, error, nodes, connection } = useOverride(query);
+const { override, fetching, error, nodes, connection } = useOverride(
+  queryResponse,
+  unpacked
+);
 
 const { refresh, refreshing } = useRefresh(queryResponse);
 const loading = computed(() => fetching.value || refreshing.value);
