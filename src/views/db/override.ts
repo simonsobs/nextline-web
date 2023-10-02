@@ -15,13 +15,13 @@ interface Query<Node> {
 
 export function useOverride<Node>(query: Query<Node>) {
   const override = ref({
-    loading: false,
+    fetching: false,
     error: false,
     empty: false,
     notFound: false,
   });
 
-  const loading = computed(() => override.value.loading || query.fetching.value);
+  const fetching = computed(() => override.value.fetching || query.fetching.value);
 
   const empty = computed(() => override.value.empty || query.empty.value);
   const notFound = computed(
@@ -49,7 +49,7 @@ export function useOverride<Node>(query: Query<Node>) {
 
   return {
     override,
-    loading,
+    fetching,
     empty,
     notFound,
     error,

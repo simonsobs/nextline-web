@@ -58,10 +58,10 @@ const query = {
   ...useConnection(_connection),
 };
 
-const { override, loading: _l, error, nodes, connection } = useOverride(query);
+const { override, fetching, error, nodes, connection } = useOverride(query);
 
 const { refresh, refreshing } = useRefresh(queryResponse);
-const loading = computed(() => _l.value || refreshing.value);
+const loading = computed(() => fetching.value || refreshing.value);
 
 const router = useRouter();
 
