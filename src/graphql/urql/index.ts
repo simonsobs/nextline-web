@@ -1,1 +1,1 @@
-export * from "./provide-client";
+export * from "./client";

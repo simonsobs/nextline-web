@@ -5,7 +5,7 @@ import type { Client } from "@urql/vue";
 
 import { useConfig } from "@/utils/config";
 
-import { createClient } from "./create-client";
+import { createClient } from "./create";
 
 export function useProvideClient() {
   const url = useUrl();
