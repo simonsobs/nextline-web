@@ -20,7 +20,7 @@ export function useRefresh(query: {
   return { refresh, refreshing };
 }
 
-export function useConnection<Node>(
+export function useUnpack<Node>(
   connection: MaybeRefOrGetter<Connection<Node> | null | undefined>
 ) {
   const value = computed(() => toValue(connection));
