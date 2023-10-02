@@ -1,13 +1,15 @@
 import { ref } from "vue";
 
-export function useRefresh(query: {
+interface QueryResponse {
   executeQuery: (ops: { requestPolicy: "network-only" }) => PromiseLike<any>;
-}) {
+}
+
+export function useRefresh(queryResponse: QueryResponse) {
   const refreshing = ref(false);
 
   const refresh = async () => {
     refreshing.value = true;
-    await query.executeQuery({ requestPolicy: "network-only" });
+    await queryResponse.executeQuery({ requestPolicy: "network-only" });
     refreshing.value = false;
   };
   return { refresh, refreshing };
