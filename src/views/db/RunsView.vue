@@ -44,9 +44,7 @@ import type { UnwrapRef } from "vue";
 import { useRouter } from "vue-router";
 
 import { useRunsQuery } from "@/graphql/codegen/generated";
-
-import { useRefresh, useUnpack } from "./query";
-import { useOverride } from "./override";
+import { useRefresh, useUnpack, useOverride } from "@/graphql/urql";
 
 import RefreshButton from "./RefreshButton.vue";
 
