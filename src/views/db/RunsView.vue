@@ -42,6 +42,7 @@
 import { computed, ref, reactive } from "vue";
 import type { UnwrapRef } from "vue";
 import { useRouter } from "vue-router";
+import { refThrottled } from "@vueuse/core";
 
 import { useRunsQuery } from "@/graphql/codegen/generated";
 import { useRefresh, useUnpack, useOverride } from "@/graphql/urql";
@@ -57,7 +58,10 @@ const { override, fetching, error, nodes } = useOverride(
 );
 
 const { refresh, refreshing } = useRefresh(queryResponse);
-const loading = computed(() => fetching.value || refreshing.value);
+const loading = refThrottled(
+  computed(() => fetching.value || refreshing.value),
+  300
+);
 
 const router = useRouter();
 
