@@ -26,15 +26,19 @@ export function useLoadConfigT<T extends object>(
     if (!toBeValidated.value) return;
     try {
       validate(toBeValidated.value);
-    } catch (e) {
+    } catch (e: unknown) {
       // console.error(e);
-      return e;
+      return e as Error;
     }
   });
 
-  const error = computed(() => fetchError.value || validationError.value);
+  const error = computed(
+    () => (fetchError.value as Error | undefined) || validationError.value
+  );
 
-  const config = computed<T | null>(() => error.value ? null : toBeValidated.value);
+  const config = computed<T | null>(() =>
+    error.value ? null : toBeValidated.value
+  );
 
   return {
     loading,

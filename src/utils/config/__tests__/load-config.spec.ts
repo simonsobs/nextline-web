@@ -110,7 +110,7 @@ describe("useLoadConfigT", () => {
     expect(config.value).toBeNull();
     expect(loading.value).toBe(true);
     await until(loading).toBe(false);
-    expect(error.value.message).toEqual("apiUrl is empty");
+    expect(error.value?.message).toEqual("apiUrl is empty");
     expect(config.value).toBeNull();
   });
 });
