@@ -7,19 +7,15 @@ import type { Connection } from "./type";
 interface QueryResponse {
   fetching: Ref<boolean>;
   error: Ref<Error | undefined>;
-  executeQuery: (opts?: { requestPolicy?: "network-only" }) => PromiseLike<any>;
 }
 
 export function useQueryState(queryResponse: QueryResponse) {
-  const { refresh, refreshing } = useRefresh(queryResponse);
-  const loading = computed(
-    () => unref(queryResponse.fetching) || unref(refreshing)
-  );
+  const loading = ref(queryResponse.fetching);
   const error = ref(queryResponse.error);
-  return { loading, error, refresh };
+  return { loading, error };
 }
 
-function useRefresh(query: {
+export function useRefresh(query: {
   executeQuery: (ops?: { requestPolicy?: "network-only" }) => PromiseLike<any>;
 }) {
   const _refreshing = ref(false);

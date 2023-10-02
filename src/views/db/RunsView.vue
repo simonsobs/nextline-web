@@ -45,7 +45,7 @@ import { useRouter } from "vue-router";
 
 import { useRunsQuery } from "@/graphql/codegen/generated";
 
-import { useQueryState, useConnection } from "./query";
+import { useQueryState, useRefresh, useConnection } from "./query";
 import { useOverride } from "./override";
 
 import RefreshButton from "./RefreshButton.vue";
@@ -58,9 +58,10 @@ const query = {
   ...useConnection(_connection),
 };
 
-const { override, loading, error, nodes, connection } = useOverride(query);
+const { override, loading: _l, error, nodes, connection } = useOverride(query);
 
-const refresh = query.refresh;
+const { refresh, refreshing } = useRefresh(queryResponse);
+const loading = computed(() => _l.value || refreshing.value);
 
 const router = useRouter();
 
