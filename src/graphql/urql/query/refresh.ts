@@ -1,7 +1,7 @@
 import { ref } from "vue";
 
 export function useRefresh(query: {
-  executeQuery: (ops?: { requestPolicy?: "network-only" }) => PromiseLike<any>;
+  executeQuery: (ops: { requestPolicy: "network-only" }) => PromiseLike<any>;
 }) {
   const refreshing = ref(false);
 
