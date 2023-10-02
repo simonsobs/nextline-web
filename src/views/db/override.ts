@@ -4,7 +4,7 @@ import type { Ref } from "vue";
 import type { Connection, Edge } from "./type";
 
 interface Query<Node> {
-  loading: Ref<boolean>;
+  fetching: Ref<boolean>;
   error: Ref<Error | undefined>;
   notFound: Ref<boolean>;
   connection: Ref<Connection<Node> | null | undefined>;
@@ -21,7 +21,7 @@ export function useOverride<Node>(query: Query<Node>) {
     notFound: false,
   });
 
-  const loading = computed(() => override.value.loading || query.loading.value);
+  const loading = computed(() => override.value.loading || query.fetching.value);
 
   const empty = computed(() => override.value.empty || query.empty.value);
   const notFound = computed(

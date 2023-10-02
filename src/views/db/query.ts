@@ -1,19 +1,8 @@
 import { computed, ref, unref, toValue } from "vue";
-import type { Ref, MaybeRefOrGetter } from "vue";
+import type { MaybeRefOrGetter } from "vue";
 import { refThrottled } from "@vueuse/core";
 
 import type { Connection } from "./type";
-
-interface QueryResponse {
-  fetching: Ref<boolean>;
-  error: Ref<Error | undefined>;
-}
-
-export function useQueryState(queryResponse: QueryResponse) {
-  const loading = ref(queryResponse.fetching);
-  const error = ref(queryResponse.error);
-  return { loading, error };
-}
 
 export function useRefresh(query: {
   executeQuery: (ops?: { requestPolicy?: "network-only" }) => PromiseLike<any>;
