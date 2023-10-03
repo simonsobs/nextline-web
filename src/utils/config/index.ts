@@ -5,6 +5,7 @@ import type { Config } from "./config";
 import { useConfigT } from "./inject-config";
 import { useLoadConfigT } from "./load-config";
 import { useProvideConfigT } from "./provide-config";
+import { useOverrideT } from "./override";
 
 export type { Config };
 
@@ -27,3 +28,7 @@ export const useProvideConfig = (config: MaybeRefOrGetter<Config>) =>
  */
 export const useLoadConfig = () =>
   useLoadConfigT<Config>(defaultConfig, validateConfig);
+
+// For dev. Need refactoring.
+export const useOverride = (loadConfig: ReturnType<typeof useLoadConfig>) =>
+  useOverrideT<Config>(loadConfig);

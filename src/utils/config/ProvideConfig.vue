@@ -1,6 +1,10 @@
 <template>
-  <div v-if="error">{{ error }}</div>
-  <div v-else-if="loading"></div>
+  <v-progress-linear v-if="loading" indeterminate> </v-progress-linear>
+  <div v-else-if="error">
+    <v-alert variant="tonal" type="error" class="ma-2">
+      {{ error }}
+    </v-alert>
+  </div>
   <provide-config-exe v-else-if="config" :config="config">
     <slot></slot>
   </provide-config-exe>
@@ -10,7 +14,10 @@
 /**
  * Render the slot after loading the config and providing it to the slot.
  */
-import { useLoadConfig } from "@/utils/config";
+import { useLoadConfig, useOverride } from "@/utils/config";
 import ProvideConfigExe from "./ProvideConfigExe.vue";
-const { config, loading, error } = useLoadConfig();
+const loadConfig = useLoadConfig();
+const { override, loading, error, config } = useOverride(loadConfig);
+// override.value.loading = true;
+// override.value.error = true;
 </script>
