@@ -22,7 +22,7 @@
           </v-card-text>
         </div>
         <div class="g-content">
-          <code-col :state="prompting"></code-col>
+          <code-editor :state="prompting"></code-editor>
         </div>
         <div class="g-bottom-bar">
           <trace-action
@@ -43,7 +43,7 @@ import path from "path";
 import { usePromptingSubscription } from "@/graphql/codegen/generated";
 import { useKeyboardShortcuts } from "./keyboard-shortcuts";
 import TraceAction from "./TraceAction.vue";
-import CodeCol from "./code-col/CodeCol.vue";
+import CodeEditor from "./code-editor/CodeEditor.vue";
 
 interface Props {
   traceId: number;
