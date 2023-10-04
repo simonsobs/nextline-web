@@ -2,7 +2,7 @@ import { ref, computed } from "vue";
 import { useFetch } from "@vueuse/core";
 import * as path from "path";
 
-export function useLoadConfigT<T extends object>(
+export async function useLoadConfigT<T extends object>(
   defaultConfig: Partial<T> = {},
   validate: (config: T) => void = () => true
 ) {
@@ -12,8 +12,9 @@ export function useLoadConfigT<T extends object>(
     data,
     error: fetchError,
     isFinished,
-  } = useFetch<T>(configUrl, { refetch: true }).json<T>();
+  } = await useFetch<T>(configUrl, { refetch: true }).json<T>();
 
+  // Initially false because of await. Can be true if configUrl is changed.
   const loading = computed(() => !isFinished.value);
 
   // null until data is loaded

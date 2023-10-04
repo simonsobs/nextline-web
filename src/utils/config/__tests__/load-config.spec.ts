@@ -1,5 +1,4 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
-import { until } from "@vueuse/core";
 import { useLoadConfigT } from "../load-config";
 
 globalThis.fetch = vi.fn();
@@ -10,7 +9,7 @@ const createResponse = (data: any) =>
     ok: true,
     status: 200,
     statusText: "OK",
-  } as Response);
+  }) as Response;
 
 const response404 = {
   json: () => new Promise((resolve) => resolve({})),
@@ -49,20 +48,16 @@ describe("useLoadConfigT", () => {
     };
     const expected = { ...responseData };
     vi.mocked(fetch).mockResolvedValue(createResponse(responseData));
-    const { config, loading, error } = useLoadConfigT<Config>();
-    expect(config.value).toBeNull();
-    expect(loading.value).toBe(true);
-    await until(loading).toBe(false);
+    const { config, loading, error } = await useLoadConfigT<Config>();
+    expect(loading.value).toBe(false);
     expect(error.value).toBeUndefined();
     expect(config.value).toEqual(expected);
   });
 
   it("should return 404 error", async () => {
     vi.mocked(fetch).mockResolvedValue(response404);
-    const { config, loading, error } = useLoadConfigT<Config>();
-    expect(config.value).toBeNull();
-    expect(loading.value).toBe(true);
-    await until(loading).toBe(false);
+    const { config, loading, error } = await useLoadConfigT<Config>();
+    expect(loading.value).toBe(false);
     expect(error.value).toEqual("Not Found");
     expect(config.value).toBeNull();
   });
@@ -73,10 +68,9 @@ describe("useLoadConfigT", () => {
     };
     const expected = { ...defaultConfig, ...responseData };
     vi.mocked(fetch).mockResolvedValue(createResponse(responseData));
-    const { config, loading, error } = useLoadConfigT<Config>(defaultConfig);
-    expect(config.value).toBeNull();
-    expect(loading.value).toBe(true);
-    await until(loading).toBe(false);
+    const { config, loading, error } =
+      await useLoadConfigT<Config>(defaultConfig);
+    expect(loading.value).toBe(false);
     expect(error.value).toBeUndefined();
     expect(config.value).toEqual(expected);
   });
@@ -87,13 +81,11 @@ describe("useLoadConfigT", () => {
     };
     const expected = { ...defaultConfig, ...responseData };
     vi.mocked(fetch).mockResolvedValue(createResponse(responseData));
-    const { config, loading, error } = useLoadConfigT<Config>(
+    const { config, loading, error } = await useLoadConfigT<Config>(
       defaultConfig,
       validateConfig
     );
-    expect(config.value).toBeNull();
-    expect(loading.value).toBe(true);
-    await until(loading).toBe(false);
+    expect(loading.value).toBe(false);
     expect(error.value).toBeUndefined();
     expect(config.value).toEqual(expected);
   });
@@ -103,13 +95,11 @@ describe("useLoadConfigT", () => {
       apiUrl: "",
     };
     vi.mocked(fetch).mockResolvedValue(createResponse(responseData));
-    const { config, loading, error } = useLoadConfigT<Config>(
+    const { config, loading, error } = await useLoadConfigT<Config>(
       defaultConfig,
       validateConfig
     );
-    expect(config.value).toBeNull();
-    expect(loading.value).toBe(true);
-    await until(loading).toBe(false);
+    expect(loading.value).toBe(false);
     expect(error.value?.message).toEqual("apiUrl is empty");
     expect(config.value).toBeNull();
   });

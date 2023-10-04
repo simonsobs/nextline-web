@@ -3,16 +3,11 @@
 </template>
 
 <script setup lang="ts">
-/**
- * Provide the config to the slot.
- * The config will be reactive.
- */
-import { toRefs } from "vue";
+import type { ComputedRef } from "vue";
+import { useLoadConfig } from "@/utils/config";
 import { useProvideConfig, Config } from "@/utils/config";
-interface Props {
-  config: Config;
-}
-const prop = defineProps<Props>();
-const { config } = toRefs(prop);
-useProvideConfig(config);
+const { error, config } = await useLoadConfig();
+if(error.value)  throw error.value; 
+if(!config.value) throw new Error("Config is null");
+useProvideConfig(config as ComputedRef<Config>);
 </script>
