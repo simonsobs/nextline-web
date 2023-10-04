@@ -8,11 +8,13 @@
   </app-bar>
   <v-main>
     <router-view v-slot="{ Component, route }">
-      <v-fade-transition leave-absolute>
-        <keep-alive>
-          <component :key="route.fullPath" :is="Component" />
-        </keep-alive>
-      </v-fade-transition>
+      <template v-if="Component">
+        <v-fade-transition leave-absolute>
+          <keep-alive>
+            <component :key="route.fullPath" :is="Component"></component>
+          </keep-alive>
+        </v-fade-transition>
+      </template>
     </router-view>
   </v-main>
 </template>
