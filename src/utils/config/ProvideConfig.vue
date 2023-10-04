@@ -7,9 +7,11 @@
       <v-progress-linear indeterminate> </v-progress-linear>
     </template>
     <template #error="{ error }">
-      <v-alert variant="tonal" type="error" class="ma-2">
-        {{ error }}
-      </v-alert>
+      <div>
+        <v-alert variant="tonal" type="error" class="ma-2">
+          {{ error }}
+        </v-alert>
+      </div>
     </template>
   </suspense-c>
 </template>

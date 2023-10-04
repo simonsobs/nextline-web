@@ -1,9 +1,9 @@
 <template>
-  <div v-if="error">
+  <template v-if="error">
     <slot name="error" :error="error">
       {{ error }}
     </slot>
-  </div>
+  </template>
   <suspense v-else v-bind="props">
     <slot></slot>
     <template #fallback>
@@ -25,7 +25,6 @@ defineOptions({ inheritAttrs: false });
 // Note: InstanceType causes an error for unknown reasons.
 // type Props = InstanceType<typeof Suspense>["$props"]
 type Props = VNodeProps & SuspenseProps;
-
 
 // Define props explicitly instead of using $attrs for TypeScript.
 const props = defineProps<Props>();
