@@ -4,7 +4,7 @@
       {{ error }}
     </slot>
   </div>
-  <suspense v-else v-bind="$attrs">
+  <suspense v-else v-bind="props">
     <slot></slot>
     <template #fallback>
       <slot name="fallback"> Loading... </slot>
@@ -17,11 +17,18 @@
  * Custom Suspense component that allows for error handling.
  * https://vuejs.org/guide/built-ins/suspense.html#error-handling
  */
-import { ref, onErrorCaptured } from "vue";
+import { ref, onErrorCaptured, Suspense } from "vue";
+import type { VNodeProps, SuspenseProps } from "vue";
 
-defineOptions({
-  inheritAttrs: false,
-});
+defineOptions({ inheritAttrs: false });
+
+// Note: InstanceType causes an error for unknown reasons.
+// type Props = InstanceType<typeof Suspense>["$props"]
+type Props = VNodeProps & SuspenseProps;
+
+
+// Define props explicitly instead of using $attrs for TypeScript.
+const props = defineProps<Props>();
 
 const error = ref<Error>();
 
