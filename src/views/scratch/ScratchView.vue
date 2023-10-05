@@ -1,9 +1,6 @@
 <template>
   <div class="g-container">
-    <v-alert v-if="error" variant="tonal" type="error">
-      {{ error }}
-    </v-alert>
-    <Suspense v-else>
+    <suspense-c>
       <component-a></component-a>
       <template #fallback>
         <v-skeleton-loader
@@ -11,21 +8,19 @@
           min-width="360px"
         ></v-skeleton-loader>
       </template>
-    </Suspense>
+      <template #error="{ error }">
+        <div>
+          <v-alert variant="tonal" type="error" class="ma-2">
+            {{ error }}
+          </v-alert>
+        </div>
+      </template>
+    </suspense-c>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onErrorCaptured } from "vue";
 import ComponentA from "@/components/scratch/A.vue";
-
-const error = ref<Error>();
-
-onErrorCaptured((e, instance, info) => {
-  console.error(e, instance, info);
-  error.value = e;
-  return false;
-});
 </script>
 
 <style scoped>
