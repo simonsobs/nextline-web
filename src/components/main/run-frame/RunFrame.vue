@@ -25,5 +25,6 @@ import RunFrameE from "./RunFrameE.vue";
   display: grid;
   block-size: 100%;
   inline-size: 100%;
+  grid-template: 100% / 1fr;
 }
 </style>
