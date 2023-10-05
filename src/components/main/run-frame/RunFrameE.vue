@@ -1,6 +1,5 @@
 <template>
   <div class="run-frame-e">
-    RunFrameE
     <div class="g-ctrl">
       <top-bar></top-bar>
     </div>
