@@ -15,7 +15,11 @@
 <script setup lang="ts">
 /**
  * Custom Suspense component that allows for error handling.
+ * It uses onErrorCaptured() as suggested in the Vue docs:
  * https://vuejs.org/guide/built-ins/suspense.html#error-handling
+ *
+ * Note: Because of v-else on Suspense, the slot component will be
+ * deconstructed when an error is captured.
  */
 import { ref, onErrorCaptured, Suspense } from "vue";
 import type { VNodeProps, SuspenseProps } from "vue";
@@ -34,6 +38,6 @@ const error = ref<Error>();
 onErrorCaptured((e, instance, info) => {
   console.error(e, instance, info);
   error.value = e;
-  return false;
+  return false; // false: stop propagation
 });
 </script>
