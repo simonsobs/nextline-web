@@ -254,7 +254,7 @@ export type Subscription = {
   continuousEnabled: Scalars['Boolean']['output'];
   counter: Scalars['Int']['output'];
   prompting: PromptingData;
-  runNo: Scalars['String']['output'];
+  runNo: Scalars['Int']['output'];
   scheduleAutoModeState: Scalars['String']['output'];
   state: Scalars['String']['output'];
   stdout: Scalars['String']['output'];
@@ -401,7 +401,7 @@ export type PromptingSubscription = { __typename?: 'Subscription', prompting: { 
 export type RunNoSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type RunNoSubscription = { __typename?: 'Subscription', runNo: string };
+export type RunNoSubscription = { __typename?: 'Subscription', runNo: number };
 
 export type ScheduleAutoModeStateSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
