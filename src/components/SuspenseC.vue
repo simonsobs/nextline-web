@@ -21,7 +21,7 @@
  * Note: Because of v-else on Suspense, the slot component will be
  * deconstructed when an error is captured.
  */
-import { ref, onErrorCaptured, Suspense } from "vue";
+import { ref, onErrorCaptured } from "vue";
 import type { VNodeProps, SuspenseProps } from "vue";
 
 defineOptions({ inheritAttrs: false });
