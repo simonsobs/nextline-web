@@ -4,7 +4,13 @@
       <div class="g-content">
         <div ref="editor" style="height: 100%; max-height: 100%"></div>
       </div>
-      <actions class="g-header" :editing="modified" @reset="reset" @save="save">
+      <actions
+        class="g-header"
+        :editing="modified"
+        @reset="reset"
+        @save="save"
+        @load="load"
+      >
       </actions>
     </v-card>
   </v-layout>
@@ -17,7 +23,7 @@ import { useMonacoEditor } from "@/utils/monaco-editor";
 import { useSource } from "./source";
 import Actions from "./Actions.vue";
 const editor = ref<HTMLElement>();
-const { source, modified, save, reset } = await useSource();
+const { source, modified, save, reset, load } = await useSource();
 useMonacoEditor({ element: editor, source, mode: "editor" });
 const store = useStore();
 watch(modified, (val) => {

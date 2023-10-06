@@ -16,6 +16,19 @@
     >
       save
     </v-btn>
+    <v-menu location="top">
+      <template v-slot:activator="{ props }">
+        <v-btn v-bind="props" icon="mdi-dots-horizontal"> </v-btn>
+      </template>
+      <v-list>
+        <v-list-item @click="emit('load')">
+          <template v-slot:prepend>
+            <v-icon> mdi-timer </v-icon>
+          </template>
+          Load From Scheduler
+        </v-list-item>
+      </v-list>
+    </v-menu>
   </v-card-actions>
 </template>
 
@@ -27,6 +40,7 @@ interface Props {
 type Emits = {
   reset: [];
   save: [];
+  load: [];
 };
 
 defineProps<Props>();
