@@ -4,7 +4,7 @@
       <subscribe-run-no v-slot="{ runNo }">
         <template v-if="runNo">
           <v-fade-transition>
-            <run-frame-e :key="runNo"> </run-frame-e>
+            <run-frame-e :key="runNo" :run-no="runNo"> </run-frame-e>
           </v-fade-transition>
         </template>
       </subscribe-run-no>

@@ -24,6 +24,12 @@ import Exception from "@/components/exception/Exception.vue";
 import TraceFrames from "@/components/main/trace-frame/Layout.vue";
 
 const exception = ref(false);
+
+interface Props {
+  runNo: number;
+}
+
+const props = defineProps<Props>();
 </script>
 
 <style scoped>
