@@ -318,6 +318,11 @@ export type KillMutationVariables = Exact<{ [key: string]: never; }>;
 
 export type KillMutation = { __typename?: 'Mutation', kill: boolean };
 
+export type LoadScriptMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type LoadScriptMutation = { __typename?: 'Mutation', schedule: { __typename?: 'MutationSchedule', loadScript: boolean } };
+
 export type ResetMutationVariables = Exact<{
   statement?: InputMaybe<Scalars['String']['input']>;
 }>;
@@ -476,6 +481,17 @@ export const KillDocument = gql`
 
 export function useKillMutation() {
   return Urql.useMutation<KillMutation, KillMutationVariables>(KillDocument);
+};
+export const LoadScriptDocument = gql`
+    mutation LoadScript {
+  schedule {
+    loadScript
+  }
+}
+    `;
+
+export function useLoadScriptMutation() {
+  return Urql.useMutation<LoadScriptMutation, LoadScriptMutationVariables>(LoadScriptDocument);
 };
 export const ResetDocument = gql`
     mutation Reset($statement: String) {
