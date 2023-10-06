@@ -17,7 +17,7 @@ import { useMonacoEditor } from "@/utils/monaco-editor";
 import { useSource } from "./source";
 import Actions from "./Actions.vue";
 const editor = ref<HTMLElement>();
-const { source, modified, save, reset } = useSource();
+const { source, modified, save, reset } = await useSource();
 useMonacoEditor({ element: editor, source, mode: "editor" });
 const store = useStore();
 watch(modified, (val) => {

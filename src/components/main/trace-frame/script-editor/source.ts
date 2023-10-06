@@ -2,7 +2,7 @@ import { ref, computed, watchEffect } from "vue";
 
 import { useSourceQuery, useResetMutation } from "@/graphql/codegen/generated";
 
-export function useSource() {
+export async function useSource() {
   const query = useSourceQuery();
   const savedSourceLines = computed(() => query.data.value?.source || []);
   const savedSource = computed(() => savedSourceLines.value.join("\n"));
@@ -25,6 +25,8 @@ export function useSource() {
     query.executeQuery();
     source.value = savedSource.value;
   }
+
+  await query;
 
   return { source, modified, save, reset };
 }
