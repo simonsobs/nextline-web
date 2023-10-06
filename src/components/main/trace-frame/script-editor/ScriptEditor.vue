@@ -1,47 +1,9 @@
 <template>
-  <v-layout full-height>
-    <v-card flat class="g-container" rounded="0">
-      <div class="g-content">
-        <div ref="editor" style="height: 100%; max-height: 100%"></div>
-      </div>
-      <actions class="g-header" :editing="modified" @reset="reset" @save="save">
-      </actions>
-    </v-card>
-  </v-layout>
+  <suspense>
+    <script-editor-e></script-editor-e>
+  </suspense>
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from "vue";
-import { useStore } from "@/plugins/pinia/stores/main";
-import { useMonacoEditor } from "@/utils/monaco-editor";
-import { useSource } from "./source";
-import Actions from "./Actions.vue";
-const editor = ref<HTMLElement>();
-const { source, modified, save, reset } = useSource();
-useMonacoEditor({ element: editor, source, mode: "editor" });
-const store = useStore();
-watch(modified, (val) => {
-  store.setModified(val);
-});
+import ScriptEditorE from "./ScriptEditorE.vue";
 </script>
-
-<style scoped>
-.g-container {
-  display: grid;
-  block-size: 100%;
-  inline-size: 100%;
-  grid-template-columns: minmax(100px, 1fr);
-  grid-template-rows: minmax(0, 1fr) min-content;
-  grid-template-areas: "content" "header";
-}
-
-.g-content {
-  grid-area: content;
-  block-size: 100%;
-  inline-size: 100%;
-}
-
-.g-header {
-  grid-area: header;
-}
-</style>
