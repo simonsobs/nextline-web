@@ -9,6 +9,9 @@ const { EditorOption } = monaco.editor;
 
 // Skip on GitHub Actions
 describe.skipIf(process.env.CI)("useMonacoEditor", () => {
+  // The test sometimes fails when running all tests after "vite test" started.
+  // However, it usually passes afterwards when "f" is pressed to run only the
+  // failed tests. The cause of the initial failure is unknown.
   let app!: ReturnType<typeof withSetup>;
 
   afterEach(() => {
