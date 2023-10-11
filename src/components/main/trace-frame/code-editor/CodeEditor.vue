@@ -1,21 +1,16 @@
 <template>
-  <editor
-    :key="source"
-    :state="state"
-    :source="source"
-    v-if="source !== undefined"
-  >
-  </editor>
+  <suspense>
+    <code-editor-e :state="state" :file-name="fileName" :key="fileName"></code-editor-e>
+    <template #fallback>
+      <v-progress-linear indeterminate></v-progress-linear>
+    </template>
+  </suspense>
 </template>
 
 <script setup lang="ts">
-import { computed, toRefs } from "vue";
-
+import { toRefs, computed } from "vue";
 import { PromptingData } from "@/graphql/codegen/generated";
-
-import Editor from "./Editor.vue";
-
-import { useSource } from "./source";
+import CodeEditorE from "./CodeEditorE.vue";
 
 interface Props {
   state: PromptingData;
@@ -24,5 +19,4 @@ interface Props {
 const props = defineProps<Props>();
 const { state } = toRefs(props);
 const fileName = computed(() => state.value.fileName);
-const { source } = useSource(fileName);
 </script>
