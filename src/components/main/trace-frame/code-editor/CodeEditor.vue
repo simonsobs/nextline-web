@@ -1,6 +1,11 @@
 <template>
   <suspense>
-    <code-editor-e :state="state" :file-name="fileName" :key="fileName"></code-editor-e>
+    <code-editor-e
+      :key="fileName"
+      :file-name="fileName"
+      :line-no="lineNo"
+      :prompting="prompting"
+    ></code-editor-e>
     <template #fallback>
       <v-progress-linear indeterminate></v-progress-linear>
     </template>
@@ -19,4 +24,6 @@ interface Props {
 const props = defineProps<Props>();
 const { state } = toRefs(props);
 const fileName = computed(() => state.value.fileName);
+const lineNo = computed(() => state.value.lineNo);
+const prompting = computed(() => state.value.prompting);
 </script>

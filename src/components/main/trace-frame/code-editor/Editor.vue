@@ -9,20 +9,18 @@ import { useMonacoEditor, useScroll } from "@/utils/monaco-editor";
 import { useMarkCurrentLine } from "./mark-current-line";
 
 interface Props {
-  state: PromptingData;
   source: string;
+  lineNo: number;
+  prompting: number;
 }
 
 const props = defineProps<Props>();
 
-const { state, source } = toRefs(props);
+const { source, lineNo, prompting } = toRefs(props);
 
 const element = ref<HTMLElement>();
 
 const { editor } = useMonacoEditor({ element, source });
-
-const lineNo = computed(() => state.value.lineNo);
-const prompting = computed(() => state.value.prompting);
 
 const className = computed(() =>
   prompting.value ? "background-high" : "background-low"
