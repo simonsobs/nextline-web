@@ -1,10 +1,11 @@
-import { ref, computed, watchEffect } from "vue";
+import { ref, computed, watch, watchEffect } from "vue";
 
 import {
   useSourceQuery,
   useResetMutation,
   useLoadScriptMutation,
 } from "@/graphql/codegen/generated";
+import { useStore } from "@/plugins/pinia/stores/main";
 
 export async function useSource() {
   const query = useSourceQuery();
@@ -17,6 +18,11 @@ export async function useSource() {
   });
 
   const modified = computed(() => source.value !== savedSource.value);
+
+  const store = useStore();
+  watch(modified, (val) => {
+    store.setModified(val);
+  });
 
   const { executeMutation: executeMutationReset } = useResetMutation();
 
