@@ -1,5 +1,5 @@
 <template>
-  <suspense>
+  <suspense :timeout="0">
     <code-editor-e
       :key="fileName"
       :file-name="fileName"
