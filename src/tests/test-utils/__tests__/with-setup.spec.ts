@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { ref, onMounted } from "vue";
 
-import { withSetup } from "../test-utils";
+import { withSetup } from "../with-setup";
 
 function useFoo(ini: number) {
   const foo = ref(0);
