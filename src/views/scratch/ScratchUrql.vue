@@ -8,26 +8,13 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-import { gql, useQuery, useSubscription } from "@urql/vue";
+import {
+  useQStateQuery,
+  useStateSubscription,
+} from "@/graphql/codegen/generated";
 
-// import SUBSCRIBE_STATE from "@/graphql/subscriptions/State.gql";
-
-const query = useQuery({
-  query: gql`
-    query {
-      state
-    }
-  `,
-});
-
-const subscription = useSubscription({
-  //   query: SUBSCRIBE_STATE,
-  query: gql`
-    subscription {
-      state
-    }
-  `,
-});
+const query = useQStateQuery();
+const subscription = useStateSubscription();
 
 const state = computed(() => query.data);
 const sub = computed(() => subscription.data);
