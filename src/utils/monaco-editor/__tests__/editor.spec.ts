@@ -1,8 +1,8 @@
-import { describe, it, expect, afterEach } from "vitest";
+import { describe, it, expect } from "vitest";
 import { ref, nextTick } from "vue";
 import * as monaco from "monaco-editor";
 
-import { withSetup } from "@/tests/test-utils";
+import { withAsyncSetup } from "@/tests/test-utils";
 import { useMonacoEditor } from "../editor";
 
 const { EditorOption } = monaco.editor;
@@ -12,21 +12,15 @@ describe.skipIf(process.env.CI)("useMonacoEditor", () => {
   // The test sometimes fails when running all tests after "vite test" started.
   // However, it usually passes afterwards when "f" is pressed to run only the
   // failed tests. The cause of the initial failure is unknown.
-  let app!: ReturnType<typeof withSetup>;
-
-  afterEach(() => {
-    app.unmount();
-  });
 
   it("editor is created", async () => {
     let result!: ReturnType<typeof useMonacoEditor>;
     const element = ref(document.createElement("div"));
     const source = ref("# Hello, world!");
-    app = withSetup(() => {
+    await withAsyncSetup(() => {
       result = useMonacoEditor({ element, source });
     });
     const { editor, model, mode } = result;
-    await nextTick();
     expect(editor.value).toBeDefined();
     expect(model.getValue()).toBe("# Hello, world!");
 
