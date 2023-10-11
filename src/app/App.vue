@@ -1,8 +1,13 @@
 <template>
   <v-app>
-    <provide-config>
-      <app> </app>
-    </provide-config>
+    <suspense>
+      <provide-config>
+        <app></app>
+      </provide-config>
+      <template #fallback>
+        <v-progress-linear indeterminate> </v-progress-linear>
+      </template>
+    </suspense>
   </v-app>
 </template>
 
