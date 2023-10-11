@@ -2,8 +2,7 @@
   <navigation-drawer v-model="drawer"></navigation-drawer>
   <app-bar>
     <template v-slot:prepend>
-      <v-app-bar-nav-icon @click="toggleDrawer()" v-if="mobile">
-      </v-app-bar-nav-icon>
+      <v-app-bar-nav-icon @click="toggleDrawer()" v-if="mobile"> </v-app-bar-nav-icon>
     </template>
   </app-bar>
   <v-main>
