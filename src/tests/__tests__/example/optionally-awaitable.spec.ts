@@ -7,7 +7,12 @@ type OptionallyAwaitable = { value: number } & PromiseLike<{ value: number }>;
 function optionallyAwaitableFunction(): OptionallyAwaitable {
   return {
     value: 42,
-    then(onFulfilled, onRejected) {
+    async then(onFulfilled, onRejected) {
+      // Note: then() doesn't have to be async. However, if await needs to be used
+      // inside optionallyAwaitableFunction(), then() must be async and then() is the
+      // only place where await can be used as optionallyAwaitableFunction() is not
+      // async.
+      await new Promise((resolve) => setTimeout(resolve, 100));
       return Promise.resolve({ value: this.value }).then(onFulfilled, onRejected);
     },
   };
