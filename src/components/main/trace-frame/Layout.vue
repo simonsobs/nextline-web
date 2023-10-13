@@ -1,7 +1,7 @@
 <template>
   <div style="height: 100%">
     <div class="g-container">
-      <template v-if="nextlineState?.state == 'running' && traceIds">
+      <template v-if="state == 'running' && traceIds">
         <trace-frame
           :traceId="traceId"
           v-for="traceId in traceIds.traceIds"
@@ -19,17 +19,18 @@ import { computed } from "vue";
 import TraceFrame from "./TraceFrame.vue";
 import ScriptEditor from "./script-editor/ScriptEditor.vue";
 
-import {
-  useStateSubscription,
-  useTraceIdsSubscription,
-} from "@/graphql/codegen/generated";
+import { useTraceIdsSubscription } from "@/graphql/codegen/generated";
 
-const stateSubscription = useStateSubscription();
+import { useSubscribeState } from "@/api";
+
+const stateSubscription = useSubscribeState();
+const { state } = stateSubscription;
 
 const traceIdSubscription = useTraceIdsSubscription();
 
-const nextlineState = computed(() => stateSubscription.data.value);
 const traceIds = computed(() => traceIdSubscription.data.value);
+
+await Promise.all([stateSubscription]);
 </script>
 
 <style scoped>
