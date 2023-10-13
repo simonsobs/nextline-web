@@ -4,7 +4,7 @@
       <template v-if="state == 'running' && traceIds">
         <trace-frame
           :traceId="traceId"
-          v-for="traceId in traceIds.traceIds"
+          v-for="traceId in traceIds"
           :key="traceId"
         ></trace-frame>
       </template>
@@ -14,23 +14,18 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
-
 import TraceFrame from "./TraceFrame.vue";
 import ScriptEditor from "./script-editor/ScriptEditor.vue";
 
-import { useTraceIdsSubscription } from "@/graphql/codegen/generated";
-
-import { useSubscribeState } from "@/api";
+import { useSubscribeState, useSubscribeTraceIds } from "@/api";
 
 const stateSubscription = useSubscribeState();
 const { state } = stateSubscription;
 
-const traceIdSubscription = useTraceIdsSubscription();
+const traceIdsSubscription = useSubscribeTraceIds();
+const { traceIds } = traceIdsSubscription;
 
-const traceIds = computed(() => traceIdSubscription.data.value);
-
-await Promise.all([stateSubscription]);
+await Promise.all([stateSubscription, traceIdsSubscription]);
 </script>
 
 <style scoped>
