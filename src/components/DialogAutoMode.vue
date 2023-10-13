@@ -1,5 +1,5 @@
 <template>
-  <v-card v-if="scheduleStore.autoMode == null" class="pa-1" max-width="290px">
+  <v-card v-if="autoMode == undefined" class="pa-1" max-width="290px">
     <v-alert
       type="error"
       variant="tonal"
@@ -8,7 +8,7 @@
     >
     </v-alert>
   </v-card>
-  <v-card v-else-if="scheduleStore.autoMode" class="pa-1" max-width="290px">
+  <v-card v-else-if="autoMode" class="pa-1" max-width="290px">
     <v-card-text>
       <div class="text=h6 mb-1">
         <p>
@@ -41,13 +41,17 @@
 </template>
 
 <script setup lang="ts">
-import { useScheduleStore } from "@/plugins/pinia/stores/schedule";
 import {
   useAutoModeTurnOffMutation,
   useAutoModeTurnOnMutation,
 } from "@/graphql/codegen/generated";
 
-const scheduleStore = useScheduleStore();
 const { executeMutation: turnOn } = useAutoModeTurnOnMutation();
 const { executeMutation: turnOff } = useAutoModeTurnOffMutation();
+
+import { useSubscribeScheduleAutoMode } from "@/api";
+const subscription = useSubscribeScheduleAutoMode();
+const { autoMode } = subscription;
+
+await subscription
 </script>
