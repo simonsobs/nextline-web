@@ -10,10 +10,9 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
 
-import {
-  useExceptionQuery,
-  useStateSubscription,
-} from "@/graphql/codegen/generated";
+import { useExceptionQuery } from "@/graphql/codegen/generated";
+
+import { useSubscribeState } from "@/api";
 
 interface Props {
   modelValue: boolean;
@@ -26,14 +25,15 @@ type Emits = {
 const props = defineProps<Props>();
 const emit = defineEmits<Emits>();
 
-const subscription = useStateSubscription();
+const stateSubscription = useSubscribeState();
+const { state } = stateSubscription;
 
 const pause = ref(true);
 
 const query = useExceptionQuery({ pause: pause.value });
 
-watch(subscription.data, (val) => {
-  pause.value = val?.state !== "finished";
+watch(state, (val) => {
+  pause.value = val !== "finished";
   if (!pause.value) {
     query.executeQuery();
   }
@@ -56,4 +56,6 @@ watch(alert, (val) => {
   if (!val) exception.value = null;
   emit("update:modelValue", val);
 });
+
+await stateSubscription;
 </script>
