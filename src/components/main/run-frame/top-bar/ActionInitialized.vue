@@ -19,40 +19,33 @@
     </run-inter-confirmation-dialog>
   </v-dialog>
   <v-dialog v-model="dialogRun" max-width="400">
-    <run-confirmation-dialog
-      @confirm="onRunConfirmed"
-      @cancel="dialogRun = false"
-    >
+    <run-confirmation-dialog @confirm="onRunConfirmed" @cancel="dialogRun = false">
     </run-confirmation-dialog>
   </v-dialog>
 </template>
 
 <script setup lang="ts">
-import { watch, ref, computed } from "vue";
+import { ref, onBeforeUnmount } from "vue";
+import { storeToRefs } from "pinia";
 
 import { useStore } from "@/plugins/pinia/stores/main";
 
 import {
   useExecMutation,
   useRunAndContinueMutation,
-  useQStateQuery,
-  useStateSubscription,
 } from "@/graphql/codegen/generated";
-import { storeToRefs } from "pinia";
+
 import RunInterConfirmationDialog from "./RunInterConfirmationDialog.vue";
 import RunConfirmationDialog from "./RunConfirmationDialog.vue";
-
-const stateQuery = useQStateQuery();
-const stateSubscription = useStateSubscription();
-const state = computed(
-  () => stateSubscription.data?.value?.state || stateQuery.data?.value?.state
-);
 
 const store = useStore();
 const { modified: editing } = storeToRefs(store);
 
 const { executeMutation: executeExec } = useExecMutation();
 const { executeMutation: executeRunAndContinue } = useRunAndContinueMutation();
+
+const dialogRun = ref(false);
+const dialogRunInter = ref(false);
 
 async function onRunConfirmed() {
   dialogRunInter.value = false;
@@ -64,13 +57,8 @@ async function onRunInterConfirmed() {
   await executeExec({});
 }
 
-watch(state, () => {
-  if (state.value !== "initialized") {
-    dialogRun.value = false;
-    dialogRunInter.value = false;
-  }
+onBeforeUnmount(() => {
+  dialogRun.value = false;
+  dialogRunInter.value = false;
 });
-
-const dialogRun = ref(false);
-const dialogRunInter = ref(false);
 </script>
