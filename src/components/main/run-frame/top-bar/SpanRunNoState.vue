@@ -16,20 +16,14 @@
 import { computed } from "vue";
 
 import {
-  useQRunNoQuery,
   useQContinuousEnabledQuery,
-  useRunNoSubscription,
   useContinuousEnabledSubscription,
 } from "@/graphql/codegen/generated";
 
-import { useSubscribeState } from "@/api";
+import { useSubscribeRunNo, useSubscribeState } from "@/api";
 
-const runNoQuery = useQRunNoQuery();
-const runNoSubscription = useRunNoSubscription();
-
-const runNo = computed(
-  () => runNoSubscription.data?.value?.runNo || runNoQuery.data?.value?.runNo
-);
+const runNoSubscription = useSubscribeRunNo();
+const { runNo } = runNoSubscription;
 
 const stateSubscription = useSubscribeState();
 const { state } = stateSubscription;
@@ -43,5 +37,5 @@ const continuousEnabled = computed(
     continuousEnabledQuery.data?.value?.continuousEnabled
 );
 
-await stateSubscription;
+await Promise.all([runNoSubscription, stateSubscription]);
 </script>
