@@ -169,6 +169,7 @@ export type Query = {
   source: Array<Scalars['String']['output']>;
   sourceLine: Scalars['String']['output'];
   state: Scalars['String']['output'];
+  traceIds: Array<Scalars['Int']['output']>;
 };
 
 
@@ -385,6 +386,11 @@ export type QStateQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type QStateQuery = { __typename?: 'Query', state: string };
+
+export type QTraceIdsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type QTraceIdsQuery = { __typename?: 'Query', traceIds: Array<number> };
 
 export type ContinuousEnabledSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
@@ -608,6 +614,15 @@ export const QStateDocument = gql`
 
 export function useQStateQuery(options: Omit<Urql.UseQueryArgs<never, QStateQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<QStateQuery>({ query: QStateDocument, ...options });
+};
+export const QTraceIdsDocument = gql`
+    query QTraceIds {
+  traceIds
+}
+    `;
+
+export function useQTraceIdsQuery(options: Omit<Urql.UseQueryArgs<never, QTraceIdsQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<QTraceIdsQuery>({ query: QTraceIdsDocument, ...options });
 };
 export const ContinuousEnabledDocument = gql`
     subscription ContinuousEnabled {
