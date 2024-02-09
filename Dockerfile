@@ -29,8 +29,8 @@ COPY docker/env.local .env.local
 RUN yarn build
 
 
-# https://github.com/nginxinc/docker-nginx/tree/1.22.1
-FROM nginx:1.22.1
+# https://github.com/nginxinc/docker-nginx/tree/1.25.3
+FROM nginx:1.25.3
 
 RUN apt-get update && apt-get install -y jq
 
