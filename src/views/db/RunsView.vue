@@ -15,8 +15,7 @@
         <v-alert v-if="error" variant="tonal" type="error">
           {{ error }}
         </v-alert>
-        <refresh-button :disabled="loading" @refresh="refresh">
-        </refresh-button>
+        <refresh-button :disabled="loading" @refresh="refresh"> </refresh-button>
       </template>
       <template v-slot:item.runNo="{ item }">
         <span class="font-weight-bold primary--text">
@@ -53,10 +52,7 @@ import RefreshButton from "./RefreshButton.vue";
 const queryResponse = useRunsQuery();
 const unpacked = useUnpack(() => queryResponse.data?.value?.history.runs);
 
-const { override, fetching, error, nodes } = useOverride(
-  queryResponse,
-  unpacked
-);
+const { override, fetching, error, nodes } = useOverride(queryResponse, unpacked);
 
 const { refresh, refreshing } = useRefresh(queryResponse);
 const loading = refThrottled(
