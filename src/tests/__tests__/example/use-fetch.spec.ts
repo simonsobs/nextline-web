@@ -13,6 +13,7 @@ describe("useFetch", () => {
   // @ts-expect-error
   const createResponse = (data: any): Response => ({
     json: () => new Promise((resolve) => resolve(data)),
+    clone: () => createResponse(data),
     ok: true, // https://github.com/vueuse/vueuse/blob/v10.4.1/packages/core/useFetch/index.ts#L471
   });
 

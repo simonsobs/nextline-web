@@ -1,4 +1,4 @@
-FROM node:18.18-alpine as build
+FROM node:20.11-alpine as build
 
 # https://github.com/docker/getting-started/issues/124
 RUN apk add --no-cache python3 g++ make
@@ -29,8 +29,8 @@ COPY docker/env.local .env.local
 RUN yarn build
 
 
-# https://github.com/nginxinc/docker-nginx/tree/1.22.1
-FROM nginx:1.22.1
+# https://github.com/nginxinc/docker-nginx/tree/1.25.3
+FROM nginx:1.25.3
 
 RUN apt-get update && apt-get install -y jq
 

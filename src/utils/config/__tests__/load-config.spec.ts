@@ -6,6 +6,7 @@ globalThis.fetch = vi.fn();
 const createResponse = (data: any) =>
   ({
     json: () => new Promise((resolve) => resolve(data)),
+    clone: () => createResponse(data),
     ok: true,
     status: 200,
     statusText: "OK",
@@ -13,6 +14,7 @@ const createResponse = (data: any) =>
 
 const response404 = {
   json: () => new Promise((resolve) => resolve({})),
+  clone: () => response404,
   ok: false,
   status: 404,
   statusText: "Not Found",
