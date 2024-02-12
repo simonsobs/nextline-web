@@ -2,6 +2,7 @@
   "name": "nextline-web",
   "version": "0.8.15",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "vite",
     "serve": "vite preview",
