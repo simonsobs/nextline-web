@@ -5301,10 +5301,10 @@ vue@~3.4.18:
     "@vue/server-renderer" "3.4.18"
     "@vue/shared" "3.4.18"
 
-vuetify@^3.3.21:
-  version "3.3.21"
-  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-3.3.21.tgz#b5798ed092e019214bbc9d89461e203e525e02d5"
-  integrity sha512-CVC6MDC45H+IY8Nq5QO/lBhbSd/dg+IV46GKd+LIndriLoQXG+tFv31NQY++tOQgrKeZr6w2SUBMBxSZyHErfg==
+vuetify@~3.5.3:
+  version "3.5.3"
+  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-3.5.3.tgz#bfb807027854db17950195659139c9abc76bf497"
+  integrity sha512-z2H1HYEfFeqHTp47VbFOLAv6Nard/eP4+qIXY9c6Z/uUflLhq5K8cyXL6MKhfIzyUsto+KszjVTyX+bu7zT2QA==
 
 w3c-xmlserializer@^4.0.0:
   version "4.0.0"
