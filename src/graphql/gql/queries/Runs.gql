@@ -1,5 +1,5 @@
 query Runs {
-  history {
+  rdb {
     runs {
       edges {
         node {

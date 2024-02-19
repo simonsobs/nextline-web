@@ -18,44 +18,9 @@ export type Scalars = {
   DateTime: { input: any; output: any; }
 };
 
-export type History = {
-  __typename?: 'History';
-  prompts: PromptHistoryConnection;
-  runs: RunHistoryConnection;
-  stdouts: StdoutHistoryConnection;
-  traces: TraceHistoryConnection;
-};
-
-
-export type HistoryPromptsArgs = {
-  after?: InputMaybe<Scalars['String']['input']>;
-  before?: InputMaybe<Scalars['String']['input']>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-export type HistoryRunsArgs = {
-  after?: InputMaybe<Scalars['String']['input']>;
-  before?: InputMaybe<Scalars['String']['input']>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-export type HistoryStdoutsArgs = {
-  after?: InputMaybe<Scalars['String']['input']>;
-  before?: InputMaybe<Scalars['String']['input']>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-export type HistoryTracesArgs = {
-  after?: InputMaybe<Scalars['String']['input']>;
-  before?: InputMaybe<Scalars['String']['input']>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
+export type AlertRdb = {
+  __typename?: 'AlertRDB';
+  version: Scalars['String']['output'];
 };
 
 export type Mutation = {
@@ -63,6 +28,7 @@ export type Mutation = {
   exec: Scalars['Boolean']['output'];
   interrupt: Scalars['Boolean']['output'];
   kill: Scalars['Boolean']['output'];
+  rdb: MutationRdb;
   reset: Scalars['Boolean']['output'];
   runAndContinue: Scalars['Boolean']['output'];
   schedule: MutationSchedule;
@@ -86,6 +52,16 @@ export type MutationAutoMode = {
   __typename?: 'MutationAutoMode';
   turnOff: Scalars['Boolean']['output'];
   turnOn: Scalars['Boolean']['output'];
+};
+
+export type MutationRdb = {
+  __typename?: 'MutationRDB';
+  deleteRuns: Array<Scalars['Int']['output']>;
+};
+
+
+export type MutationRdbDeleteRunsArgs = {
+  ids: Array<Scalars['Int']['input']>;
 };
 
 export type MutationSchedule = {
@@ -141,6 +117,7 @@ export type PromptHistoryConnection = {
   __typename?: 'PromptHistoryConnection';
   edges: Array<PromptHistoryEdge>;
   pageInfo: PageInfo;
+  totalCount: Scalars['Int']['output'];
 };
 
 export type PromptHistoryEdge = {
@@ -159,10 +136,13 @@ export type PromptingData = {
 
 export type Query = {
   __typename?: 'Query';
+  alert: AlertRdb;
   continuousEnabled: Scalars['Boolean']['output'];
+  dev: QueryDev;
   exception?: Maybe<Scalars['String']['output']>;
   hello: Scalars['String']['output'];
-  history: History;
+  history: QueryRdb;
+  rdb: QueryRdb;
   runNo: Scalars['Int']['output'];
   schedule: QuerySchedule;
   settings: Scalars['String']['output'];
@@ -186,6 +166,60 @@ export type QuerySourceLineArgs = {
 export type QueryAutoMode = {
   __typename?: 'QueryAutoMode';
   state: Scalars['String']['output'];
+};
+
+export type QueryDev = {
+  __typename?: 'QueryDev';
+  headers: Scalars['String']['output'];
+};
+
+export type QueryRdb = {
+  __typename?: 'QueryRDB';
+  migrationVersion?: Maybe<Scalars['String']['output']>;
+  prompts: PromptHistoryConnection;
+  run?: Maybe<RunHistory>;
+  runs: RunHistoryConnection;
+  stdouts: StdoutHistoryConnection;
+  traces: TraceHistoryConnection;
+  version: Scalars['String']['output'];
+};
+
+
+export type QueryRdbPromptsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type QueryRdbRunArgs = {
+  id?: InputMaybe<Scalars['Int']['input']>;
+  runNo?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type QueryRdbRunsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type QueryRdbStdoutsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type QueryRdbTracesArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type QuerySchedule = {
@@ -219,6 +253,7 @@ export type RunHistoryConnection = {
   __typename?: 'RunHistoryConnection';
   edges: Array<RunHistoryEdge>;
   pageInfo: PageInfo;
+  totalCount: Scalars['Int']['output'];
 };
 
 export type RunHistoryEdge = {
@@ -242,6 +277,7 @@ export type StdoutHistoryConnection = {
   __typename?: 'StdoutHistoryConnection';
   edges: Array<StdoutHistoryEdge>;
   pageInfo: PageInfo;
+  totalCount: Scalars['Int']['output'];
 };
 
 export type StdoutHistoryEdge = {
@@ -286,6 +322,7 @@ export type TraceHistoryConnection = {
   __typename?: 'TraceHistoryConnection';
   edges: Array<TraceHistoryEdge>;
   pageInfo: PageInfo;
+  totalCount: Scalars['Int']['output'];
 };
 
 export type TraceHistoryEdge = {
@@ -360,6 +397,23 @@ export type ExceptionQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type ExceptionQuery = { __typename?: 'Query', exception?: string | null };
 
+export type RdbRunQueryVariables = Exact<{
+  runNo: Scalars['Int']['input'];
+}>;
+
+
+export type RdbRunQuery = { __typename?: 'Query', rdb: { __typename?: 'QueryRDB', run?: { __typename?: 'RunHistory', id: number, runNo: number, state?: string | null, startedAt?: any | null, endedAt?: any | null, script?: string | null, exception?: string | null } | null } };
+
+export type RdbRunsQueryVariables = Exact<{
+  before?: InputMaybe<Scalars['String']['input']>;
+  after?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type RdbRunsQuery = { __typename?: 'Query', rdb: { __typename?: 'QueryRDB', runs: { __typename?: 'RunHistoryConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', startCursor?: string | null, endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean }, edges: Array<{ __typename?: 'RunHistoryEdge', cursor: string, node: { __typename?: 'RunHistory', id: number, runNo: number, state?: string | null, startedAt?: any | null, endedAt?: any | null, script?: string | null, exception?: string | null } }> } } };
+
 export type QRunNoQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -368,7 +422,7 @@ export type QRunNoQuery = { __typename?: 'Query', runNo: number };
 export type RunsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type RunsQuery = { __typename?: 'Query', history: { __typename?: 'History', runs: { __typename?: 'RunHistoryConnection', edges: Array<{ __typename?: 'RunHistoryEdge', node: { __typename?: 'RunHistory', runNo: number, state?: string | null, startedAt?: any | null, endedAt?: any | null, script?: string | null, exception?: string | null } }> } } };
+export type RunsQuery = { __typename?: 'Query', rdb: { __typename?: 'QueryRDB', runs: { __typename?: 'RunHistoryConnection', edges: Array<{ __typename?: 'RunHistoryEdge', node: { __typename?: 'RunHistory', runNo: number, state?: string | null, startedAt?: any | null, endedAt?: any | null, script?: string | null, exception?: string | null } }> } } };
 
 export type QScheduleAutoModeStateQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -553,6 +607,56 @@ export const ExceptionDocument = gql`
 export function useExceptionQuery(options: Omit<Urql.UseQueryArgs<never, ExceptionQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<ExceptionQuery>({ query: ExceptionDocument, ...options });
 };
+export const RdbRunDocument = gql`
+    query RDBRun($runNo: Int!) {
+  rdb {
+    run(runNo: $runNo) {
+      id
+      runNo
+      state
+      startedAt
+      endedAt
+      script
+      exception
+    }
+  }
+}
+    `;
+
+export function useRdbRunQuery(options: Omit<Urql.UseQueryArgs<never, RdbRunQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<RdbRunQuery>({ query: RdbRunDocument, ...options });
+};
+export const RdbRunsDocument = gql`
+    query RDBRuns($before: String, $after: String, $first: Int, $last: Int) {
+  rdb {
+    runs(before: $before, after: $after, first: $first, last: $last) {
+      pageInfo {
+        startCursor
+        endCursor
+        hasNextPage
+        hasPreviousPage
+      }
+      totalCount
+      edges {
+        cursor
+        node {
+          id
+          runNo
+          state
+          startedAt
+          endedAt
+          script
+          exception
+        }
+      }
+    }
+  }
+}
+    `;
+
+export function useRdbRunsQuery(options: Omit<Urql.UseQueryArgs<never, RdbRunsQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<RdbRunsQuery>({ query: RdbRunsDocument, ...options });
+};
 export const QRunNoDocument = gql`
     query QRunNo {
   runNo
@@ -564,7 +668,7 @@ export function useQRunNoQuery(options: Omit<Urql.UseQueryArgs<never, QRunNoQuer
 };
 export const RunsDocument = gql`
     query Runs {
-  history {
+  rdb {
     runs {
       edges {
         node {
