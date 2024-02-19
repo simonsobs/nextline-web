@@ -397,6 +397,13 @@ export type ExceptionQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type ExceptionQuery = { __typename?: 'Query', exception?: string | null };
 
+export type RdbRunQueryVariables = Exact<{
+  runNo: Scalars['Int']['input'];
+}>;
+
+
+export type RdbRunQuery = { __typename?: 'Query', rdb: { __typename?: 'QueryRDB', run?: { __typename?: 'RunHistory', id: number, runNo: number, state?: string | null, startedAt?: any | null, endedAt?: any | null, script?: string | null, exception?: string | null } | null } };
+
 export type RdbRunsQueryVariables = Exact<{
   before?: InputMaybe<Scalars['String']['input']>;
   after?: InputMaybe<Scalars['String']['input']>;
@@ -599,6 +606,25 @@ export const ExceptionDocument = gql`
 
 export function useExceptionQuery(options: Omit<Urql.UseQueryArgs<never, ExceptionQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<ExceptionQuery>({ query: ExceptionDocument, ...options });
+};
+export const RdbRunDocument = gql`
+    query RDBRun($runNo: Int!) {
+  rdb {
+    run(runNo: $runNo) {
+      id
+      runNo
+      state
+      startedAt
+      endedAt
+      script
+      exception
+    }
+  }
+}
+    `;
+
+export function useRdbRunQuery(options: Omit<Urql.UseQueryArgs<never, RdbRunQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<RdbRunQuery>({ query: RdbRunDocument, ...options });
 };
 export const RdbRunsDocument = gql`
     query RDBRuns($before: String, $after: String, $first: Int, $last: Int) {
