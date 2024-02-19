@@ -117,6 +117,7 @@ export type PromptHistoryConnection = {
   __typename?: 'PromptHistoryConnection';
   edges: Array<PromptHistoryEdge>;
   pageInfo: PageInfo;
+  totalCount: Scalars['Int']['output'];
 };
 
 export type PromptHistoryEdge = {
@@ -252,6 +253,7 @@ export type RunHistoryConnection = {
   __typename?: 'RunHistoryConnection';
   edges: Array<RunHistoryEdge>;
   pageInfo: PageInfo;
+  totalCount: Scalars['Int']['output'];
 };
 
 export type RunHistoryEdge = {
@@ -275,6 +277,7 @@ export type StdoutHistoryConnection = {
   __typename?: 'StdoutHistoryConnection';
   edges: Array<StdoutHistoryEdge>;
   pageInfo: PageInfo;
+  totalCount: Scalars['Int']['output'];
 };
 
 export type StdoutHistoryEdge = {
@@ -319,6 +322,7 @@ export type TraceHistoryConnection = {
   __typename?: 'TraceHistoryConnection';
   edges: Array<TraceHistoryEdge>;
   pageInfo: PageInfo;
+  totalCount: Scalars['Int']['output'];
 };
 
 export type TraceHistoryEdge = {
@@ -393,6 +397,16 @@ export type ExceptionQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type ExceptionQuery = { __typename?: 'Query', exception?: string | null };
 
+export type RdbRunsQueryVariables = Exact<{
+  before?: InputMaybe<Scalars['String']['input']>;
+  after?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type RdbRunsQuery = { __typename?: 'Query', rdb: { __typename?: 'QueryRDB', runs: { __typename?: 'RunHistoryConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', startCursor?: string | null, endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean }, edges: Array<{ __typename?: 'RunHistoryEdge', cursor: string, node: { __typename?: 'RunHistory', id: number, runNo: number, state?: string | null, startedAt?: any | null, endedAt?: any | null, script?: string | null, exception?: string | null } }> } } };
+
 export type QRunNoQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -401,7 +415,7 @@ export type QRunNoQuery = { __typename?: 'Query', runNo: number };
 export type RunsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type RunsQuery = { __typename?: 'Query', history: { __typename?: 'QueryRDB', runs: { __typename?: 'RunHistoryConnection', edges: Array<{ __typename?: 'RunHistoryEdge', node: { __typename?: 'RunHistory', runNo: number, state?: string | null, startedAt?: any | null, endedAt?: any | null, script?: string | null, exception?: string | null } }> } } };
+export type RunsQuery = { __typename?: 'Query', rdb: { __typename?: 'QueryRDB', runs: { __typename?: 'RunHistoryConnection', edges: Array<{ __typename?: 'RunHistoryEdge', node: { __typename?: 'RunHistory', runNo: number, state?: string | null, startedAt?: any | null, endedAt?: any | null, script?: string | null, exception?: string | null } }> } } };
 
 export type QScheduleAutoModeStateQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -586,6 +600,37 @@ export const ExceptionDocument = gql`
 export function useExceptionQuery(options: Omit<Urql.UseQueryArgs<never, ExceptionQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<ExceptionQuery>({ query: ExceptionDocument, ...options });
 };
+export const RdbRunsDocument = gql`
+    query RDBRuns($before: String, $after: String, $first: Int, $last: Int) {
+  rdb {
+    runs(before: $before, after: $after, first: $first, last: $last) {
+      pageInfo {
+        startCursor
+        endCursor
+        hasNextPage
+        hasPreviousPage
+      }
+      totalCount
+      edges {
+        cursor
+        node {
+          id
+          runNo
+          state
+          startedAt
+          endedAt
+          script
+          exception
+        }
+      }
+    }
+  }
+}
+    `;
+
+export function useRdbRunsQuery(options: Omit<Urql.UseQueryArgs<never, RdbRunsQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<RdbRunsQuery>({ query: RdbRunsDocument, ...options });
+};
 export const QRunNoDocument = gql`
     query QRunNo {
   runNo
@@ -597,7 +642,7 @@ export function useQRunNoQuery(options: Omit<Urql.UseQueryArgs<never, QRunNoQuer
 };
 export const RunsDocument = gql`
     query Runs {
-  history {
+  rdb {
     runs {
       edges {
         node {
