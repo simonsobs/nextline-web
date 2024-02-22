@@ -1,4 +1,4 @@
-import { ref, computed, watch, watchEffect } from "vue";
+import { ref, computed, watchEffect } from "vue";
 
 import {
   useSourceQuery,
@@ -20,8 +20,8 @@ export async function useSource() {
   const modified = computed(() => source.value !== savedSource.value);
 
   const store = useStore();
-  watch(modified, (val) => {
-    store.setModified(val);
+  watchEffect(() => {
+    store.setModified(modified.value);
   });
 
   const { executeMutation: executeMutationReset } = useResetMutation();
