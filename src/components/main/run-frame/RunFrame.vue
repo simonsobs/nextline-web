@@ -3,7 +3,7 @@
     <suspense>
       <subscribe-run-no v-slot="{ runNo }">
         <template v-if="runNo">
-          <v-fade-transition>
+          <v-fade-transition hide-on-leave>
             <run-frame-e :key="runNo" :run-no="runNo"> </run-frame-e>
           </v-fade-transition>
         </template>
