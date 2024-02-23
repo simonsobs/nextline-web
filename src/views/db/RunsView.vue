@@ -93,10 +93,17 @@ const loading = refThrottled(
 );
 // const loading = computed(() => fetching.value);
 
-function resetQueryVariables() {
-  page.value = initialPage;
-  itemsPerPage.value = initialItemsPerPage;
-  // reactiveQueryVariables.value = { ...initialQueryVariables };
+async function resetQueryVariables() {
+  if (
+    JSON.stringify(page.value) === JSON.stringify(initialPage) &&
+    itemsPerPage.value === initialItemsPerPage
+  ) {
+    await refresh();
+  } else {
+    page.value = initialPage;
+    itemsPerPage.value = initialItemsPerPage;
+    // refresh() will be called as they are reactive
+  }
 }
 
 watch(itemsPerPage, () => {
