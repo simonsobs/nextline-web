@@ -2,23 +2,17 @@
 
 # Nextline-web
 
-The front-end web app of [Nextline](https://github.com/simonsobs/nextline).
+The front-end web app of Nextline.
 
-_Nextline_ allows line-by-line execution of concurrent Python scripts by
-multiple users simultaneously from web browsers. Nextline is being developed as
-a DAQ sequencer of the [Observatory Control System
-(OCS)](https://github.com/simonsobs/ocs/).
-
-## Packages
-
-- [**nextline:**](https://github.com/simonsobs/nextline) (Python) The core functionality. Imported in _nextline-graphql._
-- [**nextline-graphql:**](https://github.com/simonsobs/nextline-graphql) (Python) The GraphQL API server
-- [**nextline-web:**](https://github.com/simonsobs/nextline-web) (TypeScript) this package. The front-end web app.
+_Nextline_ is a DAQ sequencer of the [Observatory Control System
+(OCS)](https://github.com/simonsobs/ocs/). Nextline allows line-by-line
+execution of concurrent Python scripts, which control telescopes, by multiple
+users simultaneously from web browsers.
 
 ## How to run the Nextline front-end web app
 
 The section shows how to run the Nextline front-end web app. To start, you need
-to know the URL of the [back-end GraphQL API
+to know the URL of the [back-end API
 server](https://github.com/simonsobs/nextline-graphql).
 
 ### As a Docker container
