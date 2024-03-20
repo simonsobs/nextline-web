@@ -19,14 +19,6 @@ const props = defineProps<Props>();
 
 const { run } = toRefs(props);
 
-const stateChipColor = ref({
-  initialized: "success",
-  running: "primary",
-  exited: "warning",
-  finished: "warning",
-  closed: "warning",
-});
-
 function formatDateTime(dateTime: string) {
   if (!dateTime) return;
   const sinceEpoch = Date.parse(dateTime);
@@ -93,18 +85,12 @@ watch(
     <div class="g-head">
       <v-card-title>
         Run: {{ run.runNo }}
-        <v-chip
-          v-if="run.state"
-          :color="stateChipColor[run.state]"
-          class="text-capitalize ml-5"
-        >
-          {{ run.state }}
-        </v-chip>
+        ⋅
+        <span class="text-capitalize text-primary"> {{ run.state }} </span>
       </v-card-title>
       <v-card-text class="text-body-1">
         Started at:
-        <span class="font-weight-bold">
-          {{ formatDateTime(run.startedAt || "") }} </span
+        <span class="font-weight-bold"> {{ formatDateTime(run.startedAt || "") }} </span
         ><br />
         <span>
           Ended at:
@@ -115,18 +101,12 @@ watch(
       </v-card-text>
     </div>
     <div class="g-exception">
-      <v-card-subtitle
-        v-if="run.exception"
-        class="font-weight-bold error--text"
-      >
+      <v-card-subtitle v-if="run.exception" class="font-weight-bold error--text">
         Uncaught exception:
       </v-card-subtitle>
       <v-card-text v-if="run.exception">
         <v-alert type="error" variant="tonal">
-          <pre
-            v-text="run.exception"
-            class="overflow-x-auto"
-          ></pre>
+          <pre v-text="run.exception" class="overflow-x-auto"></pre>
         </v-alert>
       </v-card-text>
     </div>
