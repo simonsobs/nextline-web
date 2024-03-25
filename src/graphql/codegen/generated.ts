@@ -659,6 +659,14 @@ export const RdbRunDocument = gql`
       endedAt
       script
       exception
+      stdouts {
+        edges {
+          node {
+            id
+            text
+          }
+        }
+      }
     }
   }
 }
