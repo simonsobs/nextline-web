@@ -95,8 +95,8 @@ export type PageInfo = {
   startCursor?: Maybe<Scalars['String']['output']>;
 };
 
-export type PromptHistory = {
-  __typename?: 'PromptHistory';
+export type PromptNode = {
+  __typename?: 'PromptNode';
   command?: Maybe<Scalars['String']['output']>;
   endedAt?: Maybe<Scalars['DateTime']['output']>;
   event: Scalars['String']['output'];
@@ -105,25 +105,25 @@ export type PromptHistory = {
   lineNo?: Maybe<Scalars['Int']['output']>;
   open: Scalars['Boolean']['output'];
   promptNo: Scalars['Int']['output'];
-  run: RunHistory;
+  run: RunNode;
   runNo: Scalars['Int']['output'];
   startedAt: Scalars['DateTime']['output'];
   stdout?: Maybe<Scalars['String']['output']>;
-  trace: TraceHistory;
+  trace: TraceNode;
   traceNo: Scalars['Int']['output'];
 };
 
-export type PromptHistoryConnection = {
-  __typename?: 'PromptHistoryConnection';
-  edges: Array<PromptHistoryEdge>;
+export type PromptNodeConnection = {
+  __typename?: 'PromptNodeConnection';
+  edges: Array<PromptNodeEdge>;
   pageInfo: PageInfo;
   totalCount: Scalars['Int']['output'];
 };
 
-export type PromptHistoryEdge = {
-  __typename?: 'PromptHistoryEdge';
+export type PromptNodeEdge = {
+  __typename?: 'PromptNodeEdge';
   cursor: Scalars['String']['output'];
-  node: PromptHistory;
+  node: PromptNode;
 };
 
 export type PromptingData = {
@@ -176,11 +176,11 @@ export type QueryDev = {
 export type QueryRdb = {
   __typename?: 'QueryRDB';
   migrationVersion?: Maybe<Scalars['String']['output']>;
-  prompts: PromptHistoryConnection;
-  run?: Maybe<RunHistory>;
-  runs: RunHistoryConnection;
-  stdouts: StdoutHistoryConnection;
-  traces: TraceHistoryConnection;
+  prompts: PromptNodeConnection;
+  run?: Maybe<RunNode>;
+  runs: RunNodeConnection;
+  stdouts: StdoutNodeConnection;
+  traces: TraceNodeConnection;
   version: Scalars['String']['output'];
 };
 
@@ -226,6 +226,7 @@ export type QuerySchedule = {
   __typename?: 'QuerySchedule';
   autoMode: QueryAutoMode;
   scheduler: QueryScheduler;
+  version: Scalars['String']['output'];
 };
 
 export type QueryScheduler = {
@@ -235,55 +236,79 @@ export type QueryScheduler = {
   policy: Scalars['String']['output'];
 };
 
-export type RunHistory = {
-  __typename?: 'RunHistory';
+export type RunNode = {
+  __typename?: 'RunNode';
   endedAt?: Maybe<Scalars['DateTime']['output']>;
   exception?: Maybe<Scalars['String']['output']>;
   id: Scalars['Int']['output'];
-  prompts: Array<PromptHistory>;
+  prompts: PromptNodeConnection;
   runNo: Scalars['Int']['output'];
   script?: Maybe<Scalars['String']['output']>;
   startedAt?: Maybe<Scalars['DateTime']['output']>;
   state?: Maybe<Scalars['String']['output']>;
-  stdouts: Array<StdoutHistory>;
-  traces: Array<TraceHistory>;
+  stdouts: StdoutNodeConnection;
+  traces: TraceNodeConnection;
 };
 
-export type RunHistoryConnection = {
-  __typename?: 'RunHistoryConnection';
-  edges: Array<RunHistoryEdge>;
+
+export type RunNodePromptsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type RunNodeStdoutsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type RunNodeTracesArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+export type RunNodeConnection = {
+  __typename?: 'RunNodeConnection';
+  edges: Array<RunNodeEdge>;
   pageInfo: PageInfo;
   totalCount: Scalars['Int']['output'];
 };
 
-export type RunHistoryEdge = {
-  __typename?: 'RunHistoryEdge';
+export type RunNodeEdge = {
+  __typename?: 'RunNodeEdge';
   cursor: Scalars['String']['output'];
-  node: RunHistory;
+  node: RunNode;
 };
 
-export type StdoutHistory = {
-  __typename?: 'StdoutHistory';
+export type StdoutNode = {
+  __typename?: 'StdoutNode';
   id: Scalars['Int']['output'];
-  run: RunHistory;
+  run: RunNode;
   runNo: Scalars['Int']['output'];
   text?: Maybe<Scalars['String']['output']>;
-  trace: TraceHistory;
+  trace: TraceNode;
   traceNo: Scalars['Int']['output'];
   writtenAt?: Maybe<Scalars['DateTime']['output']>;
 };
 
-export type StdoutHistoryConnection = {
-  __typename?: 'StdoutHistoryConnection';
-  edges: Array<StdoutHistoryEdge>;
+export type StdoutNodeConnection = {
+  __typename?: 'StdoutNodeConnection';
+  edges: Array<StdoutNodeEdge>;
   pageInfo: PageInfo;
   totalCount: Scalars['Int']['output'];
 };
 
-export type StdoutHistoryEdge = {
-  __typename?: 'StdoutHistoryEdge';
+export type StdoutNodeEdge = {
+  __typename?: 'StdoutNodeEdge';
   cursor: Scalars['String']['output'];
-  node: StdoutHistory;
+  node: StdoutNode;
 };
 
 export type Subscription = {
@@ -303,32 +328,48 @@ export type SubscriptionPromptingArgs = {
   traceId: Scalars['Int']['input'];
 };
 
-export type TraceHistory = {
-  __typename?: 'TraceHistory';
+export type TraceNode = {
+  __typename?: 'TraceNode';
   endedAt?: Maybe<Scalars['DateTime']['output']>;
   id: Scalars['Int']['output'];
-  prompts: Array<PromptHistory>;
-  run: RunHistory;
+  prompts: PromptNodeConnection;
+  run: RunNode;
   runNo: Scalars['Int']['output'];
   startedAt: Scalars['DateTime']['output'];
   state: Scalars['String']['output'];
-  stdouts: Array<StdoutHistory>;
+  stdouts: StdoutNodeConnection;
   taskNo?: Maybe<Scalars['Int']['output']>;
   threadNo: Scalars['Int']['output'];
   traceNo: Scalars['Int']['output'];
 };
 
-export type TraceHistoryConnection = {
-  __typename?: 'TraceHistoryConnection';
-  edges: Array<TraceHistoryEdge>;
+
+export type TraceNodePromptsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type TraceNodeStdoutsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+export type TraceNodeConnection = {
+  __typename?: 'TraceNodeConnection';
+  edges: Array<TraceNodeEdge>;
   pageInfo: PageInfo;
   totalCount: Scalars['Int']['output'];
 };
 
-export type TraceHistoryEdge = {
-  __typename?: 'TraceHistoryEdge';
+export type TraceNodeEdge = {
+  __typename?: 'TraceNodeEdge';
   cursor: Scalars['String']['output'];
-  node: TraceHistory;
+  node: TraceNode;
 };
 
 export type AutoModeTurnOffMutationVariables = Exact<{ [key: string]: never; }>;
@@ -402,7 +443,7 @@ export type RdbRunQueryVariables = Exact<{
 }>;
 
 
-export type RdbRunQuery = { __typename?: 'Query', rdb: { __typename?: 'QueryRDB', run?: { __typename?: 'RunHistory', id: number, runNo: number, state?: string | null, startedAt?: any | null, endedAt?: any | null, script?: string | null, exception?: string | null } | null } };
+export type RdbRunQuery = { __typename?: 'Query', rdb: { __typename?: 'QueryRDB', run?: { __typename?: 'RunNode', id: number, runNo: number, state?: string | null, startedAt?: any | null, endedAt?: any | null, script?: string | null, exception?: string | null, stdouts: { __typename?: 'StdoutNodeConnection', edges: Array<{ __typename?: 'StdoutNodeEdge', node: { __typename?: 'StdoutNode', id: number, text?: string | null } }> } } | null } };
 
 export type RdbRunsQueryVariables = Exact<{
   before?: InputMaybe<Scalars['String']['input']>;
@@ -412,7 +453,7 @@ export type RdbRunsQueryVariables = Exact<{
 }>;
 
 
-export type RdbRunsQuery = { __typename?: 'Query', rdb: { __typename?: 'QueryRDB', runs: { __typename?: 'RunHistoryConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', startCursor?: string | null, endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean }, edges: Array<{ __typename?: 'RunHistoryEdge', cursor: string, node: { __typename?: 'RunHistory', id: number, runNo: number, state?: string | null, startedAt?: any | null, endedAt?: any | null, script?: string | null, exception?: string | null } }> } } };
+export type RdbRunsQuery = { __typename?: 'Query', rdb: { __typename?: 'QueryRDB', runs: { __typename?: 'RunNodeConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', startCursor?: string | null, endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean }, edges: Array<{ __typename?: 'RunNodeEdge', cursor: string, node: { __typename?: 'RunNode', id: number, runNo: number, state?: string | null, startedAt?: any | null, endedAt?: any | null, script?: string | null, exception?: string | null } }> } } };
 
 export type QRunNoQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -422,7 +463,7 @@ export type QRunNoQuery = { __typename?: 'Query', runNo: number };
 export type RunsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type RunsQuery = { __typename?: 'Query', rdb: { __typename?: 'QueryRDB', runs: { __typename?: 'RunHistoryConnection', edges: Array<{ __typename?: 'RunHistoryEdge', node: { __typename?: 'RunHistory', runNo: number, state?: string | null, startedAt?: any | null, endedAt?: any | null, script?: string | null, exception?: string | null } }> } } };
+export type RunsQuery = { __typename?: 'Query', rdb: { __typename?: 'QueryRDB', runs: { __typename?: 'RunNodeConnection', edges: Array<{ __typename?: 'RunNodeEdge', node: { __typename?: 'RunNode', runNo: number, state?: string | null, startedAt?: any | null, endedAt?: any | null, script?: string | null, exception?: string | null } }> } } };
 
 export type QScheduleAutoModeStateQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -618,6 +659,14 @@ export const RdbRunDocument = gql`
       endedAt
       script
       exception
+      stdouts {
+        edges {
+          node {
+            id
+            text
+          }
+        }
+      }
     }
   }
 }

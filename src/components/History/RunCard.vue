@@ -1,15 +1,10 @@
 <script setup lang="ts">
-import { ref, toRefs, watch } from "vue";
+import { ref, toRefs, watch, computed } from "vue";
 import * as monaco from "monaco-editor";
 
-type Run = {
-  runNo: number;
-  state?: string | null | undefined;
-  startedAt?: string;
-  endedAt?: string;
-  exception?: string | null | undefined;
-  script?: string | null | undefined;
-};
+import { RdbRunQuery } from "@/graphql/codegen/generated";
+
+type Run = NonNullable<RdbRunQuery["rdb"]["run"]>;
 
 interface Props {
   run: Run;
@@ -18,6 +13,9 @@ interface Props {
 const props = defineProps<Props>();
 
 const { run } = toRefs(props);
+
+const stdouts = computed(() => run.value?.stdouts || []);
+const stdoutText = computed(() => stdouts.value.edges.map((e) => e.node.text).join(""));
 
 function formatDateTime(dateTime: string) {
   if (!dateTime) return;
@@ -116,6 +114,12 @@ watch(
         <div class="code" ref="refEditor"></div>
       </v-card-text>
     </div>
+    <div class="g-stdout">
+      <v-card-subtitle class="font-weight-bold"> Stdout </v-card-subtitle>
+      <v-card-text class="stdout-text">
+        <pre v-text="stdoutText" class="overflow-x-auto"></pre>
+      </v-card-text>
+    </div>
   </v-card>
 </template>
 
@@ -125,7 +129,7 @@ watch(
   height: 100%;
   grid-template-columns: minmax(100px, 1fr);
   grid-template-rows: min-content max-content minmax(min-content, 1fr);
-  grid-template-areas: "head" "exception" "script";
+  grid-template-areas: "head" "exception" "script" "stdout";
 }
 
 .g-head {
@@ -144,6 +148,16 @@ watch(
   display: grid;
   grid-template-columns: minmax(100px, 1fr);
   grid-template-rows: min-content minmax(200px, 1fr);
+}
+
+.g-stdout {
+  grid-area: stdout;
+}
+
+.stdout-text {
+  background: rgb(var(--v-theme-surface-container-low));
+  margin: 1rem;
+  padding: 2px;
 }
 
 .code {
