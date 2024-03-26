@@ -13,19 +13,6 @@
           </v-tab>
         </v-tabs>
         <v-spacer></v-spacer>
-        <v-tooltip bottom open-delay="500">
-          <template v-slot:activator="{ props }">
-            <v-btn
-              v-bind="props"
-              icon="mdi-eraser"
-              density="compact"
-              :disabled="!data?.stdout"
-              @click="clear"
-            >
-            </v-btn>
-          </template>
-          <span>Clear</span>
-        </v-tooltip>
       </v-card-actions>
       <v-card-text id="main" class="g-content py-1">
         <pre
@@ -52,9 +39,6 @@ const handleSubscription = (
   return { stdout: messages.stdout + response.stdout };
 };
 const subscription = useStdoutSubscription({}, handleSubscription);
-function clear() {
-  if (subscription.data?.value) subscription.data.value.stdout = "";
-}
 const bottom = ref(null as HTMLElement | null);
 const data = ref(subscription.data);
 
