@@ -1,4 +1,4 @@
-![npm](https://img.shields.io/npm/v/nextline-web)
+[![npm](https://img.shields.io/npm/v/nextline-web)](https://www.npmjs.com/package/nextline-web)
 [![Unit tests](https://github.com/simonsobs/nextline-web/actions/workflows/unit-test.yml/badge.svg)](https://github.com/simonsobs/nextline-web/actions/workflows/unit-test.yml)
 
 # Nextline-web
