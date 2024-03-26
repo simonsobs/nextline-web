@@ -128,7 +128,8 @@ watch(
   display: grid;
   height: 100%;
   grid-template-columns: minmax(100px, 1fr);
-  grid-template-rows: min-content max-content minmax(min-content, 1fr);
+  /* grid-template-rows: min-content max-content minmax(min-content, 1fr) min-content; */
+  grid-template-rows: min-content max-content min-content min-content;
   grid-template-areas: "head" "exception" "script" "stdout";
 }
 
