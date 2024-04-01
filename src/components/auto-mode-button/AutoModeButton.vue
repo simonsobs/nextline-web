@@ -1,23 +1,22 @@
 <template>
   <v-card-actions>
-    <v-menu>
+    <v-menu v-if="autoMode === undefined">
       <template v-slot:activator="{ props }">
-        <v-btn
-          v-if="autoMode === undefined"
-          v-bind="props"
-          variant="tonal"
-          color="error"
-        >
-          Auto Mode: Unknown
-        </v-btn>
-        <v-btn v-else-if="autoMode" v-bind="props" variant="tonal" color="tertiary">
-          Auto Mode: On
-        </v-btn>
-        <v-btn v-else v-bind="props"> Auto Mode: Off </v-btn>
+        <v-btn v-bind="props" variant="tonal" color="error"> Auto Mode: Unknown </v-btn>
       </template>
-      <dialog-error v-if="autoMode === undefined"></dialog-error>
-      <dialog-on v-else-if="autoMode"></dialog-on>
-      <dialog-off v-else></dialog-off>
+        <dialog-error></dialog-error>
+    </v-menu>
+    <v-menu v-else-if="autoMode">
+      <template v-slot:activator="{ props }">
+        <v-btn v-bind="props" variant="tonal" color="tertiary"> Auto Mode: On </v-btn>
+      </template>
+        <dialog-on></dialog-on>
+    </v-menu>
+    <v-menu v-else>
+      <template v-slot:activator="{ props }">
+        <v-btn v-bind="props"> Auto Mode: Off </v-btn>
+      </template>
+      <dialog-off></dialog-off>
     </v-menu>
   </v-card-actions>
 </template>
