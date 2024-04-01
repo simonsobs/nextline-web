@@ -16,7 +16,7 @@
       <span v-if="!mobile"> {{ version }} </span>
       <v-btn icon="mdi-graphql" :href="apiHttp" target="_blank"> </v-btn>
       <toggle-dark-mode-button></toggle-dark-mode-button>
-      <schedule-ctrl></schedule-ctrl>
+      <auto-mode-button></auto-mode-button>
     </template>
     <template v-slot:extension v-if="!mobile">
         <tab-navi></tab-navi>
@@ -32,7 +32,7 @@ import { useConfig } from "@/utils/config";
 
 import TabNavi from "./TabNavi.vue";
 import ToggleDarkModeButton from "@/components/utils/ToggleDarkModeButton.vue";
-import ScheduleCtrl from "@/components/ScheduleCtrl.vue";
+import AutoModeButton from "@/components/auto-mode-button/AutoModeButton.vue";
 
 const { mobile } = useDisplay();
 

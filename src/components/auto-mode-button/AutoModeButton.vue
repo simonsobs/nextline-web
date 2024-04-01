@@ -21,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-import DialogAutoMode from "@/components/DialogAutoMode.vue";
+import DialogAutoMode from "./DialogAutoMode.vue";
 import { useSubscribeScheduleAutoMode } from "@/api";
 const subscription = useSubscribeScheduleAutoMode();
 const { autoMode } = subscription;
