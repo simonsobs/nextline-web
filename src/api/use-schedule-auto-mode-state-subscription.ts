@@ -6,7 +6,6 @@ import {
 } from "@/graphql/codegen/generated";
 
 interface _ScheduleAutoModeStateSubscription {
-  autoMode: ComputedRef<boolean | undefined>;
   autoModeState: ComputedRef<string | undefined>;
   error: ComputedRef<Error | undefined>;
   subscription: ReturnType<typeof useScheduleAutoModeStateSubscription>;
@@ -29,13 +28,7 @@ export function useSubscribeScheduleAutoModeState(): ScheduleAutoModeStateSubscr
         query.data?.value?.schedule.autoMode.state
   );
 
-  const autoMode = computed(() => {
-    const s = autoModeState.value;
-    if (s === "off") return false;
-    if (s === "waiting" || s?.startsWith("auto")) return true;
-    return undefined;
-  });
-  const ret = { autoMode, autoModeState, error, subscription, query };
+  const ret = { autoModeState, error, subscription, query };
 
   return {
     ...ret,
