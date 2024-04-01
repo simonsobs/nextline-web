@@ -15,13 +15,17 @@
         </v-btn>
         <v-btn v-else v-bind="props"> Auto Mode: Off </v-btn>
       </template>
-      <dialog-auto-mode> </dialog-auto-mode>
+      <dialog-error v-if="autoMode === undefined"></dialog-error>
+      <dialog-on v-else-if="autoMode"></dialog-on>
+      <dialog-off v-else></dialog-off>
     </v-menu>
   </v-card-actions>
 </template>
 
 <script setup lang="ts">
-import DialogAutoMode from "./DialogAutoMode.vue";
+import DialogError from "./DialogError.vue";
+import DialogOn from "./DialogOn.vue";
+import DialogOff from "./DialogOff.vue";
 import { useSubscribeScheduleAutoMode } from "@/api";
 const subscription = useSubscribeScheduleAutoMode();
 const { autoMode } = subscription;
