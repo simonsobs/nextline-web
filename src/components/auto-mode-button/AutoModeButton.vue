@@ -22,9 +22,9 @@
 </template>
 
 <script setup lang="ts">
-import DialogError from "./DialogError.vue";
-import DialogOn from "./DialogOn.vue";
-import DialogOff from "./DialogOff.vue";
+import DialogError from "./modes/error/Dialog.vue";
+import DialogOn from "./modes/on/Dialog.vue";
+import DialogOff from "./modes/off/Dialog.vue";
 import { useSubscribeScheduleAutoMode } from "@/api";
 const subscription = useSubscribeScheduleAutoMode();
 const { autoMode } = subscription;
