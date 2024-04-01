@@ -10,6 +10,6 @@
 import ButtonError from "./modes/error/Button.vue";
 import ButtonOn from "./modes/on/Button.vue";
 import ButtonOff from "./modes/off/Button.vue";
-import { useSubscribeScheduleAutoMode } from "@/api";
-const { autoMode } = await useSubscribeScheduleAutoMode();
+import { useSubscribeScheduleAutoModeState } from "@/api";
+const { autoMode } = await useSubscribeScheduleAutoModeState();
 </script>
