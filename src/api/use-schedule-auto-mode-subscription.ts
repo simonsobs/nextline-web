@@ -3,7 +3,7 @@ import type { ComputedRef } from "vue";
 
 import { useSubscribeScheduleAutoModeState } from "./use-schedule-auto-mode-state-subscription";
 
-type AutoMode = 'off' | 'scheduler'
+type AutoMode = 'off' | 'scheduler' | 'queue';
 
 interface _ScheduleAutoModeSubscription {
   autoMode: ComputedRef<AutoMode | undefined>;

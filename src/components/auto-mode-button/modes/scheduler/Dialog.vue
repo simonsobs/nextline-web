@@ -4,10 +4,11 @@
       <v-card-text>
         <div class="mb-1">
           <p class="font-weight-medium">
-            The auto mode is currently <span class="font-italic"> off </span>.
+            The auto mode currently is <span class="font-italic"> on </span> and loads
+            scripts from the <span class="font-italic"> scheduler </span>.
           </p>
           <p class="mt-3">
-            If on, it automatically loads and runs the next script after each run
+            The auto mode automatically loads and runs the next script after each run
             successfully ends.
           </p>
           <p class="mt-3">
@@ -15,28 +16,28 @@
             <span class="font-italic"> scheduler </span> or the
             <span class="font-italic"> queue </span>.
           </p>
-          <p class="mt-3">Turn on auto mode?</p>
         </div>
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn variant="outlined" @click="turnOn"> turn on from scheduler </v-btn>
+        <v-btn variant="outlined" @click="switchToLoadFromQueue">
+          switch to load from queue
+        </v-btn>
       </v-card-actions>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn variant="outlined" @click="turnOnFromQueue"> turn on from queue </v-btn>
+        <v-btn variant="outlined" @click="turnOff"> turn off auto mode </v-btn>
       </v-card-actions>
     </v-card>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useAutoModeTurnOnMutation } from "@/graphql/codegen/generated";
+import { useAutoModeTurnOffMutation } from "@/graphql/codegen/generated";
+const { executeMutation: turnOff } = useAutoModeTurnOffMutation();
 
-const { executeMutation: turnOn } = useAutoModeTurnOnMutation();
-
-function turnOnFromQueue() {
-  console.log("turn on from queue");
+function switchToLoadFromQueue() {
+  console.log("switch to load from queue");
 }
 </script>
 
