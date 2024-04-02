@@ -1,8 +1,8 @@
 <template>
   <v-card-actions>
-    <button-error v-if="autoMode === undefined"></button-error>
-    <button-on v-else-if="autoMode"></button-on>
-    <button-off v-else></button-off>
+    <button-off v-if="autoMode === 'off'"></button-off>
+    <button-on v-else-if="autoMode === 'scheduler'"></button-on>
+    <button-error v-else></button-error>
   </v-card-actions>
 </template>
 

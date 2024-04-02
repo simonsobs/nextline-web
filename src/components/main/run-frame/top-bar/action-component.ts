@@ -15,14 +15,7 @@ export async function useActionComponent() {
   const { state } = stateSubscription;
 
   const actionComponent = computed<Component | null>(() => {
-    if (autoMode.value) {
-      switch (state.value) {
-        case "running":
-          return ActionRunning;
-        default:
-          return null;
-      }
-    } else {
+    if (autoMode.value === "off") {
       switch (state.value) {
         case "initialized":
           return ActionInitialized;
@@ -30,6 +23,13 @@ export async function useActionComponent() {
           return ActionRunning;
         case "finished":
           return ActionFinished;
+        default:
+          return null;
+      }
+    } else {
+      switch (state.value) {
+        case "running":
+          return ActionRunning;
         default:
           return null;
       }
