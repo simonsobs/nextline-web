@@ -1,7 +1,7 @@
 <template>
   <v-navigation-drawer disable-resize-watcher comment="fallthrough attributes">
     <div class="px-8 py-5">
-      <span class="text-primary font-weight-bold"> {{ appName }} </span>
+      <span class="text-primary font-weight-bold"> {{ appName }} : {{ apiName }} </span>
     </div>
     <list-navi></list-navi>
     <template v-slot:append>
@@ -19,4 +19,5 @@ import ListNavi from "./ListNavi.vue";
 const { config } = useConfig();
 const version = ref(import.meta.env.PACKAGE_VERSION);
 const appName = computed(() => config.value.appName || "loading...");
+const apiName = computed(() => config.value.apiName || "");
 </script>
