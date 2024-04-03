@@ -1,5 +1,8 @@
 <template>
   <div class="g-container">
+    <div class="g-breadcrumb">
+      <v-breadcrumbs :items="breadcrumb"> </v-breadcrumbs>
+    </div>
     <v-data-table-server
       :headers="headers"
       :items="items"
@@ -11,6 +14,7 @@
       @click:row="onClickRow"
       @update:items-per-page="onUpdateItemsPerPage"
       @update:page="onUpdatePage"
+      class="g-table"
     >
       <template v-slot:top>
         <v-alert v-if="error" variant="tonal" type="error">
@@ -36,7 +40,7 @@
     </v-data-table-server>
     <dev-tool-checkboxes
       top="20px"
-      right="-5px"
+      right="5px"
       v-model="override"
     ></dev-tool-checkboxes>
   </div>
@@ -53,6 +57,8 @@ import { useRefresh, useUnpack, useOverride } from "@/graphql/urql";
 
 import { formatDateTime } from "./format";
 import RefreshButton from "./RefreshButton.vue";
+
+const breadcrumb = [{ title: "Runs", disabled: false}];
 
 const initialPage = 1;
 const initialItemsPerPage = 10;
@@ -208,8 +214,23 @@ async function onUpdatePage(page_: number) {
 <style scoped>
 .g-container {
   position: relative;
-  max-width: 960px;
-  margin: auto;
-  padding: 20px 20px 64px 20px;
+  display: grid;
+  width: calc(100% - 2 * 12px);
+  margin: 12px;
+  justify-content: center;
+  grid-template-columns: minmax(100px, 960px);
+  grid-template-rows: min-content 1fr;
+  grid-template-areas: "breadcrumb" "table";
+}
+
+.g-breadcrumb {
+  grid-area:  breadcrumb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.g-table {
+  grid-area: table;
 }
 </style>
