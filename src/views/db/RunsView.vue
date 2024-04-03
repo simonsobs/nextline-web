@@ -215,8 +215,7 @@ async function onUpdatePage(page_: number) {
 .g-container {
   position: relative;
   display: grid;
-  width: calc(100% - 2 * 12px);
-  margin: 12px;
+  padding: 12px;
   justify-content: center;
   grid-template-columns: minmax(100px, 960px);
   grid-template-rows: min-content 1fr;
