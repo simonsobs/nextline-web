@@ -1,30 +1,40 @@
 <template>
-  <div class="g-container">
-    <div class="g-breadcrumb">
-      <v-breadcrumbs :items="breadcrumb"> </v-breadcrumbs>
+  <div class="queue-frame">
+    <div class="g-container">
+      <div class="g-breadcrumb">
+        <v-breadcrumbs :items="breadcrumb"> </v-breadcrumbs>
+      </div>
+      <v-data-table
+        :loading="loading"
+        :headers="headers"
+        :items="items"
+        class="g-table"
+      >
+        <template #top>
+          <v-btn variant="text" icon="mdi-refresh" @click="refresh"> </v-btn>
+        </template>
+        <template #item.index="{ index }">
+          {{ index }}
+        </template>
+        <template #item.actions="{ item }">
+          <v-btn
+            variant="text"
+            icon="mdi-delete"
+            density="comfortable"
+            @click="deleteItem(item)"
+          >
+          </v-btn>
+        </template>
+        <template #bottom></template>
+      </v-data-table>
     </div>
-    <v-data-table :loading="loading" :headers="headers" :items="items" class="g-table">
-      <template #top>
-        <v-btn variant="text" icon="mdi-refresh" @click="refresh"> </v-btn>
-      </template>
-      <template #item.actions="{ item }">
-        <v-btn
-          variant="text"
-          icon="mdi-delete"
-          density="comfortable"
-          @click="deleteItem(item)"
-        >
-        </v-btn>
-      </template>
-      <template #bottom></template>
-    </v-data-table>
     <v-btn
       variant="flat"
       size="x-large"
       color="tertiary-container"
       elevation="8"
       icon="mdi-plus-thick"
-      style="position: fixed; bottom: 24px; right: 24px"
+      class="fab"
     >
     </v-btn>
   </div>
@@ -36,7 +46,8 @@ import { ref } from "vue";
 const breadcrumb = [{ title: "Queue", disabled: false }];
 const loading = ref(false);
 const headers = [
-  { title: "column A", key: "columnA" },
+  { title: "Index", key: "index", sortable: false },
+  { title: "Column A", key: "columnA", sortable: false },
   { title: "", key: "actions", sortable: false, align: "end" as const },
 ];
 const items = ref([{ columnA: "value 1" }, { columnA: "value 2" }]);
@@ -54,12 +65,29 @@ function deleteItem(item: any) {
 </script>
 
 <style scoped>
+.queue-frame {
+  /* Frame to place the fab button */
+  position: relative;
+  margin: auto;
+  padding: 12px;
+  block-size: 100%;
+  /* max-inline-size: 960px; */
+  max-inline-size: 984px; /* 960 + 2 * 12 (padding). so to match History page */
+}
+
+.fab {
+  /* Fab button */
+  position: absolute;
+  bottom: 24px;
+  right: 24px;
+}
+
 .g-container {
   position: relative;
   display: grid;
-  padding: 12px;
+  padding-bottom: 36px;
   justify-content: center;
-  grid-template-columns: minmax(100px, 960px);
+  grid-template-columns: 1fr;
   grid-template-rows: min-content 1fr;
   grid-template-areas: "breadcrumb" "table";
 }
