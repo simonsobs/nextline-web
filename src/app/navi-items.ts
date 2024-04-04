@@ -36,6 +36,12 @@ export function useNaviItems() {
       to: toValue(lastInDb),
       exact: false,
     },
+    {
+      icon: "mdi-list-box",
+      title: "Queue",
+      to: { name: "queue" },
+      exact: true,
+    }
   ]);
 
   return { naviItems };
