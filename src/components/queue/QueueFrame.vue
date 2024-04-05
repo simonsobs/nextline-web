@@ -4,29 +4,31 @@
       <div class="g-breadcrumb">
         <v-breadcrumbs :items="breadcrumb"> </v-breadcrumbs>
       </div>
-      <v-data-table
-        :loading="loading"
-        :headers="headers"
-        :items="items"
-        class="g-table"
-      >
-        <template #top>
-          <v-btn variant="text" icon="mdi-refresh" @click="refresh"> </v-btn>
-        </template>
-        <template #item.index="{ index }">
-          {{ index }}
-        </template>
-        <template #item.actions="{ item }">
-          <v-btn
-            variant="text"
-            icon="mdi-delete"
-            density="comfortable"
-            @click="deleteItem(item)"
-          >
-          </v-btn>
-        </template>
-        <template #bottom></template>
-      </v-data-table>
+      <div class="g-table">
+        <v-data-table
+          :loading="loading"
+          :headers="headers"
+          :items="items"
+          :items-per-page="-1"
+        >
+          <template #top>
+            <v-btn variant="text" icon="mdi-refresh" @click="refresh"> </v-btn>
+          </template>
+          <template #item.index="{ index }">
+            {{ index }}
+          </template>
+          <template #item.actions="{ item }">
+            <v-btn
+              variant="text"
+              icon="mdi-delete"
+              density="comfortable"
+              @click="deleteItem(item)"
+            >
+            </v-btn>
+          </template>
+          <template #bottom></template>
+        </v-data-table>
+      </div>
     </div>
     <v-btn
       variant="flat"
