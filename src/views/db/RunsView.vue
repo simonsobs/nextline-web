@@ -54,8 +54,8 @@ import { refThrottled, until } from "@vueuse/core";
 import { useRdbRunsQuery } from "@/graphql/codegen/generated";
 import type { RdbRunsQueryVariables } from "@/graphql/codegen/generated";
 import { useRefresh, useUnpack, useOverride } from "@/graphql/urql";
+import { formatDateTime } from "@/utils/format-date-time";
 
-import { formatDateTime } from "./format";
 import RefreshButton from "./RefreshButton.vue";
 
 const breadcrumb = [{ title: "Runs", disabled: false}];
