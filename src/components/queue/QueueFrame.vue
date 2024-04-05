@@ -43,27 +43,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { useItems } from "./items";
 
 const breadcrumb = [{ title: "Queue", disabled: false }];
-const loading = ref(false);
+
 const headers = [
   { title: "Index", key: "index", sortable: false },
   { title: "Column A", key: "columnA", sortable: false },
   { title: "", key: "actions", sortable: false, align: "end" as const },
 ];
-const items = ref([{ columnA: "value 1" }, { columnA: "value 2" }]);
 
-async function refresh() {
-  loading.value = true;
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  loading.value = false;
-}
-
-function deleteItem(item: any) {
-  const index = items.value.indexOf(item);
-  items.value.splice(index, 1);
-}
+const { items, loading, refresh, deleteItem } = useItems();
 </script>
 
 <style scoped>
