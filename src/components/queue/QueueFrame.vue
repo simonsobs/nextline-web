@@ -85,7 +85,9 @@ function deleteItem(item: any) {
 .g-container {
   position: relative;
   display: grid;
-  padding-bottom: 36px;
+  overflow-y: auto;
+  block-size: 100%;
+  padding-bottom: calc(64px + 24px); /* 64px is the height of the fab button */
   justify-content: center;
   grid-template-columns: 1fr;
   grid-template-rows: min-content 1fr;
