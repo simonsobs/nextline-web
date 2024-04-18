@@ -1,18 +1,19 @@
 <template>
-  <v-card>
-    <v-card-title>View Item</v-card-title>
-    <v-card-text>
-      <span class="font-weight-bold">Name:</span> {{ item?.name }}
-      <br />
-      <span class="font-weight-bold">Created at:</span> {{ item?.createdAt }}
-    </v-card-text>
-    <v-card-text>
+  <div class="item-view rounded-lg pa-4">
+    <div class="d-flex">
+      <v-spacer></v-spacer>
+      <v-btn variant="text" size="small" icon="mdi-close" @click="item = null"></v-btn>
+    </div>
+    <div class="mt-2"><span class="font-weight-bold">Name:</span> {{ item?.name }}</div>
+    <div><span class="font-weight-bold">Created at:</span> {{ item?.createdAt }}</div>
+    <div>
       <pre>{{ item?.script }}</pre>
-    </v-card-text>
-    <v-card-actions>
-      <v-btn @click="item = null">Close</v-btn>
-    </v-card-actions>
-  </v-card>
+    </div>
+    <div class="d-flex">
+      <v-spacer></v-spacer>
+      <v-btn variant="text" @click="item = null">Close</v-btn>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -20,3 +21,9 @@ import { defineModel } from "vue";
 import type { Item } from "./items";
 const item = defineModel<Item | null>();
 </script>
+
+<style scoped>
+.item-view {
+  background: rgb(var(--v-theme-surface-container-low));
+}
+</style>
