@@ -24,7 +24,7 @@
               variant="text"
               icon="mdi-delete"
               density="comfortable"
-              @click="deleteItem(item)"
+              @click.stop="deleteItem(item)"
             >
             </v-btn>
           </template>
@@ -41,7 +41,7 @@
       class="fab"
     >
     </v-btn>
-    <view-dialog v-model="item"> </view-dialog>
+    <view-dialog v-model="showViewDialog" :item="item" v-if="item"> </view-dialog>
   </div>
 </template>
 
@@ -66,7 +66,7 @@ const { items, loading, refresh, deleteItem } = useItems();
 type Item = UnwrapRef<typeof items>[number];
 
 const showViewDialog = ref(false);
-const item = ref<Item | null>(null);
+const item = ref<Item>();
 
 function onClickRow(event: Event, value: { item: Item }) {
   showViewDialog.value = true;

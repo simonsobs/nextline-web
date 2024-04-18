@@ -1,29 +1,48 @@
 <template>
-  <div class="item-view rounded-lg pa-4">
-    <div class="d-flex">
-      <v-spacer></v-spacer>
-      <v-btn variant="text" size="small" icon="mdi-close" @click="item = null"></v-btn>
-    </div>
-    <div class="mt-2"><span class="font-weight-bold">Name:</span> {{ item?.name }}</div>
-    <div><span class="font-weight-bold">Created at:</span> {{ item?.createdAt }}</div>
-    <div>
-      <pre>{{ item?.script }}</pre>
-    </div>
-    <div class="d-flex">
-      <v-spacer></v-spacer>
-      <v-btn variant="text" @click="item = null">Close</v-btn>
+  <div style="block-size: 100%; inline-size: 100%">
+    <div class="g-container">
+      <div class="g-top">
+        <div>
+          <span class="font-weight-bold">Name:</span> {{ item?.name }}
+        </div>
+        <div>
+          <span class="font-weight-bold">Created at:</span> {{ item?.createdAt }}
+        </div>
+      </div>
+      <div class="g-editor">
+        <!-- <pre>{{ item?.script }}</pre> -->
+        <editor :source="item?.script"> </editor>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { defineModel } from "vue";
 import type { Item } from "./items";
-const item = defineModel<Item | null>();
+import Editor from "./Editor.vue";
+interface Props {
+  item: Item;
+}
+defineProps<Props>();
 </script>
 
 <style scoped>
-.item-view {
-  background: rgb(var(--v-theme-surface-container-low));
+.g-container {
+  display: grid;
+  block-size: 100%;
+  inline-size: 100%;
+  row-gap: 24px;
+  grid-template-columns: minmax(100px, 1fr);
+  grid-template-rows: min-content minmax(0, 1fr);
+  grid-template-areas: "top" "editor";
+}
+
+.g-top {
+  grid-area: top;
+}
+
+.g-editor {
+  grid-area: editor;
+  block-size: 100%;
 }
 </style>
