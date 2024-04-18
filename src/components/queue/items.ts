@@ -1,30 +1,18 @@
 import { ref } from "vue";
+import { formatDateTime } from "@/utils/format-date-time";
+
+export interface Item {
+  name: string;
+  createdAt?: string;
+  script: string;
+}
 
 export function useItems() {
   const loading = ref(false);
 
-  const items = ref([
-    { columnA: "value 1" },
-    { columnA: "value 2" },
-    { columnA: "value 3" },
-    { columnA: "value 4" },
-    { columnA: "value 5" },
-    { columnA: "value 6" },
-    { columnA: "value 7" },
-    { columnA: "value 8" },
-    { columnA: "value 9" },
-    { columnA: "value 10" },
-    { columnA: "value 11" },
-    { columnA: "value 12" },
-    { columnA: "value 13" },
-    { columnA: "value 14" },
-    { columnA: "value 15" },
-    { columnA: "value 16" },
-    { columnA: "value 17" },
-    { columnA: "value 18" },
-    { columnA: "value 19" },
-    { columnA: "value 20" },
-  ]);
+  const items = ref<Item[]>([]);
+
+  items.value = loadItems();
 
   async function refresh() {
     loading.value = true;
@@ -38,4 +26,72 @@ export function useItems() {
   }
 
   return { items, loading, refresh, deleteItem };
+}
+
+function loadItems(): Item[] {
+  const items = [
+    {
+      name: "Item 1",
+      createdAt: formatDateTime("2024-04-05T15:30:00Z"),
+      script: [
+        "import time",
+        "",
+        "time.sleep(1.9)",
+        "time.sleep(2.6)",
+        "time.sleep(1.3)",
+        "time.sleep(1.0)",
+        "time.sleep(2.9)",
+        "time.sleep(2.4)",
+        "time.sleep(1.2)",
+        "time.sleep(2.0)",
+      ].join("\n"),
+    },
+    {
+      name: "Item 2",
+      createdAt: formatDateTime("2024-04-05T18:30:00Z"),
+      script: [
+        "import time",
+        "",
+        "time.sleep(2.2)",
+        "time.sleep(2.7)",
+        "time.sleep(3.0)",
+        "time.sleep(1.4)",
+        "time.sleep(1.8)",
+        "time.sleep(2.3)",
+        "time.sleep(1.8)",
+        "time.sleep(1.9)",
+        "time.sleep(2.4)",
+        "time.sleep(1.5)",
+      ].join("\n"),
+    },
+    {
+      name: "Item 3",
+      createdAt: formatDateTime("2024-04-05T21:30:00Z"),
+      script: [
+        "import time",
+        "",
+        "time.sleep(1.5)",
+        "time.sleep(2.3)",
+        "time.sleep(1.7)",
+        "time.sleep(2.1)",
+        "time.sleep(2.5)",
+      ].join("\n"),
+    },
+    {
+      name: "Item 4",
+      createdAt: formatDateTime("2024-04-05T23:30:00Z"),
+      script: [
+        "import time",
+        "",
+        "time.sleep(0.2)",
+        "time.sleep(0.7)",
+        "time.sleep(1.0)",
+        "time.sleep(1.4)",
+        "time.sleep(1.8)",
+        "time.sleep(2.3)",
+        "time.sleep(1.8)",
+      ].join("\n"),
+    },
+  ];
+  return items;
 }

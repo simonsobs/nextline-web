@@ -10,6 +10,8 @@
           :headers="headers"
           :items="items"
           :items-per-page="-1"
+          @click-:row="showViewDialog = true"
+          @click:row="onClickRow"
         >
           <template #top>
             <v-btn variant="text" icon="mdi-refresh" @click="refresh"> </v-btn>
@@ -33,27 +35,44 @@
     <v-btn
       variant="flat"
       size="x-large"
-      color="tertiary-container"
-      elevation="8"
+      color="primary-fixed"
+      elevation="2"
       icon="mdi-plus-thick"
       class="fab"
     >
     </v-btn>
+    <view-dialog v-model="item"> </view-dialog>
   </div>
 </template>
 
 <script setup lang="ts">
+import { ref } from "vue";
+import type { UnwrapRef } from "vue";
 import { useItems } from "./items";
+
+import ViewDialog from "./ViewDialog.vue";
 
 const breadcrumb = [{ title: "Queue", disabled: false }];
 
 const headers = [
   { title: "Index", key: "index", sortable: false },
-  { title: "Column A", key: "columnA", sortable: false },
+  { title: "Name", key: "name", sortable: false },
+  { title: "Created At", key: "createdAt", sortable: false },
   { title: "", key: "actions", sortable: false, align: "end" as const },
 ];
 
 const { items, loading, refresh, deleteItem } = useItems();
+
+type Item = UnwrapRef<typeof items>[number];
+
+const showViewDialog = ref(false);
+const item = ref<Item | null>(null);
+
+function onClickRow(event: Event, value: { item: Item }) {
+  showViewDialog.value = true;
+  item.value = value.item;
+  console.log("onClickRow", value);
+}
 </script>
 
 <style scoped>
