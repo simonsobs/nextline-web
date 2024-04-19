@@ -1,12 +1,18 @@
 <template>
   <v-dialog v-model="show" :fullscreen="mobile" :transition="transition">
     <v-sheet class="g-container pa-4" :class="{ 'g-mobile': mobile }">
-      <div class="g-top d-flex" v-if="mobile">
+      <div class="g-top d-flex">
         <v-btn
+          v-if="mobile"
           variant="text"
-          size="small"
           icon="mdi-close"
           @click="show = false"
+        ></v-btn>
+        <v-spacer v-if="!mobile"></v-spacer>
+        <v-btn
+          variant="text"
+          icon="mdi-trash-can-outline"
+          @click="dialogConfirmDelete = true"
         ></v-btn>
       </div>
       <div class="g-content">
@@ -17,16 +23,24 @@
         <v-btn variant="text" @click="show = false">Close</v-btn>
       </div>
     </v-sheet>
+    <delete-confirmation-dialog
+      v-model="dialogConfirmDelete"
+      :item="item"
+      @confirm="deleteConfirmed"
+    >
+    </delete-confirmation-dialog>
   </v-dialog>
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
+import { ref, computed, toRefs } from "vue";
 import { useDisplay } from "vuetify";
 import ItemView from "./ItemView.vue";
 import type { Item } from "./items";
 
 const { mobile } = useDisplay();
+
+import DeleteConfirmationDialog from "./DeleteConfirmationDialog.vue";
 
 const transition = computed(() =>
   mobile.value ? "slide-x-reverse-transition" : "dialog-transition"
@@ -35,8 +49,20 @@ const transition = computed(() =>
 interface Props {
   item: Item;
 }
-defineProps<Props>();
+const props = defineProps<Props>();
+const { item } = toRefs(props);
 const show = defineModel<boolean>();
+
+type Emits = {
+  delete: [item: Item];
+};
+const emit = defineEmits<Emits>();
+
+const dialogConfirmDelete = ref(false);
+function deleteConfirmed() {
+  emit("delete", item.value);
+  show.value = false;
+}
 </script>
 
 <style scoped>

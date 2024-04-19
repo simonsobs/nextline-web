@@ -17,7 +17,12 @@
             <v-btn variant="text" icon="mdi-refresh" @click="refresh"> </v-btn>
           </template>
           <template #item.index="{ index }">
-            {{ index }}
+            <span class="text-primary font-weight-medium"> {{ index }} </span>
+          </template>
+          <template #item.script="{ item }">
+            <div class="item-script">
+              {{ item.script }}
+            </div>
           </template>
           <template #item.actions="{ item }">
             <v-btn
@@ -41,25 +46,42 @@
       class="fab"
     >
     </v-btn>
-    <view-dialog v-model="showViewDialog" :item="item" v-if="item"> </view-dialog>
+    <view-dialog
+      v-model="showViewDialog"
+      :item="item"
+      @delete="deleteItem($event)"
+      v-if="item"
+    >
+    </view-dialog>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import type { UnwrapRef } from "vue";
+import { useDisplay } from "vuetify";
 import { useItems } from "./items";
 
 import ViewDialog from "./ViewDialog.vue";
 
+const { mobile } = useDisplay();
+
 const breadcrumb = [{ title: "Queue", disabled: false }];
 
-const headers = [
+const headersMobile = [
+  { title: "Name", key: "name", sortable: false },
+  { title: "Created At", key: "createdAt", sortable: false },
+];
+
+const headersNotMobile = [
   { title: "Index", key: "index", sortable: false },
   { title: "Name", key: "name", sortable: false },
   { title: "Created At", key: "createdAt", sortable: false },
-  { title: "", key: "actions", sortable: false, align: "end" as const },
+  { title: "Code", key: "script", sortable: false },
+  // { title: "", key: "actions", sortable: false, align: "end" as const },
 ];
+
+const headers = computed(() => (mobile.value ? headersMobile : headersNotMobile));
 
 const { items, loading, refresh, deleteItem } = useItems();
 
@@ -71,7 +93,6 @@ const item = ref<Item>();
 function onClickRow(event: Event, value: { item: Item }) {
   showViewDialog.value = true;
   item.value = value.item;
-  console.log("onClickRow", value);
 }
 </script>
 
@@ -114,5 +135,13 @@ function onClickRow(event: Event, value: { item: Item }) {
 
 .g-table {
   grid-area: table;
+}
+
+.item-script {
+  max-inline-size: 240px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: rgb(var(--v-theme-on-surface-variant));
 }
 </style>
