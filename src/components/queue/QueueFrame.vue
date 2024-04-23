@@ -62,7 +62,7 @@ import type { UnwrapRef } from "vue";
 import { useDisplay } from "vuetify";
 import { useItems } from "./items";
 
-import ViewDialog from "./ViewDialog.vue";
+import ViewDialog from "./view/ViewDialog.vue";
 
 const { mobile } = useDisplay();
 

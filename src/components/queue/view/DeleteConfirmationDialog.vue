@@ -22,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Item } from "./items";
+import type { Item } from "../items";
 interface Props {
   item: Item;
 }

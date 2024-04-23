@@ -36,7 +36,7 @@
 import { ref, computed, toRefs } from "vue";
 import { useDisplay } from "vuetify";
 import ItemView from "./ItemView.vue";
-import type { Item } from "./items";
+import type { Item } from "../items";
 
 const { mobile } = useDisplay();
 

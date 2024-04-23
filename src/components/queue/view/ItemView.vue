@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Item } from "./items";
+import type { Item } from "../items";
 import Editor from "./Editor.vue";
 interface Props {
   item: Item;
