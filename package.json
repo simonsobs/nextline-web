@@ -14,6 +14,8 @@
   "dependencies": {
     "@material/material-color-utilities": "^0.2.7",
     "@urql/vue": "^1.1.2",
+    "@vuelidate/core": "^2.0.3",
+    "@vuelidate/validators": "^2.0.4",
     "@vueuse/core": "^10.7.2",
     "@vueuse/integrations": "^10.7.2",
     "canvas": "^2.11.2",
