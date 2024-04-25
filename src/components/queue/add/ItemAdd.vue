@@ -1,8 +1,6 @@
 <template>
   <div style="block-size: 100%; inline-size: 100%">
     <div class="g-container">
-      <!-- <pre> valid: {{ !v$.$invalid }} </pre> -->
-      <!-- <pre> anyDirty: {{ v$.$anyDirty }}</pre> -->
       <div class="g-top">
         <v-text-field
           v-model="v$.name.$model"
@@ -12,7 +10,7 @@
         </v-text-field>
       </div>
       <div class="g-editor">
-        <editor v-model="v$.source.$model"> </editor>
+        <editor v-model="v$.script.$model"> </editor>
       </div>
       <div class="g-bottom">
       </div>
@@ -28,12 +26,12 @@ import { required, minLength } from "@vuelidate/validators";
 
 export interface State {
   name: string;
-  source: string;
+  script: string;
 }
 
 const initialState: State = {
   name: "",
-  source: "",
+  script: "",
 };
 
 interface Props {
@@ -68,7 +66,7 @@ watchEffect(() => {
 
 const rules = {
   name: {},
-  source: { required, minLength: minLength(1) },
+  script: { required, minLength: minLength(1) },
 };
 
 const v$ = useVuelidate(rules, state);

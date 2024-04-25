@@ -22,7 +22,7 @@
       <div class="g-bottom d-flex">
         <v-btn variant="text" @click="onClickCancel">Cancel</v-btn>
         <v-spacer></v-spacer>
-        <v-btn variant="flat" :disabled="!valid" @click="onClickSave">Add</v-btn>
+        <v-btn variant="flat" :disabled="!valid" @click="onClickAdd">Add</v-btn>
       </div>
     </v-sheet>
     <discard-confirmation-dialog
@@ -30,6 +30,7 @@
       @confirm="discardConfirmed"
     >
     </discard-confirmation-dialog>
+    <progress-dialog v-model="dialogProgress"> </progress-dialog>
   </v-dialog>
 </template>
 
@@ -39,6 +40,8 @@ import { useDisplay } from "vuetify";
 import ItemAdd from "./ItemAdd.vue";
 import type { State } from "./ItemAdd.vue";
 import DiscardConfirmationDialog from "./DiscardConfirmationDialog.vue";
+import ProgressDialog from "./ProgressDialog.vue";
+import { useItems } from "../items";
 const show = defineModel<boolean>();
 const { mobile } = useDisplay();
 const transition = computed(() =>
@@ -48,6 +51,7 @@ const state = ref<State>();
 const valid = ref<boolean>();
 const dirty = ref<boolean>();
 const dialogConfirmDiscard = ref<boolean>(false);
+const dialogProgress = ref<boolean>(false);
 
 // Show the confirmation dialog if the form is edited
 function onClickCancel() {
@@ -63,7 +67,13 @@ function discardConfirmed() {
   show.value = false;
 }
 
-function onClickSave() {
+const { addItem } = useItems();
+
+async function onClickAdd() {
+  if (state.value === undefined) return;
+  dialogProgress.value = true;
+  await addItem(state.value);
+  dialogProgress.value = false;
   state.value = undefined;
   show.value = false;
 }

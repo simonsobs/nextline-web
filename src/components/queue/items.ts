@@ -1,4 +1,5 @@
-import { ref } from "vue";
+import { nextTick, ref } from "vue";
+import type { Ref } from "vue";
 import { formatDateTime } from "@/utils/format-date-time";
 
 export interface Item {
@@ -7,12 +8,30 @@ export interface Item {
   script: string;
 }
 
-export function useItems() {
+interface _UseItemsResponse {
+  items: Ref<Item[]>;
+  loading: Ref<boolean>;
+  refresh: () => Promise<void>;
+  addItem: (item: Item) => Promise<void>;
+  deleteItem: (item: Item) => Promise<void>;
+}
+
+type UseItemsResponse = _UseItemsResponse & PromiseLike<_UseItemsResponse>;
+
+const items = ref<Item[]>([]);
+// items.value = loadItems();
+
+export function useItems(): UseItemsResponse {
   const loading = ref(false);
 
-  const items = ref<Item[]>([]);
+  // const items = ref<Item[]>([]);
 
-  items.value = loadItems();
+  nextTick(async () => {
+    loading.value = true;
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    items.value = loadItems();
+    loading.value = false;
+  });
 
   async function refresh() {
     loading.value = true;
@@ -20,12 +39,32 @@ export function useItems() {
     loading.value = false;
   }
 
-  function deleteItem(item: any) {
+  async function addItem(newItem: { name: string; script: string }) {
+    loading.value = true;
+    const dateTime = new Date().toISOString().replace("Z", "");
+    const createdAt = formatDateTime(dateTime); // UTC
+    const item = { ...newItem, createdAt };
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    loading.value = false;
+    items.value.push(item);
+  }
+
+  async function deleteItem(item: any) {
+    loading.value = true;
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    loading.value = false;
     const index = items.value.indexOf(item);
     items.value.splice(index, 1);
   }
 
-  return { items, loading, refresh, deleteItem };
+  const ret = { items, loading, refresh, addItem, deleteItem };
+
+  return {
+    ...ret,
+    async then(onFulfilled, onRejected) {
+      return Promise.resolve(ret).then(onFulfilled, onRejected);
+    },
+  };
 }
 
 function loadItems(): Item[] {
@@ -66,6 +105,7 @@ function loadItems(): Item[] {
     },
     {
       name: "Item 3",
+      // name: "Item 3: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
       createdAt: formatDateTime("2024-04-05T21:30:00Z"),
       script: [
         "import time",

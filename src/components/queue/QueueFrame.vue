@@ -24,15 +24,6 @@
               {{ item.script }}
             </div>
           </template>
-          <template #item.actions="{ item }">
-            <v-btn
-              variant="text"
-              icon="mdi-delete"
-              density="comfortable"
-              @click.stop="deleteItem(item)"
-            >
-            </v-btn>
-          </template>
           <template #bottom></template>
         </v-data-table>
       </div>
@@ -50,7 +41,6 @@
     <view-dialog
       v-model="showViewDialog"
       :item="viewItem"
-      @delete="deleteItem($event)"
       v-if="viewItem"
     >
     </view-dialog>
@@ -79,14 +69,13 @@ const headersMobile = [
 const headersNotMobile = [
   { title: "Index", key: "index", sortable: false },
   { title: "Name", key: "name", sortable: false },
-  { title: "Created At", key: "createdAt", sortable: false },
-  { title: "Code", key: "script", sortable: false },
-  // { title: "", key: "actions", sortable: false, align: "end" as const },
+  { title: "Created at", key: "createdAt", sortable: false },
+  { title: "Python script", key: "script", sortable: false },
 ];
 
 const headers = computed(() => (mobile.value ? headersMobile : headersNotMobile));
 
-const { items, loading, refresh, deleteItem } = useItems();
+const { items, loading, refresh } = useItems();
 
 type Item = UnwrapRef<typeof items>[number];
 

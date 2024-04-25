@@ -26,9 +26,10 @@
     <delete-confirmation-dialog
       v-model="dialogConfirmDelete"
       :item="item"
-      @confirm="deleteConfirmed"
+      @confirm="onDeleteConfirmed"
     >
     </delete-confirmation-dialog>
+    <progress-dialog v-model="dialogProgress"> </progress-dialog>
   </v-dialog>
 </template>
 
@@ -36,11 +37,12 @@
 import { ref, computed, toRefs } from "vue";
 import { useDisplay } from "vuetify";
 import ItemView from "./ItemView.vue";
+import { useItems } from "../items";
 import type { Item } from "../items";
+import DeleteConfirmationDialog from "./DeleteConfirmationDialog.vue";
+import ProgressDialog from "./ProgressDialog.vue";
 
 const { mobile } = useDisplay();
-
-import DeleteConfirmationDialog from "./DeleteConfirmationDialog.vue";
 
 const transition = computed(() =>
   mobile.value ? "slide-x-reverse-transition" : "dialog-transition"
@@ -53,14 +55,13 @@ const props = defineProps<Props>();
 const { item } = toRefs(props);
 const show = defineModel<boolean>();
 
-type Emits = {
-  delete: [item: Item];
-};
-const emit = defineEmits<Emits>();
-
 const dialogConfirmDelete = ref(false);
-function deleteConfirmed() {
-  emit("delete", item.value);
+const dialogProgress = ref<boolean>(false);
+const { deleteItem } = useItems();
+async function onDeleteConfirmed() {
+  dialogProgress.value = true;
+  await deleteItem(item.value);
+  dialogProgress.value = false;
   show.value = false;
 }
 </script>

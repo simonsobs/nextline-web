@@ -10,7 +10,6 @@
         </div>
       </div>
       <div class="g-editor">
-        <!-- <pre>{{ item?.script }}</pre> -->
         <editor :source="item?.script"> </editor>
       </div>
     </div>
