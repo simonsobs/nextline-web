@@ -44,15 +44,17 @@
       elevation="2"
       icon="mdi-plus-thick"
       class="fab"
+      @click="showAddDialog = true"
     >
     </v-btn>
     <view-dialog
       v-model="showViewDialog"
-      :item="item"
+      :item="viewItem"
       @delete="deleteItem($event)"
-      v-if="item"
+      v-if="viewItem"
     >
     </view-dialog>
+    <add-dialog v-model="showAddDialog"> </add-dialog>
   </div>
 </template>
 
@@ -63,6 +65,7 @@ import { useDisplay } from "vuetify";
 import { useItems } from "./items";
 
 import ViewDialog from "./view/ViewDialog.vue";
+import AddDialog from "./add/AddDialog.vue";
 
 const { mobile } = useDisplay();
 
@@ -88,12 +91,14 @@ const { items, loading, refresh, deleteItem } = useItems();
 type Item = UnwrapRef<typeof items>[number];
 
 const showViewDialog = ref(false);
-const item = ref<Item>();
+const viewItem = ref<Item>();
 
 function onClickRow(event: Event, value: { item: Item }) {
   showViewDialog.value = true;
-  item.value = value.item;
+  viewItem.value = value.item;
 }
+
+const showAddDialog = ref(false);
 </script>
 
 <style scoped>
