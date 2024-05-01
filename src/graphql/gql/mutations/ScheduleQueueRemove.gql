@@ -1,0 +1,7 @@
+mutation ScheduleQueueRemove($id: Int!) {
+  schedule {
+    queue {
+      remove(id: $id)
+    }
+  }
+}
