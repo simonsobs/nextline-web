@@ -50,9 +50,9 @@
 
 <script setup lang="ts">
 import { ref, computed } from "vue";
-import type { UnwrapRef } from "vue";
 import { useDisplay } from "vuetify";
 import { useItems } from "./items";
+import type { Item } from "./items";
 
 import ViewDialog from "./view/ViewDialog.vue";
 import AddDialog from "./add/AddDialog.vue";
@@ -76,8 +76,6 @@ const headersNotMobile = [
 const headers = computed(() => (mobile.value ? headersMobile : headersNotMobile));
 
 const { items, loading, refresh } = useItems();
-
-type Item = UnwrapRef<typeof items>[number];
 
 const showViewDialog = ref(false);
 const viewItem = ref<Item>();
