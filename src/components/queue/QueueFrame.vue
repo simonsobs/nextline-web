@@ -17,7 +17,7 @@
             <v-btn variant="text" icon="mdi-refresh" @click="refresh"> </v-btn>
           </template>
           <template #item.index="{ index }">
-            <span class="text-primary font-weight-medium"> {{ index }} </span>
+            <span class="text-primary font-weight-medium"> {{ index + 1 }} </span>
           </template>
           <template #item.script="{ item }">
             <div class="item-script">
@@ -63,7 +63,7 @@ const headersMobile = [
 ];
 
 const headersNotMobile = [
-  { title: "Index", key: "index", sortable: false },
+  { title: "Order", key: "index", sortable: false },
   { title: "Name", key: "name", sortable: false },
   { title: "Created at", key: "createdAt", sortable: false },
   { title: "Python script", key: "script", sortable: false },
