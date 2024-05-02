@@ -20,7 +20,7 @@ export function useSubscribeScheduleAutoMode(): ScheduleAutoModeSubscription {
   const autoMode = computed(() => {
     const s = autoModeState.value;
     if (s === "off") return 'off';
-    if (s === "waiting" || s?.startsWith("auto")) return 'scheduler';
+    if (s?.startsWith("auto")) return "scheduler";
     return undefined;
   });
   const ret = { autoMode, error };
