@@ -13,9 +13,6 @@
           @click-:row="showViewDialog = true"
           @click:row="onClickRow"
         >
-          <template #top>
-            <v-btn variant="text" icon="mdi-refresh" @click="refresh"> </v-btn>
-          </template>
           <template #item.index="{ index }">
             <span class="text-primary font-weight-medium"> {{ index + 1 }} </span>
           </template>
@@ -71,7 +68,7 @@ const headersNotMobile = [
 
 const headers = computed(() => (mobile.value ? headersMobile : headersNotMobile));
 
-const { items, loading, refresh } = useItems();
+const { items, loading } = useItems();
 
 const showViewDialog = ref(false);
 const viewItem = ref<Item>();

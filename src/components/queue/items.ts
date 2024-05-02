@@ -17,7 +17,6 @@ export interface Item {
 interface _UseItemsResponse {
   items: ComputedRef<Item[] | undefined>;
   loading: Ref<boolean>;
-  refresh: () => Promise<void>;
   addItem: (item: Item) => Promise<void>;
   deleteItem: (item: Item) => Promise<void>;
 }
@@ -37,14 +36,10 @@ export function useItems(): UseItemsResponse {
     }))
   );
 
-  async function refresh() {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-  }
-
   const { addItem } = useAddItem();
   const { deleteItem } = useDeleteItem();
 
-  const ret = { items, loading, refresh, addItem, deleteItem };
+  const ret = { items, loading, addItem, deleteItem };
 
   return {
     ...ret,
