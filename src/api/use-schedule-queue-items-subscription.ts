@@ -8,6 +8,7 @@ import type { ScheduleQueueItem } from "@/graphql/codegen/generated";
 
 interface _ScheduleQueueItemsSubscription {
   items: ComputedRef<ScheduleQueueItem[] | undefined>;
+  loading: ComputedRef<boolean>;
   error: ComputedRef<Error | undefined>;
   subscription: ReturnType<typeof useSScheduleQueueItemsSubscription>;
   query: ReturnType<typeof useQScheduleQueueItemsQuery>;
@@ -20,6 +21,7 @@ export function useSubscribeScheduleQueueItems(): ScheduleQueueItemsSubscription
   const query = useQScheduleQueueItemsQuery({ requestPolicy: "network-only" });
   const subscription = useSScheduleQueueItemsSubscription();
 
+  const loading = computed(() => query.fetching?.value);
   const error = computed(() => subscription.error?.value || query.error?.value);
 
   const items = computed(() =>
@@ -29,7 +31,7 @@ export function useSubscribeScheduleQueueItems(): ScheduleQueueItemsSubscription
         query.data?.value?.schedule.queue.items
   );
 
-  const ret = { items, error, subscription, query };
+  const ret = { items, loading, error, subscription, query };
 
   return {
     ...ret,
