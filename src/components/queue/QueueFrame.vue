@@ -38,11 +38,7 @@
       @click="showAddDialog = true"
     >
     </v-btn>
-    <view-dialog
-      v-model="showViewDialog"
-      :item="viewItem"
-      v-if="viewItem"
-    >
+    <view-dialog v-model="showViewDialog" :item="viewItem" v-if="viewItem">
     </view-dialog>
     <add-dialog v-model="showAddDialog"> </add-dialog>
   </div>
