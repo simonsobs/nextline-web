@@ -8,6 +8,9 @@
         <div>
           <span class="font-weight-bold">Created at:</span> {{ item?.createdAt }}
         </div>
+        <div>
+          <span class="text-caption font-weight-light">Id: {{ item?.id }}</span> 
+        </div>
       </div>
       <div class="g-editor">
         <editor :source="item?.script"> </editor>
