@@ -20,7 +20,9 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn variant="outlined" @click="turnOn"> turn on from scheduler </v-btn>
+        <v-btn variant="outlined" @click="turnOnFromScheduler">
+          turn on from scheduler
+        </v-btn>
       </v-card-actions>
       <v-card-actions>
         <v-spacer></v-spacer>
@@ -31,12 +33,16 @@
 </template>
 
 <script setup lang="ts">
-import { useAutoModeTurnOnMutation } from "@/graphql/codegen/generated";
+import { useScheduleAutoModeChangeModeMutation } from "@/graphql/codegen/generated";
 
-const { executeMutation: turnOn } = useAutoModeTurnOnMutation();
+const { executeMutation: changeMode } = useScheduleAutoModeChangeModeMutation();
 
-function turnOnFromQueue() {
-  console.log("turn on from queue");
+async function turnOnFromScheduler() {
+  await changeMode({ mode: "scheduler" });
+}
+
+async function turnOnFromQueue() {
+  await changeMode({ mode: "queue" });
 }
 </script>
 

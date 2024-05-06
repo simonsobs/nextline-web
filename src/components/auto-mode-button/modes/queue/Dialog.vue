@@ -33,11 +33,15 @@
 </template>
 
 <script setup lang="ts">
-import { useAutoModeTurnOffMutation } from "@/graphql/codegen/generated";
-const { executeMutation: turnOff } = useAutoModeTurnOffMutation();
+import { useScheduleAutoModeChangeModeMutation } from "@/graphql/codegen/generated";
+const { executeMutation: changeMode } = useScheduleAutoModeChangeModeMutation();
 
-function switchToLoadFromScheduler() {
-  console.log("switch to load from queue");
+async function switchToLoadFromScheduler() {
+  await changeMode({ mode: "scheduler" });
+}
+
+async function turnOff() {
+  await changeMode({ mode: "off" });
 }
 </script>
 
