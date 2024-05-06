@@ -459,6 +459,13 @@ export type RunAndContinueMutationVariables = Exact<{ [key: string]: never; }>;
 
 export type RunAndContinueMutation = { __typename?: 'Mutation', runAndContinue: boolean };
 
+export type ScheduleAutoModeChangeModeMutationVariables = Exact<{
+  mode: Scalars['String']['input'];
+}>;
+
+
+export type ScheduleAutoModeChangeModeMutation = { __typename?: 'Mutation', schedule: { __typename?: 'MutationSchedule', autoMode: { __typename?: 'MutationScheduleAutoMode', changeMode: boolean } } };
+
 export type ScheduleQueuePushMutationVariables = Exact<{
   input: ScheduleQueuePushInput;
 }>;
@@ -524,6 +531,11 @@ export type RunsQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type RunsQuery = { __typename?: 'Query', rdb: { __typename?: 'QueryRDB', runs: { __typename?: 'RunNodeConnection', edges: Array<{ __typename?: 'RunNodeEdge', node: { __typename?: 'RunNode', runNo: number, state?: string | null, startedAt?: any | null, endedAt?: any | null, script?: string | null, exception?: string | null } }> } } };
 
+export type QScheduleAutoModeModeQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type QScheduleAutoModeModeQuery = { __typename?: 'Query', schedule: { __typename?: 'QuerySchedule', autoMode: { __typename?: 'QueryScheduleAutoMode', mode: string } } };
+
 export type QScheduleAutoModeStateQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -572,6 +584,11 @@ export type RunNoSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
 export type RunNoSubscription = { __typename?: 'Subscription', runNo: number };
+
+export type ScheduleAutoModeModeSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ScheduleAutoModeModeSubscription = { __typename?: 'Subscription', scheduleAutoModeMode: string };
 
 export type ScheduleAutoModeStateSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
@@ -680,6 +697,19 @@ export const RunAndContinueDocument = gql`
 
 export function useRunAndContinueMutation() {
   return Urql.useMutation<RunAndContinueMutation, RunAndContinueMutationVariables>(RunAndContinueDocument);
+};
+export const ScheduleAutoModeChangeModeDocument = gql`
+    mutation ScheduleAutoModeChangeMode($mode: String!) {
+  schedule {
+    autoMode {
+      changeMode(mode: $mode)
+    }
+  }
+}
+    `;
+
+export function useScheduleAutoModeChangeModeMutation() {
+  return Urql.useMutation<ScheduleAutoModeChangeModeMutation, ScheduleAutoModeChangeModeMutationVariables>(ScheduleAutoModeChangeModeDocument);
 };
 export const ScheduleQueuePushDocument = gql`
     mutation ScheduleQueuePush($input: ScheduleQueuePushInput!) {
@@ -837,6 +867,19 @@ export const RunsDocument = gql`
 export function useRunsQuery(options: Omit<Urql.UseQueryArgs<never, RunsQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<RunsQuery>({ query: RunsDocument, ...options });
 };
+export const QScheduleAutoModeModeDocument = gql`
+    query QScheduleAutoModeMode {
+  schedule {
+    autoMode {
+      mode
+    }
+  }
+}
+    `;
+
+export function useQScheduleAutoModeModeQuery(options: Omit<Urql.UseQueryArgs<never, QScheduleAutoModeModeQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<QScheduleAutoModeModeQuery>({ query: QScheduleAutoModeModeDocument, ...options });
+};
 export const QScheduleAutoModeStateDocument = gql`
     query QScheduleAutoModeState {
   schedule {
@@ -935,6 +978,15 @@ export const RunNoDocument = gql`
 
 export function useRunNoSubscription<R = RunNoSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, RunNoSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandlerArg<RunNoSubscription, R>) {
   return Urql.useSubscription<RunNoSubscription, R, RunNoSubscriptionVariables>({ query: RunNoDocument, ...options }, handler);
+};
+export const ScheduleAutoModeModeDocument = gql`
+    subscription ScheduleAutoModeMode {
+  scheduleAutoModeMode
+}
+    `;
+
+export function useScheduleAutoModeModeSubscription<R = ScheduleAutoModeModeSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, ScheduleAutoModeModeSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandlerArg<ScheduleAutoModeModeSubscription, R>) {
+  return Urql.useSubscription<ScheduleAutoModeModeSubscription, R, ScheduleAutoModeModeSubscriptionVariables>({ query: ScheduleAutoModeModeDocument, ...options }, handler);
 };
 export const ScheduleAutoModeStateDocument = gql`
     subscription ScheduleAutoModeState {

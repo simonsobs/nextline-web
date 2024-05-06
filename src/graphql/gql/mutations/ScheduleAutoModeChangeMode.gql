@@ -1,0 +1,7 @@
+mutation ScheduleAutoModeChangeMode($mode: String!) {
+  schedule {
+    autoMode {
+      changeMode(mode: $mode)
+    }
+  }
+}
