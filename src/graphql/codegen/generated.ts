@@ -48,12 +48,6 @@ export type MutationSendPdbCommandArgs = {
   traceNo: Scalars['Int']['input'];
 };
 
-export type MutationAutoMode = {
-  __typename?: 'MutationAutoMode';
-  turnOff: Scalars['Boolean']['output'];
-  turnOn: Scalars['Boolean']['output'];
-};
-
 export type MutationRdb = {
   __typename?: 'MutationRDB';
   deleteRuns: Array<Scalars['Int']['output']>;
@@ -66,10 +60,22 @@ export type MutationRdbDeleteRunsArgs = {
 
 export type MutationSchedule = {
   __typename?: 'MutationSchedule';
-  autoMode: MutationAutoMode;
+  autoMode: MutationScheduleAutoMode;
   loadScript: Scalars['Boolean']['output'];
   queue: MutationScheduleQueue;
   scheduler: MutationScheduler;
+};
+
+export type MutationScheduleAutoMode = {
+  __typename?: 'MutationScheduleAutoMode';
+  changeMode: Scalars['Boolean']['output'];
+  turnOff: Scalars['Boolean']['output'];
+  turnOn: Scalars['Boolean']['output'];
+};
+
+
+export type MutationScheduleAutoModeChangeModeArgs = {
+  mode: Scalars['String']['input'];
 };
 
 export type MutationScheduleQueue = {
@@ -180,11 +186,6 @@ export type QuerySourceLineArgs = {
   lineNo: Scalars['Int']['input'];
 };
 
-export type QueryAutoMode = {
-  __typename?: 'QueryAutoMode';
-  state: Scalars['String']['output'];
-};
-
 export type QueryDev = {
   __typename?: 'QueryDev';
   headers: Scalars['String']['output'];
@@ -241,10 +242,16 @@ export type QueryRdbTracesArgs = {
 
 export type QuerySchedule = {
   __typename?: 'QuerySchedule';
-  autoMode: QueryAutoMode;
+  autoMode: QueryScheduleAutoMode;
   queue: QueryScheduleQueue;
   scheduler: QueryScheduler;
   version: Scalars['String']['output'];
+};
+
+export type QueryScheduleAutoMode = {
+  __typename?: 'QueryScheduleAutoMode';
+  mode: Scalars['String']['output'];
+  state: Scalars['String']['output'];
 };
 
 export type QueryScheduleQueue = {
@@ -353,6 +360,7 @@ export type Subscription = {
   counter: Scalars['Int']['output'];
   prompting: PromptingData;
   runNo: Scalars['Int']['output'];
+  scheduleAutoModeMode: Scalars['String']['output'];
   scheduleAutoModeState: Scalars['String']['output'];
   scheduleQueueItems: Array<ScheduleQueueItem>;
   state: Scalars['String']['output'];
@@ -412,12 +420,12 @@ export type TraceNodeEdge = {
 export type AutoModeTurnOffMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AutoModeTurnOffMutation = { __typename?: 'Mutation', schedule: { __typename?: 'MutationSchedule', autoMode: { __typename?: 'MutationAutoMode', turnOff: boolean } } };
+export type AutoModeTurnOffMutation = { __typename?: 'Mutation', schedule: { __typename?: 'MutationSchedule', autoMode: { __typename?: 'MutationScheduleAutoMode', turnOff: boolean } } };
 
 export type AutoModeTurnOnMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AutoModeTurnOnMutation = { __typename?: 'Mutation', schedule: { __typename?: 'MutationSchedule', autoMode: { __typename?: 'MutationAutoMode', turnOn: boolean } } };
+export type AutoModeTurnOnMutation = { __typename?: 'Mutation', schedule: { __typename?: 'MutationSchedule', autoMode: { __typename?: 'MutationScheduleAutoMode', turnOn: boolean } } };
 
 export type ExecMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -519,7 +527,7 @@ export type RunsQuery = { __typename?: 'Query', rdb: { __typename?: 'QueryRDB', 
 export type QScheduleAutoModeStateQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type QScheduleAutoModeStateQuery = { __typename?: 'Query', schedule: { __typename?: 'QuerySchedule', autoMode: { __typename?: 'QueryAutoMode', state: string } } };
+export type QScheduleAutoModeStateQuery = { __typename?: 'Query', schedule: { __typename?: 'QuerySchedule', autoMode: { __typename?: 'QueryScheduleAutoMode', state: string } } };
 
 export type QScheduleQueueItemsQueryVariables = Exact<{ [key: string]: never; }>;
 
