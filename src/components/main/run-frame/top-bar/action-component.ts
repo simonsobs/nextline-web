@@ -1,28 +1,21 @@
 import { computed } from "vue";
 import type { Component } from "vue";
 
-import { useSubscribeState, useSubscribeScheduleAutoMode } from "@/api";
+import { useSubscribeState, useSubscribeScheduleAutoModeMode } from "@/api";
 
 import ActionInitialized from "./ActionInitialized.vue";
 import ActionRunning from "./ActionRunning.vue";
 import ActionFinished from "./ActionFinished.vue";
 
 export async function useActionComponent() {
-  const autoModeStateSubscription = useSubscribeScheduleAutoMode();
-  const { autoMode } = autoModeStateSubscription;
+  const autoModeStateSubscription = useSubscribeScheduleAutoModeMode();
+  const { autoModeMode: autoMode } = autoModeStateSubscription;
 
   const stateSubscription = useSubscribeState();
   const { state } = stateSubscription;
 
   const actionComponent = computed<Component | null>(() => {
-    if (autoMode.value) {
-      switch (state.value) {
-        case "running":
-          return ActionRunning;
-        default:
-          return null;
-      }
-    } else {
+    if (autoMode.value === "off") {
       switch (state.value) {
         case "initialized":
           return ActionInitialized;
@@ -30,6 +23,13 @@ export async function useActionComponent() {
           return ActionRunning;
         case "finished":
           return ActionFinished;
+        default:
+          return null;
+      }
+    } else {
+      switch (state.value) {
+        case "running":
+          return ActionRunning;
         default:
           return null;
       }

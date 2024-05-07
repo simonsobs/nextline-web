@@ -5,18 +5,17 @@ import {
   useScheduleAutoModeStateSubscription,
 } from "@/graphql/codegen/generated";
 
-interface _ScheduleAutoModeSubscription {
-  autoMode: ComputedRef<boolean | undefined>;
+interface _ScheduleAutoModeStateSubscription {
   autoModeState: ComputedRef<string | undefined>;
   error: ComputedRef<Error | undefined>;
   subscription: ReturnType<typeof useScheduleAutoModeStateSubscription>;
   query: ReturnType<typeof useQScheduleAutoModeStateQuery>;
 }
 
-type ScheduleAutoModeSubscription = _ScheduleAutoModeSubscription &
-  PromiseLike<_ScheduleAutoModeSubscription>;
+type ScheduleAutoModeStateSubscription = _ScheduleAutoModeStateSubscription &
+  PromiseLike<_ScheduleAutoModeStateSubscription>;
 
-export function useSubscribeScheduleAutoMode(): ScheduleAutoModeSubscription {
+export function useSubscribeScheduleAutoModeState(): ScheduleAutoModeStateSubscription {
   const query = useQScheduleAutoModeStateQuery({ requestPolicy: "network-only" });
   const subscription = useScheduleAutoModeStateSubscription();
 
@@ -29,13 +28,7 @@ export function useSubscribeScheduleAutoMode(): ScheduleAutoModeSubscription {
         query.data?.value?.schedule.autoMode.state
   );
 
-  const autoMode = computed(() => {
-    const s = autoModeState.value;
-    if (s === "off") return false;
-    if (s === "waiting" || s?.startsWith("auto")) return true;
-    return undefined;
-  });
-  const ret = { autoMode, autoModeState, error, subscription, query };
+  const ret = { autoModeState, error, subscription, query };
 
   return {
     ...ret,

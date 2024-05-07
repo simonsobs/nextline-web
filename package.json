@@ -14,6 +14,8 @@
   "dependencies": {
     "@material/material-color-utilities": "^0.2.7",
     "@urql/vue": "^1.1.2",
+    "@vuelidate/core": "^2.0.3",
+    "@vuelidate/validators": "^2.0.4",
     "@vueuse/core": "^10.7.2",
     "@vueuse/integrations": "^10.7.2",
     "canvas": "^2.11.2",
@@ -24,7 +26,7 @@
     "pinia": "^2.1.7",
     "vue": "~3.4.18",
     "vue-router": "^4.2.5",
-    "vuetify": "~3.5.3"
+    "vuetify": "~3.5.14"
   },
   "devDependencies": {
     "@babel/core": "^7.23.9",
@@ -55,6 +57,6 @@
     "vite": "~5.1.1",
     "vite-plugin-monaco-editor": "^1.1.0",
     "vite-plugin-package-version": "^1.1.0",
-    "vitest": "~1.2.2"
+    "vitest": "~1.4.0"
   }
 }

@@ -19,7 +19,7 @@ const vuetify = createVuetify({
     sets: { mdi },
   },
   display: {
-    mobileBreakpoint: "xs",
+    mobileBreakpoint: "sm",
   },
   defaults: {
     // https://vuetifyjs.com/en/features/global-configuration/

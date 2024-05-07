@@ -48,12 +48,6 @@ export type MutationSendPdbCommandArgs = {
   traceNo: Scalars['Int']['input'];
 };
 
-export type MutationAutoMode = {
-  __typename?: 'MutationAutoMode';
-  turnOff: Scalars['Boolean']['output'];
-  turnOn: Scalars['Boolean']['output'];
-};
-
 export type MutationRdb = {
   __typename?: 'MutationRDB';
   deleteRuns: Array<Scalars['Int']['output']>;
@@ -66,9 +60,38 @@ export type MutationRdbDeleteRunsArgs = {
 
 export type MutationSchedule = {
   __typename?: 'MutationSchedule';
-  autoMode: MutationAutoMode;
+  autoMode: MutationScheduleAutoMode;
   loadScript: Scalars['Boolean']['output'];
+  queue: MutationScheduleQueue;
   scheduler: MutationScheduler;
+};
+
+export type MutationScheduleAutoMode = {
+  __typename?: 'MutationScheduleAutoMode';
+  changeMode: Scalars['Boolean']['output'];
+  turnOff: Scalars['Boolean']['output'];
+  turnOn: Scalars['Boolean']['output'];
+};
+
+
+export type MutationScheduleAutoModeChangeModeArgs = {
+  mode: Scalars['String']['input'];
+};
+
+export type MutationScheduleQueue = {
+  __typename?: 'MutationScheduleQueue';
+  push: ScheduleQueueItem;
+  remove: Scalars['Boolean']['output'];
+};
+
+
+export type MutationScheduleQueuePushArgs = {
+  input: ScheduleQueuePushInput;
+};
+
+
+export type MutationScheduleQueueRemoveArgs = {
+  id: Scalars['Int']['input'];
 };
 
 export type MutationScheduler = {
@@ -163,11 +186,6 @@ export type QuerySourceLineArgs = {
   lineNo: Scalars['Int']['input'];
 };
 
-export type QueryAutoMode = {
-  __typename?: 'QueryAutoMode';
-  state: Scalars['String']['output'];
-};
-
 export type QueryDev = {
   __typename?: 'QueryDev';
   headers: Scalars['String']['output'];
@@ -224,9 +242,21 @@ export type QueryRdbTracesArgs = {
 
 export type QuerySchedule = {
   __typename?: 'QuerySchedule';
-  autoMode: QueryAutoMode;
+  autoMode: QueryScheduleAutoMode;
+  queue: QueryScheduleQueue;
   scheduler: QueryScheduler;
   version: Scalars['String']['output'];
+};
+
+export type QueryScheduleAutoMode = {
+  __typename?: 'QueryScheduleAutoMode';
+  mode: Scalars['String']['output'];
+  state: Scalars['String']['output'];
+};
+
+export type QueryScheduleQueue = {
+  __typename?: 'QueryScheduleQueue';
+  items: Array<ScheduleQueueItem>;
 };
 
 export type QueryScheduler = {
@@ -287,6 +317,19 @@ export type RunNodeEdge = {
   node: RunNode;
 };
 
+export type ScheduleQueueItem = {
+  __typename?: 'ScheduleQueueItem';
+  createdAt: Scalars['DateTime']['output'];
+  id: Scalars['Int']['output'];
+  name: Scalars['String']['output'];
+  script: Scalars['String']['output'];
+};
+
+export type ScheduleQueuePushInput = {
+  name: Scalars['String']['input'];
+  script: Scalars['String']['input'];
+};
+
 export type StdoutNode = {
   __typename?: 'StdoutNode';
   id: Scalars['Int']['output'];
@@ -317,7 +360,9 @@ export type Subscription = {
   counter: Scalars['Int']['output'];
   prompting: PromptingData;
   runNo: Scalars['Int']['output'];
+  scheduleAutoModeMode: Scalars['String']['output'];
   scheduleAutoModeState: Scalars['String']['output'];
+  scheduleQueueItems: Array<ScheduleQueueItem>;
   state: Scalars['String']['output'];
   stdout: Scalars['String']['output'];
   traceIds: Array<Scalars['Int']['output']>;
@@ -375,12 +420,12 @@ export type TraceNodeEdge = {
 export type AutoModeTurnOffMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AutoModeTurnOffMutation = { __typename?: 'Mutation', schedule: { __typename?: 'MutationSchedule', autoMode: { __typename?: 'MutationAutoMode', turnOff: boolean } } };
+export type AutoModeTurnOffMutation = { __typename?: 'Mutation', schedule: { __typename?: 'MutationSchedule', autoMode: { __typename?: 'MutationScheduleAutoMode', turnOff: boolean } } };
 
 export type AutoModeTurnOnMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AutoModeTurnOnMutation = { __typename?: 'Mutation', schedule: { __typename?: 'MutationSchedule', autoMode: { __typename?: 'MutationAutoMode', turnOn: boolean } } };
+export type AutoModeTurnOnMutation = { __typename?: 'Mutation', schedule: { __typename?: 'MutationSchedule', autoMode: { __typename?: 'MutationScheduleAutoMode', turnOn: boolean } } };
 
 export type ExecMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -413,6 +458,27 @@ export type RunAndContinueMutationVariables = Exact<{ [key: string]: never; }>;
 
 
 export type RunAndContinueMutation = { __typename?: 'Mutation', runAndContinue: boolean };
+
+export type ScheduleAutoModeChangeModeMutationVariables = Exact<{
+  mode: Scalars['String']['input'];
+}>;
+
+
+export type ScheduleAutoModeChangeModeMutation = { __typename?: 'Mutation', schedule: { __typename?: 'MutationSchedule', autoMode: { __typename?: 'MutationScheduleAutoMode', changeMode: boolean } } };
+
+export type ScheduleQueuePushMutationVariables = Exact<{
+  input: ScheduleQueuePushInput;
+}>;
+
+
+export type ScheduleQueuePushMutation = { __typename?: 'Mutation', schedule: { __typename?: 'MutationSchedule', queue: { __typename?: 'MutationScheduleQueue', push: { __typename?: 'ScheduleQueueItem', id: number, name: string, createdAt: any, script: string } } } };
+
+export type ScheduleQueueRemoveMutationVariables = Exact<{
+  id: Scalars['Int']['input'];
+}>;
+
+
+export type ScheduleQueueRemoveMutation = { __typename?: 'Mutation', schedule: { __typename?: 'MutationSchedule', queue: { __typename?: 'MutationScheduleQueue', remove: boolean } } };
 
 export type SendPdbCommandMutationVariables = Exact<{
   command: Scalars['String']['input'];
@@ -465,10 +531,20 @@ export type RunsQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type RunsQuery = { __typename?: 'Query', rdb: { __typename?: 'QueryRDB', runs: { __typename?: 'RunNodeConnection', edges: Array<{ __typename?: 'RunNodeEdge', node: { __typename?: 'RunNode', runNo: number, state?: string | null, startedAt?: any | null, endedAt?: any | null, script?: string | null, exception?: string | null } }> } } };
 
+export type QScheduleAutoModeModeQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type QScheduleAutoModeModeQuery = { __typename?: 'Query', schedule: { __typename?: 'QuerySchedule', autoMode: { __typename?: 'QueryScheduleAutoMode', mode: string } } };
+
 export type QScheduleAutoModeStateQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type QScheduleAutoModeStateQuery = { __typename?: 'Query', schedule: { __typename?: 'QuerySchedule', autoMode: { __typename?: 'QueryAutoMode', state: string } } };
+export type QScheduleAutoModeStateQuery = { __typename?: 'Query', schedule: { __typename?: 'QuerySchedule', autoMode: { __typename?: 'QueryScheduleAutoMode', state: string } } };
+
+export type QScheduleQueueItemsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type QScheduleQueueItemsQuery = { __typename?: 'Query', schedule: { __typename?: 'QuerySchedule', queue: { __typename?: 'QueryScheduleQueue', items: Array<{ __typename?: 'ScheduleQueueItem', id: number, name: string, createdAt: any, script: string }> } } };
 
 export type SourceQueryVariables = Exact<{
   fileName?: InputMaybe<Scalars['String']['input']>;
@@ -509,10 +585,20 @@ export type RunNoSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 export type RunNoSubscription = { __typename?: 'Subscription', runNo: number };
 
+export type ScheduleAutoModeModeSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ScheduleAutoModeModeSubscription = { __typename?: 'Subscription', scheduleAutoModeMode: string };
+
 export type ScheduleAutoModeStateSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
 export type ScheduleAutoModeStateSubscription = { __typename?: 'Subscription', scheduleAutoModeState: string };
+
+export type SScheduleQueueItemsSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type SScheduleQueueItemsSubscription = { __typename?: 'Subscription', scheduleQueueItems: Array<{ __typename?: 'ScheduleQueueItem', id: number, name: string, createdAt: any, script: string }> };
 
 export type StateSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
@@ -611,6 +697,50 @@ export const RunAndContinueDocument = gql`
 
 export function useRunAndContinueMutation() {
   return Urql.useMutation<RunAndContinueMutation, RunAndContinueMutationVariables>(RunAndContinueDocument);
+};
+export const ScheduleAutoModeChangeModeDocument = gql`
+    mutation ScheduleAutoModeChangeMode($mode: String!) {
+  schedule {
+    autoMode {
+      changeMode(mode: $mode)
+    }
+  }
+}
+    `;
+
+export function useScheduleAutoModeChangeModeMutation() {
+  return Urql.useMutation<ScheduleAutoModeChangeModeMutation, ScheduleAutoModeChangeModeMutationVariables>(ScheduleAutoModeChangeModeDocument);
+};
+export const ScheduleQueuePushDocument = gql`
+    mutation ScheduleQueuePush($input: ScheduleQueuePushInput!) {
+  schedule {
+    queue {
+      push(input: $input) {
+        id
+        name
+        createdAt
+        script
+      }
+    }
+  }
+}
+    `;
+
+export function useScheduleQueuePushMutation() {
+  return Urql.useMutation<ScheduleQueuePushMutation, ScheduleQueuePushMutationVariables>(ScheduleQueuePushDocument);
+};
+export const ScheduleQueueRemoveDocument = gql`
+    mutation ScheduleQueueRemove($id: Int!) {
+  schedule {
+    queue {
+      remove(id: $id)
+    }
+  }
+}
+    `;
+
+export function useScheduleQueueRemoveMutation() {
+  return Urql.useMutation<ScheduleQueueRemoveMutation, ScheduleQueueRemoveMutationVariables>(ScheduleQueueRemoveDocument);
 };
 export const SendPdbCommandDocument = gql`
     mutation SendPdbCommand($command: String!, $promptNo: Int!, $traceNo: Int!) {
@@ -737,6 +867,19 @@ export const RunsDocument = gql`
 export function useRunsQuery(options: Omit<Urql.UseQueryArgs<never, RunsQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<RunsQuery>({ query: RunsDocument, ...options });
 };
+export const QScheduleAutoModeModeDocument = gql`
+    query QScheduleAutoModeMode {
+  schedule {
+    autoMode {
+      mode
+    }
+  }
+}
+    `;
+
+export function useQScheduleAutoModeModeQuery(options: Omit<Urql.UseQueryArgs<never, QScheduleAutoModeModeQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<QScheduleAutoModeModeQuery>({ query: QScheduleAutoModeModeDocument, ...options });
+};
 export const QScheduleAutoModeStateDocument = gql`
     query QScheduleAutoModeState {
   schedule {
@@ -749,6 +892,24 @@ export const QScheduleAutoModeStateDocument = gql`
 
 export function useQScheduleAutoModeStateQuery(options: Omit<Urql.UseQueryArgs<never, QScheduleAutoModeStateQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<QScheduleAutoModeStateQuery>({ query: QScheduleAutoModeStateDocument, ...options });
+};
+export const QScheduleQueueItemsDocument = gql`
+    query QScheduleQueueItems {
+  schedule {
+    queue {
+      items {
+        id
+        name
+        createdAt
+        script
+      }
+    }
+  }
+}
+    `;
+
+export function useQScheduleQueueItemsQuery(options: Omit<Urql.UseQueryArgs<never, QScheduleQueueItemsQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<QScheduleQueueItemsQuery>({ query: QScheduleQueueItemsDocument, ...options });
 };
 export const SourceDocument = gql`
     query Source($fileName: String) {
@@ -818,6 +979,15 @@ export const RunNoDocument = gql`
 export function useRunNoSubscription<R = RunNoSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, RunNoSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandlerArg<RunNoSubscription, R>) {
   return Urql.useSubscription<RunNoSubscription, R, RunNoSubscriptionVariables>({ query: RunNoDocument, ...options }, handler);
 };
+export const ScheduleAutoModeModeDocument = gql`
+    subscription ScheduleAutoModeMode {
+  scheduleAutoModeMode
+}
+    `;
+
+export function useScheduleAutoModeModeSubscription<R = ScheduleAutoModeModeSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, ScheduleAutoModeModeSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandlerArg<ScheduleAutoModeModeSubscription, R>) {
+  return Urql.useSubscription<ScheduleAutoModeModeSubscription, R, ScheduleAutoModeModeSubscriptionVariables>({ query: ScheduleAutoModeModeDocument, ...options }, handler);
+};
 export const ScheduleAutoModeStateDocument = gql`
     subscription ScheduleAutoModeState {
   scheduleAutoModeState
@@ -826,6 +996,20 @@ export const ScheduleAutoModeStateDocument = gql`
 
 export function useScheduleAutoModeStateSubscription<R = ScheduleAutoModeStateSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, ScheduleAutoModeStateSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandlerArg<ScheduleAutoModeStateSubscription, R>) {
   return Urql.useSubscription<ScheduleAutoModeStateSubscription, R, ScheduleAutoModeStateSubscriptionVariables>({ query: ScheduleAutoModeStateDocument, ...options }, handler);
+};
+export const SScheduleQueueItemsDocument = gql`
+    subscription SScheduleQueueItems {
+  scheduleQueueItems {
+    id
+    name
+    createdAt
+    script
+  }
+}
+    `;
+
+export function useSScheduleQueueItemsSubscription<R = SScheduleQueueItemsSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, SScheduleQueueItemsSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandlerArg<SScheduleQueueItemsSubscription, R>) {
+  return Urql.useSubscription<SScheduleQueueItemsSubscription, R, SScheduleQueueItemsSubscriptionVariables>({ query: SScheduleQueueItemsDocument, ...options }, handler);
 };
 export const StateDocument = gql`
     subscription State {

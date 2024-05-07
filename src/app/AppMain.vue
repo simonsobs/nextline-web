@@ -25,6 +25,18 @@
     </div>
   </div>
 </template>
+<!-- Note on transition and keep-alive:
+
+The v-fade-transition component has options leave-absolute and hide-on-leave.
+
+The combination of leave-absolute and keep-alive should work. However, the
+component content might shift before the transition starts unless the
+component's CSS is carefully designed. This shift can be quite distracting.
+
+If that happens, instead of leave-absolute, hide-on-leave can be useful. However,
+hide-on-leave doesn't work with keep-alive because the component content will
+stay hidden.
+-->
 
 <script setup lang="ts">
 import { useDisplay } from "vuetify";

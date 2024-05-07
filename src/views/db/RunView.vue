@@ -42,9 +42,7 @@ const run = computed(() => queryResponse.data.value?.rdb.run);
 <style scoped>
 .g-container {
   display: grid;
-  margin: 12px;
-  height: calc(100% - 2 * 12px);
-  width: calc(100% - 2 * 12px);
+  padding: 12px;
   justify-content: center;
   grid-template-columns: minmax(min-content, 960px);
   grid-template-rows: min-content min-content 1fr;
