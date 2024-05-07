@@ -1,15 +1,15 @@
 import { computed } from "vue";
 import type { Component } from "vue";
 
-import { useSubscribeState, useSubscribeScheduleAutoMode } from "@/api";
+import { useSubscribeState, useSubscribeScheduleAutoModeMode } from "@/api";
 
 import ActionInitialized from "./ActionInitialized.vue";
 import ActionRunning from "./ActionRunning.vue";
 import ActionFinished from "./ActionFinished.vue";
 
 export async function useActionComponent() {
-  const autoModeStateSubscription = useSubscribeScheduleAutoMode();
-  const { autoMode } = autoModeStateSubscription;
+  const autoModeStateSubscription = useSubscribeScheduleAutoModeMode();
+  const { autoModeMode: autoMode } = autoModeStateSubscription;
 
   const stateSubscription = useSubscribeState();
   const { state } = stateSubscription;
