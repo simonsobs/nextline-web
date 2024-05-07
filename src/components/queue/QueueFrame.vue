@@ -4,6 +4,16 @@
       <div class="g-breadcrumb">
         <v-breadcrumbs :items="breadcrumb"> </v-breadcrumbs>
       </div>
+      <div class="g-top pa-4 font-weight-light">
+        <p>
+          Python scripts in the queue are executed in the order when the auto mode is
+          <span class="font-italic"> Queue. </span>
+          <span v-if="!mobile">
+            The items in the queue are not stored in the database but in the memory of
+            the backend server. If the server is restarted, the queue will be empty.
+          </span>
+        </p>
+      </div>
       <div class="g-table">
         <v-data-table
           :loading="loading"
@@ -13,6 +23,24 @@
           @click-:row="showViewDialog = true"
           @click:row="onClickRow"
         >
+          <template #no-data>
+            <div
+              class="text-left font-weight-light"
+              style="max-width: 480px; margin: auto"
+            >
+              <p class="text-center font-weight-regular">The queue is empty.</p>
+              <p class="font-weight-light mt-1">
+                The auto mode will be turned off if a script is tried to be pulled when
+                the queue is empty.
+                <a
+                  @click="showAddDialog = true"
+                  class="text-decoration-underline cursor-pointer"
+                >
+                  Add the first item.
+                </a>
+              </p>
+            </div>
+          </template>
           <template #item.index="{ index }">
             <span class="text-primary font-weight-medium"> {{ index + 1 }} </span>
           </template>
@@ -107,8 +135,8 @@ const showAddDialog = ref(false);
   padding-bottom: calc(64px + 24px); /* 64px is the height of the fab button */
   justify-content: center;
   grid-template-columns: 1fr;
-  grid-template-rows: min-content 1fr;
-  grid-template-areas: "breadcrumb" "table";
+  grid-template-rows: min-content min-content 1fr;
+  grid-template-areas: "breadcrumb" "top" "table";
 }
 
 .g-breadcrumb {
@@ -116,6 +144,10 @@ const showAddDialog = ref(false);
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.g-top {
+  grid-area: top;
 }
 
 .g-table {
