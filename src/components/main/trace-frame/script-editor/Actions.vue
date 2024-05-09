@@ -27,20 +27,30 @@
           </template>
           Load From Scheduler
         </v-list-item>
+        <v-list-item v-if="devMode" @click="emit('loadExample')">
+          <template v-slot:prepend>
+            <v-icon> mdi-code-tags </v-icon>
+          </template>
+          Load Example Script
+        </v-list-item>
       </v-list>
     </v-menu>
   </v-card-actions>
 </template>
 
 <script setup lang="ts">
+import { useDevTool } from "@/utils/dev/enabled";
 interface Props {
   editing: boolean;
 }
+
+const { isDevToolEnabled: devMode } = useDevTool();
 
 type Emits = {
   reset: [];
   save: [];
   load: [];
+  loadExample: [];
 };
 
 defineProps<Props>();

@@ -28,6 +28,7 @@ export type Mutation = {
   exec: Scalars['Boolean']['output'];
   interrupt: Scalars['Boolean']['output'];
   kill: Scalars['Boolean']['output'];
+  loadExampleScript: Scalars['Boolean']['output'];
   rdb: MutationRdb;
   reset: Scalars['Boolean']['output'];
   runAndContinue: Scalars['Boolean']['output'];
@@ -442,6 +443,11 @@ export type KillMutationVariables = Exact<{ [key: string]: never; }>;
 
 export type KillMutation = { __typename?: 'Mutation', kill: boolean };
 
+export type LoadExampleScriptMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type LoadExampleScriptMutation = { __typename?: 'Mutation', loadExampleScript: boolean };
+
 export type LoadScriptMutationVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -668,6 +674,15 @@ export const KillDocument = gql`
 
 export function useKillMutation() {
   return Urql.useMutation<KillMutation, KillMutationVariables>(KillDocument);
+};
+export const LoadExampleScriptDocument = gql`
+    mutation LoadExampleScript {
+  loadExampleScript
+}
+    `;
+
+export function useLoadExampleScriptMutation() {
+  return Urql.useMutation<LoadExampleScriptMutation, LoadExampleScriptMutationVariables>(LoadExampleScriptDocument);
 };
 export const LoadScriptDocument = gql`
     mutation LoadScript {

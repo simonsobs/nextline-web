@@ -4,6 +4,7 @@ import {
   useSourceQuery,
   useResetMutation,
   useLoadScriptMutation,
+  useLoadExampleScriptMutation,
 } from "@/graphql/codegen/generated";
 import { useStore } from "@/plugins/pinia/stores/main";
 
@@ -43,7 +44,15 @@ export async function useSource() {
     query.executeQuery();
   }
 
+  const { executeMutation: executeMutationLoadExample } =
+    useLoadExampleScriptMutation();
+
+  async function loadExample() {
+    await executeMutationLoadExample({});
+    query.executeQuery();
+  }
+
   await query;
 
-  return { source, modified, save, reset, load };
+  return { source, modified, save, reset, load, loadExample };
 }
