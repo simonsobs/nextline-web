@@ -781,8 +781,8 @@ export const QContinuousEnabledDocument = gql`
 }
     `;
 
-export function useQContinuousEnabledQuery(options: Omit<Urql.UseQueryArgs<never, QContinuousEnabledQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<QContinuousEnabledQuery>({ query: QContinuousEnabledDocument, ...options });
+export function useQContinuousEnabledQuery(options: Omit<Urql.UseQueryArgs<never, QContinuousEnabledQueryVariables>, 'query'>) {
+  return Urql.useQuery<QContinuousEnabledQuery, QContinuousEnabledQueryVariables>({ query: QContinuousEnabledDocument, ...options });
 };
 export const ExceptionDocument = gql`
     query Exception {
@@ -790,8 +790,8 @@ export const ExceptionDocument = gql`
 }
     `;
 
-export function useExceptionQuery(options: Omit<Urql.UseQueryArgs<never, ExceptionQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<ExceptionQuery>({ query: ExceptionDocument, ...options });
+export function useExceptionQuery(options: Omit<Urql.UseQueryArgs<never, ExceptionQueryVariables>, 'query'>) {
+  return Urql.useQuery<ExceptionQuery, ExceptionQueryVariables>({ query: ExceptionDocument, ...options });
 };
 export const RdbRunDocument = gql`
     query RDBRun($runNo: Int!) {
@@ -817,8 +817,8 @@ export const RdbRunDocument = gql`
 }
     `;
 
-export function useRdbRunQuery(options: Omit<Urql.UseQueryArgs<never, RdbRunQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<RdbRunQuery>({ query: RdbRunDocument, ...options });
+export function useRdbRunQuery(options: Omit<Urql.UseQueryArgs<never, RdbRunQueryVariables>, 'query'>) {
+  return Urql.useQuery<RdbRunQuery, RdbRunQueryVariables>({ query: RdbRunDocument, ...options });
 };
 export const RdbRunsDocument = gql`
     query RDBRuns($before: String, $after: String, $first: Int, $last: Int) {
@@ -848,8 +848,8 @@ export const RdbRunsDocument = gql`
 }
     `;
 
-export function useRdbRunsQuery(options: Omit<Urql.UseQueryArgs<never, RdbRunsQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<RdbRunsQuery>({ query: RdbRunsDocument, ...options });
+export function useRdbRunsQuery(options: Omit<Urql.UseQueryArgs<never, RdbRunsQueryVariables>, 'query'>) {
+  return Urql.useQuery<RdbRunsQuery, RdbRunsQueryVariables>({ query: RdbRunsDocument, ...options });
 };
 export const QRunNoDocument = gql`
     query QRunNo {
@@ -857,8 +857,8 @@ export const QRunNoDocument = gql`
 }
     `;
 
-export function useQRunNoQuery(options: Omit<Urql.UseQueryArgs<never, QRunNoQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<QRunNoQuery>({ query: QRunNoDocument, ...options });
+export function useQRunNoQuery(options: Omit<Urql.UseQueryArgs<never, QRunNoQueryVariables>, 'query'>) {
+  return Urql.useQuery<QRunNoQuery, QRunNoQueryVariables>({ query: QRunNoDocument, ...options });
 };
 export const RunsDocument = gql`
     query Runs {
@@ -879,8 +879,8 @@ export const RunsDocument = gql`
 }
     `;
 
-export function useRunsQuery(options: Omit<Urql.UseQueryArgs<never, RunsQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<RunsQuery>({ query: RunsDocument, ...options });
+export function useRunsQuery(options: Omit<Urql.UseQueryArgs<never, RunsQueryVariables>, 'query'>) {
+  return Urql.useQuery<RunsQuery, RunsQueryVariables>({ query: RunsDocument, ...options });
 };
 export const QScheduleAutoModeModeDocument = gql`
     query QScheduleAutoModeMode {
@@ -892,8 +892,8 @@ export const QScheduleAutoModeModeDocument = gql`
 }
     `;
 
-export function useQScheduleAutoModeModeQuery(options: Omit<Urql.UseQueryArgs<never, QScheduleAutoModeModeQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<QScheduleAutoModeModeQuery>({ query: QScheduleAutoModeModeDocument, ...options });
+export function useQScheduleAutoModeModeQuery(options: Omit<Urql.UseQueryArgs<never, QScheduleAutoModeModeQueryVariables>, 'query'>) {
+  return Urql.useQuery<QScheduleAutoModeModeQuery, QScheduleAutoModeModeQueryVariables>({ query: QScheduleAutoModeModeDocument, ...options });
 };
 export const QScheduleAutoModeStateDocument = gql`
     query QScheduleAutoModeState {
@@ -905,8 +905,8 @@ export const QScheduleAutoModeStateDocument = gql`
 }
     `;
 
-export function useQScheduleAutoModeStateQuery(options: Omit<Urql.UseQueryArgs<never, QScheduleAutoModeStateQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<QScheduleAutoModeStateQuery>({ query: QScheduleAutoModeStateDocument, ...options });
+export function useQScheduleAutoModeStateQuery(options: Omit<Urql.UseQueryArgs<never, QScheduleAutoModeStateQueryVariables>, 'query'>) {
+  return Urql.useQuery<QScheduleAutoModeStateQuery, QScheduleAutoModeStateQueryVariables>({ query: QScheduleAutoModeStateDocument, ...options });
 };
 export const QScheduleQueueItemsDocument = gql`
     query QScheduleQueueItems {
@@ -923,8 +923,8 @@ export const QScheduleQueueItemsDocument = gql`
 }
     `;
 
-export function useQScheduleQueueItemsQuery(options: Omit<Urql.UseQueryArgs<never, QScheduleQueueItemsQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<QScheduleQueueItemsQuery>({ query: QScheduleQueueItemsDocument, ...options });
+export function useQScheduleQueueItemsQuery(options: Omit<Urql.UseQueryArgs<never, QScheduleQueueItemsQueryVariables>, 'query'>) {
+  return Urql.useQuery<QScheduleQueueItemsQuery, QScheduleQueueItemsQueryVariables>({ query: QScheduleQueueItemsDocument, ...options });
 };
 export const SourceDocument = gql`
     query Source($fileName: String) {
@@ -932,8 +932,8 @@ export const SourceDocument = gql`
 }
     `;
 
-export function useSourceQuery(options: Omit<Urql.UseQueryArgs<never, SourceQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<SourceQuery>({ query: SourceDocument, ...options });
+export function useSourceQuery(options: Omit<Urql.UseQueryArgs<never, SourceQueryVariables>, 'query'>) {
+  return Urql.useQuery<SourceQuery, SourceQueryVariables>({ query: SourceDocument, ...options });
 };
 export const QStateDocument = gql`
     query QState {
@@ -941,8 +941,8 @@ export const QStateDocument = gql`
 }
     `;
 
-export function useQStateQuery(options: Omit<Urql.UseQueryArgs<never, QStateQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<QStateQuery>({ query: QStateDocument, ...options });
+export function useQStateQuery(options: Omit<Urql.UseQueryArgs<never, QStateQueryVariables>, 'query'>) {
+  return Urql.useQuery<QStateQuery, QStateQueryVariables>({ query: QStateDocument, ...options });
 };
 export const QTraceIdsDocument = gql`
     query QTraceIds {
@@ -950,8 +950,8 @@ export const QTraceIdsDocument = gql`
 }
     `;
 
-export function useQTraceIdsQuery(options: Omit<Urql.UseQueryArgs<never, QTraceIdsQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<QTraceIdsQuery>({ query: QTraceIdsDocument, ...options });
+export function useQTraceIdsQuery(options: Omit<Urql.UseQueryArgs<never, QTraceIdsQueryVariables>, 'query'>) {
+  return Urql.useQuery<QTraceIdsQuery, QTraceIdsQueryVariables>({ query: QTraceIdsDocument, ...options });
 };
 export const ContinuousEnabledDocument = gql`
     subscription ContinuousEnabled {
@@ -959,7 +959,7 @@ export const ContinuousEnabledDocument = gql`
 }
     `;
 
-export function useContinuousEnabledSubscription<R = ContinuousEnabledSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, ContinuousEnabledSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandlerArg<ContinuousEnabledSubscription, R>) {
+export function useContinuousEnabledSubscription<R = ContinuousEnabledSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, ContinuousEnabledSubscriptionVariables>, 'query'>, handler?: Urql.SubscriptionHandlerArg<ContinuousEnabledSubscription, R>) {
   return Urql.useSubscription<ContinuousEnabledSubscription, R, ContinuousEnabledSubscriptionVariables>({ query: ContinuousEnabledDocument, ...options }, handler);
 };
 export const CounterDocument = gql`
@@ -968,7 +968,7 @@ export const CounterDocument = gql`
 }
     `;
 
-export function useCounterSubscription<R = CounterSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, CounterSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandlerArg<CounterSubscription, R>) {
+export function useCounterSubscription<R = CounterSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, CounterSubscriptionVariables>, 'query'>, handler?: Urql.SubscriptionHandlerArg<CounterSubscription, R>) {
   return Urql.useSubscription<CounterSubscription, R, CounterSubscriptionVariables>({ query: CounterDocument, ...options }, handler);
 };
 export const PromptingDocument = gql`
@@ -982,7 +982,7 @@ export const PromptingDocument = gql`
 }
     `;
 
-export function usePromptingSubscription<R = PromptingSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, PromptingSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandlerArg<PromptingSubscription, R>) {
+export function usePromptingSubscription<R = PromptingSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, PromptingSubscriptionVariables>, 'query'>, handler?: Urql.SubscriptionHandlerArg<PromptingSubscription, R>) {
   return Urql.useSubscription<PromptingSubscription, R, PromptingSubscriptionVariables>({ query: PromptingDocument, ...options }, handler);
 };
 export const RunNoDocument = gql`
@@ -991,7 +991,7 @@ export const RunNoDocument = gql`
 }
     `;
 
-export function useRunNoSubscription<R = RunNoSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, RunNoSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandlerArg<RunNoSubscription, R>) {
+export function useRunNoSubscription<R = RunNoSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, RunNoSubscriptionVariables>, 'query'>, handler?: Urql.SubscriptionHandlerArg<RunNoSubscription, R>) {
   return Urql.useSubscription<RunNoSubscription, R, RunNoSubscriptionVariables>({ query: RunNoDocument, ...options }, handler);
 };
 export const ScheduleAutoModeModeDocument = gql`
@@ -1000,7 +1000,7 @@ export const ScheduleAutoModeModeDocument = gql`
 }
     `;
 
-export function useScheduleAutoModeModeSubscription<R = ScheduleAutoModeModeSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, ScheduleAutoModeModeSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandlerArg<ScheduleAutoModeModeSubscription, R>) {
+export function useScheduleAutoModeModeSubscription<R = ScheduleAutoModeModeSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, ScheduleAutoModeModeSubscriptionVariables>, 'query'>, handler?: Urql.SubscriptionHandlerArg<ScheduleAutoModeModeSubscription, R>) {
   return Urql.useSubscription<ScheduleAutoModeModeSubscription, R, ScheduleAutoModeModeSubscriptionVariables>({ query: ScheduleAutoModeModeDocument, ...options }, handler);
 };
 export const ScheduleAutoModeStateDocument = gql`
@@ -1009,7 +1009,7 @@ export const ScheduleAutoModeStateDocument = gql`
 }
     `;
 
-export function useScheduleAutoModeStateSubscription<R = ScheduleAutoModeStateSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, ScheduleAutoModeStateSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandlerArg<ScheduleAutoModeStateSubscription, R>) {
+export function useScheduleAutoModeStateSubscription<R = ScheduleAutoModeStateSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, ScheduleAutoModeStateSubscriptionVariables>, 'query'>, handler?: Urql.SubscriptionHandlerArg<ScheduleAutoModeStateSubscription, R>) {
   return Urql.useSubscription<ScheduleAutoModeStateSubscription, R, ScheduleAutoModeStateSubscriptionVariables>({ query: ScheduleAutoModeStateDocument, ...options }, handler);
 };
 export const SScheduleQueueItemsDocument = gql`
@@ -1023,7 +1023,7 @@ export const SScheduleQueueItemsDocument = gql`
 }
     `;
 
-export function useSScheduleQueueItemsSubscription<R = SScheduleQueueItemsSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, SScheduleQueueItemsSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandlerArg<SScheduleQueueItemsSubscription, R>) {
+export function useSScheduleQueueItemsSubscription<R = SScheduleQueueItemsSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, SScheduleQueueItemsSubscriptionVariables>, 'query'>, handler?: Urql.SubscriptionHandlerArg<SScheduleQueueItemsSubscription, R>) {
   return Urql.useSubscription<SScheduleQueueItemsSubscription, R, SScheduleQueueItemsSubscriptionVariables>({ query: SScheduleQueueItemsDocument, ...options }, handler);
 };
 export const StateDocument = gql`
@@ -1032,7 +1032,7 @@ export const StateDocument = gql`
 }
     `;
 
-export function useStateSubscription<R = StateSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, StateSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandlerArg<StateSubscription, R>) {
+export function useStateSubscription<R = StateSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, StateSubscriptionVariables>, 'query'>, handler?: Urql.SubscriptionHandlerArg<StateSubscription, R>) {
   return Urql.useSubscription<StateSubscription, R, StateSubscriptionVariables>({ query: StateDocument, ...options }, handler);
 };
 export const StdoutDocument = gql`
@@ -1041,7 +1041,7 @@ export const StdoutDocument = gql`
 }
     `;
 
-export function useStdoutSubscription<R = StdoutSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, StdoutSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandlerArg<StdoutSubscription, R>) {
+export function useStdoutSubscription<R = StdoutSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, StdoutSubscriptionVariables>, 'query'>, handler?: Urql.SubscriptionHandlerArg<StdoutSubscription, R>) {
   return Urql.useSubscription<StdoutSubscription, R, StdoutSubscriptionVariables>({ query: StdoutDocument, ...options }, handler);
 };
 export const TraceIdsDocument = gql`
@@ -1050,6 +1050,6 @@ export const TraceIdsDocument = gql`
 }
     `;
 
-export function useTraceIdsSubscription<R = TraceIdsSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, TraceIdsSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandlerArg<TraceIdsSubscription, R>) {
+export function useTraceIdsSubscription<R = TraceIdsSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, TraceIdsSubscriptionVariables>, 'query'>, handler?: Urql.SubscriptionHandlerArg<TraceIdsSubscription, R>) {
   return Urql.useSubscription<TraceIdsSubscription, R, TraceIdsSubscriptionVariables>({ query: TraceIdsDocument, ...options }, handler);
 };
