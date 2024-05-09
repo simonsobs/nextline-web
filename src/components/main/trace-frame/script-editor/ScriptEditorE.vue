@@ -10,6 +10,7 @@
         @reset="reset"
         @save="save"
         @load="load"
+        @load-example="loadExample"
       >
       </actions>
     </v-card>
@@ -22,7 +23,7 @@ import { useMonacoEditor } from "@/utils/monaco-editor";
 import { useSource } from "./source";
 import Actions from "./Actions.vue";
 const editor = ref<HTMLElement>();
-const { source, modified, save, reset, load } = await useSource();
+const { source, modified, save, reset, load, loadExample } = await useSource();
 useMonacoEditor({ element: editor, source, mode: "editor" });
 </script>
 
