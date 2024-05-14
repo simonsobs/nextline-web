@@ -13,8 +13,8 @@ import {
   useStateSubscription,
 } from "@/graphql/codegen/generated";
 
-const query = useQStateQuery();
-const subscription = useStateSubscription();
+const query = useQStateQuery({});
+const subscription = useStateSubscription({});
 
 const state = computed(() => query.data);
 const sub = computed(() => subscription.data);

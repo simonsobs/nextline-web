@@ -48,8 +48,8 @@ watch(props, (val) => {
 });
 
 watch(query.data, (val) => {
-  alert.value = !!val?.exception;
-  exception.value = val?.exception;
+  alert.value = !!val?.ctrl.exception;
+  exception.value = val?.ctrl.exception;
 });
 
 watch(alert, (val) => {

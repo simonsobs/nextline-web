@@ -13,14 +13,14 @@ type RunNoSubscription = _RunNoSubscription & PromiseLike<_RunNoSubscription>;
 
 export function useSubscribeRunNo(): RunNoSubscription {
   const query = useQRunNoQuery({ requestPolicy: "network-only" });
-  const subscription = useRunNoSubscription();
+  const subscription = useRunNoSubscription({});
 
   const error = computed(() => subscription.error?.value || query.error?.value);
 
   const runNo = computed(() =>
     error.value
       ? undefined
-      : subscription.data?.value?.runNo || query.data?.value?.runNo
+      : subscription.data?.value?.ctrlRunNo || query.data?.value?.ctrl.runNo
   );
 
   const ret = { runNo, error, subscription, query };

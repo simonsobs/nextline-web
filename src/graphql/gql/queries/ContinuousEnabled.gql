@@ -1,3 +1,5 @@
 query QContinuousEnabled {
-  continuousEnabled
+  ctrl {
+    continuousEnabled
+  }
 }

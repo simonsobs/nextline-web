@@ -57,7 +57,7 @@ const subscription = usePromptingSubscription({
   variables: { traceId: props.traceId },
 });
 
-const prompting = computed(() => subscription.data.value?.prompting);
+const prompting = computed(() => subscription.data.value?.ctrlPrompting);
 
 const basename = computed(() => {
   const fileName = prompting?.value?.fileName || "";

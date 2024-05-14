@@ -1,3 +1,5 @@
 query QRunNo {
-  runNo
+  ctrl {
+    runNo
+  }
 }

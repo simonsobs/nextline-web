@@ -17,15 +17,15 @@ type ContinuousEnabledSubscription = _ContinuousEnabledSubscription &
 
 export function useSubscribeContinuousEnabled(): ContinuousEnabledSubscription {
   const query = useQContinuousEnabledQuery({ requestPolicy: "network-only" });
-  const subscription = useContinuousEnabledSubscription();
+  const subscription = useContinuousEnabledSubscription({});
 
   const error = computed(() => subscription.error?.value || query.error?.value);
 
   const continuousEnabled = computed(() =>
     error.value
       ? undefined
-      : subscription.data?.value?.continuousEnabled ||
-        query.data?.value?.continuousEnabled
+      : subscription.data?.value?.ctrlContinuousEnabled ||
+        query.data?.value?.ctrl.continuousEnabled
   );
 
   const ret = { continuousEnabled, error, subscription, query };

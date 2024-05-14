@@ -16,14 +16,14 @@ type TraceIdsSubscription = _TraceIdsSubscription & PromiseLike<_TraceIdsSubscri
 
 export function useSubscribeTraceIds(): TraceIdsSubscription {
   const query = useQTraceIdsQuery({ requestPolicy: "network-only" });
-  const subscription = useTraceIdsSubscription();
+  const subscription = useTraceIdsSubscription({});
 
   const error = computed(() => subscription.error?.value || query.error?.value);
 
   const traceIds = computed(() =>
     error.value
       ? undefined
-      : subscription.data?.value?.traceIds || query.data?.value?.traceIds
+      : subscription.data?.value?.ctrlTraceIds || query.data?.value?.ctrl.traceIds
   );
 
   const ret = { traceIds, error, subscription, query };
