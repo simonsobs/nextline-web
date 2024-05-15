@@ -13,14 +13,14 @@ type StateSubscription = _StateSubscription & PromiseLike<_StateSubscription>;
 
 export function useSubscribeState(): StateSubscription {
   const query = useQStateQuery({ requestPolicy: "network-only" });
-  const subscription = useStateSubscription();
+  const subscription = useStateSubscription({});
 
   const error = computed(() => subscription.error?.value || query.error?.value);
 
   const state = computed(() =>
     error.value
       ? undefined
-      : subscription.data?.value?.state || query.data?.value?.state
+      : subscription.data?.value?.ctrlState || query.data?.value?.ctrl.state
   );
 
   const ret = { state, error, subscription, query };

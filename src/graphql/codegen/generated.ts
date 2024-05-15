@@ -25,25 +25,30 @@ export type AlertRdb = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  ctrl: MutationCtrl;
+  rdb: MutationRdb;
+  schedule: MutationSchedule;
+};
+
+export type MutationCtrl = {
+  __typename?: 'MutationCtrl';
   exec: Scalars['Boolean']['output'];
   interrupt: Scalars['Boolean']['output'];
   kill: Scalars['Boolean']['output'];
   loadExampleScript: Scalars['Boolean']['output'];
-  rdb: MutationRdb;
   reset: Scalars['Boolean']['output'];
   runAndContinue: Scalars['Boolean']['output'];
-  schedule: MutationSchedule;
   sendPdbCommand: Scalars['Boolean']['output'];
   terminate: Scalars['Boolean']['output'];
 };
 
 
-export type MutationResetArgs = {
+export type MutationCtrlResetArgs = {
   statement?: InputMaybe<Scalars['String']['input']>;
 };
 
 
-export type MutationSendPdbCommandArgs = {
+export type MutationCtrlSendPdbCommandArgs = {
   command: Scalars['String']['input'];
   promptNo: Scalars['Int']['input'];
   traceNo: Scalars['Int']['input'];
@@ -161,15 +166,20 @@ export type PromptingData = {
 export type Query = {
   __typename?: 'Query';
   alert: AlertRdb;
-  continuousEnabled: Scalars['Boolean']['output'];
+  ctrl: QueryCtrl;
   dev: QueryDev;
-  exception?: Maybe<Scalars['String']['output']>;
-  hello: Scalars['String']['output'];
   history: QueryRdb;
   rdb: QueryRdb;
-  runNo: Scalars['Int']['output'];
   schedule: QuerySchedule;
   settings: Scalars['String']['output'];
+};
+
+export type QueryCtrl = {
+  __typename?: 'QueryCtrl';
+  continuousEnabled: Scalars['Boolean']['output'];
+  exception?: Maybe<Scalars['String']['output']>;
+  hello: Scalars['String']['output'];
+  runNo: Scalars['Int']['output'];
   source: Array<Scalars['String']['output']>;
   sourceLine: Scalars['String']['output'];
   state: Scalars['String']['output'];
@@ -177,12 +187,12 @@ export type Query = {
 };
 
 
-export type QuerySourceArgs = {
+export type QueryCtrlSourceArgs = {
   fileName?: InputMaybe<Scalars['String']['input']>;
 };
 
 
-export type QuerySourceLineArgs = {
+export type QueryCtrlSourceLineArgs = {
   fileName?: InputMaybe<Scalars['String']['input']>;
   lineNo: Scalars['Int']['input'];
 };
@@ -357,20 +367,20 @@ export type StdoutNodeEdge = {
 
 export type Subscription = {
   __typename?: 'Subscription';
-  continuousEnabled: Scalars['Boolean']['output'];
-  counter: Scalars['Int']['output'];
-  prompting: PromptingData;
-  runNo: Scalars['Int']['output'];
+  ctrlContinuousEnabled: Scalars['Boolean']['output'];
+  ctrlCounter: Scalars['Int']['output'];
+  ctrlPrompting: PromptingData;
+  ctrlRunNo: Scalars['Int']['output'];
+  ctrlState: Scalars['String']['output'];
+  ctrlStdout: Scalars['String']['output'];
+  ctrlTraceIds: Array<Scalars['Int']['output']>;
   scheduleAutoModeMode: Scalars['String']['output'];
   scheduleAutoModeState: Scalars['String']['output'];
   scheduleQueueItems: Array<ScheduleQueueItem>;
-  state: Scalars['String']['output'];
-  stdout: Scalars['String']['output'];
-  traceIds: Array<Scalars['Int']['output']>;
 };
 
 
-export type SubscriptionPromptingArgs = {
+export type SubscriptionCtrlPromptingArgs = {
   traceId: Scalars['Int']['input'];
 };
 
@@ -431,22 +441,22 @@ export type AutoModeTurnOnMutation = { __typename?: 'Mutation', schedule: { __ty
 export type ExecMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ExecMutation = { __typename?: 'Mutation', exec: boolean };
+export type ExecMutation = { __typename?: 'Mutation', ctrl: { __typename?: 'MutationCtrl', exec: boolean } };
 
 export type InterruptMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type InterruptMutation = { __typename?: 'Mutation', interrupt: boolean };
+export type InterruptMutation = { __typename?: 'Mutation', ctrl: { __typename?: 'MutationCtrl', interrupt: boolean } };
 
 export type KillMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type KillMutation = { __typename?: 'Mutation', kill: boolean };
+export type KillMutation = { __typename?: 'Mutation', ctrl: { __typename?: 'MutationCtrl', kill: boolean } };
 
 export type LoadExampleScriptMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type LoadExampleScriptMutation = { __typename?: 'Mutation', loadExampleScript: boolean };
+export type LoadExampleScriptMutation = { __typename?: 'Mutation', ctrl: { __typename?: 'MutationCtrl', loadExampleScript: boolean } };
 
 export type LoadScriptMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -458,12 +468,12 @@ export type ResetMutationVariables = Exact<{
 }>;
 
 
-export type ResetMutation = { __typename?: 'Mutation', reset: boolean };
+export type ResetMutation = { __typename?: 'Mutation', ctrl: { __typename?: 'MutationCtrl', reset: boolean } };
 
 export type RunAndContinueMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type RunAndContinueMutation = { __typename?: 'Mutation', runAndContinue: boolean };
+export type RunAndContinueMutation = { __typename?: 'Mutation', ctrl: { __typename?: 'MutationCtrl', runAndContinue: boolean } };
 
 export type ScheduleAutoModeChangeModeMutationVariables = Exact<{
   mode: Scalars['String']['input'];
@@ -493,22 +503,22 @@ export type SendPdbCommandMutationVariables = Exact<{
 }>;
 
 
-export type SendPdbCommandMutation = { __typename?: 'Mutation', sendPdbCommand: boolean };
+export type SendPdbCommandMutation = { __typename?: 'Mutation', ctrl: { __typename?: 'MutationCtrl', sendPdbCommand: boolean } };
 
 export type TerminateMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type TerminateMutation = { __typename?: 'Mutation', terminate: boolean };
+export type TerminateMutation = { __typename?: 'Mutation', ctrl: { __typename?: 'MutationCtrl', terminate: boolean } };
 
 export type QContinuousEnabledQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type QContinuousEnabledQuery = { __typename?: 'Query', continuousEnabled: boolean };
+export type QContinuousEnabledQuery = { __typename?: 'Query', ctrl: { __typename?: 'QueryCtrl', continuousEnabled: boolean } };
 
 export type ExceptionQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ExceptionQuery = { __typename?: 'Query', exception?: string | null };
+export type ExceptionQuery = { __typename?: 'Query', ctrl: { __typename?: 'QueryCtrl', exception?: string | null } };
 
 export type RdbRunQueryVariables = Exact<{
   runNo: Scalars['Int']['input'];
@@ -530,7 +540,7 @@ export type RdbRunsQuery = { __typename?: 'Query', rdb: { __typename?: 'QueryRDB
 export type QRunNoQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type QRunNoQuery = { __typename?: 'Query', runNo: number };
+export type QRunNoQuery = { __typename?: 'Query', ctrl: { __typename?: 'QueryCtrl', runNo: number } };
 
 export type RunsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -557,39 +567,39 @@ export type SourceQueryVariables = Exact<{
 }>;
 
 
-export type SourceQuery = { __typename?: 'Query', source: Array<string> };
+export type SourceQuery = { __typename?: 'Query', ctrl: { __typename?: 'QueryCtrl', source: Array<string> } };
 
 export type QStateQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type QStateQuery = { __typename?: 'Query', state: string };
+export type QStateQuery = { __typename?: 'Query', ctrl: { __typename?: 'QueryCtrl', state: string } };
 
 export type QTraceIdsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type QTraceIdsQuery = { __typename?: 'Query', traceIds: Array<number> };
+export type QTraceIdsQuery = { __typename?: 'Query', ctrl: { __typename?: 'QueryCtrl', traceIds: Array<number> } };
 
 export type ContinuousEnabledSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ContinuousEnabledSubscription = { __typename?: 'Subscription', continuousEnabled: boolean };
+export type ContinuousEnabledSubscription = { __typename?: 'Subscription', ctrlContinuousEnabled: boolean };
 
 export type CounterSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CounterSubscription = { __typename?: 'Subscription', counter: number };
+export type CounterSubscription = { __typename?: 'Subscription', ctrlCounter: number };
 
 export type PromptingSubscriptionVariables = Exact<{
   traceId: Scalars['Int']['input'];
 }>;
 
 
-export type PromptingSubscription = { __typename?: 'Subscription', prompting: { __typename?: 'PromptingData', prompting: number, fileName: string, lineNo: number, traceEvent: string } };
+export type PromptingSubscription = { __typename?: 'Subscription', ctrlPrompting: { __typename?: 'PromptingData', prompting: number, fileName: string, lineNo: number, traceEvent: string } };
 
 export type RunNoSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type RunNoSubscription = { __typename?: 'Subscription', runNo: number };
+export type RunNoSubscription = { __typename?: 'Subscription', ctrlRunNo: number };
 
 export type ScheduleAutoModeModeSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
@@ -609,17 +619,17 @@ export type SScheduleQueueItemsSubscription = { __typename?: 'Subscription', sch
 export type StateSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type StateSubscription = { __typename?: 'Subscription', state: string };
+export type StateSubscription = { __typename?: 'Subscription', ctrlState: string };
 
 export type StdoutSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type StdoutSubscription = { __typename?: 'Subscription', stdout: string };
+export type StdoutSubscription = { __typename?: 'Subscription', ctrlStdout: string };
 
 export type TraceIdsSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type TraceIdsSubscription = { __typename?: 'Subscription', traceIds: Array<number> };
+export type TraceIdsSubscription = { __typename?: 'Subscription', ctrlTraceIds: Array<number> };
 
 
 export const AutoModeTurnOffDocument = gql`
@@ -650,7 +660,9 @@ export function useAutoModeTurnOnMutation() {
 };
 export const ExecDocument = gql`
     mutation Exec {
-  exec
+  ctrl {
+    exec
+  }
 }
     `;
 
@@ -659,7 +671,9 @@ export function useExecMutation() {
 };
 export const InterruptDocument = gql`
     mutation Interrupt {
-  interrupt
+  ctrl {
+    interrupt
+  }
 }
     `;
 
@@ -668,7 +682,9 @@ export function useInterruptMutation() {
 };
 export const KillDocument = gql`
     mutation Kill {
-  kill
+  ctrl {
+    kill
+  }
 }
     `;
 
@@ -677,7 +693,9 @@ export function useKillMutation() {
 };
 export const LoadExampleScriptDocument = gql`
     mutation LoadExampleScript {
-  loadExampleScript
+  ctrl {
+    loadExampleScript
+  }
 }
     `;
 
@@ -697,7 +715,9 @@ export function useLoadScriptMutation() {
 };
 export const ResetDocument = gql`
     mutation Reset($statement: String) {
-  reset(statement: $statement)
+  ctrl {
+    reset(statement: $statement)
+  }
 }
     `;
 
@@ -706,7 +726,9 @@ export function useResetMutation() {
 };
 export const RunAndContinueDocument = gql`
     mutation RunAndContinue {
-  runAndContinue
+  ctrl {
+    runAndContinue
+  }
 }
     `;
 
@@ -759,7 +781,9 @@ export function useScheduleQueueRemoveMutation() {
 };
 export const SendPdbCommandDocument = gql`
     mutation SendPdbCommand($command: String!, $promptNo: Int!, $traceNo: Int!) {
-  sendPdbCommand(command: $command, promptNo: $promptNo, traceNo: $traceNo)
+  ctrl {
+    sendPdbCommand(command: $command, promptNo: $promptNo, traceNo: $traceNo)
+  }
 }
     `;
 
@@ -768,7 +792,9 @@ export function useSendPdbCommandMutation() {
 };
 export const TerminateDocument = gql`
     mutation Terminate {
-  terminate
+  ctrl {
+    terminate
+  }
 }
     `;
 
@@ -777,7 +803,9 @@ export function useTerminateMutation() {
 };
 export const QContinuousEnabledDocument = gql`
     query QContinuousEnabled {
-  continuousEnabled
+  ctrl {
+    continuousEnabled
+  }
 }
     `;
 
@@ -786,7 +814,9 @@ export function useQContinuousEnabledQuery(options: Omit<Urql.UseQueryArgs<never
 };
 export const ExceptionDocument = gql`
     query Exception {
-  exception
+  ctrl {
+    exception
+  }
 }
     `;
 
@@ -853,7 +883,9 @@ export function useRdbRunsQuery(options: Omit<Urql.UseQueryArgs<never, RdbRunsQu
 };
 export const QRunNoDocument = gql`
     query QRunNo {
-  runNo
+  ctrl {
+    runNo
+  }
 }
     `;
 
@@ -928,7 +960,9 @@ export function useQScheduleQueueItemsQuery(options: Omit<Urql.UseQueryArgs<neve
 };
 export const SourceDocument = gql`
     query Source($fileName: String) {
-  source(fileName: $fileName)
+  ctrl {
+    source(fileName: $fileName)
+  }
 }
     `;
 
@@ -937,7 +971,9 @@ export function useSourceQuery(options: Omit<Urql.UseQueryArgs<never, SourceQuer
 };
 export const QStateDocument = gql`
     query QState {
-  state
+  ctrl {
+    state
+  }
 }
     `;
 
@@ -946,7 +982,9 @@ export function useQStateQuery(options: Omit<Urql.UseQueryArgs<never, QStateQuer
 };
 export const QTraceIdsDocument = gql`
     query QTraceIds {
-  traceIds
+  ctrl {
+    traceIds
+  }
 }
     `;
 
@@ -955,7 +993,7 @@ export function useQTraceIdsQuery(options: Omit<Urql.UseQueryArgs<never, QTraceI
 };
 export const ContinuousEnabledDocument = gql`
     subscription ContinuousEnabled {
-  continuousEnabled
+  ctrlContinuousEnabled
 }
     `;
 
@@ -964,7 +1002,7 @@ export function useContinuousEnabledSubscription<R = ContinuousEnabledSubscripti
 };
 export const CounterDocument = gql`
     subscription Counter {
-  counter
+  ctrlCounter
 }
     `;
 
@@ -973,7 +1011,7 @@ export function useCounterSubscription<R = CounterSubscription>(options: Omit<Ur
 };
 export const PromptingDocument = gql`
     subscription Prompting($traceId: Int!) {
-  prompting(traceId: $traceId) {
+  ctrlPrompting(traceId: $traceId) {
     prompting
     fileName
     lineNo
@@ -987,7 +1025,7 @@ export function usePromptingSubscription<R = PromptingSubscription>(options: Omi
 };
 export const RunNoDocument = gql`
     subscription RunNo {
-  runNo
+  ctrlRunNo
 }
     `;
 
@@ -1028,7 +1066,7 @@ export function useSScheduleQueueItemsSubscription<R = SScheduleQueueItemsSubscr
 };
 export const StateDocument = gql`
     subscription State {
-  state
+  ctrlState
 }
     `;
 
@@ -1037,7 +1075,7 @@ export function useStateSubscription<R = StateSubscription>(options: Omit<Urql.U
 };
 export const StdoutDocument = gql`
     subscription Stdout {
-  stdout
+  ctrlStdout
 }
     `;
 
@@ -1046,7 +1084,7 @@ export function useStdoutSubscription<R = StdoutSubscription>(options: Omit<Urql
 };
 export const TraceIdsDocument = gql`
     subscription TraceIds {
-  traceIds
+  ctrlTraceIds
 }
     `;
 

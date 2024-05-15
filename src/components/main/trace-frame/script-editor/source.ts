@@ -9,8 +9,8 @@ import {
 import { useStore } from "@/plugins/pinia/stores/main";
 
 export async function useSource() {
-  const query = useSourceQuery();
-  const savedSourceLines = computed(() => query.data.value?.source || []);
+  const query = useSourceQuery({});
+  const savedSourceLines = computed(() => query.data.value?.ctrl.source || []);
   const savedSource = computed(() => savedSourceLines.value.join("\n"));
 
   const source = ref("");

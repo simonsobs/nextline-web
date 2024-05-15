@@ -16,7 +16,7 @@
       </v-card-actions>
       <v-card-text id="main" class="g-content py-1">
         <pre
-          class="overflow-auto">{{ data?.stdout }}<span ref="bottom"></span></pre>
+          class="overflow-auto">{{ data?.ctrlStdout }}<span ref="bottom"></span></pre>
       </v-card-text>
     </v-card>
   </v-layout>
@@ -28,15 +28,15 @@ import { ref, nextTick } from "vue";
 import { useStdoutSubscription } from "@/graphql/codegen/generated";
 
 const handleSubscription = (
-  messages = { stdout: "" },
-  response: { stdout: string }
+  messages = { ctrlStdout: "" },
+  response: { ctrlStdout: string }
 ) => {
   nextTick(() => {
     nextTick(() => {
       if (bottom.value) bottom.value.scrollIntoView(false);
     });
   });
-  return { stdout: messages.stdout + response.stdout };
+  return { ctrlStdout: messages.ctrlStdout + response.ctrlStdout };
 };
 const subscription = useStdoutSubscription({}, handleSubscription);
 const bottom = ref(null as HTMLElement | null);
