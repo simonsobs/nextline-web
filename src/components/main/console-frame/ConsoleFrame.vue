@@ -25,7 +25,7 @@
 <script setup lang="ts">
 import { ref, nextTick } from "vue";
 
-import { useStdoutSubscription } from "@/graphql/codegen/generated";
+import { useCtrlStdoutSSubscription } from "@/graphql/codegen/generated";
 
 const handleSubscription = (
   messages = { ctrlStdout: "" },
@@ -38,7 +38,7 @@ const handleSubscription = (
   });
   return { ctrlStdout: messages.ctrlStdout + response.ctrlStdout };
 };
-const subscription = useStdoutSubscription({}, handleSubscription);
+const subscription = useCtrlStdoutSSubscription({}, handleSubscription);
 const bottom = ref(null as HTMLElement | null);
 const data = ref(subscription.data);
 

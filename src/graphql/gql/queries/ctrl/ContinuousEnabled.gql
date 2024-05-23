@@ -1,4 +1,4 @@
-query QContinuousEnabled {
+query CtrlContinuousEnabled {
   ctrl {
     continuousEnabled
   }

@@ -31,8 +31,8 @@ import { storeToRefs } from "pinia";
 import { useStore } from "@/plugins/pinia/stores/main";
 
 import {
-  useExecMutation,
-  useRunAndContinueMutation,
+  useCtrlExecMutation,
+  useCtrlRunAndContinueMutation,
 } from "@/graphql/codegen/generated";
 
 import RunInterConfirmationDialog from "./RunInterConfirmationDialog.vue";
@@ -41,8 +41,8 @@ import RunConfirmationDialog from "./RunConfirmationDialog.vue";
 const store = useStore();
 const { modified: editing } = storeToRefs(store);
 
-const { executeMutation: executeExec } = useExecMutation();
-const { executeMutation: executeRunAndContinue } = useRunAndContinueMutation();
+const { executeMutation: executeExec } = useCtrlExecMutation();
+const { executeMutation: executeRunAndContinue } = useCtrlRunAndContinueMutation();
 
 const dialogRun = ref(false);
 const dialogRunInter = ref(false);

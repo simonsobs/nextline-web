@@ -40,7 +40,7 @@
 import { computed, ref, toRefs } from "vue";
 import path from "path";
 
-import { usePromptingSubscription } from "@/graphql/codegen/generated";
+import { useCtrlPromptingSSubscription } from "@/graphql/codegen/generated";
 import { useKeyboardShortcuts } from "./keyboard-shortcuts";
 import TraceAction from "./TraceAction.vue";
 import CodeEditor from "./code-editor/CodeEditor.vue";
@@ -53,7 +53,7 @@ const props = defineProps<Props>();
 
 const keyboardEvent = ref<KeyboardEvent | null>(null);
 
-const subscription = usePromptingSubscription({
+const subscription = useCtrlPromptingSSubscription({
   variables: { traceId: props.traceId },
 });
 

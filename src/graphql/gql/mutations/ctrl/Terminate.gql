@@ -1,4 +1,4 @@
-mutation Terminate {
+mutation CtrlTerminate {
   ctrl {
     terminate
   }

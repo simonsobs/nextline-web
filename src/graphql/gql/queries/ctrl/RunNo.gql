@@ -1,4 +1,4 @@
-query QRunNo {
+query CtrlRunNo {
   ctrl {
     runNo
   }

@@ -429,51 +429,51 @@ export type TraceNodeEdge = {
   node: TraceNode;
 };
 
-export type ExecMutationVariables = Exact<{ [key: string]: never; }>;
+export type CtrlExecMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ExecMutation = { __typename?: 'Mutation', ctrl: { __typename?: 'MutationCtrl', exec: boolean } };
+export type CtrlExecMutation = { __typename?: 'Mutation', ctrl: { __typename?: 'MutationCtrl', exec: boolean } };
 
-export type InterruptMutationVariables = Exact<{ [key: string]: never; }>;
-
-
-export type InterruptMutation = { __typename?: 'Mutation', ctrl: { __typename?: 'MutationCtrl', interrupt: boolean } };
-
-export type KillMutationVariables = Exact<{ [key: string]: never; }>;
+export type CtrlInterruptMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type KillMutation = { __typename?: 'Mutation', ctrl: { __typename?: 'MutationCtrl', kill: boolean } };
+export type CtrlInterruptMutation = { __typename?: 'Mutation', ctrl: { __typename?: 'MutationCtrl', interrupt: boolean } };
 
-export type LoadExampleScriptMutationVariables = Exact<{ [key: string]: never; }>;
+export type CtrlKillMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type LoadExampleScriptMutation = { __typename?: 'Mutation', ctrl: { __typename?: 'MutationCtrl', loadExampleScript: boolean } };
+export type CtrlKillMutation = { __typename?: 'Mutation', ctrl: { __typename?: 'MutationCtrl', kill: boolean } };
 
-export type ResetMutationVariables = Exact<{
+export type CtrlLoadExampleScriptMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CtrlLoadExampleScriptMutation = { __typename?: 'Mutation', ctrl: { __typename?: 'MutationCtrl', loadExampleScript: boolean } };
+
+export type CtrlResetMutationVariables = Exact<{
   statement?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
-export type ResetMutation = { __typename?: 'Mutation', ctrl: { __typename?: 'MutationCtrl', reset: boolean } };
+export type CtrlResetMutation = { __typename?: 'Mutation', ctrl: { __typename?: 'MutationCtrl', reset: boolean } };
 
-export type RunAndContinueMutationVariables = Exact<{ [key: string]: never; }>;
+export type CtrlRunAndContinueMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type RunAndContinueMutation = { __typename?: 'Mutation', ctrl: { __typename?: 'MutationCtrl', runAndContinue: boolean } };
+export type CtrlRunAndContinueMutation = { __typename?: 'Mutation', ctrl: { __typename?: 'MutationCtrl', runAndContinue: boolean } };
 
-export type SendPdbCommandMutationVariables = Exact<{
+export type CtrlSendPdbCommandMutationVariables = Exact<{
   command: Scalars['String']['input'];
   promptNo: Scalars['Int']['input'];
   traceNo: Scalars['Int']['input'];
 }>;
 
 
-export type SendPdbCommandMutation = { __typename?: 'Mutation', ctrl: { __typename?: 'MutationCtrl', sendPdbCommand: boolean } };
+export type CtrlSendPdbCommandMutation = { __typename?: 'Mutation', ctrl: { __typename?: 'MutationCtrl', sendPdbCommand: boolean } };
 
-export type TerminateMutationVariables = Exact<{ [key: string]: never; }>;
+export type CtrlTerminateMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type TerminateMutation = { __typename?: 'Mutation', ctrl: { __typename?: 'MutationCtrl', terminate: boolean } };
+export type CtrlTerminateMutation = { __typename?: 'Mutation', ctrl: { __typename?: 'MutationCtrl', terminate: boolean } };
 
 export type ScheduleAutoModeChangeModeMutationVariables = Exact<{
   mode: Scalars['String']['input'];
@@ -482,15 +482,15 @@ export type ScheduleAutoModeChangeModeMutationVariables = Exact<{
 
 export type ScheduleAutoModeChangeModeMutation = { __typename?: 'Mutation', schedule: { __typename?: 'MutationSchedule', autoMode: { __typename?: 'MutationScheduleAutoMode', changeMode: boolean } } };
 
-export type AutoModeTurnOffMutationVariables = Exact<{ [key: string]: never; }>;
+export type ScheduleAutoModeTurnOffMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AutoModeTurnOffMutation = { __typename?: 'Mutation', schedule: { __typename?: 'MutationSchedule', autoMode: { __typename?: 'MutationScheduleAutoMode', turnOff: boolean } } };
+export type ScheduleAutoModeTurnOffMutation = { __typename?: 'Mutation', schedule: { __typename?: 'MutationSchedule', autoMode: { __typename?: 'MutationScheduleAutoMode', turnOff: boolean } } };
 
-export type AutoModeTurnOnMutationVariables = Exact<{ [key: string]: never; }>;
+export type ScheduleAutoModeTurnOnMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AutoModeTurnOnMutation = { __typename?: 'Mutation', schedule: { __typename?: 'MutationSchedule', autoMode: { __typename?: 'MutationScheduleAutoMode', turnOn: boolean } } };
+export type ScheduleAutoModeTurnOnMutation = { __typename?: 'Mutation', schedule: { __typename?: 'MutationSchedule', autoMode: { __typename?: 'MutationScheduleAutoMode', turnOn: boolean } } };
 
 export type ScheduleQueuePushMutationVariables = Exact<{
   input: ScheduleQueuePushInput;
@@ -506,42 +506,42 @@ export type ScheduleQueueRemoveMutationVariables = Exact<{
 
 export type ScheduleQueueRemoveMutation = { __typename?: 'Mutation', schedule: { __typename?: 'MutationSchedule', queue: { __typename?: 'MutationScheduleQueue', remove: boolean } } };
 
-export type LoadScriptMutationVariables = Exact<{ [key: string]: never; }>;
+export type ScheduleSchedulerLoadScriptMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type LoadScriptMutation = { __typename?: 'Mutation', schedule: { __typename?: 'MutationSchedule', loadScript: boolean } };
+export type ScheduleSchedulerLoadScriptMutation = { __typename?: 'Mutation', schedule: { __typename?: 'MutationSchedule', scheduler: { __typename?: 'MutationScheduleScheduler', loadScript: boolean } } };
 
-export type QContinuousEnabledQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type QContinuousEnabledQuery = { __typename?: 'Query', ctrl: { __typename?: 'QueryCtrl', continuousEnabled: boolean } };
-
-export type ExceptionQueryVariables = Exact<{ [key: string]: never; }>;
+export type CtrlContinuousEnabledQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ExceptionQuery = { __typename?: 'Query', ctrl: { __typename?: 'QueryCtrl', exception?: string | null } };
+export type CtrlContinuousEnabledQuery = { __typename?: 'Query', ctrl: { __typename?: 'QueryCtrl', continuousEnabled: boolean } };
 
-export type QRunNoQueryVariables = Exact<{ [key: string]: never; }>;
+export type CtrlExceptionQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type QRunNoQuery = { __typename?: 'Query', ctrl: { __typename?: 'QueryCtrl', runNo: number } };
+export type CtrlExceptionQuery = { __typename?: 'Query', ctrl: { __typename?: 'QueryCtrl', exception?: string | null } };
 
-export type SourceQueryVariables = Exact<{
+export type CtrlRunNoQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CtrlRunNoQuery = { __typename?: 'Query', ctrl: { __typename?: 'QueryCtrl', runNo: number } };
+
+export type CtrlSourceQueryVariables = Exact<{
   fileName?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
-export type SourceQuery = { __typename?: 'Query', ctrl: { __typename?: 'QueryCtrl', source: Array<string> } };
+export type CtrlSourceQuery = { __typename?: 'Query', ctrl: { __typename?: 'QueryCtrl', source: Array<string> } };
 
-export type QStateQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type QStateQuery = { __typename?: 'Query', ctrl: { __typename?: 'QueryCtrl', state: string } };
-
-export type QTraceIdsQueryVariables = Exact<{ [key: string]: never; }>;
+export type CtrlStateQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type QTraceIdsQuery = { __typename?: 'Query', ctrl: { __typename?: 'QueryCtrl', traceIds: Array<number> } };
+export type CtrlStateQuery = { __typename?: 'Query', ctrl: { __typename?: 'QueryCtrl', state: string } };
+
+export type CtrlTraceIdsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CtrlTraceIdsQuery = { __typename?: 'Query', ctrl: { __typename?: 'QueryCtrl', traceIds: Array<number> } };
 
 export type RdbRunQueryVariables = Exact<{
   runNo: Scalars['Int']['input'];
@@ -575,42 +575,42 @@ export type ScheduleQueueItemsQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type ScheduleQueueItemsQuery = { __typename?: 'Query', schedule: { __typename?: 'QuerySchedule', queue: { __typename?: 'QueryScheduleQueue', items: Array<{ __typename?: 'ScheduleQueueItem', id: number, name: string, createdAt: any, script: string }> } } };
 
-export type ContinuousEnabledSubscriptionVariables = Exact<{ [key: string]: never; }>;
+export type CtrlContinuousEnabledSSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ContinuousEnabledSubscription = { __typename?: 'Subscription', ctrlContinuousEnabled: boolean };
+export type CtrlContinuousEnabledSSubscription = { __typename?: 'Subscription', ctrlContinuousEnabled: boolean };
 
-export type CounterSubscriptionVariables = Exact<{ [key: string]: never; }>;
+export type CtrlCounterSSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CounterSubscription = { __typename?: 'Subscription', ctrlCounter: number };
+export type CtrlCounterSSubscription = { __typename?: 'Subscription', ctrlCounter: number };
 
-export type PromptingSubscriptionVariables = Exact<{
+export type CtrlPromptingSSubscriptionVariables = Exact<{
   traceId: Scalars['Int']['input'];
 }>;
 
 
-export type PromptingSubscription = { __typename?: 'Subscription', ctrlPrompting: { __typename?: 'PromptingData', prompting: number, fileName: string, lineNo: number, traceEvent: string } };
+export type CtrlPromptingSSubscription = { __typename?: 'Subscription', ctrlPrompting: { __typename?: 'PromptingData', prompting: number, fileName: string, lineNo: number, traceEvent: string } };
 
-export type RunNoSubscriptionVariables = Exact<{ [key: string]: never; }>;
-
-
-export type RunNoSubscription = { __typename?: 'Subscription', ctrlRunNo: number };
-
-export type StateSubscriptionVariables = Exact<{ [key: string]: never; }>;
+export type CtrlRunNoSSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type StateSubscription = { __typename?: 'Subscription', ctrlState: string };
+export type CtrlRunNoSSubscription = { __typename?: 'Subscription', ctrlRunNo: number };
 
-export type StdoutSubscriptionVariables = Exact<{ [key: string]: never; }>;
-
-
-export type StdoutSubscription = { __typename?: 'Subscription', ctrlStdout: string };
-
-export type TraceIdsSubscriptionVariables = Exact<{ [key: string]: never; }>;
+export type CtrlStateSSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type TraceIdsSubscription = { __typename?: 'Subscription', ctrlTraceIds: Array<number> };
+export type CtrlStateSSubscription = { __typename?: 'Subscription', ctrlState: string };
+
+export type CtrlStdoutSSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CtrlStdoutSSubscription = { __typename?: 'Subscription', ctrlStdout: string };
+
+export type CtrlTraceIdsSSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CtrlTraceIdsSSubscription = { __typename?: 'Subscription', ctrlTraceIds: Array<number> };
 
 export type ScheduleAutoModeModeSSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
@@ -628,93 +628,93 @@ export type ScheduleQueueItemsSSubscriptionVariables = Exact<{ [key: string]: ne
 export type ScheduleQueueItemsSSubscription = { __typename?: 'Subscription', scheduleQueueItems: Array<{ __typename?: 'ScheduleQueueItem', id: number, name: string, createdAt: any, script: string }> };
 
 
-export const ExecDocument = gql`
-    mutation Exec {
+export const CtrlExecDocument = gql`
+    mutation CtrlExec {
   ctrl {
     exec
   }
 }
     `;
 
-export function useExecMutation() {
-  return Urql.useMutation<ExecMutation, ExecMutationVariables>(ExecDocument);
+export function useCtrlExecMutation() {
+  return Urql.useMutation<CtrlExecMutation, CtrlExecMutationVariables>(CtrlExecDocument);
 };
-export const InterruptDocument = gql`
-    mutation Interrupt {
+export const CtrlInterruptDocument = gql`
+    mutation CtrlInterrupt {
   ctrl {
     interrupt
   }
 }
     `;
 
-export function useInterruptMutation() {
-  return Urql.useMutation<InterruptMutation, InterruptMutationVariables>(InterruptDocument);
+export function useCtrlInterruptMutation() {
+  return Urql.useMutation<CtrlInterruptMutation, CtrlInterruptMutationVariables>(CtrlInterruptDocument);
 };
-export const KillDocument = gql`
-    mutation Kill {
+export const CtrlKillDocument = gql`
+    mutation CtrlKill {
   ctrl {
     kill
   }
 }
     `;
 
-export function useKillMutation() {
-  return Urql.useMutation<KillMutation, KillMutationVariables>(KillDocument);
+export function useCtrlKillMutation() {
+  return Urql.useMutation<CtrlKillMutation, CtrlKillMutationVariables>(CtrlKillDocument);
 };
-export const LoadExampleScriptDocument = gql`
-    mutation LoadExampleScript {
+export const CtrlLoadExampleScriptDocument = gql`
+    mutation CtrlLoadExampleScript {
   ctrl {
     loadExampleScript
   }
 }
     `;
 
-export function useLoadExampleScriptMutation() {
-  return Urql.useMutation<LoadExampleScriptMutation, LoadExampleScriptMutationVariables>(LoadExampleScriptDocument);
+export function useCtrlLoadExampleScriptMutation() {
+  return Urql.useMutation<CtrlLoadExampleScriptMutation, CtrlLoadExampleScriptMutationVariables>(CtrlLoadExampleScriptDocument);
 };
-export const ResetDocument = gql`
-    mutation Reset($statement: String) {
+export const CtrlResetDocument = gql`
+    mutation CtrlReset($statement: String) {
   ctrl {
     reset(statement: $statement)
   }
 }
     `;
 
-export function useResetMutation() {
-  return Urql.useMutation<ResetMutation, ResetMutationVariables>(ResetDocument);
+export function useCtrlResetMutation() {
+  return Urql.useMutation<CtrlResetMutation, CtrlResetMutationVariables>(CtrlResetDocument);
 };
-export const RunAndContinueDocument = gql`
-    mutation RunAndContinue {
+export const CtrlRunAndContinueDocument = gql`
+    mutation CtrlRunAndContinue {
   ctrl {
     runAndContinue
   }
 }
     `;
 
-export function useRunAndContinueMutation() {
-  return Urql.useMutation<RunAndContinueMutation, RunAndContinueMutationVariables>(RunAndContinueDocument);
+export function useCtrlRunAndContinueMutation() {
+  return Urql.useMutation<CtrlRunAndContinueMutation, CtrlRunAndContinueMutationVariables>(CtrlRunAndContinueDocument);
 };
-export const SendPdbCommandDocument = gql`
-    mutation SendPdbCommand($command: String!, $promptNo: Int!, $traceNo: Int!) {
+export const CtrlSendPdbCommandDocument = gql`
+    mutation CtrlSendPdbCommand($command: String!, $promptNo: Int!, $traceNo: Int!) {
   ctrl {
     sendPdbCommand(command: $command, promptNo: $promptNo, traceNo: $traceNo)
   }
 }
     `;
 
-export function useSendPdbCommandMutation() {
-  return Urql.useMutation<SendPdbCommandMutation, SendPdbCommandMutationVariables>(SendPdbCommandDocument);
+export function useCtrlSendPdbCommandMutation() {
+  return Urql.useMutation<CtrlSendPdbCommandMutation, CtrlSendPdbCommandMutationVariables>(CtrlSendPdbCommandDocument);
 };
-export const TerminateDocument = gql`
-    mutation Terminate {
+export const CtrlTerminateDocument = gql`
+    mutation CtrlTerminate {
   ctrl {
     terminate
   }
 }
     `;
 
-export function useTerminateMutation() {
-  return Urql.useMutation<TerminateMutation, TerminateMutationVariables>(TerminateDocument);
+export function useCtrlTerminateMutation() {
+  return Urql.useMutation<CtrlTerminateMutation, CtrlTerminateMutationVariables>(CtrlTerminateDocument);
 };
 export const ScheduleAutoModeChangeModeDocument = gql`
     mutation ScheduleAutoModeChangeMode($mode: String!) {
@@ -729,8 +729,8 @@ export const ScheduleAutoModeChangeModeDocument = gql`
 export function useScheduleAutoModeChangeModeMutation() {
   return Urql.useMutation<ScheduleAutoModeChangeModeMutation, ScheduleAutoModeChangeModeMutationVariables>(ScheduleAutoModeChangeModeDocument);
 };
-export const AutoModeTurnOffDocument = gql`
-    mutation AutoModeTurnOff {
+export const ScheduleAutoModeTurnOffDocument = gql`
+    mutation ScheduleAutoModeTurnOff {
   schedule {
     autoMode {
       turnOff
@@ -739,11 +739,11 @@ export const AutoModeTurnOffDocument = gql`
 }
     `;
 
-export function useAutoModeTurnOffMutation() {
-  return Urql.useMutation<AutoModeTurnOffMutation, AutoModeTurnOffMutationVariables>(AutoModeTurnOffDocument);
+export function useScheduleAutoModeTurnOffMutation() {
+  return Urql.useMutation<ScheduleAutoModeTurnOffMutation, ScheduleAutoModeTurnOffMutationVariables>(ScheduleAutoModeTurnOffDocument);
 };
-export const AutoModeTurnOnDocument = gql`
-    mutation AutoModeTurnOn {
+export const ScheduleAutoModeTurnOnDocument = gql`
+    mutation ScheduleAutoModeTurnOn {
   schedule {
     autoMode {
       turnOn
@@ -752,8 +752,8 @@ export const AutoModeTurnOnDocument = gql`
 }
     `;
 
-export function useAutoModeTurnOnMutation() {
-  return Urql.useMutation<AutoModeTurnOnMutation, AutoModeTurnOnMutationVariables>(AutoModeTurnOnDocument);
+export function useScheduleAutoModeTurnOnMutation() {
+  return Urql.useMutation<ScheduleAutoModeTurnOnMutation, ScheduleAutoModeTurnOnMutationVariables>(ScheduleAutoModeTurnOnDocument);
 };
 export const ScheduleQueuePushDocument = gql`
     mutation ScheduleQueuePush($input: ScheduleQueuePushInput!) {
@@ -786,85 +786,87 @@ export const ScheduleQueueRemoveDocument = gql`
 export function useScheduleQueueRemoveMutation() {
   return Urql.useMutation<ScheduleQueueRemoveMutation, ScheduleQueueRemoveMutationVariables>(ScheduleQueueRemoveDocument);
 };
-export const LoadScriptDocument = gql`
-    mutation LoadScript {
+export const ScheduleSchedulerLoadScriptDocument = gql`
+    mutation ScheduleSchedulerLoadScript {
   schedule {
-    loadScript
+    scheduler {
+      loadScript
+    }
   }
 }
     `;
 
-export function useLoadScriptMutation() {
-  return Urql.useMutation<LoadScriptMutation, LoadScriptMutationVariables>(LoadScriptDocument);
+export function useScheduleSchedulerLoadScriptMutation() {
+  return Urql.useMutation<ScheduleSchedulerLoadScriptMutation, ScheduleSchedulerLoadScriptMutationVariables>(ScheduleSchedulerLoadScriptDocument);
 };
-export const QContinuousEnabledDocument = gql`
-    query QContinuousEnabled {
+export const CtrlContinuousEnabledDocument = gql`
+    query CtrlContinuousEnabled {
   ctrl {
     continuousEnabled
   }
 }
     `;
 
-export function useQContinuousEnabledQuery(options: Omit<Urql.UseQueryArgs<never, QContinuousEnabledQueryVariables>, 'query'>) {
-  return Urql.useQuery<QContinuousEnabledQuery, QContinuousEnabledQueryVariables>({ query: QContinuousEnabledDocument, ...options });
+export function useCtrlContinuousEnabledQuery(options: Omit<Urql.UseQueryArgs<never, CtrlContinuousEnabledQueryVariables>, 'query'>) {
+  return Urql.useQuery<CtrlContinuousEnabledQuery, CtrlContinuousEnabledQueryVariables>({ query: CtrlContinuousEnabledDocument, ...options });
 };
-export const ExceptionDocument = gql`
-    query Exception {
+export const CtrlExceptionDocument = gql`
+    query CtrlException {
   ctrl {
     exception
   }
 }
     `;
 
-export function useExceptionQuery(options: Omit<Urql.UseQueryArgs<never, ExceptionQueryVariables>, 'query'>) {
-  return Urql.useQuery<ExceptionQuery, ExceptionQueryVariables>({ query: ExceptionDocument, ...options });
+export function useCtrlExceptionQuery(options: Omit<Urql.UseQueryArgs<never, CtrlExceptionQueryVariables>, 'query'>) {
+  return Urql.useQuery<CtrlExceptionQuery, CtrlExceptionQueryVariables>({ query: CtrlExceptionDocument, ...options });
 };
-export const QRunNoDocument = gql`
-    query QRunNo {
+export const CtrlRunNoDocument = gql`
+    query CtrlRunNo {
   ctrl {
     runNo
   }
 }
     `;
 
-export function useQRunNoQuery(options: Omit<Urql.UseQueryArgs<never, QRunNoQueryVariables>, 'query'>) {
-  return Urql.useQuery<QRunNoQuery, QRunNoQueryVariables>({ query: QRunNoDocument, ...options });
+export function useCtrlRunNoQuery(options: Omit<Urql.UseQueryArgs<never, CtrlRunNoQueryVariables>, 'query'>) {
+  return Urql.useQuery<CtrlRunNoQuery, CtrlRunNoQueryVariables>({ query: CtrlRunNoDocument, ...options });
 };
-export const SourceDocument = gql`
-    query Source($fileName: String) {
+export const CtrlSourceDocument = gql`
+    query CtrlSource($fileName: String) {
   ctrl {
     source(fileName: $fileName)
   }
 }
     `;
 
-export function useSourceQuery(options: Omit<Urql.UseQueryArgs<never, SourceQueryVariables>, 'query'>) {
-  return Urql.useQuery<SourceQuery, SourceQueryVariables>({ query: SourceDocument, ...options });
+export function useCtrlSourceQuery(options: Omit<Urql.UseQueryArgs<never, CtrlSourceQueryVariables>, 'query'>) {
+  return Urql.useQuery<CtrlSourceQuery, CtrlSourceQueryVariables>({ query: CtrlSourceDocument, ...options });
 };
-export const QStateDocument = gql`
-    query QState {
+export const CtrlStateDocument = gql`
+    query CtrlState {
   ctrl {
     state
   }
 }
     `;
 
-export function useQStateQuery(options: Omit<Urql.UseQueryArgs<never, QStateQueryVariables>, 'query'>) {
-  return Urql.useQuery<QStateQuery, QStateQueryVariables>({ query: QStateDocument, ...options });
+export function useCtrlStateQuery(options: Omit<Urql.UseQueryArgs<never, CtrlStateQueryVariables>, 'query'>) {
+  return Urql.useQuery<CtrlStateQuery, CtrlStateQueryVariables>({ query: CtrlStateDocument, ...options });
 };
-export const QTraceIdsDocument = gql`
-    query QTraceIds {
+export const CtrlTraceIdsDocument = gql`
+    query CtrlTraceIds {
   ctrl {
     traceIds
   }
 }
     `;
 
-export function useQTraceIdsQuery(options: Omit<Urql.UseQueryArgs<never, QTraceIdsQueryVariables>, 'query'>) {
-  return Urql.useQuery<QTraceIdsQuery, QTraceIdsQueryVariables>({ query: QTraceIdsDocument, ...options });
+export function useCtrlTraceIdsQuery(options: Omit<Urql.UseQueryArgs<never, CtrlTraceIdsQueryVariables>, 'query'>) {
+  return Urql.useQuery<CtrlTraceIdsQuery, CtrlTraceIdsQueryVariables>({ query: CtrlTraceIdsDocument, ...options });
 };
 export const RdbRunDocument = gql`
-    query RDBRun($runNo: Int!) {
+    query RdbRun($runNo: Int!) {
   rdb {
     run(runNo: $runNo) {
       id
@@ -891,7 +893,7 @@ export function useRdbRunQuery(options: Omit<Urql.UseQueryArgs<never, RdbRunQuer
   return Urql.useQuery<RdbRunQuery, RdbRunQueryVariables>({ query: RdbRunDocument, ...options });
 };
 export const RdbRunsDocument = gql`
-    query RDBRuns($before: String, $after: String, $first: Int, $last: Int) {
+    query RdbRuns($before: String, $after: String, $first: Int, $last: Int) {
   rdb {
     runs(before: $before, after: $after, first: $first, last: $last) {
       pageInfo {
@@ -965,26 +967,26 @@ export const ScheduleQueueItemsDocument = gql`
 export function useScheduleQueueItemsQuery(options: Omit<Urql.UseQueryArgs<never, ScheduleQueueItemsQueryVariables>, 'query'>) {
   return Urql.useQuery<ScheduleQueueItemsQuery, ScheduleQueueItemsQueryVariables>({ query: ScheduleQueueItemsDocument, ...options });
 };
-export const ContinuousEnabledDocument = gql`
-    subscription ContinuousEnabled {
+export const CtrlContinuousEnabledSDocument = gql`
+    subscription CtrlContinuousEnabledS {
   ctrlContinuousEnabled
 }
     `;
 
-export function useContinuousEnabledSubscription<R = ContinuousEnabledSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, ContinuousEnabledSubscriptionVariables>, 'query'>, handler?: Urql.SubscriptionHandlerArg<ContinuousEnabledSubscription, R>) {
-  return Urql.useSubscription<ContinuousEnabledSubscription, R, ContinuousEnabledSubscriptionVariables>({ query: ContinuousEnabledDocument, ...options }, handler);
+export function useCtrlContinuousEnabledSSubscription<R = CtrlContinuousEnabledSSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, CtrlContinuousEnabledSSubscriptionVariables>, 'query'>, handler?: Urql.SubscriptionHandlerArg<CtrlContinuousEnabledSSubscription, R>) {
+  return Urql.useSubscription<CtrlContinuousEnabledSSubscription, R, CtrlContinuousEnabledSSubscriptionVariables>({ query: CtrlContinuousEnabledSDocument, ...options }, handler);
 };
-export const CounterDocument = gql`
-    subscription Counter {
+export const CtrlCounterSDocument = gql`
+    subscription CtrlCounterS {
   ctrlCounter
 }
     `;
 
-export function useCounterSubscription<R = CounterSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, CounterSubscriptionVariables>, 'query'>, handler?: Urql.SubscriptionHandlerArg<CounterSubscription, R>) {
-  return Urql.useSubscription<CounterSubscription, R, CounterSubscriptionVariables>({ query: CounterDocument, ...options }, handler);
+export function useCtrlCounterSSubscription<R = CtrlCounterSSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, CtrlCounterSSubscriptionVariables>, 'query'>, handler?: Urql.SubscriptionHandlerArg<CtrlCounterSSubscription, R>) {
+  return Urql.useSubscription<CtrlCounterSSubscription, R, CtrlCounterSSubscriptionVariables>({ query: CtrlCounterSDocument, ...options }, handler);
 };
-export const PromptingDocument = gql`
-    subscription Prompting($traceId: Int!) {
+export const CtrlPromptingSDocument = gql`
+    subscription CtrlPromptingS($traceId: Int!) {
   ctrlPrompting(traceId: $traceId) {
     prompting
     fileName
@@ -994,44 +996,44 @@ export const PromptingDocument = gql`
 }
     `;
 
-export function usePromptingSubscription<R = PromptingSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, PromptingSubscriptionVariables>, 'query'>, handler?: Urql.SubscriptionHandlerArg<PromptingSubscription, R>) {
-  return Urql.useSubscription<PromptingSubscription, R, PromptingSubscriptionVariables>({ query: PromptingDocument, ...options }, handler);
+export function useCtrlPromptingSSubscription<R = CtrlPromptingSSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, CtrlPromptingSSubscriptionVariables>, 'query'>, handler?: Urql.SubscriptionHandlerArg<CtrlPromptingSSubscription, R>) {
+  return Urql.useSubscription<CtrlPromptingSSubscription, R, CtrlPromptingSSubscriptionVariables>({ query: CtrlPromptingSDocument, ...options }, handler);
 };
-export const RunNoDocument = gql`
-    subscription RunNo {
+export const CtrlRunNoSDocument = gql`
+    subscription CtrlRunNoS {
   ctrlRunNo
 }
     `;
 
-export function useRunNoSubscription<R = RunNoSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, RunNoSubscriptionVariables>, 'query'>, handler?: Urql.SubscriptionHandlerArg<RunNoSubscription, R>) {
-  return Urql.useSubscription<RunNoSubscription, R, RunNoSubscriptionVariables>({ query: RunNoDocument, ...options }, handler);
+export function useCtrlRunNoSSubscription<R = CtrlRunNoSSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, CtrlRunNoSSubscriptionVariables>, 'query'>, handler?: Urql.SubscriptionHandlerArg<CtrlRunNoSSubscription, R>) {
+  return Urql.useSubscription<CtrlRunNoSSubscription, R, CtrlRunNoSSubscriptionVariables>({ query: CtrlRunNoSDocument, ...options }, handler);
 };
-export const StateDocument = gql`
-    subscription State {
+export const CtrlStateSDocument = gql`
+    subscription CtrlStateS {
   ctrlState
 }
     `;
 
-export function useStateSubscription<R = StateSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, StateSubscriptionVariables>, 'query'>, handler?: Urql.SubscriptionHandlerArg<StateSubscription, R>) {
-  return Urql.useSubscription<StateSubscription, R, StateSubscriptionVariables>({ query: StateDocument, ...options }, handler);
+export function useCtrlStateSSubscription<R = CtrlStateSSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, CtrlStateSSubscriptionVariables>, 'query'>, handler?: Urql.SubscriptionHandlerArg<CtrlStateSSubscription, R>) {
+  return Urql.useSubscription<CtrlStateSSubscription, R, CtrlStateSSubscriptionVariables>({ query: CtrlStateSDocument, ...options }, handler);
 };
-export const StdoutDocument = gql`
-    subscription Stdout {
+export const CtrlStdoutSDocument = gql`
+    subscription CtrlStdoutS {
   ctrlStdout
 }
     `;
 
-export function useStdoutSubscription<R = StdoutSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, StdoutSubscriptionVariables>, 'query'>, handler?: Urql.SubscriptionHandlerArg<StdoutSubscription, R>) {
-  return Urql.useSubscription<StdoutSubscription, R, StdoutSubscriptionVariables>({ query: StdoutDocument, ...options }, handler);
+export function useCtrlStdoutSSubscription<R = CtrlStdoutSSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, CtrlStdoutSSubscriptionVariables>, 'query'>, handler?: Urql.SubscriptionHandlerArg<CtrlStdoutSSubscription, R>) {
+  return Urql.useSubscription<CtrlStdoutSSubscription, R, CtrlStdoutSSubscriptionVariables>({ query: CtrlStdoutSDocument, ...options }, handler);
 };
-export const TraceIdsDocument = gql`
-    subscription TraceIds {
+export const CtrlTraceIdsSDocument = gql`
+    subscription CtrlTraceIdsS {
   ctrlTraceIds
 }
     `;
 
-export function useTraceIdsSubscription<R = TraceIdsSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, TraceIdsSubscriptionVariables>, 'query'>, handler?: Urql.SubscriptionHandlerArg<TraceIdsSubscription, R>) {
-  return Urql.useSubscription<TraceIdsSubscription, R, TraceIdsSubscriptionVariables>({ query: TraceIdsDocument, ...options }, handler);
+export function useCtrlTraceIdsSSubscription<R = CtrlTraceIdsSSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, CtrlTraceIdsSSubscriptionVariables>, 'query'>, handler?: Urql.SubscriptionHandlerArg<CtrlTraceIdsSSubscription, R>) {
+  return Urql.useSubscription<CtrlTraceIdsSSubscription, R, CtrlTraceIdsSSubscriptionVariables>({ query: CtrlTraceIdsSDocument, ...options }, handler);
 };
 export const ScheduleAutoModeModeSDocument = gql`
     subscription ScheduleAutoModeModeS {

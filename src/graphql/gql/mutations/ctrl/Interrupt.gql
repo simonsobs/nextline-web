@@ -1,4 +1,4 @@
-mutation Interrupt {
+mutation CtrlInterrupt {
   ctrl {
     interrupt
   }

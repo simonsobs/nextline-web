@@ -1,4 +1,4 @@
-query QTraceIds {
+query CtrlTraceIds {
   ctrl {
     traceIds
   }

@@ -1,4 +1,4 @@
-mutation Kill {
+mutation CtrlKill {
   ctrl {
     kill
   }

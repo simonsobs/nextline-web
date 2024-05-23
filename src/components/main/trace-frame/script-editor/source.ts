@@ -1,15 +1,15 @@
 import { ref, computed, watchEffect } from "vue";
 
 import {
-  useSourceQuery,
-  useResetMutation,
-  useLoadScriptMutation,
-  useLoadExampleScriptMutation,
+  useCtrlSourceQuery,
+  useCtrlResetMutation,
+  useScheduleSchedulerLoadScriptMutation,
+  useCtrlLoadExampleScriptMutation,
 } from "@/graphql/codegen/generated";
 import { useStore } from "@/plugins/pinia/stores/main";
 
 export async function useSource() {
-  const query = useSourceQuery({});
+  const query = useCtrlSourceQuery({});
   const savedSourceLines = computed(() => query.data.value?.ctrl.source || []);
   const savedSource = computed(() => savedSourceLines.value.join("\n"));
 
@@ -25,7 +25,7 @@ export async function useSource() {
     store.setModified(modified.value);
   });
 
-  const { executeMutation: executeMutationReset } = useResetMutation();
+  const { executeMutation: executeMutationReset } = useCtrlResetMutation();
 
   async function save() {
     await executeMutationReset({ statement: source.value });
@@ -37,7 +37,7 @@ export async function useSource() {
     source.value = savedSource.value;
   }
 
-  const { executeMutation: executeMutationLoad } = useLoadScriptMutation();
+  const { executeMutation: executeMutationLoad } = useScheduleSchedulerLoadScriptMutation();
 
   async function load() {
     await executeMutationLoad({});
@@ -45,7 +45,7 @@ export async function useSource() {
   }
 
   const { executeMutation: executeMutationLoadExample } =
-    useLoadExampleScriptMutation();
+    useCtrlLoadExampleScriptMutation();
 
   async function loadExample() {
     await executeMutationLoadExample({});

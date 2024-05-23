@@ -1,4 +1,4 @@
-query RDBRuns(
+query RdbRuns(
   $before: String
   $after: String
   $first: Int

@@ -1,4 +1,4 @@
-mutation AutoModeTurnOn {
+mutation ScheduleAutoModeTurnOn {
   schedule {
     autoMode {
       turnOn

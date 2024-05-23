@@ -41,7 +41,7 @@
 
 <script setup lang="ts">
 import { withDefaults } from "vue";
-import { useSendPdbCommandMutation } from "@/graphql/codegen/generated";
+import { useCtrlSendPdbCommandMutation } from "@/graphql/codegen/generated";
 
 interface Props {
   traceNo: number;
@@ -53,7 +53,7 @@ const props = withDefaults(defineProps<Props>(), {
   disabled: false,
 });
 
-const { executeMutation } = useSendPdbCommandMutation();
+const { executeMutation } = useCtrlSendPdbCommandMutation();
 
 async function pdbCommand(command: string) {
   await executeMutation({

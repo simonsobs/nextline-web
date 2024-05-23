@@ -12,9 +12,9 @@
 
 <script setup lang="ts">
 import { useStore } from "@/plugins/pinia/stores/main";
-import { useResetMutation } from "@/graphql/codegen/generated";
+import { useCtrlResetMutation } from "@/graphql/codegen/generated";
 import { storeToRefs } from "pinia";
 const store = useStore();
 const { modified: editing } = storeToRefs(store);
-const { executeMutation: executeReset } = useResetMutation();
+const { executeMutation: executeReset } = useCtrlResetMutation();
 </script>

@@ -1,5 +1,7 @@
-mutation LoadScript {
+mutation ScheduleSchedulerLoadScript {
   schedule {
-    loadScript
+    scheduler {
+      loadScript
+    }
   }
 }

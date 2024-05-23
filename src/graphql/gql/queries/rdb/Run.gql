@@ -1,4 +1,4 @@
-query RDBRun($runNo: Int!) {
+query RdbRun($runNo: Int!) {
   rdb {
     run(runNo: $runNo) {
       id

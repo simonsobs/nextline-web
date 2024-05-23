@@ -32,12 +32,12 @@
 
 <script setup lang="ts">
 import {
-  useInterruptMutation,
-  useTerminateMutation,
-  useKillMutation,
+  useCtrlInterruptMutation,
+  useCtrlTerminateMutation,
+  useCtrlKillMutation,
 } from "@/graphql/codegen/generated";
 
-const { executeMutation: executeInterrupt } = useInterruptMutation();
-const { executeMutation: executeTerminate } = useTerminateMutation();
-const { executeMutation: executeKill } = useKillMutation();
+const { executeMutation: executeInterrupt } = useCtrlInterruptMutation();
+const { executeMutation: executeTerminate } = useCtrlTerminateMutation();
+const { executeMutation: executeKill } = useCtrlKillMutation();
 </script>
