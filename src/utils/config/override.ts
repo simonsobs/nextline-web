@@ -3,7 +3,7 @@ import { ref, computed } from "vue";
 import { useLoadConfigT } from "./load-config";
 
 export function useOverrideT<T extends object>(
-  loadConfig: ReturnType<typeof useLoadConfigT<T>>
+  loadConfig: Awaited<ReturnType<typeof useLoadConfigT<T>>>
 ) {
   const override = ref({
     loading: false,

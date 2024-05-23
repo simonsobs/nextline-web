@@ -3,7 +3,7 @@ import { useLoadConfigT } from "../load-config";
 
 globalThis.fetch = vi.fn();
 
-const createResponse = (data: any) =>
+const createResponse = (data: any): Response =>
   ({
     json: () => new Promise((resolve) => resolve(data)),
     clone: () => createResponse(data),

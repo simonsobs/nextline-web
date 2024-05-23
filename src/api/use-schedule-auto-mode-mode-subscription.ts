@@ -19,7 +19,7 @@ type ScheduleAutoModeModeSubscription = _ScheduleAutoModeModeSubscription &
 
 export function useSubscribeScheduleAutoModeMode(): ScheduleAutoModeModeSubscription {
   const query = useScheduleAutoModeModeQuery({ requestPolicy: "network-only" });
-  const subscription = useScheduleAutoModeModeSSubscription();
+  const subscription = useScheduleAutoModeModeSSubscription({});
 
   const error = computed(() => subscription.error?.value || query.error?.value);
 

@@ -30,5 +30,5 @@ export const useLoadConfig = async () =>
   await useLoadConfigT<Config>(defaultConfig, validateConfig);
 
 // For dev. Need refactoring.
-export const useOverride = (loadConfig: ReturnType<typeof useLoadConfig>) =>
+export const useOverride = (loadConfig: Awaited<ReturnType<typeof useLoadConfig>>) =>
   useOverrideT<Config>(loadConfig);

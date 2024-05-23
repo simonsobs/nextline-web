@@ -23,7 +23,7 @@ const editorOptionsEditor: monaco.editor.IEditorOptions = {
   readOnly: false,
   matchBrackets: "always",
   selectionHighlight: true,
-  occurrencesHighlight: true,
+  occurrencesHighlight: "singleFile",
   renderLineHighlight: "line",
 };
 
@@ -31,7 +31,7 @@ const editorOptionsViewer: monaco.editor.IEditorOptions = {
   readOnly: true,
   matchBrackets: "never",
   selectionHighlight: false,
-  occurrencesHighlight: false,
+  occurrencesHighlight: "off",
   renderLineHighlight: "none",
 };
 
