@@ -1,4 +1,4 @@
-subscription SScheduleQueueItems {
+subscription ScheduleQueueItemsS {
   scheduleQueueItems {
     id
     name

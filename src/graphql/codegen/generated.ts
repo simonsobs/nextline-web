@@ -560,20 +560,20 @@ export type RdbRunsQueryVariables = Exact<{
 
 export type RdbRunsQuery = { __typename?: 'Query', rdb: { __typename?: 'QueryRDB', runs: { __typename?: 'RunNodeConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', startCursor?: string | null, endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean }, edges: Array<{ __typename?: 'RunNodeEdge', cursor: string, node: { __typename?: 'RunNode', id: number, runNo: number, state?: string | null, startedAt?: any | null, endedAt?: any | null, script?: string | null, exception?: string | null } }> } } };
 
-export type QScheduleAutoModeModeQueryVariables = Exact<{ [key: string]: never; }>;
+export type ScheduleAutoModeModeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type QScheduleAutoModeModeQuery = { __typename?: 'Query', schedule: { __typename?: 'QuerySchedule', autoMode: { __typename?: 'QueryScheduleAutoMode', mode: string } } };
+export type ScheduleAutoModeModeQuery = { __typename?: 'Query', schedule: { __typename?: 'QuerySchedule', autoMode: { __typename?: 'QueryScheduleAutoMode', mode: string } } };
 
 export type QScheduleAutoModeStateQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type QScheduleAutoModeStateQuery = { __typename?: 'Query', schedule: { __typename?: 'QuerySchedule', autoMode: { __typename?: 'QueryScheduleAutoMode', state: string } } };
 
-export type QScheduleQueueItemsQueryVariables = Exact<{ [key: string]: never; }>;
+export type ScheduleQueueItemsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type QScheduleQueueItemsQuery = { __typename?: 'Query', schedule: { __typename?: 'QuerySchedule', queue: { __typename?: 'QueryScheduleQueue', items: Array<{ __typename?: 'ScheduleQueueItem', id: number, name: string, createdAt: any, script: string }> } } };
+export type ScheduleQueueItemsQuery = { __typename?: 'Query', schedule: { __typename?: 'QuerySchedule', queue: { __typename?: 'QueryScheduleQueue', items: Array<{ __typename?: 'ScheduleQueueItem', id: number, name: string, createdAt: any, script: string }> } } };
 
 export type ContinuousEnabledSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
@@ -612,20 +612,20 @@ export type TraceIdsSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 export type TraceIdsSubscription = { __typename?: 'Subscription', ctrlTraceIds: Array<number> };
 
-export type ScheduleAutoModeModeSubscriptionVariables = Exact<{ [key: string]: never; }>;
+export type ScheduleAutoModeModeSSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ScheduleAutoModeModeSubscription = { __typename?: 'Subscription', scheduleAutoModeMode: string };
+export type ScheduleAutoModeModeSSubscription = { __typename?: 'Subscription', scheduleAutoModeMode: string };
 
-export type ScheduleAutoModeStateSubscriptionVariables = Exact<{ [key: string]: never; }>;
-
-
-export type ScheduleAutoModeStateSubscription = { __typename?: 'Subscription', scheduleAutoModeState: string };
-
-export type SScheduleQueueItemsSubscriptionVariables = Exact<{ [key: string]: never; }>;
+export type ScheduleAutoModeStateSSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type SScheduleQueueItemsSubscription = { __typename?: 'Subscription', scheduleQueueItems: Array<{ __typename?: 'ScheduleQueueItem', id: number, name: string, createdAt: any, script: string }> };
+export type ScheduleAutoModeStateSSubscription = { __typename?: 'Subscription', scheduleAutoModeState: string };
+
+export type ScheduleQueueItemsSSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ScheduleQueueItemsSSubscription = { __typename?: 'Subscription', scheduleQueueItems: Array<{ __typename?: 'ScheduleQueueItem', id: number, name: string, createdAt: any, script: string }> };
 
 
 export const ExecDocument = gql`
@@ -921,8 +921,8 @@ export const RdbRunsDocument = gql`
 export function useRdbRunsQuery(options: Omit<Urql.UseQueryArgs<never, RdbRunsQueryVariables>, 'query'>) {
   return Urql.useQuery<RdbRunsQuery, RdbRunsQueryVariables>({ query: RdbRunsDocument, ...options });
 };
-export const QScheduleAutoModeModeDocument = gql`
-    query QScheduleAutoModeMode {
+export const ScheduleAutoModeModeDocument = gql`
+    query ScheduleAutoModeMode {
   schedule {
     autoMode {
       mode
@@ -931,8 +931,8 @@ export const QScheduleAutoModeModeDocument = gql`
 }
     `;
 
-export function useQScheduleAutoModeModeQuery(options: Omit<Urql.UseQueryArgs<never, QScheduleAutoModeModeQueryVariables>, 'query'>) {
-  return Urql.useQuery<QScheduleAutoModeModeQuery, QScheduleAutoModeModeQueryVariables>({ query: QScheduleAutoModeModeDocument, ...options });
+export function useScheduleAutoModeModeQuery(options: Omit<Urql.UseQueryArgs<never, ScheduleAutoModeModeQueryVariables>, 'query'>) {
+  return Urql.useQuery<ScheduleAutoModeModeQuery, ScheduleAutoModeModeQueryVariables>({ query: ScheduleAutoModeModeDocument, ...options });
 };
 export const QScheduleAutoModeStateDocument = gql`
     query QScheduleAutoModeState {
@@ -947,8 +947,8 @@ export const QScheduleAutoModeStateDocument = gql`
 export function useQScheduleAutoModeStateQuery(options: Omit<Urql.UseQueryArgs<never, QScheduleAutoModeStateQueryVariables>, 'query'>) {
   return Urql.useQuery<QScheduleAutoModeStateQuery, QScheduleAutoModeStateQueryVariables>({ query: QScheduleAutoModeStateDocument, ...options });
 };
-export const QScheduleQueueItemsDocument = gql`
-    query QScheduleQueueItems {
+export const ScheduleQueueItemsDocument = gql`
+    query ScheduleQueueItems {
   schedule {
     queue {
       items {
@@ -962,8 +962,8 @@ export const QScheduleQueueItemsDocument = gql`
 }
     `;
 
-export function useQScheduleQueueItemsQuery(options: Omit<Urql.UseQueryArgs<never, QScheduleQueueItemsQueryVariables>, 'query'>) {
-  return Urql.useQuery<QScheduleQueueItemsQuery, QScheduleQueueItemsQueryVariables>({ query: QScheduleQueueItemsDocument, ...options });
+export function useScheduleQueueItemsQuery(options: Omit<Urql.UseQueryArgs<never, ScheduleQueueItemsQueryVariables>, 'query'>) {
+  return Urql.useQuery<ScheduleQueueItemsQuery, ScheduleQueueItemsQueryVariables>({ query: ScheduleQueueItemsDocument, ...options });
 };
 export const ContinuousEnabledDocument = gql`
     subscription ContinuousEnabled {
@@ -1033,26 +1033,26 @@ export const TraceIdsDocument = gql`
 export function useTraceIdsSubscription<R = TraceIdsSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, TraceIdsSubscriptionVariables>, 'query'>, handler?: Urql.SubscriptionHandlerArg<TraceIdsSubscription, R>) {
   return Urql.useSubscription<TraceIdsSubscription, R, TraceIdsSubscriptionVariables>({ query: TraceIdsDocument, ...options }, handler);
 };
-export const ScheduleAutoModeModeDocument = gql`
-    subscription ScheduleAutoModeMode {
+export const ScheduleAutoModeModeSDocument = gql`
+    subscription ScheduleAutoModeModeS {
   scheduleAutoModeMode
 }
     `;
 
-export function useScheduleAutoModeModeSubscription<R = ScheduleAutoModeModeSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, ScheduleAutoModeModeSubscriptionVariables>, 'query'>, handler?: Urql.SubscriptionHandlerArg<ScheduleAutoModeModeSubscription, R>) {
-  return Urql.useSubscription<ScheduleAutoModeModeSubscription, R, ScheduleAutoModeModeSubscriptionVariables>({ query: ScheduleAutoModeModeDocument, ...options }, handler);
+export function useScheduleAutoModeModeSSubscription<R = ScheduleAutoModeModeSSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, ScheduleAutoModeModeSSubscriptionVariables>, 'query'>, handler?: Urql.SubscriptionHandlerArg<ScheduleAutoModeModeSSubscription, R>) {
+  return Urql.useSubscription<ScheduleAutoModeModeSSubscription, R, ScheduleAutoModeModeSSubscriptionVariables>({ query: ScheduleAutoModeModeSDocument, ...options }, handler);
 };
-export const ScheduleAutoModeStateDocument = gql`
-    subscription ScheduleAutoModeState {
+export const ScheduleAutoModeStateSDocument = gql`
+    subscription ScheduleAutoModeStateS {
   scheduleAutoModeState
 }
     `;
 
-export function useScheduleAutoModeStateSubscription<R = ScheduleAutoModeStateSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, ScheduleAutoModeStateSubscriptionVariables>, 'query'>, handler?: Urql.SubscriptionHandlerArg<ScheduleAutoModeStateSubscription, R>) {
-  return Urql.useSubscription<ScheduleAutoModeStateSubscription, R, ScheduleAutoModeStateSubscriptionVariables>({ query: ScheduleAutoModeStateDocument, ...options }, handler);
+export function useScheduleAutoModeStateSSubscription<R = ScheduleAutoModeStateSSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, ScheduleAutoModeStateSSubscriptionVariables>, 'query'>, handler?: Urql.SubscriptionHandlerArg<ScheduleAutoModeStateSSubscription, R>) {
+  return Urql.useSubscription<ScheduleAutoModeStateSSubscription, R, ScheduleAutoModeStateSSubscriptionVariables>({ query: ScheduleAutoModeStateSDocument, ...options }, handler);
 };
-export const SScheduleQueueItemsDocument = gql`
-    subscription SScheduleQueueItems {
+export const ScheduleQueueItemsSDocument = gql`
+    subscription ScheduleQueueItemsS {
   scheduleQueueItems {
     id
     name
@@ -1062,6 +1062,6 @@ export const SScheduleQueueItemsDocument = gql`
 }
     `;
 
-export function useSScheduleQueueItemsSubscription<R = SScheduleQueueItemsSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, SScheduleQueueItemsSubscriptionVariables>, 'query'>, handler?: Urql.SubscriptionHandlerArg<SScheduleQueueItemsSubscription, R>) {
-  return Urql.useSubscription<SScheduleQueueItemsSubscription, R, SScheduleQueueItemsSubscriptionVariables>({ query: SScheduleQueueItemsDocument, ...options }, handler);
+export function useScheduleQueueItemsSSubscription<R = ScheduleQueueItemsSSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, ScheduleQueueItemsSSubscriptionVariables>, 'query'>, handler?: Urql.SubscriptionHandlerArg<ScheduleQueueItemsSSubscription, R>) {
+  return Urql.useSubscription<ScheduleQueueItemsSSubscription, R, ScheduleQueueItemsSSubscriptionVariables>({ query: ScheduleQueueItemsSDocument, ...options }, handler);
 };

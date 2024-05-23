@@ -1,4 +1,4 @@
-query QScheduleQueueItems {
+query ScheduleQueueItems {
   schedule {
     queue {
       items {

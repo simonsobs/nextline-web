@@ -1,8 +1,8 @@
 import { computed } from "vue";
 import type { ComputedRef } from "vue";
 import {
-  useQScheduleQueueItemsQuery,
-  useSScheduleQueueItemsSubscription,
+  useScheduleQueueItemsQuery,
+  useScheduleQueueItemsSSubscription,
 } from "@/graphql/codegen/generated";
 import type { ScheduleQueueItem } from "@/graphql/codegen/generated";
 
@@ -10,16 +10,16 @@ interface _ScheduleQueueItemsSubscription {
   items: ComputedRef<ScheduleQueueItem[] | undefined>;
   loading: ComputedRef<boolean>;
   error: ComputedRef<Error | undefined>;
-  subscription: ReturnType<typeof useSScheduleQueueItemsSubscription>;
-  query: ReturnType<typeof useQScheduleQueueItemsQuery>;
+  subscription: ReturnType<typeof useScheduleQueueItemsSSubscription>;
+  query: ReturnType<typeof useScheduleQueueItemsQuery>;
 }
 
 type ScheduleQueueItemsSubscription = _ScheduleQueueItemsSubscription &
   PromiseLike<_ScheduleQueueItemsSubscription>;
 
 export function useSubscribeScheduleQueueItems(): ScheduleQueueItemsSubscription {
-  const query = useQScheduleQueueItemsQuery({ requestPolicy: "network-only" });
-  const subscription = useSScheduleQueueItemsSubscription();
+  const query = useScheduleQueueItemsQuery({ requestPolicy: "network-only" });
+  const subscription = useScheduleQueueItemsSSubscription();
 
   const loading = computed(() => query.fetching?.value);
   const error = computed(() => subscription.error?.value || query.error?.value);

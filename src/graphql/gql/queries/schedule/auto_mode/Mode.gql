@@ -1,4 +1,4 @@
-query QScheduleAutoModeMode {
+query ScheduleAutoModeMode {
   schedule {
     autoMode {
       mode

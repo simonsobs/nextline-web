@@ -1,8 +1,8 @@
 import { computed } from "vue";
 import type { ComputedRef } from "vue";
 import {
-  useQScheduleAutoModeModeQuery,
-  useScheduleAutoModeModeSubscription,
+  useScheduleAutoModeModeQuery,
+  useScheduleAutoModeModeSSubscription,
 } from "@/graphql/codegen/generated";
 
 // type AutoMode = "off" | "scheduler" | "queue";
@@ -10,16 +10,16 @@ import {
 interface _ScheduleAutoModeModeSubscription {
   autoModeMode: ComputedRef<string | undefined>;
   error: ComputedRef<Error | undefined>;
-  subscription: ReturnType<typeof useScheduleAutoModeModeSubscription>;
-  query: ReturnType<typeof useQScheduleAutoModeModeQuery>;
+  subscription: ReturnType<typeof useScheduleAutoModeModeSSubscription>;
+  query: ReturnType<typeof useScheduleAutoModeModeQuery>;
 }
 
 type ScheduleAutoModeModeSubscription = _ScheduleAutoModeModeSubscription &
   PromiseLike<_ScheduleAutoModeModeSubscription>;
 
 export function useSubscribeScheduleAutoModeMode(): ScheduleAutoModeModeSubscription {
-  const query = useQScheduleAutoModeModeQuery({ requestPolicy: "network-only" });
-  const subscription = useScheduleAutoModeModeSubscription();
+  const query = useScheduleAutoModeModeQuery({ requestPolicy: "network-only" });
+  const subscription = useScheduleAutoModeModeSSubscription();
 
   const error = computed(() => subscription.error?.value || query.error?.value);
 
