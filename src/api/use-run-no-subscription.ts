@@ -1,6 +1,9 @@
 import { computed } from "vue";
 import type { ComputedRef } from "vue";
-import { useCtrlRunNoQuery, useCtrlRunNoSSubscription } from "@/graphql/codegen/generated";
+import {
+  useCtrlRunNoQuery,
+  useCtrlRunNoSSubscription,
+} from "@/graphql/codegen/generated";
 
 interface _RunNoSubscription {
   runNo: ComputedRef<number | undefined>;

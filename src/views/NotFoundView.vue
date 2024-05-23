@@ -13,7 +13,7 @@
   place-items: center;
 }
 
-.g-container>div {
+.g-container > div {
   text-align: center;
 }
 </style>

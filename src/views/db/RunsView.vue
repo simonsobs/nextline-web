@@ -58,7 +58,7 @@ import { formatDateTime } from "@/utils/format-date-time";
 
 import RefreshButton from "./RefreshButton.vue";
 
-const breadcrumb = [{ title: "Runs", disabled: false}];
+const breadcrumb = [{ title: "Runs", disabled: false }];
 
 const initialPage = 1;
 const initialItemsPerPage = 10;
@@ -223,7 +223,7 @@ async function onUpdatePage(page_: number) {
 }
 
 .g-breadcrumb {
-  grid-area:  breadcrumb;
+  grid-area: breadcrumb;
   display: flex;
   justify-content: space-between;
   align-items: center;

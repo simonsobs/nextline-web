@@ -35,8 +35,7 @@ describe("useDynamicScheme", () => {
   });
 
   it("returns default options", () => {
-    const { schemeName, sourceColorHex, dark, contrastLevel } =
-      useDynamicScheme();
+    const { schemeName, sourceColorHex, dark, contrastLevel } = useDynamicScheme();
 
     expect(schemeName.value).toBe("fidelity");
     expect(sourceColorHex.value).toBe("#6750A4");

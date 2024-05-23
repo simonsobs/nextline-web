@@ -53,8 +53,7 @@ export function useMonacoEditor(options: UseMonacoEditorOptions) {
 
   const mode = ref(mode_ ?? defaultMode);
 
-  const { model, source, beforeSetValue, afterSetValue } =
-    useModel(modelOptions);
+  const { model, source, beforeSetValue, afterSetValue } = useModel(modelOptions);
 
   const editor = shallowRef<monaco.editor.IStandaloneCodeEditor>();
 

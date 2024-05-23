@@ -16,9 +16,7 @@
         cancel
       </v-btn>
       <v-spacer></v-spacer>
-      <v-btn variant="flat" color="primary" @click="$emit('confirm')">
-        start
-      </v-btn>
+      <v-btn variant="flat" color="primary" @click="$emit('confirm')"> start </v-btn>
     </v-card-actions>
   </v-card>
 </template>

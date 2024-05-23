@@ -3,10 +3,7 @@
     <suspense-c>
       <component-a></component-a>
       <template #fallback>
-        <v-skeleton-loader
-          type="paragraph"
-          min-width="360px"
-        ></v-skeleton-loader>
+        <v-skeleton-loader type="paragraph" min-width="360px"></v-skeleton-loader>
       </template>
       <template #error="{ error }">
         <div>

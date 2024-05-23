@@ -11,9 +11,7 @@ export function useOverrideT<T extends object>(
     notFound: false,
   });
 
-  const loading = computed(
-    () => override.value.loading || loadConfig.loading.value
-  );
+  const loading = computed(() => override.value.loading || loadConfig.loading.value);
 
   const error = computed(() =>
     override.value.error ? new Error("test") : loadConfig.error.value

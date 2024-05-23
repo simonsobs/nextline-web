@@ -13,9 +13,7 @@
           cancel
         </v-btn>
         <v-spacer></v-spacer>
-        <v-btn variant="outlined" color="error" @click="onConfirm">
-          delete
-        </v-btn>
+        <v-btn variant="outlined" color="error" @click="onConfirm"> delete </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

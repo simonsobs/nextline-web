@@ -6,9 +6,7 @@ function useDecorationsCollection(
   editor: MaybeRefOrGetter<monaco.editor.IStandaloneCodeEditor | undefined>
 ) {
   const deltaDecos = ref<monaco.editor.IModelDeltaDecoration[]>([]);
-  const decoCol = computed(() =>
-    toValue(editor)?.createDecorationsCollection([])
-  );
+  const decoCol = computed(() => toValue(editor)?.createDecorationsCollection([]));
   watchEffect(() => {
     decoCol.value?.clear();
     decoCol.value?.set(deltaDecos.value);

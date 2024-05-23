@@ -18,8 +18,7 @@
     </v-btn>
     <v-menu location="top">
       <template v-slot:activator="{ props }">
-        <v-btn v-bind="props" icon="mdi-dots-horizontal" :disabled="disabled">
-        </v-btn>
+        <v-btn v-bind="props" icon="mdi-dots-horizontal" :disabled="disabled"> </v-btn>
       </template>
       <v-list>
         <v-list-item @click="pdbCommand('step')">

@@ -1,4 +1,12 @@
 {
+  "[typescript]": {
+    "editor.rulers": [89],
+    "prettier.printWidth": 88
+  },
+  "[vue]": {
+    "editor.rulers": [89],
+    "prettier.printWidth": 88
+  },
   "markdownlint.config": {
     "MD033": { "allowed_elements": ["i", "span", "a", "img"] },
     "MD041": false

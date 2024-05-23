@@ -36,9 +36,7 @@ export function useDynamicColorsOnVuetify(
     ...toValue(missing),
   }));
   const { themes } = useTheme();
-  const theme = computed(
-    () => themes.value[toValue(isDark) ? "dark" : "light"]
-  );
+  const theme = computed(() => themes.value[toValue(isDark) ? "dark" : "light"]);
 
   watchEffect(() => {
     theme.value.colors = toValue(colors);

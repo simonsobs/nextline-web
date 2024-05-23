@@ -4,7 +4,6 @@ import { ref } from "vue";
 import type { MaybeRef } from "vue";
 
 test("useTitle() should be reactive", () => {
-  
   // Initialize useTitle() with a ref
   const initTitle = ref("Hello World");
   const title = useTitle(initTitle);
@@ -21,7 +20,7 @@ test("useTitle() should be reactive", () => {
   title.value = "New Title";
   expect(title.value).toBe("New Title");
   expect(initTitle.value).toBe("New Title");
-  
+
   // In fact, they are the same object
   expect(title === initTitle).toBe(true);
 });
