@@ -91,7 +91,7 @@ export type ColorName = keyof typeof ColorNameMap;
 // The keys of MaterialDynamicColors whose value types are DynamicColor.
 // They are the color names in camelCase, e.g., "background", "onBackground", ...
 type KeyOfMDC = {
-  [K in keyof typeof MDC]: typeof MDC[K] extends DynamicColor ? K : never;
+  [K in keyof typeof MDC]: (typeof MDC)[K] extends DynamicColor ? K : never;
 }[keyof typeof MDC];
 
 // The keys in kebab-case, e.g., "background", "on-background", ...

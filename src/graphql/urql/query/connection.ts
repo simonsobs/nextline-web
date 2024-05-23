@@ -11,9 +11,7 @@ export function useUnpack<Node>(
   const edges = computed(
     () => unref(value)?.edges.flatMap((e) => (e ? [e] : [])) || []
   );
-  const nodes = computed<Node[]>(() =>
-    edges.value.flatMap((e) => e.node || [])
-  );
+  const nodes = computed<Node[]>(() => edges.value.flatMap((e) => e.node || []));
   const empty = computed(() => nodes.value.length === 0);
 
   return { connection: value, notFound, edges, nodes, empty };

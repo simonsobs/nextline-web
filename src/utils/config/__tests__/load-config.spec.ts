@@ -3,7 +3,7 @@ import { useLoadConfigT } from "../load-config";
 
 globalThis.fetch = vi.fn();
 
-const createResponse = (data: any) =>
+const createResponse = (data: any): Response =>
   ({
     json: () => new Promise((resolve) => resolve(data)),
     clone: () => createResponse(data),
@@ -34,8 +34,7 @@ const validateConfig = (config: Config) => {
   if (typeof config.apiUrl !== "string") throw Error("apiUrl is not string");
   if (config?.apiUrl === "") throw Error("apiUrl is empty");
 
-  if (typeof config.apiVersion !== "number")
-    throw Error("apiVersion is not number");
+  if (typeof config.apiVersion !== "number") throw Error("apiVersion is not number");
 };
 
 describe("useLoadConfigT", () => {
@@ -70,8 +69,7 @@ describe("useLoadConfigT", () => {
     };
     const expected = { ...defaultConfig, ...responseData };
     vi.mocked(fetch).mockResolvedValue(createResponse(responseData));
-    const { config, loading, error } =
-      await useLoadConfigT<Config>(defaultConfig);
+    const { config, loading, error } = await useLoadConfigT<Config>(defaultConfig);
     expect(loading.value).toBe(false);
     expect(error.value).toBeUndefined();
     expect(config.value).toEqual(expected);

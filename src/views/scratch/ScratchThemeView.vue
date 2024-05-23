@@ -5,9 +5,7 @@
       <v-row v-for="(c, k) in bgColors" :key="k">
         <v-col cols="6">
           <v-card variant="outlined">
-            <v-card-title :class="`bg-${k}`">
-              {{ k }}: {{ colors[k] }}
-            </v-card-title>
+            <v-card-title :class="`bg-${k}`"> {{ k }}: {{ colors[k] }} </v-card-title>
           </v-card>
         </v-col>
         <v-col cols="6">

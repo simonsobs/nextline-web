@@ -12,8 +12,7 @@
       <div class="g-editor">
         <editor v-model="v$.script.$model"> </editor>
       </div>
-      <div class="g-bottom">
-      </div>
+      <div class="g-bottom"></div>
     </div>
   </div>
 </template>

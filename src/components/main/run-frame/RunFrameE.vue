@@ -39,10 +39,7 @@ const props = defineProps<Props>();
   block-size: calc(100% - 2 * 8px);
   inline-size: calc(100% - 2 * 8px);
   grid-template-columns: minmax(100px, 1fr);
-  grid-template-rows: min-content min-content minmax(240px, 1fr) minmax(
-      100px,
-      25vh
-    );
+  grid-template-rows: min-content min-content minmax(240px, 1fr) minmax(100px, 25vh);
   grid-template-areas: "ctrl" "exception" "traces" "stdout";
   row-gap: 8px;
 }

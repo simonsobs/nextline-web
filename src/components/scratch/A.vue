@@ -7,7 +7,7 @@
 
 <script setup lang="ts">
 async function fetch() {
-  await new Promise((resolve) => setTimeout(resolve, 2000));	
+  await new Promise((resolve) => setTimeout(resolve, 2000));
   // throw new Error("This is an error");
   return "Do eiusmod reprehenderit voluptate do labore veniam voluptate anim. ";
 }

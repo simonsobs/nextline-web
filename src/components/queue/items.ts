@@ -6,6 +6,7 @@ import {
   useScheduleQueuePushMutation,
   useScheduleQueueRemoveMutation,
 } from "@/graphql/codegen/generated";
+import type { ScheduleQueuePushInput } from "@/graphql/codegen/generated";
 
 export interface Item {
   id: number;
@@ -17,7 +18,7 @@ export interface Item {
 interface _UseItemsResponse {
   items: ComputedRef<Item[] | undefined>;
   loading: Ref<boolean>;
-  addItem: (item: Item) => Promise<void>;
+  addItem: (item: ScheduleQueuePushInput) => Promise<void>;
   deleteItem: (item: Item) => Promise<void>;
 }
 
@@ -53,7 +54,7 @@ export function useItems(): UseItemsResponse {
 function useAddItem() {
   const { executeMutation } = useScheduleQueuePushMutation();
 
-  async function addItem(newItem: { name: string; script: string }) {
+  async function addItem(newItem: ScheduleQueuePushInput) {
     await executeMutation({ input: newItem });
   }
   return { addItem };

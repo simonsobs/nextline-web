@@ -20,8 +20,8 @@ interface Props {
   disabled?: boolean;
 }
 type Emits = {
-  "refresh": [];
-}
+  refresh: [];
+};
 defineProps<Props>();
 const emit = defineEmits<Emits>();
 </script>

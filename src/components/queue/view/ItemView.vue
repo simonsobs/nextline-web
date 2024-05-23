@@ -2,14 +2,12 @@
   <div style="block-size: 100%; inline-size: 100%">
     <div class="g-container">
       <div class="g-top">
-        <div>
-          <span class="font-weight-bold">Name:</span> {{ item?.name }}
-        </div>
+        <div><span class="font-weight-bold">Name:</span> {{ item?.name }}</div>
         <div>
           <span class="font-weight-bold">Created at:</span> {{ item?.createdAt }}
         </div>
         <div>
-          <span class="text-caption font-weight-light">Id: {{ item?.id }}</span> 
+          <span class="text-caption font-weight-light">Id: {{ item?.id }}</span>
         </div>
       </div>
       <div class="g-editor">

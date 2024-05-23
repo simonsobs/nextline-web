@@ -37,9 +37,7 @@ export async function useLoadConfigT<T extends object>(
     () => (fetchError.value as Error | undefined) || validationError.value
   );
 
-  const config = computed<T | null>(() =>
-    error.value ? null : toBeValidated.value
-  );
+  const config = computed<T | null>(() => (error.value ? null : toBeValidated.value));
 
   return {
     loading,
@@ -49,9 +47,7 @@ export async function useLoadConfigT<T extends object>(
 }
 
 function useConfigUrl() {
-  const configUrl = ref(
-    path.join(import.meta.env.VITE_PUBLIC_PATH, "config.json")
-  );
+  const configUrl = ref(path.join(import.meta.env.VITE_PUBLIC_PATH, "config.json"));
 
   return {
     configUrl,

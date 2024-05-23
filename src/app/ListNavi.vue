@@ -10,8 +10,7 @@
       :title="item.title"
     >
       <template v-slot:prepend="{ isActive }">
-        <v-icon :icon="`${isActive ? item.icon : `${item.icon}-outline`}`">
-        </v-icon>
+        <v-icon :icon="`${isActive ? item.icon : `${item.icon}-outline`}`"> </v-icon>
       </template>
     </v-list-item>
   </v-list>

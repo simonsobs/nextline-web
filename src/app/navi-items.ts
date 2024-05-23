@@ -41,7 +41,7 @@ export function useNaviItems() {
       title: "Queue",
       to: { name: "queue" },
       exact: true,
-    }
+    },
   ]);
 
   return { naviItems };

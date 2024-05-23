@@ -7,9 +7,7 @@
           back to edit
         </v-btn>
         <v-spacer></v-spacer>
-        <v-btn variant="outlined" color="primary" @click="onConfirm">
-          discard
-        </v-btn>
+        <v-btn variant="outlined" color="primary" @click="onConfirm"> discard </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

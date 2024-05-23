@@ -32,9 +32,9 @@ const routes: RouteRecordRaw[] = [
     component: RunView,
   },
   {
-    path: '/dev',
+    path: "/dev",
     name: "dev",
-    component: () => import("@/views/DevView.vue")
+    component: () => import("@/views/DevView.vue"),
   },
   {
     path: "/scratch",
@@ -52,9 +52,9 @@ const routes: RouteRecordRaw[] = [
     component: () => import("@/views/scratch/ScratchUrql.vue"),
   },
   {
-    path: '/:pathMatch(.*)*',
+    path: "/:pathMatch(.*)*",
     name: "NotFound",
-    component: () => import("@/views/NotFoundView.vue")
+    component: () => import("@/views/NotFoundView.vue"),
   },
 ];
 

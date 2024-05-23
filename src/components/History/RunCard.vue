@@ -69,7 +69,7 @@ watch(
       readOnly: true,
       matchBrackets: "never",
       selectionHighlight: false,
-      occurrencesHighlight: false,
+      occurrencesHighlight: "off",
       renderLineHighlight: "none",
     });
     val.style.height = `${editor.getContentHeight()}px`;

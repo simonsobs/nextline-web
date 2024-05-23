@@ -11,9 +11,7 @@ export function useDynamicColorsOnMonacoEditor(
   dynamicColors: MaybeRef<DynamicColors>,
   isDark: MaybeRef<boolean>
 ) {
-  const name = computed(() =>
-    toValue(isDark) ? "nextline-dark" : "nextline-light"
-  );
+  const name = computed(() => (toValue(isDark) ? "nextline-dark" : "nextline-light"));
   const base = computed(() => (toValue(isDark) ? "vs-dark" : "vs"));
   watchEffect(() => {
     defineTheme(name.value, toValue(dynamicColors), base.value);
@@ -53,9 +51,7 @@ export function useDarkModeOnMonacoEditor() {
   //       It is not possible to have different themes for different instances.
   //       https://github.com/Microsoft/monaco-editor/issues/338
   const { isDark } = useDarkMode();
-  const themeName = computed(() =>
-    isDark.value ? "nextline-dark" : "nextline-light"
-  );
+  const themeName = computed(() => (isDark.value ? "nextline-dark" : "nextline-light"));
   watchEffect(() => {
     monaco.editor.setTheme(themeName.value);
   });

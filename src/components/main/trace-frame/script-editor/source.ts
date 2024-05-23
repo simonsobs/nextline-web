@@ -37,7 +37,8 @@ export async function useSource() {
     source.value = savedSource.value;
   }
 
-  const { executeMutation: executeMutationLoad } = useScheduleSchedulerLoadScriptMutation();
+  const { executeMutation: executeMutationLoad } =
+    useScheduleSchedulerLoadScriptMutation();
 
   async function load() {
     await executeMutationLoad({});

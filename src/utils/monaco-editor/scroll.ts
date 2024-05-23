@@ -11,9 +11,7 @@ export function useScroll(
     if (!(unref(lineNo) >= 1)) return;
     const lineCount = unref(editor)?.getModel()?.getLineCount();
     if (!(lineCount && lineCount >= unref(lineNo))) {
-      console.warn(
-        `lineNo(${unref(lineNo)}) is out of range: [1, ${lineCount}]`
-      );
+      console.warn(`lineNo(${unref(lineNo)}) is out of range: [1, ${lineCount}]`);
     }
     unref(editor)?.revealLineInCenter(unref(lineNo));
   });

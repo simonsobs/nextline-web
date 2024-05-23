@@ -19,7 +19,7 @@ type ScheduleQueueItemsSubscription = _ScheduleQueueItemsSubscription &
 
 export function useSubscribeScheduleQueueItems(): ScheduleQueueItemsSubscription {
   const query = useScheduleQueueItemsQuery({ requestPolicy: "network-only" });
-  const subscription = useScheduleQueueItemsSSubscription();
+  const subscription = useScheduleQueueItemsSSubscription({});
 
   const loading = computed(() => query.fetching?.value);
   const error = computed(() => subscription.error?.value || query.error?.value);

@@ -1,13 +1,13 @@
 import { describe, it, expect } from "vitest";
 import { ref } from "vue";
-import { createEventHook } from '@vueuse/core'
+import { createEventHook } from "@vueuse/core";
 
 function useFoo() {
   const foo = ref(0);
   const change = createEventHook<number>();
   const increment = () => {
     foo.value++;
-	change.trigger(foo.value);
+    change.trigger(foo.value);
   };
   return {
     foo,

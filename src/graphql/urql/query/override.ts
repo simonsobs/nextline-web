@@ -32,9 +32,7 @@ export function useOverride<Node>(
   );
 
   const empty = computed(() => override.value.empty || unpacked.empty.value);
-  const notFound = computed(
-    () => override.value.notFound || unpacked.notFound.value
-  );
+  const notFound = computed(() => override.value.notFound || unpacked.notFound.value);
 
   const connection = computed(() => {
     if (override.value.notFound) return null;
