@@ -597,21 +597,6 @@ export type RunNoSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 export type RunNoSubscription = { __typename?: 'Subscription', ctrlRunNo: number };
 
-export type ScheduleAutoModeModeSubscriptionVariables = Exact<{ [key: string]: never; }>;
-
-
-export type ScheduleAutoModeModeSubscription = { __typename?: 'Subscription', scheduleAutoModeMode: string };
-
-export type ScheduleAutoModeStateSubscriptionVariables = Exact<{ [key: string]: never; }>;
-
-
-export type ScheduleAutoModeStateSubscription = { __typename?: 'Subscription', scheduleAutoModeState: string };
-
-export type SScheduleQueueItemsSubscriptionVariables = Exact<{ [key: string]: never; }>;
-
-
-export type SScheduleQueueItemsSubscription = { __typename?: 'Subscription', scheduleQueueItems: Array<{ __typename?: 'ScheduleQueueItem', id: number, name: string, createdAt: any, script: string }> };
-
 export type StateSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -626,6 +611,21 @@ export type TraceIdsSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
 export type TraceIdsSubscription = { __typename?: 'Subscription', ctrlTraceIds: Array<number> };
+
+export type ScheduleAutoModeModeSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ScheduleAutoModeModeSubscription = { __typename?: 'Subscription', scheduleAutoModeMode: string };
+
+export type ScheduleAutoModeStateSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ScheduleAutoModeStateSubscription = { __typename?: 'Subscription', scheduleAutoModeState: string };
+
+export type SScheduleQueueItemsSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type SScheduleQueueItemsSubscription = { __typename?: 'Subscription', scheduleQueueItems: Array<{ __typename?: 'ScheduleQueueItem', id: number, name: string, createdAt: any, script: string }> };
 
 
 export const ExecDocument = gql`
@@ -1006,6 +1006,33 @@ export const RunNoDocument = gql`
 export function useRunNoSubscription<R = RunNoSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, RunNoSubscriptionVariables>, 'query'>, handler?: Urql.SubscriptionHandlerArg<RunNoSubscription, R>) {
   return Urql.useSubscription<RunNoSubscription, R, RunNoSubscriptionVariables>({ query: RunNoDocument, ...options }, handler);
 };
+export const StateDocument = gql`
+    subscription State {
+  ctrlState
+}
+    `;
+
+export function useStateSubscription<R = StateSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, StateSubscriptionVariables>, 'query'>, handler?: Urql.SubscriptionHandlerArg<StateSubscription, R>) {
+  return Urql.useSubscription<StateSubscription, R, StateSubscriptionVariables>({ query: StateDocument, ...options }, handler);
+};
+export const StdoutDocument = gql`
+    subscription Stdout {
+  ctrlStdout
+}
+    `;
+
+export function useStdoutSubscription<R = StdoutSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, StdoutSubscriptionVariables>, 'query'>, handler?: Urql.SubscriptionHandlerArg<StdoutSubscription, R>) {
+  return Urql.useSubscription<StdoutSubscription, R, StdoutSubscriptionVariables>({ query: StdoutDocument, ...options }, handler);
+};
+export const TraceIdsDocument = gql`
+    subscription TraceIds {
+  ctrlTraceIds
+}
+    `;
+
+export function useTraceIdsSubscription<R = TraceIdsSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, TraceIdsSubscriptionVariables>, 'query'>, handler?: Urql.SubscriptionHandlerArg<TraceIdsSubscription, R>) {
+  return Urql.useSubscription<TraceIdsSubscription, R, TraceIdsSubscriptionVariables>({ query: TraceIdsDocument, ...options }, handler);
+};
 export const ScheduleAutoModeModeDocument = gql`
     subscription ScheduleAutoModeMode {
   scheduleAutoModeMode
@@ -1037,31 +1064,4 @@ export const SScheduleQueueItemsDocument = gql`
 
 export function useSScheduleQueueItemsSubscription<R = SScheduleQueueItemsSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, SScheduleQueueItemsSubscriptionVariables>, 'query'>, handler?: Urql.SubscriptionHandlerArg<SScheduleQueueItemsSubscription, R>) {
   return Urql.useSubscription<SScheduleQueueItemsSubscription, R, SScheduleQueueItemsSubscriptionVariables>({ query: SScheduleQueueItemsDocument, ...options }, handler);
-};
-export const StateDocument = gql`
-    subscription State {
-  ctrlState
-}
-    `;
-
-export function useStateSubscription<R = StateSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, StateSubscriptionVariables>, 'query'>, handler?: Urql.SubscriptionHandlerArg<StateSubscription, R>) {
-  return Urql.useSubscription<StateSubscription, R, StateSubscriptionVariables>({ query: StateDocument, ...options }, handler);
-};
-export const StdoutDocument = gql`
-    subscription Stdout {
-  ctrlStdout
-}
-    `;
-
-export function useStdoutSubscription<R = StdoutSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, StdoutSubscriptionVariables>, 'query'>, handler?: Urql.SubscriptionHandlerArg<StdoutSubscription, R>) {
-  return Urql.useSubscription<StdoutSubscription, R, StdoutSubscriptionVariables>({ query: StdoutDocument, ...options }, handler);
-};
-export const TraceIdsDocument = gql`
-    subscription TraceIds {
-  ctrlTraceIds
-}
-    `;
-
-export function useTraceIdsSubscription<R = TraceIdsSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, TraceIdsSubscriptionVariables>, 'query'>, handler?: Urql.SubscriptionHandlerArg<TraceIdsSubscription, R>) {
-  return Urql.useSubscription<TraceIdsSubscription, R, TraceIdsSubscriptionVariables>({ query: TraceIdsDocument, ...options }, handler);
 };
