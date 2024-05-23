@@ -475,6 +475,13 @@ export type TerminateMutationVariables = Exact<{ [key: string]: never; }>;
 
 export type TerminateMutation = { __typename?: 'Mutation', ctrl: { __typename?: 'MutationCtrl', terminate: boolean } };
 
+export type ScheduleAutoModeChangeModeMutationVariables = Exact<{
+  mode: Scalars['String']['input'];
+}>;
+
+
+export type ScheduleAutoModeChangeModeMutation = { __typename?: 'Mutation', schedule: { __typename?: 'MutationSchedule', autoMode: { __typename?: 'MutationScheduleAutoMode', changeMode: boolean } } };
+
 export type AutoModeTurnOffMutationVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -484,13 +491,6 @@ export type AutoModeTurnOnMutationVariables = Exact<{ [key: string]: never; }>;
 
 
 export type AutoModeTurnOnMutation = { __typename?: 'Mutation', schedule: { __typename?: 'MutationSchedule', autoMode: { __typename?: 'MutationScheduleAutoMode', turnOn: boolean } } };
-
-export type ScheduleAutoModeChangeModeMutationVariables = Exact<{
-  mode: Scalars['String']['input'];
-}>;
-
-
-export type ScheduleAutoModeChangeModeMutation = { __typename?: 'Mutation', schedule: { __typename?: 'MutationSchedule', autoMode: { __typename?: 'MutationScheduleAutoMode', changeMode: boolean } } };
 
 export type ScheduleQueuePushMutationVariables = Exact<{
   input: ScheduleQueuePushInput;
@@ -716,6 +716,19 @@ export const TerminateDocument = gql`
 export function useTerminateMutation() {
   return Urql.useMutation<TerminateMutation, TerminateMutationVariables>(TerminateDocument);
 };
+export const ScheduleAutoModeChangeModeDocument = gql`
+    mutation ScheduleAutoModeChangeMode($mode: String!) {
+  schedule {
+    autoMode {
+      changeMode(mode: $mode)
+    }
+  }
+}
+    `;
+
+export function useScheduleAutoModeChangeModeMutation() {
+  return Urql.useMutation<ScheduleAutoModeChangeModeMutation, ScheduleAutoModeChangeModeMutationVariables>(ScheduleAutoModeChangeModeDocument);
+};
 export const AutoModeTurnOffDocument = gql`
     mutation AutoModeTurnOff {
   schedule {
@@ -741,19 +754,6 @@ export const AutoModeTurnOnDocument = gql`
 
 export function useAutoModeTurnOnMutation() {
   return Urql.useMutation<AutoModeTurnOnMutation, AutoModeTurnOnMutationVariables>(AutoModeTurnOnDocument);
-};
-export const ScheduleAutoModeChangeModeDocument = gql`
-    mutation ScheduleAutoModeChangeMode($mode: String!) {
-  schedule {
-    autoMode {
-      changeMode(mode: $mode)
-    }
-  }
-}
-    `;
-
-export function useScheduleAutoModeChangeModeMutation() {
-  return Urql.useMutation<ScheduleAutoModeChangeModeMutation, ScheduleAutoModeChangeModeMutationVariables>(ScheduleAutoModeChangeModeDocument);
 };
 export const ScheduleQueuePushDocument = gql`
     mutation ScheduleQueuePush($input: ScheduleQueuePushInput!) {
