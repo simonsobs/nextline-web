@@ -1,7 +1,8 @@
+# nextline-web
+
 [![npm](https://img.shields.io/npm/v/nextline-web)](https://www.npmjs.com/package/nextline-web)
 [![Unit tests](https://github.com/simonsobs/nextline-web/actions/workflows/unit-test.yml/badge.svg)](https://github.com/simonsobs/nextline-web/actions/workflows/unit-test.yml)
 
-# Nextline-web
 
 The front-end web app of Nextline.
 
@@ -9,6 +10,10 @@ _Nextline_ is a DAQ sequencer of the [Observatory Control System
 (OCS)](https://github.com/simonsobs/ocs/). Nextline allows line-by-line
 execution of concurrent Python scripts, which control telescopes, by multiple
 users simultaneously from web browsers.
+
+## Screenshot
+
+![Screenshot](screenshot.png)
 
 ## How to run the Nextline front-end web app
 
