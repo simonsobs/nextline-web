@@ -1,5 +1,0 @@
-query QRunNo {
-  ctrl {
-    runNo
-  }
-}

@@ -1,7 +1,0 @@
-query QScheduleAutoModeMode {
-  schedule {
-    autoMode {
-      mode
-    }
-  }
-}

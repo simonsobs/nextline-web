@@ -1,5 +1,0 @@
-mutation RunAndContinue {
-  ctrl {
-    runAndContinue
-  }
-}

@@ -1,19 +1,19 @@
 import { computed } from "vue";
 import type { ComputedRef } from "vue";
-import { useQStateQuery, useStateSubscription } from "@/graphql/codegen/generated";
+import { useCtrlStateQuery, useCtrlStateSSubscription } from "@/graphql/codegen/generated";
 
 interface _StateSubscription {
   state: ComputedRef<string | undefined>;
   error: ComputedRef<Error | undefined>;
-  subscription: ReturnType<typeof useStateSubscription>;
-  query: ReturnType<typeof useQStateQuery>;
+  subscription: ReturnType<typeof useCtrlStateSSubscription>;
+  query: ReturnType<typeof useCtrlStateQuery>;
 }
 
 type StateSubscription = _StateSubscription & PromiseLike<_StateSubscription>;
 
 export function useSubscribeState(): StateSubscription {
-  const query = useQStateQuery({ requestPolicy: "network-only" });
-  const subscription = useStateSubscription({});
+  const query = useCtrlStateQuery({ requestPolicy: "network-only" });
+  const subscription = useCtrlStateSSubscription({});
 
   const error = computed(() => subscription.error?.value || query.error?.value);
 

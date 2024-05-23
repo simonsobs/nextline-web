@@ -1,7 +1,0 @@
-mutation AutoModeTurnOn {
-  schedule {
-    autoMode {
-      turnOn
-    }
-  }
-}

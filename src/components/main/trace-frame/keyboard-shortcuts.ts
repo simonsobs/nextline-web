@@ -1,6 +1,6 @@
 import { watch, MaybeRefOrGetter, toValue } from "vue";
 
-import { useSendPdbCommandMutation } from "@/graphql/codegen/generated";
+import { useCtrlSendPdbCommandMutation } from "@/graphql/codegen/generated";
 
 const keyboardShortcuts = new Map([
   ["n", "next"],
@@ -15,7 +15,7 @@ function useKeyboardShortcuts(
   disabled: MaybeRefOrGetter<boolean>,
   keyboardEvent: MaybeRefOrGetter<KeyboardEvent | undefined | null>
 ) {
-  const { executeMutation } = useSendPdbCommandMutation();
+  const { executeMutation } = useCtrlSendPdbCommandMutation();
   watch(
     () => toValue(keyboardEvent),
     async (event) => {

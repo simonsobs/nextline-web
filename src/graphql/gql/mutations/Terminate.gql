@@ -1,5 +1,0 @@
-mutation Terminate {
-  ctrl {
-    terminate
-  }
-}

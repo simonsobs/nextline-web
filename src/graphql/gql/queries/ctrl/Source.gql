@@ -1,0 +1,5 @@
+query CtrlSource($fileName: String) {
+  ctrl {
+    source(fileName: $fileName)
+  }
+}

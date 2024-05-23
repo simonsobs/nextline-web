@@ -1,5 +1,0 @@
-mutation Kill {
-  ctrl {
-    kill
-  }
-}

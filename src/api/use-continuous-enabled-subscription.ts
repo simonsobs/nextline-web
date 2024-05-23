@@ -1,23 +1,23 @@
 import { computed } from "vue";
 import type { ComputedRef } from "vue";
 import {
-  useQContinuousEnabledQuery,
-  useContinuousEnabledSubscription,
+  useCtrlContinuousEnabledQuery,
+  useCtrlContinuousEnabledSSubscription,
 } from "@/graphql/codegen/generated";
 
 interface _ContinuousEnabledSubscription {
   continuousEnabled: ComputedRef<boolean | undefined>;
   error: ComputedRef<Error | undefined>;
-  subscription: ReturnType<typeof useContinuousEnabledSubscription>;
-  query: ReturnType<typeof useQContinuousEnabledQuery>;
+  subscription: ReturnType<typeof useCtrlContinuousEnabledSSubscription>;
+  query: ReturnType<typeof useCtrlContinuousEnabledQuery>;
 }
 
 type ContinuousEnabledSubscription = _ContinuousEnabledSubscription &
   PromiseLike<_ContinuousEnabledSubscription>;
 
 export function useSubscribeContinuousEnabled(): ContinuousEnabledSubscription {
-  const query = useQContinuousEnabledQuery({ requestPolicy: "network-only" });
-  const subscription = useContinuousEnabledSubscription({});
+  const query = useCtrlContinuousEnabledQuery({ requestPolicy: "network-only" });
+  const subscription = useCtrlContinuousEnabledSSubscription({});
 
   const error = computed(() => subscription.error?.value || query.error?.value);
 

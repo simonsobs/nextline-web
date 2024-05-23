@@ -1,5 +1,0 @@
-mutation SendPdbCommand($command: String!, $promptNo: Int!, $traceNo: Int!) {
-  ctrl {
-    sendPdbCommand(command: $command, promptNo: $promptNo, traceNo: $traceNo)
-  }
-}

@@ -1,0 +1,12 @@
+query ScheduleQueueItems {
+  schedule {
+    queue {
+      items {
+        id
+        name
+        createdAt
+        script
+      }
+    }
+  }
+}

@@ -10,7 +10,7 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
 
-import { useExceptionQuery } from "@/graphql/codegen/generated";
+import { useCtrlExceptionQuery } from "@/graphql/codegen/generated";
 
 import { useSubscribeState } from "@/api";
 
@@ -30,7 +30,7 @@ const { state } = stateSubscription;
 
 const pause = ref(true);
 
-const query = useExceptionQuery({ pause: pause.value });
+const query = useCtrlExceptionQuery({ pause: pause.value });
 
 watch(state, (val) => {
   pause.value = val !== "finished";

@@ -1,0 +1,8 @@
+subscription ScheduleQueueItemsS {
+  scheduleQueueItems {
+    id
+    name
+    createdAt
+    script
+  }
+}

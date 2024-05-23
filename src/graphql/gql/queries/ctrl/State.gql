@@ -1,0 +1,5 @@
+query CtrlState {
+  ctrl {
+    state
+  }
+}

@@ -1,5 +1,0 @@
-query Source($fileName: String) {
-  ctrl {
-    source(fileName: $fileName)
-  }
-}

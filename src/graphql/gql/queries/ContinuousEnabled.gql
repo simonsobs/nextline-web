@@ -1,5 +1,0 @@
-query QContinuousEnabled {
-  ctrl {
-    continuousEnabled
-  }
-}

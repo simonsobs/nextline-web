@@ -1,19 +1,19 @@
 import { computed } from "vue";
 import type { ComputedRef } from "vue";
-import { useQRunNoQuery, useRunNoSubscription } from "@/graphql/codegen/generated";
+import { useCtrlRunNoQuery, useCtrlRunNoSSubscription } from "@/graphql/codegen/generated";
 
 interface _RunNoSubscription {
   runNo: ComputedRef<number | undefined>;
   error: ComputedRef<Error | undefined>;
-  subscription: ReturnType<typeof useRunNoSubscription>;
-  query: ReturnType<typeof useQRunNoQuery>;
+  subscription: ReturnType<typeof useCtrlRunNoSSubscription>;
+  query: ReturnType<typeof useCtrlRunNoQuery>;
 }
 
 type RunNoSubscription = _RunNoSubscription & PromiseLike<_RunNoSubscription>;
 
 export function useSubscribeRunNo(): RunNoSubscription {
-  const query = useQRunNoQuery({ requestPolicy: "network-only" });
-  const subscription = useRunNoSubscription({});
+  const query = useCtrlRunNoQuery({ requestPolicy: "network-only" });
+  const subscription = useCtrlRunNoSSubscription({});
 
   const error = computed(() => subscription.error?.value || query.error?.value);
 

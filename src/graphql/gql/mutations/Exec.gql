@@ -1,5 +1,0 @@
-mutation Exec {
-  ctrl {
-    exec
-  }
-}

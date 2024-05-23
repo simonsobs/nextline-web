@@ -1,0 +1,7 @@
+mutation ScheduleAutoModeTurnOff {
+  schedule {
+    autoMode {
+      turnOff
+    }
+  }
+}

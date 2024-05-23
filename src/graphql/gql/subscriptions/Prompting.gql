@@ -1,8 +1,0 @@
-subscription Prompting($traceId: Int!) {
-  ctrlPrompting(traceId: $traceId) {
-    prompting
-    fileName
-    lineNo
-    traceEvent
-  }
-}

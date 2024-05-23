@@ -1,8 +1,0 @@
-subscription SScheduleQueueItems {
-  scheduleQueueItems {
-    id
-    name
-    createdAt
-    script
-  }
-}

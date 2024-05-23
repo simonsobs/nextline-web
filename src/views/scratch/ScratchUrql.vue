@@ -9,12 +9,12 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import {
-  useQStateQuery,
-  useStateSubscription,
+  useCtrlStateQuery,
+  useCtrlStateSSubscription,
 } from "@/graphql/codegen/generated";
 
-const query = useQStateQuery({});
-const subscription = useStateSubscription({});
+const query = useCtrlStateQuery({});
+const subscription = useCtrlStateSSubscription({});
 
 const state = computed(() => query.data);
 const sub = computed(() => subscription.data);
