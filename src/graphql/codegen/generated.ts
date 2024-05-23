@@ -560,11 +560,6 @@ export type RdbRunsQueryVariables = Exact<{
 
 export type RdbRunsQuery = { __typename?: 'Query', rdb: { __typename?: 'QueryRDB', runs: { __typename?: 'RunNodeConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', startCursor?: string | null, endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean }, edges: Array<{ __typename?: 'RunNodeEdge', cursor: string, node: { __typename?: 'RunNode', id: number, runNo: number, state?: string | null, startedAt?: any | null, endedAt?: any | null, script?: string | null, exception?: string | null } }> } } };
 
-export type RunsQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type RunsQuery = { __typename?: 'Query', rdb: { __typename?: 'QueryRDB', runs: { __typename?: 'RunNodeConnection', edges: Array<{ __typename?: 'RunNodeEdge', node: { __typename?: 'RunNode', runNo: number, state?: string | null, startedAt?: any | null, endedAt?: any | null, script?: string | null, exception?: string | null } }> } } };
-
 export type QScheduleAutoModeModeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -925,28 +920,6 @@ export const RdbRunsDocument = gql`
 
 export function useRdbRunsQuery(options: Omit<Urql.UseQueryArgs<never, RdbRunsQueryVariables>, 'query'>) {
   return Urql.useQuery<RdbRunsQuery, RdbRunsQueryVariables>({ query: RdbRunsDocument, ...options });
-};
-export const RunsDocument = gql`
-    query Runs {
-  rdb {
-    runs {
-      edges {
-        node {
-          runNo
-          state
-          startedAt
-          endedAt
-          script
-          exception
-        }
-      }
-    }
-  }
-}
-    `;
-
-export function useRunsQuery(options: Omit<Urql.UseQueryArgs<never, RunsQueryVariables>, 'query'>) {
-  return Urql.useQuery<RunsQuery, RunsQueryVariables>({ query: RunsDocument, ...options });
 };
 export const QScheduleAutoModeModeDocument = gql`
     query QScheduleAutoModeMode {
