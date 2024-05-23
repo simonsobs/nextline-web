@@ -69,7 +69,7 @@ export type MutationSchedule = {
   autoMode: MutationScheduleAutoMode;
   loadScript: Scalars['Boolean']['output'];
   queue: MutationScheduleQueue;
-  scheduler: MutationScheduler;
+  scheduler: MutationScheduleScheduler;
 };
 
 export type MutationScheduleAutoMode = {
@@ -100,17 +100,18 @@ export type MutationScheduleQueueRemoveArgs = {
   id: Scalars['Int']['input'];
 };
 
-export type MutationScheduler = {
-  __typename?: 'MutationScheduler';
+export type MutationScheduleScheduler = {
+  __typename?: 'MutationScheduleScheduler';
+  loadScript: Scalars['Boolean']['output'];
   update: Scalars['Boolean']['output'];
 };
 
 
-export type MutationSchedulerUpdateArgs = {
-  input: MutationSchedulerInput;
+export type MutationScheduleSchedulerUpdateArgs = {
+  input: MutationSchedulerUpdateInput;
 };
 
-export type MutationSchedulerInput = {
+export type MutationSchedulerUpdateInput = {
   apiUrl?: InputMaybe<Scalars['String']['input']>;
   lengthMinutes?: InputMaybe<Scalars['Int']['input']>;
   policy?: InputMaybe<Scalars['String']['input']>;
@@ -255,7 +256,7 @@ export type QuerySchedule = {
   __typename?: 'QuerySchedule';
   autoMode: QueryScheduleAutoMode;
   queue: QueryScheduleQueue;
-  scheduler: QueryScheduler;
+  scheduler: QueryScheduleScheduler;
   version: Scalars['String']['output'];
 };
 
@@ -270,8 +271,8 @@ export type QueryScheduleQueue = {
   items: Array<ScheduleQueueItem>;
 };
 
-export type QueryScheduler = {
-  __typename?: 'QueryScheduler';
+export type QueryScheduleScheduler = {
+  __typename?: 'QueryScheduleScheduler';
   apiUrl: Scalars['String']['output'];
   lengthMinutes: Scalars['Int']['output'];
   policy: Scalars['String']['output'];
