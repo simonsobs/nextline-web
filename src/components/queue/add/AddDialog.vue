@@ -27,7 +27,7 @@
     </v-sheet>
     <discard-confirmation-dialog
       v-model="dialogConfirmDiscard"
-      @confirm="discardConfirmed"
+      @confirm="clearAndClose"
     >
     </discard-confirmation-dialog>
     <LoadingIndicator v-model="loading"> </LoadingIndicator>
@@ -62,7 +62,7 @@ function onClickCancel() {
   }
 }
 
-function discardConfirmed() {
+function clearAndClose() {
   state.value = undefined;
   show.value = false;
 }
