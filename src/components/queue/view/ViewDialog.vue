@@ -40,7 +40,7 @@ import ItemView from "./ItemView.vue";
 import { useItems } from "../items";
 import type { Item } from "../items";
 import DeleteConfirmationDialog from "./DeleteConfirmationDialog.vue";
-import ProgressDialog from "./ProgressDialog.vue";
+import ProgressDialog from "../ProgressDialog.vue";
 
 const { mobile } = useDisplay();
 

@@ -40,7 +40,7 @@ import { useDisplay } from "vuetify";
 import ItemAdd from "./ItemAdd.vue";
 import type { State } from "./ItemAdd.vue";
 import DiscardConfirmationDialog from "./DiscardConfirmationDialog.vue";
-import ProgressDialog from "./ProgressDialog.vue";
+import ProgressDialog from "../ProgressDialog.vue";
 import { useItems } from "../items";
 const show = defineModel<boolean>();
 const { mobile } = useDisplay();
