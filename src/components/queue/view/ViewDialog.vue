@@ -30,17 +30,21 @@
     >
     </delete-confirmation-dialog>
     <LoadingIndicator v-model="loading"> </LoadingIndicator>
+    <ErrorDialog v-model="dialogError" :error="error">
+    </ErrorDialog>
   </v-dialog>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, toRefs } from "vue";
 import { useDisplay } from "vuetify";
+import type { CombinedError } from "@urql/vue";
 import ItemView from "./ItemView.vue";
 import { useItems } from "../items";
 import type { Item } from "../items";
 import DeleteConfirmationDialog from "./DeleteConfirmationDialog.vue";
 import LoadingIndicator from "../LoadingIndicator.vue";
+import ErrorDialog from "../ErrorDialog.vue";
 
 const { mobile } = useDisplay();
 
@@ -54,14 +58,21 @@ interface Props {
 const props = defineProps<Props>();
 const { item } = toRefs(props);
 const show = defineModel<boolean>();
-
 const dialogConfirmDelete = ref(false);
 const loading = ref<boolean>(false);
+const dialogError = ref<boolean>(false);
+const error = ref<CombinedError>();
+
 const { deleteItem } = useItems();
 async function onDeleteConfirmed() {
   loading.value = true;
-  await deleteItem(item.value);
+  const result = await deleteItem(item.value);
   loading.value = false;
+  if(result.error) {
+    error.value = result.error;
+    dialogError.value = true;
+    return;
+  }
   show.value = false;
 }
 </script>

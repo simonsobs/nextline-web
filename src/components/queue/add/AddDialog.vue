@@ -27,20 +27,24 @@
     </v-sheet>
     <discard-confirmation-dialog
       v-model="dialogConfirmDiscard"
-      @confirm="discardConfirmed"
+      @confirm="clearAndClose"
     >
     </discard-confirmation-dialog>
     <LoadingIndicator v-model="loading"> </LoadingIndicator>
+    <ErrorDialog v-model="dialogError" :error="error">
+    </ErrorDialog>
   </v-dialog>
 </template>
 
 <script setup lang="ts">
 import { ref, computed } from "vue";
 import { useDisplay } from "vuetify";
+import type { CombinedError } from "@urql/vue";
 import ItemAdd from "./ItemAdd.vue";
 import type { State } from "./ItemAdd.vue";
 import DiscardConfirmationDialog from "./DiscardConfirmationDialog.vue";
 import LoadingIndicator from "../LoadingIndicator.vue";
+import ErrorDialog from "../ErrorDialog.vue";
 import { useItems } from "../items";
 const show = defineModel<boolean>();
 const { mobile } = useDisplay();
@@ -52,19 +56,21 @@ const valid = ref<boolean>();
 const dirty = ref<boolean>();
 const dialogConfirmDiscard = ref<boolean>(false);
 const loading = ref<boolean>(false);
+const dialogError = ref<boolean>(false);
+const error = ref<CombinedError>();
+
+function clearAndClose() {
+  state.value = undefined;
+  show.value = false;
+}
 
 // Show the confirmation dialog if the form is edited
 function onClickCancel() {
   if (dirty.value) {
     dialogConfirmDiscard.value = true;
   } else {
-    show.value = false;
+    clearAndClose();
   }
-}
-
-function discardConfirmed() {
-  state.value = undefined;
-  show.value = false;
 }
 
 const { addItem } = useItems();
@@ -72,10 +78,14 @@ const { addItem } = useItems();
 async function onClickAdd() {
   if (state.value === undefined) return;
   loading.value = true;
-  await addItem(state.value);
+  const result = await addItem(state.value);
   loading.value = false;
-  state.value = undefined;
-  show.value = false;
+  if(result.error) {
+    error.value = result.error;
+    dialogError.value = true;
+    return;
+  }
+  clearAndClose();
 }
 </script>
 
