@@ -36,7 +36,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { ref, computed, watchEffect } from "vue";
 import { useDisplay } from "vuetify";
 import { useItems } from "./items";
 import type { Item } from "./items";
@@ -70,6 +70,19 @@ function onClickRow(event: Event, value: { item: Item }) {
   showViewDialog.value = true;
   viewItem.value = value.item;
 }
+
+const viewItemInItems = computed(() => {
+  const id = viewItem.value?.id;
+  return id ? items.value?.some((item) => item.id === id) : false;
+});
+
+// Close the view dialog if the item is no longer in the queue.
+// TODO: Show a notification after closing the dialog.
+watchEffect(() => {
+  if (!viewItemInItems.value) {
+    showViewDialog.value = false;
+  }
+});
 </script>
 
 <style scoped>
