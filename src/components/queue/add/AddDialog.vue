@@ -30,7 +30,7 @@
       @confirm="discardConfirmed"
     >
     </discard-confirmation-dialog>
-    <progress-dialog v-model="dialogProgress"> </progress-dialog>
+    <LoadingIndicator v-model="loading"> </LoadingIndicator>
   </v-dialog>
 </template>
 
@@ -40,7 +40,7 @@ import { useDisplay } from "vuetify";
 import ItemAdd from "./ItemAdd.vue";
 import type { State } from "./ItemAdd.vue";
 import DiscardConfirmationDialog from "./DiscardConfirmationDialog.vue";
-import ProgressDialog from "../ProgressDialog.vue";
+import LoadingIndicator from "../LoadingIndicator.vue";
 import { useItems } from "../items";
 const show = defineModel<boolean>();
 const { mobile } = useDisplay();
@@ -51,7 +51,7 @@ const state = ref<State>();
 const valid = ref<boolean>();
 const dirty = ref<boolean>();
 const dialogConfirmDiscard = ref<boolean>(false);
-const dialogProgress = ref<boolean>(false);
+const loading = ref<boolean>(false);
 
 // Show the confirmation dialog if the form is edited
 function onClickCancel() {
@@ -71,9 +71,9 @@ const { addItem } = useItems();
 
 async function onClickAdd() {
   if (state.value === undefined) return;
-  dialogProgress.value = true;
+  loading.value = true;
   await addItem(state.value);
-  dialogProgress.value = false;
+  loading.value = false;
   state.value = undefined;
   show.value = false;
 }
