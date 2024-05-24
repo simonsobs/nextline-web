@@ -29,7 +29,7 @@
       @confirm="onDeleteConfirmed"
     >
     </delete-confirmation-dialog>
-    <progress-dialog v-model="dialogProgress"> </progress-dialog>
+    <LoadingIndicator v-model="loading"> </LoadingIndicator>
   </v-dialog>
 </template>
 
@@ -40,7 +40,7 @@ import ItemView from "./ItemView.vue";
 import { useItems } from "../items";
 import type { Item } from "../items";
 import DeleteConfirmationDialog from "./DeleteConfirmationDialog.vue";
-import ProgressDialog from "./ProgressDialog.vue";
+import LoadingIndicator from "../LoadingIndicator.vue";
 
 const { mobile } = useDisplay();
 
@@ -56,12 +56,12 @@ const { item } = toRefs(props);
 const show = defineModel<boolean>();
 
 const dialogConfirmDelete = ref(false);
-const dialogProgress = ref<boolean>(false);
+const loading = ref<boolean>(false);
 const { deleteItem } = useItems();
 async function onDeleteConfirmed() {
-  dialogProgress.value = true;
+  loading.value = true;
   await deleteItem(item.value);
-  dialogProgress.value = false;
+  loading.value = false;
   show.value = false;
 }
 </script>
