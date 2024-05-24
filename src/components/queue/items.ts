@@ -10,6 +10,7 @@ import {
 import type {
   ScheduleQueuePushInput,
   ScheduleQueuePushMutation,
+  ScheduleQueueRemoveMutation
 } from "@/graphql/codegen/generated";
 
 export interface Item {
@@ -20,12 +21,13 @@ export interface Item {
 }
 
 type AddItemResult = OperationResult<ScheduleQueuePushMutation, AnyVariables>;
+type DeleteItemResult = OperationResult<ScheduleQueueRemoveMutation, AnyVariables>;
 
 interface _UseItemsResponse {
   items: ComputedRef<Item[] | undefined>;
   loading: Ref<boolean>;
   addItem: (item: ScheduleQueuePushInput) => Promise<AddItemResult>;
-  deleteItem: (item: Item) => Promise<void>;
+  deleteItem: (item: Item) => Promise<DeleteItemResult>;
 }
 
 type UseItemsResponse = _UseItemsResponse & PromiseLike<_UseItemsResponse>;
@@ -69,7 +71,7 @@ function useAddItem() {
 function useDeleteItem() {
   const { executeMutation } = useScheduleQueueRemoveMutation();
   async function deleteItem(item: Item) {
-    await executeMutation({ id: item.id });
+    return await executeMutation({ id: item.id });
   }
 
   return { deleteItem };
