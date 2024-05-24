@@ -1,12 +1,16 @@
 import { computed } from "vue";
 import type { Ref, ComputedRef } from "vue";
+import type { OperationResult, AnyVariables } from "@urql/vue";
 import { formatDateTime } from "@/utils/format-date-time";
 import { useSubscribeScheduleQueueItems } from "@/api/use-schedule-queue-items-subscription";
 import {
   useScheduleQueuePushMutation,
   useScheduleQueueRemoveMutation,
 } from "@/graphql/codegen/generated";
-import type { ScheduleQueuePushInput } from "@/graphql/codegen/generated";
+import type {
+  ScheduleQueuePushInput,
+  ScheduleQueuePushMutation,
+} from "@/graphql/codegen/generated";
 
 export interface Item {
   id: number;
@@ -15,10 +19,12 @@ export interface Item {
   script: string;
 }
 
+type AddItemResult = OperationResult<ScheduleQueuePushMutation, AnyVariables>;
+
 interface _UseItemsResponse {
   items: ComputedRef<Item[] | undefined>;
   loading: Ref<boolean>;
-  addItem: (item: ScheduleQueuePushInput) => Promise<void>;
+  addItem: (item: ScheduleQueuePushInput) => Promise<AddItemResult>;
   deleteItem: (item: Item) => Promise<void>;
 }
 
@@ -55,7 +61,7 @@ function useAddItem() {
   const { executeMutation } = useScheduleQueuePushMutation();
 
   async function addItem(newItem: ScheduleQueuePushInput) {
-    await executeMutation({ input: newItem });
+    return await executeMutation({ input: newItem });
   }
   return { addItem };
 }
