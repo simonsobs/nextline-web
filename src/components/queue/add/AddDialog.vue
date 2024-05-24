@@ -53,19 +53,20 @@ const dirty = ref<boolean>();
 const dialogConfirmDiscard = ref<boolean>(false);
 const loading = ref<boolean>(false);
 
+function clearAndClose() {
+  state.value = undefined;
+  show.value = false;
+}
+
 // Show the confirmation dialog if the form is edited
 function onClickCancel() {
   if (dirty.value) {
     dialogConfirmDiscard.value = true;
   } else {
-    show.value = false;
+    clearAndClose();
   }
 }
 
-function clearAndClose() {
-  state.value = undefined;
-  show.value = false;
-}
 
 const { addItem } = useItems();
 
@@ -74,8 +75,7 @@ async function onClickAdd() {
   loading.value = true;
   await addItem(state.value);
   loading.value = false;
-  state.value = undefined;
-  show.value = false;
+  clearAndClose();
 }
 </script>
 
