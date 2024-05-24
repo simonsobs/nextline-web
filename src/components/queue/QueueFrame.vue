@@ -4,15 +4,8 @@
       <div class="g-breadcrumb">
         <v-breadcrumbs :items="breadcrumb"> </v-breadcrumbs>
       </div>
-      <div class="g-top pa-4 font-weight-light">
-        <p>
-          Python scripts in the queue are executed in the order when the auto mode is
-          <span class="font-italic"> Queue. </span>
-          <span v-if="!mobile">
-            The items in the queue are not stored in the database but in the memory of
-            the backend server. If the server is restarted, the queue will be empty.
-          </span>
-        </p>
+      <div class="g-top">
+        <top-frame> </top-frame>
       </div>
       <div class="g-table">
         <v-data-table
@@ -74,6 +67,8 @@ import { ref, computed } from "vue";
 import { useDisplay } from "vuetify";
 import { useItems } from "./items";
 import type { Item } from "./items";
+
+import TopFrame from "./TopFrame.vue";
 
 import ViewDialog from "./view/ViewDialog.vue";
 import AddDialog from "./add/AddDialog.vue";
