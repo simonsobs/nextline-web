@@ -14,6 +14,7 @@ import type {
 } from "@/graphql/codegen/generated";
 
 export interface Item {
+  order: number;
   id: number;
   name: string;
   createdAt?: string;
@@ -37,7 +38,8 @@ export function useItems(): UseItemsResponse {
   const { items: items_, loading } = subscription;
 
   const items = computed<Item[] | undefined>(() =>
-    items_.value?.map((item) => ({
+    items_.value?.map((item, index) => ({
+      order: index + 1,
       id: item.id,
       name: item.name,
       createdAt: formatDateTime(item.createdAt),
