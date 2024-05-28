@@ -1,5 +1,5 @@
-import { computed } from "vue";
-import type { Ref, ComputedRef } from "vue";
+import { ref, watchEffect } from "vue";
+import type { Ref } from "vue";
 import type { OperationResult, AnyVariables } from "@urql/vue";
 import { formatDateTime } from "@/utils/format-date-time";
 import { useSubscribeScheduleQueueItems } from "@/api/use-schedule-queue-items-subscription";
@@ -10,10 +10,11 @@ import {
 import type {
   ScheduleQueuePushInput,
   ScheduleQueuePushMutation,
-  ScheduleQueueRemoveMutation
+  ScheduleQueueRemoveMutation,
 } from "@/graphql/codegen/generated";
 
 export interface Item {
+  order: number;
   id: number;
   name: string;
   createdAt?: string;
@@ -24,7 +25,7 @@ type AddItemResult = OperationResult<ScheduleQueuePushMutation, AnyVariables>;
 type DeleteItemResult = OperationResult<ScheduleQueueRemoveMutation, AnyVariables>;
 
 interface _UseItemsResponse {
-  items: ComputedRef<Item[] | undefined>;
+  items: Ref<Item[]>;
   loading: Ref<boolean>;
   addItem: (item: ScheduleQueuePushInput) => Promise<AddItemResult>;
   deleteItem: (item: Item) => Promise<DeleteItemResult>;
@@ -36,14 +37,42 @@ export function useItems(): UseItemsResponse {
   const subscription = useSubscribeScheduleQueueItems();
   const { items: items_, loading } = subscription;
 
-  const items = computed<Item[] | undefined>(() =>
-    items_.value?.map((item) => ({
-      id: item.id,
-      name: item.name,
-      createdAt: formatDateTime(item.createdAt),
-      script: item.script,
-    }))
-  );
+  const items = ref<Item[]>([]);
+  const itemMap = ref<Map<number, Item>>(new Map());
+  watchEffect(() => {
+    // Update the list of items as the subscription updates.
+    // Keep the same Item objects in the list.
+    // itemMap is used to keep track of the Item objects.
+
+    // Remove items from itemMap that are no longer in the subscription.
+    items_.value
+      ?.map((item) => item.id)
+      .forEach((id) => {
+        if (!itemMap.value.has(id)) itemMap.value.delete(id);
+      });
+
+    // Empty the items list.
+    items.value.splice(0, items.value.length);
+
+    // Update
+    items_.value?.forEach((item, index) => {
+      const update = {
+        order: index + 1,
+        id: item.id,
+        name: item.name,
+        createdAt: formatDateTime(item.createdAt),
+        script: item.script,
+      };
+      const item_ = itemMap.value.get(item.id);
+      if (item_) {
+        Object.assign(item_, update);  // Update the existing item object.
+        items.value.push(item_);
+      } else {
+        itemMap.value.set(item.id, update);  // new item object.
+        items.value.push(update);
+      }
+    });
+  });
 
   const { addItem } = useAddItem();
   const { deleteItem } = useDeleteItem();

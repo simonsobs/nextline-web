@@ -2,6 +2,7 @@
   <div style="block-size: 100%; inline-size: 100%">
     <div class="g-container">
       <div class="g-top">
+        <div><span class="font-weight-bold">Order:</span> {{ item.order }}</div>
         <div><span class="font-weight-bold">Name:</span> {{ item?.name }}</div>
         <div>
           <span class="font-weight-bold">Created at:</span> {{ item?.createdAt }}

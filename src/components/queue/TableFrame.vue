@@ -22,8 +22,8 @@
         </p>
       </div>
     </template>
-    <template #item.index="{ index }">
-      <span class="text-primary font-weight-medium"> {{ index + 1 }} </span>
+    <template #item.order="{ item }">
+      <span class="text-primary font-weight-medium"> {{ item.order }} </span>
     </template>
     <template #item.script="{ item }">
       <div class="item-script">
@@ -53,7 +53,7 @@ const headersMobile = [
 ];
 
 const headersNotMobile = [
-  { title: "Order", key: "index", sortable: false },
+  { title: "Order", key: "order", sortable: false },
   { title: "Name", key: "name", sortable: false },
   { title: "Created at", key: "createdAt", sortable: false },
   { title: "Python script", key: "script", sortable: false },
