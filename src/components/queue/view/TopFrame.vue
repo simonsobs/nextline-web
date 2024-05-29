@@ -7,31 +7,31 @@
       icon="mdi-trash-can-outline"
       @click="dialogConfirmDelete = true"
     ></VBtn>
-    <VMenu>
+    <VMenu :close-on-content-click="false">
       <template v-slot:activator="{ props }">
         <VBtn v-bind="props" variant="text" icon="mdi-dots-horizontal"></VBtn>
       </template>
       <VList>
         <VListSubheader>Move (Reorder)</VListSubheader>
-        <VListItem :disabled="atTop">
+        <VListItem :disabled="atTop" @click="moveToTop">
           <template v-slot:prepend>
             <v-icon> mdi-arrow-up </v-icon>
           </template>
           To Top
         </VListItem>
-        <VListItem :disabled="atTop">
+        <VListItem :disabled="atTop" @click="moveOneUp">
           <template v-slot:prepend>
             <v-icon> mdi-arrow-up-thin </v-icon>
           </template>
           One Up
         </VListItem>
-        <VListItem :disabled="atBottom">
+        <VListItem :disabled="atBottom" @click="moveOneDown">
           <template v-slot:prepend>
             <v-icon> mdi-arrow-down-thin </v-icon>
           </template>
           One Down
         </VListItem>
-        <VListItem :disabled="atBottom">
+        <VListItem :disabled="atBottom" @click="moveToBottom">
           <template v-slot:prepend>
             <v-icon> mdi-arrow-down</v-icon>
           </template>
@@ -74,7 +74,14 @@ const loading = ref<boolean>(false);
 const dialogError = ref<boolean>(false);
 const error = ref<CombinedError>();
 
-const { items, deleteItem } = useItems();
+const {
+  items,
+  deleteItem,
+  moveItemToTop,
+  moveItemOneUp,
+  moveItemOneDown,
+  moveItemToBottom,
+} = useItems();
 
 const nItems = computed(() => items.value?.length ?? 0);
 
@@ -91,6 +98,50 @@ async function onDeleteConfirmed() {
     return;
   }
   show.value = false;
+}
+
+async function moveToTop() {
+  loading.value = true;
+  const result = await moveItemToTop(item.value);
+  loading.value = false;
+  if (result.error) {
+    error.value = result.error;
+    dialogError.value = true;
+    return;
+  }
+}
+
+async function moveOneUp() {
+  loading.value = true;
+  const result = await moveItemOneUp(item.value);
+  loading.value = false;
+  if (result.error) {
+    error.value = result.error;
+    dialogError.value = true;
+    return;
+  }
+}
+
+async function moveOneDown() {
+  loading.value = true;
+  const result = await moveItemOneDown(item.value);
+  loading.value = false;
+  if (result.error) {
+    error.value = result.error;
+    dialogError.value = true;
+    return;
+  }
+}
+
+async function moveToBottom() {
+  loading.value = true;
+  const result = await moveItemToBottom(item.value);
+  loading.value = false;
+  if (result.error) {
+    error.value = result.error;
+    dialogError.value = true;
+    return;
+  }
 }
 </script>
 

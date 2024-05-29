@@ -6,11 +6,19 @@ import { useSubscribeScheduleQueueItems } from "@/api/use-schedule-queue-items-s
 import {
   useScheduleQueuePushMutation,
   useScheduleQueueRemoveMutation,
+  useScheduleQueueMoveToFirstMutation,
+  useScheduleQueueMoveOneForwardMutation,
+  useScheduleQueueMoveToLastMutation,
+  useScheduleQueueMoveOneBackwardMutation,
 } from "@/graphql/codegen/generated";
 import type {
   ScheduleQueuePushInput,
   ScheduleQueuePushMutation,
   ScheduleQueueRemoveMutation,
+  ScheduleQueueMoveToFirstMutation,
+  ScheduleQueueMoveOneForwardMutation,
+  ScheduleQueueMoveToLastMutation,
+  ScheduleQueueMoveOneBackwardMutation,
 } from "@/graphql/codegen/generated";
 
 export interface Item {
@@ -24,11 +32,32 @@ export interface Item {
 type AddItemResult = OperationResult<ScheduleQueuePushMutation, AnyVariables>;
 type DeleteItemResult = OperationResult<ScheduleQueueRemoveMutation, AnyVariables>;
 
+type MoveItemToTopResult = OperationResult<
+  ScheduleQueueMoveToFirstMutation,
+  AnyVariables
+>;
+type MoveItemOneUpResult = OperationResult<
+  ScheduleQueueMoveOneForwardMutation,
+  AnyVariables
+>;
+type MoveItemOneDownResult = OperationResult<
+  ScheduleQueueMoveOneBackwardMutation,
+  AnyVariables
+>;
+type MoveItemToBottomResult = OperationResult<
+  ScheduleQueueMoveToLastMutation,
+  AnyVariables
+>;
+
 interface _UseItemsResponse {
   items: Ref<Item[]>;
   loading: Ref<boolean>;
   addItem: (item: ScheduleQueuePushInput) => Promise<AddItemResult>;
   deleteItem: (item: Item) => Promise<DeleteItemResult>;
+  moveItemToTop: (item: Item) => Promise<MoveItemToTopResult>;
+  moveItemOneUp: (item: Item) => Promise<MoveItemOneUpResult>;
+  moveItemOneDown: (item: Item) => Promise<MoveItemOneDownResult>;
+  moveItemToBottom: (item: Item) => Promise<MoveItemToBottomResult>;
 }
 
 type UseItemsResponse = _UseItemsResponse & PromiseLike<_UseItemsResponse>;
@@ -65,10 +94,10 @@ export function useItems(): UseItemsResponse {
       };
       const item_ = itemMap.value.get(item.id);
       if (item_) {
-        Object.assign(item_, update);  // Update the existing item object.
+        Object.assign(item_, update); // Update the existing item object.
         items.value.push(item_);
       } else {
-        itemMap.value.set(item.id, update);  // new item object.
+        itemMap.value.set(item.id, update); // new item object.
         items.value.push(update);
       }
     });
@@ -76,8 +105,21 @@ export function useItems(): UseItemsResponse {
 
   const { addItem } = useAddItem();
   const { deleteItem } = useDeleteItem();
+  const { moveItemToTop } = useMoveItemToTop();
+  const { moveItemOneUp } = useMoveItemOneUp();
+  const { moveItemOneDown } = useMoveItemOneDown();
+  const { moveItemToBottom } = useMoveItemToBottom();
 
-  const ret = { items, loading, addItem, deleteItem };
+  const ret = {
+    items,
+    loading,
+    addItem,
+    deleteItem,
+    moveItemToTop,
+    moveItemOneUp,
+    moveItemOneDown,
+    moveItemToBottom,
+  };
 
   return {
     ...ret,
@@ -104,4 +146,40 @@ function useDeleteItem() {
   }
 
   return { deleteItem };
+}
+
+function useMoveItemToTop() {
+  const { executeMutation } = useScheduleQueueMoveToFirstMutation();
+  async function moveItemToTop(item: Item) {
+    return await executeMutation({ id: item.id });
+  }
+
+  return { moveItemToTop };
+}
+
+function useMoveItemOneUp() {
+  const { executeMutation } = useScheduleQueueMoveOneForwardMutation();
+  async function moveItemOneUp(item: Item) {
+    return await executeMutation({ id: item.id });
+  }
+
+  return { moveItemOneUp };
+}
+
+function useMoveItemOneDown() {
+  const { executeMutation } = useScheduleQueueMoveOneBackwardMutation();
+  async function moveItemOneDown(item: Item) {
+    return await executeMutation({ id: item.id });
+  }
+
+  return { moveItemOneDown };
+}
+
+function useMoveItemToBottom() {
+  const { executeMutation } = useScheduleQueueMoveToLastMutation();
+  async function moveItemToBottom(item: Item) {
+    return await executeMutation({ id: item.id });
+  }
+
+  return { moveItemToBottom };
 }
