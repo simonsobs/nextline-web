@@ -1,0 +1,9 @@
+mutation ScheduleQueueMoveToFirst($id: Int!) {
+  schedule {
+    queue {
+      move {
+        toFirst(id: $id)
+      }
+    }
+  }
+}

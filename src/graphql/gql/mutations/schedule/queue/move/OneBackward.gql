@@ -1,0 +1,9 @@
+mutation ScheduleQueueMoveOneBackward($id: Int!) {
+  schedule {
+    queue {
+      move {
+        oneBackward(id: $id)
+      }
+    }
+  }
+}

@@ -67,7 +67,6 @@ export type MutationRdbDeleteRunsArgs = {
 export type MutationSchedule = {
   __typename?: 'MutationSchedule';
   autoMode: MutationScheduleAutoMode;
-  loadScript: Scalars['Boolean']['output'];
   queue: MutationScheduleQueue;
   scheduler: MutationScheduleScheduler;
 };
@@ -86,6 +85,7 @@ export type MutationScheduleAutoModeChangeModeArgs = {
 
 export type MutationScheduleQueue = {
   __typename?: 'MutationScheduleQueue';
+  move: MutationScheduleQueueMove;
   push: ScheduleQueueItem;
   remove: Scalars['Boolean']['output'];
 };
@@ -97,6 +97,34 @@ export type MutationScheduleQueuePushArgs = {
 
 
 export type MutationScheduleQueueRemoveArgs = {
+  id: Scalars['Int']['input'];
+};
+
+export type MutationScheduleQueueMove = {
+  __typename?: 'MutationScheduleQueueMove';
+  oneBackward: Scalars['Boolean']['output'];
+  oneForward: Scalars['Boolean']['output'];
+  toFirst: Scalars['Boolean']['output'];
+  toLast: Scalars['Boolean']['output'];
+};
+
+
+export type MutationScheduleQueueMoveOneBackwardArgs = {
+  id: Scalars['Int']['input'];
+};
+
+
+export type MutationScheduleQueueMoveOneForwardArgs = {
+  id: Scalars['Int']['input'];
+};
+
+
+export type MutationScheduleQueueMoveToFirstArgs = {
+  id: Scalars['Int']['input'];
+};
+
+
+export type MutationScheduleQueueMoveToLastArgs = {
   id: Scalars['Int']['input'];
 };
 
@@ -506,6 +534,34 @@ export type ScheduleQueueRemoveMutationVariables = Exact<{
 
 export type ScheduleQueueRemoveMutation = { __typename?: 'Mutation', schedule: { __typename?: 'MutationSchedule', queue: { __typename?: 'MutationScheduleQueue', remove: boolean } } };
 
+export type ScheduleQueueMoveOneBackwardMutationVariables = Exact<{
+  id: Scalars['Int']['input'];
+}>;
+
+
+export type ScheduleQueueMoveOneBackwardMutation = { __typename?: 'Mutation', schedule: { __typename?: 'MutationSchedule', queue: { __typename?: 'MutationScheduleQueue', move: { __typename?: 'MutationScheduleQueueMove', oneBackward: boolean } } } };
+
+export type ScheduleQueueMoveOneForwardMutationVariables = Exact<{
+  id: Scalars['Int']['input'];
+}>;
+
+
+export type ScheduleQueueMoveOneForwardMutation = { __typename?: 'Mutation', schedule: { __typename?: 'MutationSchedule', queue: { __typename?: 'MutationScheduleQueue', move: { __typename?: 'MutationScheduleQueueMove', oneForward: boolean } } } };
+
+export type ScheduleQueueMoveToFirstMutationVariables = Exact<{
+  id: Scalars['Int']['input'];
+}>;
+
+
+export type ScheduleQueueMoveToFirstMutation = { __typename?: 'Mutation', schedule: { __typename?: 'MutationSchedule', queue: { __typename?: 'MutationScheduleQueue', move: { __typename?: 'MutationScheduleQueueMove', toFirst: boolean } } } };
+
+export type ScheduleQueueMoveToLastMutationVariables = Exact<{
+  id: Scalars['Int']['input'];
+}>;
+
+
+export type ScheduleQueueMoveToLastMutation = { __typename?: 'Mutation', schedule: { __typename?: 'MutationSchedule', queue: { __typename?: 'MutationScheduleQueue', move: { __typename?: 'MutationScheduleQueueMove', toLast: boolean } } } };
+
 export type ScheduleSchedulerLoadScriptMutationVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -785,6 +841,66 @@ export const ScheduleQueueRemoveDocument = gql`
 
 export function useScheduleQueueRemoveMutation() {
   return Urql.useMutation<ScheduleQueueRemoveMutation, ScheduleQueueRemoveMutationVariables>(ScheduleQueueRemoveDocument);
+};
+export const ScheduleQueueMoveOneBackwardDocument = gql`
+    mutation ScheduleQueueMoveOneBackward($id: Int!) {
+  schedule {
+    queue {
+      move {
+        oneBackward(id: $id)
+      }
+    }
+  }
+}
+    `;
+
+export function useScheduleQueueMoveOneBackwardMutation() {
+  return Urql.useMutation<ScheduleQueueMoveOneBackwardMutation, ScheduleQueueMoveOneBackwardMutationVariables>(ScheduleQueueMoveOneBackwardDocument);
+};
+export const ScheduleQueueMoveOneForwardDocument = gql`
+    mutation ScheduleQueueMoveOneForward($id: Int!) {
+  schedule {
+    queue {
+      move {
+        oneForward(id: $id)
+      }
+    }
+  }
+}
+    `;
+
+export function useScheduleQueueMoveOneForwardMutation() {
+  return Urql.useMutation<ScheduleQueueMoveOneForwardMutation, ScheduleQueueMoveOneForwardMutationVariables>(ScheduleQueueMoveOneForwardDocument);
+};
+export const ScheduleQueueMoveToFirstDocument = gql`
+    mutation ScheduleQueueMoveToFirst($id: Int!) {
+  schedule {
+    queue {
+      move {
+        toFirst(id: $id)
+      }
+    }
+  }
+}
+    `;
+
+export function useScheduleQueueMoveToFirstMutation() {
+  return Urql.useMutation<ScheduleQueueMoveToFirstMutation, ScheduleQueueMoveToFirstMutationVariables>(ScheduleQueueMoveToFirstDocument);
+};
+export const ScheduleQueueMoveToLastDocument = gql`
+    mutation ScheduleQueueMoveToLast($id: Int!) {
+  schedule {
+    queue {
+      move {
+        toLast(id: $id)
+      }
+    }
+  }
+}
+    `;
+
+export function useScheduleQueueMoveToLastMutation() {
+  return Urql.useMutation<ScheduleQueueMoveToLastMutation, ScheduleQueueMoveToLastMutationVariables>(ScheduleQueueMoveToLastDocument);
 };
 export const ScheduleSchedulerLoadScriptDocument = gql`
     mutation ScheduleSchedulerLoadScript {
