@@ -16,7 +16,7 @@
         ></v-btn>
       </div>
       <div class="g-content">
-        <item-view :item="item"> </item-view>
+        <item-view :item="item" :n-items="nItems"> </item-view>
       </div>
       <div class="g-bottom d-flex" v-if="!mobile">
         <v-spacer></v-spacer>
@@ -62,7 +62,10 @@ const loading = ref<boolean>(false);
 const dialogError = ref<boolean>(false);
 const error = ref<CombinedError>();
 
-const { deleteItem } = useItems();
+const { items, deleteItem } = useItems();
+
+const nItems = computed(() => items.value?.length ?? 0);
+
 async function onDeleteConfirmed() {
   loading.value = true;
   const result = await deleteItem(item.value);
