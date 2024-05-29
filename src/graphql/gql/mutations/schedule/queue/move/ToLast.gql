@@ -1,0 +1,9 @@
+mutation ScheduleQueueMoveToLast($id: Int!) {
+  schedule {
+    queue {
+      move {
+        toLast(id: $id)
+      }
+    }
+  }
+}
