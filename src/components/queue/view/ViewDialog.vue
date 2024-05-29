@@ -16,7 +16,7 @@
         ></v-btn>
       </div>
       <div class="g-content">
-        <item-view :item="item" :n-items="nItems"> </item-view>
+        <ContentFrame :item="item" :n-items="nItems"> </ContentFrame>
       </div>
       <div class="g-bottom d-flex" v-if="!mobile">
         <v-spacer></v-spacer>
@@ -38,7 +38,7 @@
 import { ref, computed, toRefs } from "vue";
 import { useDisplay } from "vuetify";
 import type { CombinedError } from "@urql/vue";
-import ItemView from "./ItemView.vue";
+import ContentFrame from "./ContentFrame.vue";
 import { useItems } from "../items";
 import type { Item } from "../items";
 import DeleteConfirmationDialog from "./DeleteConfirmationDialog.vue";
