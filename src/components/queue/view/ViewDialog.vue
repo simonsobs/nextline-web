@@ -30,8 +30,7 @@
     >
     </delete-confirmation-dialog>
     <LoadingIndicator v-model="loading"> </LoadingIndicator>
-    <ErrorDialog v-model="dialogError" :error="error">
-    </ErrorDialog>
+    <ErrorDialog v-model="dialogError" :error="error"> </ErrorDialog>
   </v-dialog>
 </template>
 
@@ -68,7 +67,7 @@ async function onDeleteConfirmed() {
   loading.value = true;
   const result = await deleteItem(item.value);
   loading.value = false;
-  if(result.error) {
+  if (result.error) {
     error.value = result.error;
     dialogError.value = true;
     return;
