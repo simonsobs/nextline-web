@@ -1,44 +1,44 @@
 <template>
   <div class="d-flex">
-    <v-btn v-if="mobile" variant="text" icon="mdi-close" @click="show = false"></v-btn>
-    <v-spacer></v-spacer>
-    <v-btn
+    <VBtn v-if="mobile" variant="text" icon="mdi-close" @click="show = false"></VBtn>
+    <VSpacer></VSpacer>
+    <VBtn
       variant="text"
       icon="mdi-trash-can-outline"
       @click="dialogConfirmDelete = true"
-    ></v-btn>
-    <v-menu>
+    ></VBtn>
+    <VMenu>
       <template v-slot:activator="{ props }">
-        <v-btn v-bind="props" variant="text" icon="mdi-dots-horizontal"></v-btn>
+        <VBtn v-bind="props" variant="text" icon="mdi-dots-horizontal"></VBtn>
       </template>
-      <v-list>
-        <v-List-subheader>Move (Reorder)</v-List-subheader>
-        <v-list-item>
+      <VList>
+        <VListSubheader>Move (Reorder)</VListSubheader>
+        <VListItem :disabled="atTop">
           <template v-slot:prepend>
             <v-icon> mdi-arrow-up </v-icon>
           </template>
           To Top
-        </v-list-item>
-        <v-list-item>
+        </VListItem>
+        <VListItem :disabled="atTop">
           <template v-slot:prepend>
             <v-icon> mdi-arrow-up-thin </v-icon>
           </template>
           One Up
-        </v-list-item>
-        <v-list-item>
+        </VListItem>
+        <VListItem :disabled="atBottom">
           <template v-slot:prepend>
             <v-icon> mdi-arrow-down-thin </v-icon>
           </template>
           One Down
-        </v-list-item>
-        <v-list-item>
+        </VListItem>
+        <VListItem :disabled="atBottom">
           <template v-slot:prepend>
             <v-icon> mdi-arrow-down</v-icon>
           </template>
           To Bottom
-        </v-list-item>
-      </v-list>
-    </v-menu>
+        </VListItem>
+      </VList>
+    </VMenu>
     <DeleteConfirmationDialog
       v-model="dialogConfirmDelete"
       :item="item"
@@ -77,6 +77,9 @@ const error = ref<CombinedError>();
 const { items, deleteItem } = useItems();
 
 const nItems = computed(() => items.value?.length ?? 0);
+
+const atTop = computed(() => item.value.order === 1);
+const atBottom = computed(() => item.value.order === nItems.value);
 
 async function onDeleteConfirmed() {
   loading.value = true;
