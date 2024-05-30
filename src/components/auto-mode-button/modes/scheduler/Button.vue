@@ -1,6 +1,6 @@
 <template>
   <VMenu>
-    <template v-slot:activator="{ props }">
+    <template #activator="{ props }">
       <VBtn v-bind="props" variant="tonal" color="tertiary">
         Auto Mode: Scheduler
       </VBtn>

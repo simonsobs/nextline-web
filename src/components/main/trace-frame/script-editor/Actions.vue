@@ -17,18 +17,18 @@
       save
     </VBtn>
     <VMenu location="top">
-      <template v-slot:activator="{ props }">
+      <template #activator="{ props }">
         <VBtn v-bind="props" icon="mdi-dots-horizontal"> </VBtn>
       </template>
       <VList>
         <VListItem @click="emit('load')">
-          <template v-slot:prepend>
+          <template #prepend>
             <VIcon> mdi-timer </VIcon>
           </template>
           Load From Scheduler
         </VListItem>
         <VListItem v-if="devMode" @click="emit('loadExample')">
-          <template v-slot:prepend>
+          <template #prepend>
             <VIcon> mdi-code-tags </VIcon>
           </template>
           Load Example Script

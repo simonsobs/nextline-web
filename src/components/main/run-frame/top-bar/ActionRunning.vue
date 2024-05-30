@@ -9,19 +9,19 @@
     interrupt
   </VBtn>
   <VMenu offset-y>
-    <template v-slot:activator="{ props }">
+    <template #activator="{ props }">
       <VBtn variant="text" v-bind="props" icon="mdi-dots-horizontal" density="compact">
       </VBtn>
     </template>
     <VList>
       <VListItem @click="executeTerminate({})" class="text-error">
-        <template v-slot:prepend>
+        <template #prepend>
           <VIcon> mdi-close-octagon-outline </VIcon>
         </template>
         Terminate
       </VListItem>
       <VListItem @click="executeKill({})" class="text-error">
-        <template v-slot:prepend>
+        <template #prepend>
           <VIcon> mdi-close-octagon </VIcon>
         </template>
         Kill

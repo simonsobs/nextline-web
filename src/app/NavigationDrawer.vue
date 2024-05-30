@@ -4,7 +4,7 @@
       <span class="text-primary font-weight-bold"> {{ appName }} : {{ apiName }} </span>
     </div>
     <ListNavi></ListNavi>
-    <template v-slot:append>
+    <template #append>
       <div class="ma-4 d-flex justify-space-around align-center">
         <ToggleDarkModeButton></ToggleDarkModeButton>
         <span class="text-secondary text-body-2">v{{ version }}</span>

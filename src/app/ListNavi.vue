@@ -9,7 +9,7 @@
       :exact="item.exact"
       :title="item.title"
     >
-      <template v-slot:prepend="{ isActive }">
+      <template #prepend="{ isActive }">
         <VIcon :icon="`${isActive ? item.icon : `${item.icon}-outline`}`"> </VIcon>
       </template>
     </VListItem>
