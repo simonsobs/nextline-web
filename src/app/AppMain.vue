@@ -6,7 +6,7 @@
     <div class="app">
       <NavigationDrawer v-model="drawer"></NavigationDrawer>
       <AppBar :absolute="true">
-        <template v-slot:prepend>
+        <template #prepend>
           <VAppBarNavIcon @click="toggleDrawer()" v-if="mobile"> </VAppBarNavIcon>
         </template>
       </AppBar>

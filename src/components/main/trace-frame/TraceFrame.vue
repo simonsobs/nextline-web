@@ -12,7 +12,7 @@
         <div class="g-top-bar">
           <VCardText v-if="basename" class="px-1 py-0">
             <VTooltip bottom open-delay="500">
-              <template v-slot:activator="{ props }">
+              <template #activator="{ props }">
                 <span v-bind="props" class="text-secondary">
                   {{ basename }}
                 </span>

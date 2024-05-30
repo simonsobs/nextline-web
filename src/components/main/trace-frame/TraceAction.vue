@@ -17,18 +17,18 @@
       1 line
     </VBtn>
     <VMenu location="top">
-      <template v-slot:activator="{ props }">
+      <template #activator="{ props }">
         <VBtn v-bind="props" icon="mdi-dots-horizontal" :disabled="disabled"> </VBtn>
       </template>
       <VList>
         <VListItem @click="pdbCommand('step')">
-          <template v-slot:prepend>
+          <template #prepend>
             <VIcon> mdi-debug-step-into </VIcon>
           </template>
           Step Into A Function
         </VListItem>
         <VListItem @click="pdbCommand('return')">
-          <template v-slot:prepend>
+          <template #prepend>
             <VIcon> mdi-keyboard-return </VIcon>
           </template>
           Run Until Return

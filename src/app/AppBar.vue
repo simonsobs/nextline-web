@@ -1,9 +1,9 @@
 <template>
   <v-app-bar color="surface-container-low">
-    <template v-slot:prepend>
+    <template #prepend>
       <slot name="prepend" comment="slot for v-app-bar-nav-icon"> </slot>
     </template>
-    <template v-slot:title>
+    <template #title>
       <router-link
         :to="{ name: 'home' }"
         class="text-decoration-none"
@@ -12,7 +12,7 @@
         <span v-if="!mobile"> {{ appName }}: </span> {{ apiName }}
       </router-link>
     </template>
-    <template v-slot:append>
+    <template #append>
       <template v-if="!mobile">
         <span class="mx-4"> {{ version }} </span>
         <v-btn icon="mdi-graphql" :href="apiHttp" target="_blank"> </v-btn>
@@ -20,7 +20,7 @@
       </template>
       <auto-mode-button></auto-mode-button>
     </template>
-    <template v-slot:extension v-if="!mobile">
+    <template #extension v-if="!mobile">
       <tab-navi></tab-navi>
     </template>
   </v-app-bar>

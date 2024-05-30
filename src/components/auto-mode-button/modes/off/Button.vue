@@ -1,6 +1,6 @@
 <template>
   <VMenu>
-    <template v-slot:activator="{ props }">
+    <template #activator="{ props }">
       <VBtn v-bind="props"> Auto Mode: Off </VBtn>
     </template>
     <DialogOff></DialogOff>

@@ -1,7 +1,7 @@
 <template>
   <div v-if="enabled">
     <VMenu right bottom offset-y :close-on-content-click="false">
-      <template v-slot:activator="{ props }">
+      <template #activator="{ props }">
         <VBtn
           v-bind="props"
           variant="plain"

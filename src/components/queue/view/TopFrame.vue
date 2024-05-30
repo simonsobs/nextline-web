@@ -8,31 +8,31 @@
       @click="dialogConfirmDelete = true"
     ></VBtn>
     <VMenu :close-on-content-click="false">
-      <template v-slot:activator="{ props }">
+      <template #activator="{ props }">
         <VBtn v-bind="props" variant="text" icon="mdi-dots-horizontal"></VBtn>
       </template>
       <VList>
         <VListSubheader>Move (Reorder)</VListSubheader>
         <VListItem :disabled="atTop" @click="moveToTop">
-          <template v-slot:prepend>
+          <template #prepend>
             <VIcon> mdi-arrow-up </VIcon>
           </template>
           To Top
         </VListItem>
         <VListItem :disabled="atTop" @click="moveOneUp">
-          <template v-slot:prepend>
+          <template #prepend>
             <VIcon> mdi-arrow-up-thin </VIcon>
           </template>
           One Up
         </VListItem>
         <VListItem :disabled="atBottom" @click="moveOneDown">
-          <template v-slot:prepend>
+          <template #prepend>
             <VIcon> mdi-arrow-down-thin </VIcon>
           </template>
           One Down
         </VListItem>
         <VListItem :disabled="atBottom" @click="moveToBottom">
-          <template v-slot:prepend>
+          <template #prepend>
             <VIcon> mdi-arrow-down</VIcon>
           </template>
           To Bottom

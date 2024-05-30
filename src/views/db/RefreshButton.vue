@@ -1,6 +1,6 @@
 <template>
   <VTooltip>
-    <template v-slot:activator="{ props }">
+    <template #activator="{ props }">
       <VBtn
         v-bind="props"
         variant="text"

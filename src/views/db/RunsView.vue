@@ -16,24 +16,24 @@
       @update:page="onUpdatePage"
       class="g-table"
     >
-      <template v-slot:top>
+      <template #top>
         <VAlert v-if="error" variant="tonal" type="error">
           {{ error }}
         </VAlert>
         <RefreshButton :disabled="loading" @refresh="resetQueryVariables">
         </RefreshButton>
       </template>
-      <template v-slot:item.runNo="{ item }">
+      <template #item.runNo="{ item }">
         <span class="font-weight-bold primary--text">
           {{ item.runNo }}
         </span>
       </template>
-      <template v-slot:item.state="{ item }">
+      <template #item.state="{ item }">
         <span class="text-capitalize text-primary font-weight-bold">
           {{ item.state }}
         </span>
       </template>
-      <template v-slot:item.exception="{ item }">
+      <template #item.exception="{ item }">
         <VIcon v-if="!item.exception" color="primary"> mdi-check </VIcon>
         <VIcon v-else color="red">mdi-close</VIcon>
       </template>
