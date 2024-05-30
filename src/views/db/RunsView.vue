@@ -10,6 +10,7 @@
       :page="page"
       :items-length="totalCount"
       :items-per-page="itemsPerPage"
+      :items-per-page-options="[10, 25, 50, 100]"
       :hide-default-footer="false"
       @click:row="onClickRow"
       @update:items-per-page="onUpdateItemsPerPage"
