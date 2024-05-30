@@ -15,25 +15,25 @@
         <VListSubheader>Move (Reorder)</VListSubheader>
         <VListItem :disabled="atTop" @click="moveToTop">
           <template v-slot:prepend>
-            <v-icon> mdi-arrow-up </v-icon>
+            <VIcon> mdi-arrow-up </VIcon>
           </template>
           To Top
         </VListItem>
         <VListItem :disabled="atTop" @click="moveOneUp">
           <template v-slot:prepend>
-            <v-icon> mdi-arrow-up-thin </v-icon>
+            <VIcon> mdi-arrow-up-thin </VIcon>
           </template>
           One Up
         </VListItem>
         <VListItem :disabled="atBottom" @click="moveOneDown">
           <template v-slot:prepend>
-            <v-icon> mdi-arrow-down-thin </v-icon>
+            <VIcon> mdi-arrow-down-thin </VIcon>
           </template>
           One Down
         </VListItem>
         <VListItem :disabled="atBottom" @click="moveToBottom">
           <template v-slot:prepend>
-            <v-icon> mdi-arrow-down</v-icon>
+            <VIcon> mdi-arrow-down</VIcon>
           </template>
           To Bottom
         </VListItem>

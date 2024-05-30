@@ -2,13 +2,13 @@
   <div style="height: 100%">
     <div class="g-container">
       <template v-if="state == 'running' && traceIds">
-        <trace-frame
+        <TraceFrame
           :traceId="traceId"
           v-for="traceId in traceIds"
           :key="traceId"
-        ></trace-frame>
+        ></TraceFrame>
       </template>
-      <script-editor v-else></script-editor>
+      <ScriptEditor v-else></ScriptEditor>
     </div>
   </div>
 </template>

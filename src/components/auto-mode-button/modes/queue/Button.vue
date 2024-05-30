@@ -1,10 +1,10 @@
 <template>
-  <v-menu>
+  <VMenu>
     <template v-slot:activator="{ props }">
-      <v-btn v-bind="props" variant="tonal" color="tertiary"> Auto Mode: Queue </v-btn>
+      <VBtn v-bind="props" variant="tonal" color="tertiary"> Auto Mode: Queue </VBtn>
     </template>
-    <dialog-on></dialog-on>
-  </v-menu>
+    <DialogOn></DialogOn>
+  </VMenu>
 </template>
 
 <script setup lang="ts">

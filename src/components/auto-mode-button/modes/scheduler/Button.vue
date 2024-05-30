@@ -1,12 +1,12 @@
 <template>
-  <v-menu>
+  <VMenu>
     <template v-slot:activator="{ props }">
-      <v-btn v-bind="props" variant="tonal" color="tertiary">
+      <VBtn v-bind="props" variant="tonal" color="tertiary">
         Auto Mode: Scheduler
-      </v-btn>
+      </VBtn>
     </template>
-    <dialog-on></dialog-on>
-  </v-menu>
+    <DialogOn></DialogOn>
+  </VMenu>
 </template>
 
 <script setup lang="ts">

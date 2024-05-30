@@ -1,9 +1,9 @@
 <template>
   <div class="g-container">
     <div class="g-breadcrumb">
-      <v-breadcrumbs :items="breadcrumb"> </v-breadcrumbs>
+      <VBreadcrumbs :items="breadcrumb"> </VBreadcrumbs>
     </div>
-    <v-data-table-server
+    <VDataTableServer
       :headers="headers"
       :items="items"
       :loading="loading"
@@ -17,11 +17,11 @@
       class="g-table"
     >
       <template v-slot:top>
-        <v-alert v-if="error" variant="tonal" type="error">
+        <VAlert v-if="error" variant="tonal" type="error">
           {{ error }}
-        </v-alert>
-        <refresh-button :disabled="loading" @refresh="resetQueryVariables">
-        </refresh-button>
+        </VAlert>
+        <RefreshButton :disabled="loading" @refresh="resetQueryVariables">
+        </RefreshButton>
       </template>
       <template v-slot:item.runNo="{ item }">
         <span class="font-weight-bold primary--text">
@@ -34,15 +34,15 @@
         </span>
       </template>
       <template v-slot:item.exception="{ item }">
-        <v-icon v-if="!item.exception" color="primary"> mdi-check </v-icon>
-        <v-icon v-else color="red">mdi-close</v-icon>
+        <VIcon v-if="!item.exception" color="primary"> mdi-check </VIcon>
+        <VIcon v-else color="red">mdi-close</VIcon>
       </template>
-    </v-data-table-server>
-    <dev-tool-checkboxes
+    </VDataTableServer>
+    <DevToolCheckboxes
       top="20px"
       right="5px"
       v-model="override"
-    ></dev-tool-checkboxes>
+    ></DevToolCheckboxes>
   </div>
 </template>
 

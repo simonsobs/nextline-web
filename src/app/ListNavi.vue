@@ -1,6 +1,6 @@
 <template>
-  <v-list>
-    <v-list-item
+  <VList>
+    <VListItem
       link
       router
       v-for="(item, i) in naviItems"
@@ -10,10 +10,10 @@
       :title="item.title"
     >
       <template v-slot:prepend="{ isActive }">
-        <v-icon :icon="`${isActive ? item.icon : `${item.icon}-outline`}`"> </v-icon>
+        <VIcon :icon="`${isActive ? item.icon : `${item.icon}-outline`}`"> </VIcon>
       </template>
-    </v-list-item>
-  </v-list>
+    </VListItem>
+  </VList>
 </template>
 
 <script setup lang="ts">

@@ -1,10 +1,10 @@
 <template>
-  <v-menu>
+  <VMenu>
     <template v-slot:activator="{ props }">
-      <v-btn v-bind="props" variant="tonal" color="error"> Auto Mode: Unknown </v-btn>
+      <VBtn v-bind="props" variant="tonal" color="error"> Auto Mode: Unknown </VBtn>
     </template>
-    <dialog-error></dialog-error>
-  </v-menu>
+    <DialogError></DialogError>
+  </VMenu>
 </template>
 
 <script setup lang="ts">

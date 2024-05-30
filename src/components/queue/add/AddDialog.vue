@@ -1,39 +1,39 @@
 <template>
-  <v-dialog
+  <VDialog
     v-model="show"
     :fullscreen="mobile"
     :persistent="dirty"
     :transition="transition"
   >
-    <v-sheet class="g-container pa-5" :class="{ 'g-mobile': mobile }">
+    <VSheet class="g-container pa-5" :class="{ 'g-mobile': mobile }">
       <div class="g-top d-flex">
-        <v-btn
+        <VBtn
           v-if="mobile"
           variant="text"
           icon="mdi-close"
           @click="onClickCancel"
-        ></v-btn>
+        ></VBtn>
       </div>
       <div class="g-title text-primary text-h5">Add a Python script to the queue</div>
       <div class="g-content">
-        <item-add v-model="state" v-model:valid="valid" v-model:dirty="dirty">
-        </item-add>
+        <ItemAdd v-model="state" v-model:valid="valid" v-model:dirty="dirty">
+        </ItemAdd>
       </div>
       <div class="g-bottom d-flex">
-        <v-btn variant="text" @click="onClickCancel">Cancel</v-btn>
-        <v-spacer></v-spacer>
-        <v-btn variant="flat" :disabled="!valid" @click="onClickAdd">Add</v-btn>
+        <VBtn variant="text" @click="onClickCancel">Cancel</VBtn>
+        <VSpacer></VSpacer>
+        <VBtn variant="flat" :disabled="!valid" @click="onClickAdd">Add</VBtn>
       </div>
-    </v-sheet>
-    <discard-confirmation-dialog
+    </VSheet>
+    <DiscardConfirmationDialog
       v-model="dialogConfirmDiscard"
       @confirm="clearAndClose"
     >
-    </discard-confirmation-dialog>
+    </DiscardConfirmationDialog>
     <LoadingIndicator v-model="loading"> </LoadingIndicator>
     <ErrorDialog v-model="dialogError" :error="error">
     </ErrorDialog>
-  </v-dialog>
+  </VDialog>
 </template>
 
 <script setup lang="ts">

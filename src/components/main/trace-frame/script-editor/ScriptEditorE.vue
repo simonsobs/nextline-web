@@ -1,10 +1,10 @@
 <template>
-  <v-layout full-height>
-    <v-card flat class="g-container" rounded="0">
+  <VLayout full-height>
+    <VCard flat class="g-container" rounded="0">
       <div class="g-content">
         <div ref="editor" style="height: 100%; max-height: 100%"></div>
       </div>
-      <actions
+      <Actions
         class="g-header"
         :editing="modified"
         @reset="reset"
@@ -12,9 +12,9 @@
         @load="load"
         @load-example="loadExample"
       >
-      </actions>
-    </v-card>
-  </v-layout>
+      </Actions>
+    </VCard>
+  </VLayout>
 </template>
 
 <script setup lang="ts">

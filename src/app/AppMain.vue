@@ -1,27 +1,26 @@
 <template>
   <div class="app-main">
     <div class="banner">
-      <banner></banner>
+      <Banner></Banner>
     </div>
     <div class="app">
-      <navigation-drawer v-model="drawer"></navigation-drawer>
-      <app-bar :absolute="true">
+      <NavigationDrawer v-model="drawer"></NavigationDrawer>
+      <AppBar :absolute="true">
         <template v-slot:prepend>
-          <v-app-bar-nav-icon @click="toggleDrawer()" v-if="mobile">
-          </v-app-bar-nav-icon>
+          <VAppBarNavIcon @click="toggleDrawer()" v-if="mobile"> </VAppBarNavIcon>
         </template>
-      </app-bar>
-      <v-main>
-        <router-view v-slot="{ Component, route }">
+      </AppBar>
+      <VMain>
+        <RouterView v-slot="{ Component, route }">
           <template v-if="Component">
-            <v-fade-transition leave-absolute>
-              <keep-alive>
-                <component :key="route.fullPath" :is="Component"></component>
-              </keep-alive>
-            </v-fade-transition>
+            <VFadeTransition leave-absolute>
+              <KeepAlive>
+                <Component :key="route.fullPath" :is="Component"></Component>
+              </KeepAlive>
+            </VFadeTransition>
           </template>
-        </router-view>
-      </v-main>
+        </RouterView>
+      </VMain>
     </div>
   </div>
 </template>

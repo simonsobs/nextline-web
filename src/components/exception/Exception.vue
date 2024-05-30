@@ -1,10 +1,10 @@
 <template>
-  <v-alert v-model="alert" closable type="error" variant="tonal" class="my-2">
+  <VAlert v-model="alert" closable type="error" variant="tonal" class="my-2">
     <pre
       v-text="exception"
       style="white-space: pre-wrap; overflow-wrap: anywhere"
     ></pre>
-  </v-alert>
+  </VAlert>
 </template>
 
 <script setup lang="ts">

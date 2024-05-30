@@ -1,16 +1,16 @@
 <template>
   <div class="run-frame-e">
     <div class="g-ctrl">
-      <top-bar></top-bar>
+      <TopBar></TopBar>
     </div>
     <div v-show="exception" class="g-exception">
-      <exception v-model="exception"></exception>
+      <Exception v-model="exception"></Exception>
     </div>
     <div class="g-trace-frames">
-      <trace-frames></trace-frames>
+      <TraceFrames></TraceFrames>
     </div>
     <div class="g-stdout">
-      <console-frame></console-frame>
+      <ConsoleFrame></ConsoleFrame>
     </div>
   </div>
 </template>

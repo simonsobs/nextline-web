@@ -1,11 +1,11 @@
 <template>
   <div class="g-container">
-    <v-switch
+    <VSwitch
       v-model="isDevToolEnabled"
       inset
       :label="label"
       color="primary"
-    ></v-switch>
+    ></VSwitch>
   </div>
 </template>
 

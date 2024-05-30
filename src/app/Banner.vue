@@ -1,11 +1,11 @@
 <template>
   <template v-if="on">
-    <v-banner lines="one" icon="mdi-alert-outline">
+    <VBanner lines="one" icon="mdi-alert-outline">
       <template #text> Banner </template>
       <template #actions>
-        <v-btn> Action </v-btn>
+        <VBtn> Action </VBtn>
       </template>
-    </v-banner>
+    </VBanner>
   </template>
 </template>
 <script setup lang="ts">

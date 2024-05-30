@@ -2,15 +2,11 @@
   <div style="block-size: 100%; inline-size: 100%">
     <div class="g-container">
       <div class="g-top">
-        <v-text-field
-          v-model="v$.name.$model"
-          variant="outlined"
-          label="Name (optional)"
-        >
-        </v-text-field>
+        <VTextField v-model="v$.name.$model" variant="outlined" label="Name (optional)">
+        </VTextField>
       </div>
       <div class="g-editor">
-        <editor v-model="v$.script.$model"> </editor>
+        <Editor v-model="v$.script.$model"> </Editor>
       </div>
       <div class="g-bottom"></div>
     </div>

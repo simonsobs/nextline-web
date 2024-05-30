@@ -1,10 +1,10 @@
 <template>
-  <v-menu>
+  <VMenu>
     <template v-slot:activator="{ props }">
-      <v-btn v-bind="props"> Auto Mode: Off </v-btn>
+      <VBtn v-bind="props"> Auto Mode: Off </VBtn>
     </template>
-    <dialog-off></dialog-off>
-  </v-menu>
+    <DialogOff></DialogOff>
+  </VMenu>
 </template>
 
 <script setup lang="ts">
