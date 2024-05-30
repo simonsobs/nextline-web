@@ -1,6 +1,6 @@
 <template>
-  <v-dialog v-model="show" :fullscreen="mobile" :transition="transition">
-    <v-sheet class="g-container pa-4" :class="{ 'g-mobile': mobile }">
+  <VDialog v-model="show" :fullscreen="mobile" :transition="transition">
+    <VSheet class="g-container pa-4" :class="{ 'g-mobile': mobile }">
       <div class="g-top">
         <TopFrame v-model="show" :item="item" :n-items="nItems"> </TopFrame>
       </div>
@@ -8,11 +8,11 @@
         <ContentFrame :item="item" :n-items="nItems"> </ContentFrame>
       </div>
       <div class="g-bottom d-flex" v-if="!mobile">
-        <v-spacer></v-spacer>
-        <v-btn variant="text" @click="show = false">Close</v-btn>
+        <VSpacer></VSpacer>
+        <VBtn variant="text" @click="show = false">Close</VBtn>
       </div>
-    </v-sheet>
-  </v-dialog>
+    </VSheet>
+  </VDialog>
 </template>
 
 <script setup lang="ts">

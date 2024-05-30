@@ -1,7 +1,7 @@
 <template>
   <template v-if="source !== undefined">
-    <editor :key="source" :source="source" :line-no="lineNo" :prompting="prompting">
-    </editor>
+    <Editor :key="source" :source="source" :line-no="lineNo" :prompting="prompting">
+    </Editor>
   </template>
 </template>
 

@@ -1,5 +1,5 @@
 <template>
-  <run-frame></run-frame>
+  <RunFrame></RunFrame>
 </template>
 
 <script setup lang="ts">

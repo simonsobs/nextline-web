@@ -1,14 +1,14 @@
 <template>
-  <v-app>
-    <suspense>
-      <provide-config>
-        <app></app>
-      </provide-config>
+  <VApp>
+    <Suspense>
+      <ProvideConfig>
+        <App></App>
+      </ProvideConfig>
       <template #fallback>
-        <v-progress-linear indeterminate> </v-progress-linear>
+        <VProgressLinear indeterminate> </VProgressLinear>
       </template>
-    </suspense>
-  </v-app>
+    </Suspense>
+  </VApp>
 </template>
 
 <script setup lang="ts">

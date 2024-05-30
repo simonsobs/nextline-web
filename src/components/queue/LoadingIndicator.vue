@@ -1,9 +1,9 @@
 <template>
-  <v-dialog persistent v-model="show">
-    <v-sheet>
-      <v-progress-circular indeterminate color="primary"></v-progress-circular>
-    </v-sheet>
-  </v-dialog>
+  <VDialog persistent v-model="show">
+    <VSheet>
+      <VProgressCircular indeterminate color="primary"></VProgressCircular>
+    </VSheet>
+  </VDialog>
 </template>
 
 <script setup lang="ts">

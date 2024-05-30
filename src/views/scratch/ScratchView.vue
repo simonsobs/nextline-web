@@ -1,18 +1,18 @@
 <template>
   <div class="g-container">
-    <suspense-c>
-      <component-a></component-a>
+    <SuspenseC>
+      <ComponentA></ComponentA>
       <template #fallback>
-        <v-skeleton-loader type="paragraph" min-width="360px"></v-skeleton-loader>
+        <VSkeletonLoader type="paragraph" min-width="360px"></VSkeletonLoader>
       </template>
       <template #error="{ error }">
         <div>
-          <v-alert variant="tonal" type="error" class="ma-2">
+          <VAlert variant="tonal" type="error" class="ma-2">
             {{ error }}
-          </v-alert>
+          </VAlert>
         </div>
       </template>
-    </suspense-c>
+    </SuspenseC>
   </div>
 </template>
 

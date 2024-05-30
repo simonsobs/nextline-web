@@ -1,16 +1,16 @@
 <template>
-  <v-navigation-drawer disable-resize-watcher comment="fallthrough attributes">
+  <VNavigationDrawer disable-resize-watcher comment="fallthrough attributes">
     <div class="px-8 py-5">
       <span class="text-primary font-weight-bold"> {{ appName }} : {{ apiName }} </span>
     </div>
-    <list-navi></list-navi>
+    <ListNavi></ListNavi>
     <template v-slot:append>
       <div class="ma-4 d-flex justify-space-around align-center">
-        <toggle-dark-mode-button></toggle-dark-mode-button>
+        <ToggleDarkModeButton></ToggleDarkModeButton>
         <span class="text-secondary text-body-2">v{{ version }}</span>
       </div>
     </template>
-  </v-navigation-drawer>
+  </VNavigationDrawer>
 </template>
 
 <script setup lang="ts">

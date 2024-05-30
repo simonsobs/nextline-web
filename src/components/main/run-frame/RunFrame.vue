@@ -1,17 +1,17 @@
 <template>
   <div class="run-frame">
-    <suspense>
-      <subscribe-run-no v-slot="{ runNo }">
+    <Suspense>
+      <SubscribeRunNo v-slot="{ runNo }">
         <template v-if="runNo">
-          <v-fade-transition hide-on-leave>
-            <run-frame-e :key="runNo" :run-no="runNo"> </run-frame-e>
-          </v-fade-transition>
+          <VFadeTransition hide-on-leave>
+            <RunFrameE :key="runNo" :run-no="runNo"> </RunFrameE>
+          </VFadeTransition>
         </template>
-      </subscribe-run-no>
+      </SubscribeRunNo>
       <template #fallback>
-        <v-progress-linear indeterminate></v-progress-linear>
+        <VProgressLinear indeterminate></VProgressLinear>
       </template>
-    </suspense>
+    </Suspense>
   </div>
 </template>
 

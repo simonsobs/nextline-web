@@ -79,14 +79,14 @@ watch(
 </script>
 
 <template>
-  <v-card flat class="g-card overflow-auto" height="100%" rounded="lg">
+  <VCard flat class="g-card overflow-auto" height="100%" rounded="lg">
     <div class="g-head">
-      <v-card-title>
+      <VCardTitle>
         Run: {{ run.runNo }}
         ⋅
         <span class="text-capitalize text-primary"> {{ run.state }} </span>
-      </v-card-title>
-      <v-card-text class="text-body-1">
+      </VCardTitle>
+      <VCardText class="text-body-1">
         Started at:
         <span class="font-weight-bold"> {{ formatDateTime(run.startedAt || "") }} </span
         ><br />
@@ -96,31 +96,31 @@ watch(
             {{ formatDateTime(run.endedAt || "") }}
           </span>
         </span>
-      </v-card-text>
+      </VCardText>
     </div>
     <div class="g-exception">
-      <v-card-subtitle v-if="run.exception" class="font-weight-bold error--text">
+      <VCardSubtitle v-if="run.exception" class="font-weight-bold error--text">
         Uncaught exception:
-      </v-card-subtitle>
-      <v-card-text v-if="run.exception">
-        <v-alert type="error" variant="tonal">
+      </VCardSubtitle>
+      <VCardText v-if="run.exception">
+        <VAlert type="error" variant="tonal">
           <pre v-text="run.exception" class="overflow-x-auto"></pre>
-        </v-alert>
-      </v-card-text>
+        </VAlert>
+      </VCardText>
     </div>
     <div class="g-script">
-      <v-card-subtitle class="font-weight-bold"> Script </v-card-subtitle>
-      <v-card-text>
+      <VCardSubtitle class="font-weight-bold"> Script </VCardSubtitle>
+      <VCardText>
         <div class="code" ref="refEditor"></div>
-      </v-card-text>
+      </VCardText>
     </div>
     <div class="g-stdout">
-      <v-card-subtitle class="font-weight-bold"> Stdout </v-card-subtitle>
-      <v-card-text class="stdout-text">
+      <VCardSubtitle class="font-weight-bold"> Stdout </VCardSubtitle>
+      <VCardText class="stdout-text">
         <pre v-text="stdoutText" class="overflow-x-auto"></pre>
-      </v-card-text>
+      </VCardText>
     </div>
-  </v-card>
+  </VCard>
 </template>
 
 <style scoped>

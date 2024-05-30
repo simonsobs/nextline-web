@@ -1,16 +1,16 @@
 <template>
-  <v-dialog v-model="show" max-width="400">
-    <v-card class="pa-2">
-      <v-card-title class="text-primary"> Discard the change? </v-card-title>
-      <v-card-actions class="mt-5">
-        <v-btn variant="text" color="grey-darken-2" @click="show = false">
+  <VDialog v-model="show" max-width="400">
+    <VCard class="pa-2">
+      <VCardTitle class="text-primary"> Discard the change? </VCardTitle>
+      <VCardActions class="mt-5">
+        <VBtn variant="text" color="grey-darken-2" @click="show = false">
           back to edit
-        </v-btn>
-        <v-spacer></v-spacer>
-        <v-btn variant="outlined" color="primary" @click="onConfirm"> discard </v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
+        </VBtn>
+        <VSpacer></VSpacer>
+        <VBtn variant="outlined" color="primary" @click="onConfirm"> discard </VBtn>
+      </VCardActions>
+    </VCard>
+  </VDialog>
 </template>
 
 <script setup lang="ts">

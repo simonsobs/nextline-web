@@ -1,7 +1,7 @@
 <template>
   <div>
-    <v-card>
-      <v-card-text>
+    <VCard>
+      <VCardText>
         <div class="mb-1">
           <p class="font-weight-medium">
             The auto mode is currently <span class="font-italic"> off </span>.
@@ -17,18 +17,18 @@
           </p>
           <p class="mt-3">Turn on auto mode?</p>
         </div>
-      </v-card-text>
-      <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn variant="outlined" @click="turnOnFromScheduler">
+      </VCardText>
+      <VCardActions>
+        <VSpacer></VSpacer>
+        <VBtn variant="outlined" @click="turnOnFromScheduler">
           turn on from scheduler
-        </v-btn>
-      </v-card-actions>
-      <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn variant="outlined" @click="turnOnFromQueue"> turn on from queue </v-btn>
-      </v-card-actions>
-    </v-card>
+        </VBtn>
+      </VCardActions>
+      <VCardActions>
+        <VSpacer></VSpacer>
+        <VBtn variant="outlined" @click="turnOnFromQueue"> turn on from queue </VBtn>
+      </VCardActions>
+    </VCard>
   </div>
 </template>
 

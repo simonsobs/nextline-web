@@ -1,5 +1,5 @@
 <template>
-  <v-data-table
+  <VDataTable
     :loading="loading"
     :headers="headers"
     :items="items"
@@ -31,8 +31,8 @@
       </div>
     </template>
     <template #bottom></template>
-  </v-data-table>
-  <view-dialog v-model="showViewDialog" :item="viewItem" v-if="viewItem"> </view-dialog>
+  </VDataTable>
+  <ViewDialog v-model="showViewDialog" :item="viewItem" v-if="viewItem"> </ViewDialog>
 </template>
 
 <script setup lang="ts">

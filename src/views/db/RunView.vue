@@ -22,20 +22,20 @@ const run = computed(() => queryResponse.data.value?.rdb.run);
 <template>
   <div class="g-container">
     <div class="g-navi">
-      <v-breadcrumbs :items="breadcrumb"> </v-breadcrumbs>
+      <VBreadcrumbs :items="breadcrumb"> </VBreadcrumbs>
       <!-- <span class="pr-6">
-        <v-btn icon variant="plain" :to="toPrev" v-if="toPrev">
-          <v-icon> mdi-arrow-left-bold </v-icon>
-        </v-btn>
-        <v-btn icon variant="plain" :to="toNext" v-if="toNext">
-          <v-icon> mdi-arrow-right-bold </v-icon>
-        </v-btn>
+        <VBtn icon variant="plain" :to="toPrev" v-if="toPrev">
+          <VIcon> mdi-arrow-left-bold </VIcon>
+        </VBtn>
+        <VBtn icon variant="plain" :to="toNext" v-if="toNext">
+          <VIcon> mdi-arrow-right-bold </VIcon>
+        </VBtn>
       </span> -->
     </div>
-    <v-btn icon variant="plain" :to="{ name: 'runs' }">
-      <v-icon>mdi-arrow-left</v-icon>
-    </v-btn>
-    <run-card v-if="run" class="g-card" :run="run"></run-card>
+    <VBtn icon variant="plain" :to="{ name: 'runs' }">
+      <VIcon>mdi-arrow-left</VIcon>
+    </VBtn>
+    <RunCard v-if="run" class="g-card" :run="run"></RunCard>
   </div>
 </template>
 

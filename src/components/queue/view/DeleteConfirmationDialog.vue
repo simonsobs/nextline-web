@@ -1,22 +1,22 @@
 <template>
-  <v-dialog v-model="show" max-width="400">
-    <v-card class="pa-2">
-      <v-card-title class="text-error"> Delete? </v-card-title>
-      <v-card-text>
+  <VDialog v-model="show" max-width="400">
+    <VCard class="pa-2">
+      <VCardTitle class="text-error"> Delete? </VCardTitle>
+      <VCardText>
         <div><span class="font-weight-bold">Name:</span> {{ item?.name }}</div>
         <div>
           <span class="font-weight-bold">Created at:</span> {{ item?.createdAt }}
         </div>
-      </v-card-text>
-      <v-card-actions>
-        <v-btn variant="text" color="grey-darken-2" @click="show = false">
+      </VCardText>
+      <VCardActions>
+        <VBtn variant="text" color="grey-darken-2" @click="show = false">
           cancel
-        </v-btn>
-        <v-spacer></v-spacer>
-        <v-btn variant="outlined" color="error" @click="onConfirm"> delete </v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
+        </VBtn>
+        <VSpacer></VSpacer>
+        <VBtn variant="outlined" color="error" @click="onConfirm"> delete </VBtn>
+      </VCardActions>
+    </VCard>
+  </VDialog>
 </template>
 
 <script setup lang="ts">

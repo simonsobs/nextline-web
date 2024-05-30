@@ -1,15 +1,15 @@
 <template>
-  <suspense :timeout="0">
-    <code-editor-e
+  <Suspense :timeout="0">
+    <CodeEditorE
       :key="fileName"
       :file-name="fileName"
       :line-no="lineNo"
       :prompting="prompting"
-    ></code-editor-e>
+    ></CodeEditorE>
     <template #fallback>
-      <v-progress-linear indeterminate></v-progress-linear>
+      <VProgressLinear indeterminate></VProgressLinear>
     </template>
-  </suspense>
+  </Suspense>
 </template>
 
 <script setup lang="ts">

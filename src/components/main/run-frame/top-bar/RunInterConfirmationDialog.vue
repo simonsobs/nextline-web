@@ -1,19 +1,19 @@
 <template>
-  <v-card class="pa-2">
-    <v-card-title> Run interactively? </v-card-title>
-    <v-card-text>
+  <VCard class="pa-2">
+    <VCardTitle> Run interactively? </VCardTitle>
+    <VCardText>
       You are about to run the script on the server
       <span class="font-weight-medium font-italic"> {{ apiName }} </span> in the
       interactive mode.
-    </v-card-text>
-    <v-card-actions>
-      <v-btn variant="text" color="grey-darken-2" @click="$emit('cancel')">
+    </VCardText>
+    <VCardActions>
+      <VBtn variant="text" color="grey-darken-2" @click="$emit('cancel')">
         cancel
-      </v-btn>
-      <v-spacer></v-spacer>
-      <v-btn variant="flat" color="primary" @click="$emit('confirm')"> start </v-btn>
-    </v-card-actions>
-  </v-card>
+      </VBtn>
+      <VSpacer></VSpacer>
+      <VBtn variant="flat" color="primary" @click="$emit('confirm')"> start </VBtn>
+    </VCardActions>
+  </VCard>
 </template>
 
 <script setup lang="ts">

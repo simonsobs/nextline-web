@@ -1,41 +1,41 @@
 <template>
-  <v-card-actions class="flex-row flex-wrap justify-end pa-1">
-    <v-btn
+  <VCardActions class="flex-row flex-wrap justify-end pa-1">
+    <VBtn
       variant="outlined"
       prepend-icon="mdi-play"
       :disabled="disabled"
       @click="pdbCommand('continue')"
     >
       continue running
-    </v-btn>
-    <v-btn
+    </VBtn>
+    <VBtn
       variant="flat"
       prepend-icon="mdi-skip-next"
       :disabled="disabled"
       @click="pdbCommand('next')"
     >
       1 line
-    </v-btn>
-    <v-menu location="top">
+    </VBtn>
+    <VMenu location="top">
       <template v-slot:activator="{ props }">
-        <v-btn v-bind="props" icon="mdi-dots-horizontal" :disabled="disabled"> </v-btn>
+        <VBtn v-bind="props" icon="mdi-dots-horizontal" :disabled="disabled"> </VBtn>
       </template>
-      <v-list>
-        <v-list-item @click="pdbCommand('step')">
+      <VList>
+        <VListItem @click="pdbCommand('step')">
           <template v-slot:prepend>
-            <v-icon> mdi-debug-step-into </v-icon>
+            <VIcon> mdi-debug-step-into </VIcon>
           </template>
           Step Into A Function
-        </v-list-item>
-        <v-list-item @click="pdbCommand('return')">
+        </VListItem>
+        <VListItem @click="pdbCommand('return')">
           <template v-slot:prepend>
-            <v-icon> mdi-keyboard-return </v-icon>
+            <VIcon> mdi-keyboard-return </VIcon>
           </template>
           Run Until Return
-        </v-list-item>
-      </v-list>
-    </v-menu>
-  </v-card-actions>
+        </VListItem>
+      </VList>
+    </VMenu>
+  </VCardActions>
 </template>
 
 <script setup lang="ts">

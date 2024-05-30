@@ -1,7 +1,7 @@
 <template>
   <div class="top-bar">
-    <span-run-no-state></span-run-no-state>
-    <component :is="actionComponent" v-if="actionComponent"></component>
+    <SpanRunNoState></SpanRunNoState>
+    <Component :is="actionComponent" v-if="actionComponent"></Component>
   </div>
 </template>
 

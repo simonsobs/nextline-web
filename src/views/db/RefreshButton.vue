@@ -1,18 +1,18 @@
 <template>
-  <v-tooltip>
+  <VTooltip>
     <template v-slot:activator="{ props }">
-      <v-btn
+      <VBtn
         v-bind="props"
         variant="text"
         :disabled="disabled"
         icon
         @click="emit('refresh')"
       >
-        <v-icon icon="mdi-refresh"></v-icon>
-      </v-btn>
+        <VIcon icon="mdi-refresh"></VIcon>
+      </VBtn>
     </template>
     <span>Refresh</span>
-  </v-tooltip>
+  </VTooltip>
 </template>
 
 <script setup lang="ts">

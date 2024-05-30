@@ -2,16 +2,16 @@
   <div class="queue-frame">
     <div class="g-container">
       <div class="g-breadcrumb">
-        <v-breadcrumbs :items="breadcrumb"> </v-breadcrumbs>
+        <VBreadcrumbs :items="breadcrumb"> </VBreadcrumbs>
       </div>
       <div class="g-top">
-        <top-frame> </top-frame>
+        <TopFrame> </TopFrame>
       </div>
       <div class="g-table">
-        <table-frame v-model:show-add-dialog="showAddDialog"> </table-frame>
+        <TableFrame v-model:show-add-dialog="showAddDialog"> </TableFrame>
       </div>
     </div>
-    <v-btn
+    <VBtn
       variant="flat"
       size="x-large"
       color="primary-fixed"
@@ -20,8 +20,8 @@
       class="fab"
       @click="showAddDialog = true"
     >
-    </v-btn>
-    <add-dialog v-model="showAddDialog"> </add-dialog>
+    </VBtn>
+    <AddDialog v-model="showAddDialog"> </AddDialog>
   </div>
 </template>
 

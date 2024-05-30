@@ -1,9 +1,9 @@
 <template>
   <v-card-actions>
-    <button-off v-if="mode === 'off'"></button-off>
-    <button-scheduler v-else-if="mode === 'scheduler'"></button-scheduler>
-    <button-queue v-else-if="mode === 'queue'"></button-queue>
-    <button-error v-else></button-error>
+    <ButtonOff v-if="mode === 'off'"></ButtonOff>
+    <ButtonScheduler v-else-if="mode === 'scheduler'"></ButtonScheduler>
+    <ButtonQueue v-else-if="mode === 'queue'"></ButtonQueue>
+    <ButtonError v-else></ButtonError>
   </v-card-actions>
 </template>
 

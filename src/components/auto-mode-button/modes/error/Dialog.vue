@@ -1,14 +1,14 @@
 <template>
   <div>
-    <v-card>
-      <v-alert
+    <VCard>
+      <VAlert
         type="error"
         variant="tonal"
         title="Error"
         text="Unable to determine auto mode state."
       >
-      </v-alert>
-    </v-card>
+      </VAlert>
+    </VCard>
   </div>
 </template>
 

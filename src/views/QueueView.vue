@@ -1,5 +1,5 @@
 <template>
-  <queue-frame></queue-frame>
+  <QueueFrame></QueueFrame>
 </template>
 
 <script setup lang="ts">

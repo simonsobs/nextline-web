@@ -1,7 +1,7 @@
 <template>
   <div>
-    <v-card>
-      <v-card-text>
+    <VCard>
+      <VCardText>
         <div class="mb-1">
           <p class="font-weight-medium">
             The auto mode currently is <span class="font-italic"> on </span> and loads
@@ -17,18 +17,18 @@
             <span class="font-italic"> queue </span>.
           </p>
         </div>
-      </v-card-text>
-      <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn variant="outlined" @click="switchToLoadFromScheduler">
+      </VCardText>
+      <VCardActions>
+        <VSpacer></VSpacer>
+        <VBtn variant="outlined" @click="switchToLoadFromScheduler">
           switch to load from scheduler
-        </v-btn>
-      </v-card-actions>
-      <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn variant="outlined" @click="turnOff"> turn off auto mode </v-btn>
-      </v-card-actions>
-    </v-card>
+        </VBtn>
+      </VCardActions>
+      <VCardActions>
+        <VSpacer></VSpacer>
+        <VBtn variant="outlined" @click="turnOff"> turn off auto mode </VBtn>
+      </VCardActions>
+    </VCard>
   </div>
 </template>
 

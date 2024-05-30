@@ -1,6 +1,6 @@
 <template>
-  <v-layout full-height style="width: 100%">
-    <v-card
+  <VLayout full-height style="width: 100%">
+    <VCard
       flat
       :ripple="false"
       tabindex="0"
@@ -10,30 +10,30 @@
     >
       <template v-if="prompting">
         <div class="g-top-bar">
-          <v-card-text v-if="basename" class="px-1 py-0">
-            <v-tooltip bottom open-delay="500">
+          <VCardText v-if="basename" class="px-1 py-0">
+            <VTooltip bottom open-delay="500">
               <template v-slot:activator="{ props }">
                 <span v-bind="props" class="text-secondary">
                   {{ basename }}
                 </span>
               </template>
               <span>{{ prompting.fileName }}</span>
-            </v-tooltip>
-          </v-card-text>
+            </VTooltip>
+          </VCardText>
         </div>
         <div class="g-content">
-          <code-editor :state="prompting"></code-editor>
+          <CodeEditor :state="prompting"></CodeEditor>
         </div>
         <div class="g-bottom-bar">
-          <trace-action
+          <TraceAction
             :traceNo="traceId"
             :promptNo="prompting.prompting"
             :disabled="!prompting.prompting"
-          ></trace-action>
+          ></TraceAction>
         </div>
       </template>
-    </v-card>
-  </v-layout>
+    </VCard>
+  </VLayout>
 </template>
 
 <script setup lang="ts">

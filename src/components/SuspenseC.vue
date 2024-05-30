@@ -4,12 +4,12 @@
       {{ error }}
     </slot>
   </template>
-  <suspense v-else v-bind="props">
+  <Suspense v-else v-bind="props">
     <slot></slot>
     <template #fallback>
       <slot name="fallback"> Loading... </slot>
     </template>
-  </suspense>
+  </Suspense>
 </template>
 
 <script setup lang="ts">

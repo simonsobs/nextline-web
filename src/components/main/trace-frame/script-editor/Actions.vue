@@ -1,41 +1,41 @@
 <template>
-  <v-card-actions class="flex-row flex-wrap justify-end">
-    <v-btn
+  <VCardActions class="flex-row flex-wrap justify-end">
+    <VBtn
       variant="outlined"
       prepend-icon="mdi-reload"
       :disabled="!editing"
       @click="emit('reset')"
     >
       discard changes
-    </v-btn>
-    <v-btn
+    </VBtn>
+    <VBtn
       variant="flat"
       prepend-icon="mdi-content-save"
       :disabled="!editing"
       @click="emit('save')"
     >
       save
-    </v-btn>
-    <v-menu location="top">
+    </VBtn>
+    <VMenu location="top">
       <template v-slot:activator="{ props }">
-        <v-btn v-bind="props" icon="mdi-dots-horizontal"> </v-btn>
+        <VBtn v-bind="props" icon="mdi-dots-horizontal"> </VBtn>
       </template>
-      <v-list>
-        <v-list-item @click="emit('load')">
+      <VList>
+        <VListItem @click="emit('load')">
           <template v-slot:prepend>
-            <v-icon> mdi-timer </v-icon>
+            <VIcon> mdi-timer </VIcon>
           </template>
           Load From Scheduler
-        </v-list-item>
-        <v-list-item v-if="devMode" @click="emit('loadExample')">
+        </VListItem>
+        <VListItem v-if="devMode" @click="emit('loadExample')">
           <template v-slot:prepend>
-            <v-icon> mdi-code-tags </v-icon>
+            <VIcon> mdi-code-tags </VIcon>
           </template>
           Load Example Script
-        </v-list-item>
-      </v-list>
-    </v-menu>
-  </v-card-actions>
+        </VListItem>
+      </VList>
+    </VMenu>
+  </VCardActions>
 </template>
 
 <script setup lang="ts">

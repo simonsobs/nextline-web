@@ -1,10 +1,10 @@
 <template>
-  <suspense>
-    <script-editor-e></script-editor-e>
+  <Suspense>
+    <ScriptEditorE></ScriptEditorE>
     <template #fallback>
-      <v-progress-linear indeterminate></v-progress-linear>
+      <VProgressLinear indeterminate></VProgressLinear>
     </template>
-  </suspense>
+  </Suspense>
 </template>
 
 <script setup lang="ts">

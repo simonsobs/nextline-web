@@ -1,25 +1,25 @@
 <template>
-  <v-layout full-height style="width: 100%">
-    <v-card
+  <VLayout full-height style="width: 100%">
+    <VCard
       flat
       color="surface-container-low px-2 pt-0 pb-2"
       rounded="0"
       class="g-container"
     >
-      <v-card-actions class="g-header py-1">
-        <v-tabs v-model="tab" density="compact">
-          <v-tab value="stdout">
+      <VCardActions class="g-header py-1">
+        <VTabs v-model="tab" density="compact">
+          <VTab value="stdout">
             <span class="text-none"> stdout </span>
-          </v-tab>
-        </v-tabs>
-        <v-spacer></v-spacer>
-      </v-card-actions>
-      <v-card-text id="main" class="g-content py-1">
+          </VTab>
+        </VTabs>
+        <VSpacer></VSpacer>
+      </VCardActions>
+      <VCardText id="main" class="g-content py-1">
         <pre
           class="overflow-auto">{{ data?.ctrlStdout }}<span ref="bottom"></span></pre>
-      </v-card-text>
-    </v-card>
-  </v-layout>
+      </VCardText>
+    </VCard>
+  </VLayout>
 </template>
 
 <script setup lang="ts">

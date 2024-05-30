@@ -1,27 +1,27 @@
 <template>
-  <v-spacer></v-spacer>
-  <v-btn variant="outlined" :disabled="editing" @click="dialogRunInter = true">
+  <VSpacer></VSpacer>
+  <VBtn variant="outlined" :disabled="editing" @click="dialogRunInter = true">
     run interactively
-  </v-btn>
-  <v-btn
+  </VBtn>
+  <VBtn
     variant="flat"
     prepend-icon="mdi-play"
     :disabled="editing"
     @click="dialogRun = true"
   >
     run
-  </v-btn>
-  <v-dialog v-model="dialogRunInter" max-width="400">
-    <run-inter-confirmation-dialog
+  </VBtn>
+  <VDialog v-model="dialogRunInter" max-width="400">
+    <RunInterConfirmationDialog
       @confirm="onRunInterConfirmed"
       @cancel="dialogRunInter = false"
     >
-    </run-inter-confirmation-dialog>
-  </v-dialog>
-  <v-dialog v-model="dialogRun" max-width="400">
-    <run-confirmation-dialog @confirm="onRunConfirmed" @cancel="dialogRun = false">
-    </run-confirmation-dialog>
-  </v-dialog>
+    </RunInterConfirmationDialog>
+  </VDialog>
+  <VDialog v-model="dialogRun" max-width="400">
+    <RunConfirmationDialog @confirm="onRunConfirmed" @cancel="dialogRun = false">
+    </RunConfirmationDialog>
+  </VDialog>
 </template>
 
 <script setup lang="ts">

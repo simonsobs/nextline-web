@@ -1,13 +1,13 @@
 <template>
-  <v-spacer></v-spacer>
-  <v-btn
+  <VSpacer></VSpacer>
+  <VBtn
     variant="flat"
     prepend-icon="mdi-restore"
     :disabled="editing"
     @click="executeReset"
   >
     reset
-  </v-btn>
+  </VBtn>
 </template>
 
 <script setup lang="ts">

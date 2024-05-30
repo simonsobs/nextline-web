@@ -1,8 +1,8 @@
 <template>
   <div v-if="enabled">
-    <v-menu right bottom offset-y :close-on-content-click="false">
+    <VMenu right bottom offset-y :close-on-content-click="false">
       <template v-slot:activator="{ props }">
-        <v-btn
+        <VBtn
           v-bind="props"
           variant="plain"
           density="compact"
@@ -10,31 +10,31 @@
           :style="buttonStyle"
           icon="mdi-nut"
         >
-        </v-btn>
+        </VBtn>
       </template>
-      <v-list dense class="pr-1">
-        <v-list-subheader>Dev Tool</v-list-subheader>
-        <v-list-item v-for="(item, key) in data">
-          <v-checkbox
+      <VList dense class="pr-1">
+        <VListSubheader>Dev Tool</VListSubheader>
+        <VListItem v-for="(item, key) in data">
+          <VCheckbox
             v-model="data[key]"
             :label="key as string"
             density="comfortable"
             :hide-details="true"
           >
-          </v-checkbox>
-        </v-list-item>
-        <v-list-item>
-          <v-btn
+          </VCheckbox>
+        </VListItem>
+        <VListItem>
+          <VBtn
             color="primary"
             variant="tonal"
             @click="clear"
             :disabled="disableClear"
           >
             Clear
-          </v-btn>
-        </v-list-item>
-      </v-list>
-    </v-menu>
+          </VBtn>
+        </VListItem>
+      </VList>
+    </VMenu>
   </div>
 </template>
 
