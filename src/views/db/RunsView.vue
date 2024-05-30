@@ -38,11 +38,7 @@
         <VIcon v-else color="red">mdi-close</VIcon>
       </template>
     </VDataTableServer>
-    <DevToolCheckboxes
-      top="20px"
-      right="5px"
-      v-model="override"
-    ></DevToolCheckboxes>
+    <DevToolCheckboxes top="20px" right="5px" v-model="override"></DevToolCheckboxes>
   </div>
 </template>
 
