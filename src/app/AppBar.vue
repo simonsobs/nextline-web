@@ -32,7 +32,7 @@ import { useDisplay } from "vuetify";
 
 import { useConfig } from "@/utils/config";
 import ToggleDarkModeButton from "@/components/utils/ToggleDarkModeButtonWithTooltip.vue";
-import AutoModeButton from "@/components/auto-mode-button/AutoModeButton.vue";
+import { AutoModeButton } from "@/components/schedule";
 
 import TabNavi from "./TabNavi.vue";
 
