@@ -2,8 +2,8 @@ import { createRouter, createWebHistory } from "vue-router";
 import type { RouteRecordRaw } from "vue-router";
 
 import HomeView from "@/views/main/HomeView.vue";
-import RunsView from "@/views/db/RunsView.vue";
-import RunView from "@/views/db/RunView.vue";
+import RunsView from "@/components/rdb/RunsView.vue";
+import RunView from "@/components/rdb/RunView.vue";
 
 const routes: RouteRecordRaw[] = [
   {
