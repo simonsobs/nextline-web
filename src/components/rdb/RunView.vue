@@ -4,7 +4,7 @@ import { useRoute } from "vue-router";
 
 import { useRdbRunQuery } from "@/graphql/codegen/generated";
 
-import RunCard from "@/components/History/RunCard.vue";
+import RunCard from "./RunCard.vue";
 
 const route = useRoute();
 const runNo = Number(route.params.runNo);
