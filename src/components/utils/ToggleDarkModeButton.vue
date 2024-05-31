@@ -1,8 +1,8 @@
 <template>
-  <v-btn variant="text" icon @click="toggleDark()">
-    <v-icon v-if="isDark" icon="mdi-weather-night"></v-icon>
-    <v-icon v-else icon="mdi-weather-sunny"></v-icon>
-  </v-btn>
+  <VBtn variant="text" icon @click="toggleDark()">
+    <VIcon v-if="isDark" icon="mdi-weather-night"></VIcon>
+    <VIcon v-else icon="mdi-weather-sunny"></VIcon>
+  </VBtn>
 </template>
 
 <script setup lang="ts">
