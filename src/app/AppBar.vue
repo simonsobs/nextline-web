@@ -1,29 +1,29 @@
 <template>
-  <v-app-bar color="surface-container-low">
+  <VAppBar color="surface-container-low">
     <template #prepend>
       <slot name="prepend" comment="slot for v-app-bar-nav-icon"> </slot>
     </template>
     <template #title>
-      <router-link
+      <RouterLink
         :to="{ name: 'home' }"
         class="text-decoration-none"
         style="color: inherit"
       >
         <span v-if="!mobile"> {{ appName }}: </span> {{ apiName }}
-      </router-link>
+      </RouterLink>
     </template>
     <template #append>
       <template v-if="!mobile">
         <span class="mx-4"> {{ version }} </span>
-        <v-btn icon="mdi-graphql" :href="apiHttp" target="_blank"> </v-btn>
-        <toggle-dark-mode-button></toggle-dark-mode-button>
+        <VBtn icon="mdi-graphql" :href="apiHttp" target="_blank"> </VBtn>
+        <ToggleDarkModeButton></ToggleDarkModeButton>
       </template>
-      <auto-mode-button></auto-mode-button>
+      <AutoModeButton></AutoModeButton>
     </template>
     <template #extension v-if="!mobile">
-      <tab-navi></tab-navi>
+      <TabNavi></TabNavi>
     </template>
-  </v-app-bar>
+  </VAppBar>
 </template>
 
 <script setup lang="ts">

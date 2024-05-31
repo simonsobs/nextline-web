@@ -1,12 +1,12 @@
 <template>
-  <v-tooltip location="top end">
+  <VTooltip location="top end">
     <template #activator="{ props }">
-      <toggle-button v-bind="props"></toggle-button>
+      <ToggleButton v-bind="props"></ToggleButton>
     </template>
     <span>Toggle dark mode</span>
-  </v-tooltip>
+  </VTooltip>
 </template>
 
 <script setup lang="ts">
-import toggleButton from "./ToggleDarkModeButton.vue";
+import ToggleButton from "./ToggleDarkModeButton.vue";
 </script>

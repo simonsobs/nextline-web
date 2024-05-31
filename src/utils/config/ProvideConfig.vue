@@ -1,9 +1,9 @@
 <template>
   <template v-if="error">
     <div>
-      <v-alert variant="tonal" type="error" class="ma-2">
+      <VAlert variant="tonal" type="error" class="ma-2">
         {{ error }}
-      </v-alert>
+      </VAlert>
     </div>
   </template>
   <template v-else>

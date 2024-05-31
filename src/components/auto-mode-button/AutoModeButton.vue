@@ -1,10 +1,10 @@
 <template>
-  <v-card-actions>
+  <VCardActions>
     <ButtonOff v-if="mode === 'off'"></ButtonOff>
     <ButtonScheduler v-else-if="mode === 'scheduler'"></ButtonScheduler>
     <ButtonQueue v-else-if="mode === 'queue'"></ButtonQueue>
     <ButtonError v-else></ButtonError>
-  </v-card-actions>
+  </VCardActions>
 </template>
 
 <script setup lang="ts">
