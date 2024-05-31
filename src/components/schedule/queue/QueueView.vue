@@ -3,5 +3,5 @@
 </template>
 
 <script setup lang="ts">
-import { QueueFrame } from "@/components/schedule";
+import QueueFrame from "./QueueFrame.vue";
 </script>
