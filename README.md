@@ -11,6 +11,15 @@ _Nextline_ is a DAQ sequencer of the [Observatory Control System
 execution of concurrent Python scripts, which control telescopes, by multiple
 users simultaneously from web browsers.
 
+## Citation
+
+Nextline consists of multiple packages. Please use the following DOI for [the
+core package](https://github.com/simonsobs/nextline) to cite Nextline in general
+unless you need to refer to a specific package.
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.11451619.svg)](https://doi.org/10.5281/zenodo.11451619)
+
+
 ## Screenshot
 
 ![Screenshot](screenshot.png)
