@@ -1,35 +1,33 @@
 <template>
-  <div>
-    <VCard>
-      <VCardText>
-        <div class="mb-1">
-          <p class="font-weight-medium">
-            The auto mode currently is <span class="font-italic"> on </span> and loads
-            scripts from the <span class="font-italic"> queue </span>.
-          </p>
-          <p class="mt-3">
-            The auto mode automatically loads and runs the next script after each run
-            successfully ends.
-          </p>
-          <p class="mt-3">
-            The auto mode can load scripts from either the
-            <span class="font-italic"> scheduler </span> or the
-            <span class="font-italic"> queue </span>.
-          </p>
-        </div>
-      </VCardText>
-      <VCardActions>
-        <VSpacer></VSpacer>
-        <VBtn variant="outlined" @click="switchToLoadFromScheduler">
-          switch to load from scheduler
-        </VBtn>
-      </VCardActions>
-      <VCardActions>
-        <VSpacer></VSpacer>
-        <VBtn variant="outlined" @click="turnOff"> turn off auto mode </VBtn>
-      </VCardActions>
-    </VCard>
-  </div>
+  <VCard>
+    <VCardText>
+      <div class="mb-1">
+        <p class="font-weight-medium">
+          The auto mode currently is <span class="font-italic"> on </span> and loads
+          scripts from the <span class="font-italic"> queue </span>.
+        </p>
+        <p class="mt-3">
+          The auto mode automatically loads and runs the next script after each run
+          successfully ends.
+        </p>
+        <p class="mt-3">
+          The auto mode can load scripts from either the
+          <span class="font-italic"> scheduler </span> or the
+          <span class="font-italic"> queue </span>.
+        </p>
+      </div>
+    </VCardText>
+    <VCardActions>
+      <VBtn variant="outlined" @click="switchToLoadFromScheduler" class="flex-grow-1">
+        switch to load from scheduler
+      </VBtn>
+    </VCardActions>
+    <VCardActions>
+      <VBtn variant="outlined" @click="turnOff" class="flex-grow-1">
+        turn off auto mode
+      </VBtn>
+    </VCardActions>
+  </VCard>
 </template>
 
 <script setup lang="ts">
@@ -44,10 +42,3 @@ async function turnOff() {
   await changeMode({ mode: "off" });
 }
 </script>
-
-<style scoped>
-:deep(.v-card) {
-  width: 290px;
-  padding: 4px;
-}
-</style>
