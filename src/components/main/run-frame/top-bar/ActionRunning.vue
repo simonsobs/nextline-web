@@ -8,7 +8,7 @@
   >
     interrupt
   </VBtn>
-  <VMenu offset-y>
+  <Component :is="menuComponent" v-bind="menuAttributes">
     <template #activator="{ props }">
       <VBtn variant="text" v-bind="props" icon="mdi-dots-horizontal" density="compact">
       </VBtn>
@@ -27,10 +27,12 @@
         Kill
       </VListItem>
     </VList>
-  </VMenu>
+  </Component>
 </template>
 
 <script setup lang="ts">
+import { computed } from "vue";
+import { useDisplay } from "vuetify";
 import {
   useCtrlInterruptMutation,
   useCtrlTerminateMutation,
@@ -40,4 +42,11 @@ import {
 const { executeMutation: executeInterrupt } = useCtrlInterruptMutation();
 const { executeMutation: executeTerminate } = useCtrlTerminateMutation();
 const { executeMutation: executeKill } = useCtrlKillMutation();
+
+const { mobile } = useDisplay();
+
+const menuComponent = computed(() => (mobile.value ? "VBottomSheet" : "VMenu"));
+const menuAttributes = computed(() =>
+  mobile.value ? {} : { location: "top", offset: 8 }
+);
 </script>

@@ -16,7 +16,7 @@
     >
       save
     </VBtn>
-    <VMenu location="top">
+    <Component :is="menuComponent" v-bind="menuAttributes">
       <template #activator="{ props }">
         <VBtn v-bind="props" icon="mdi-dots-horizontal"> </VBtn>
       </template>
@@ -34,11 +34,13 @@
           Load Example Script
         </VListItem>
       </VList>
-    </VMenu>
+    </Component>
   </VCardActions>
 </template>
 
 <script setup lang="ts">
+import { computed } from "vue";
+import { useDisplay } from "vuetify";
 import { useDevTool } from "@/utils/dev/enabled";
 interface Props {
   editing: boolean;
@@ -55,4 +57,9 @@ type Emits = {
 
 defineProps<Props>();
 const emit = defineEmits<Emits>();
+
+const { mobile } = useDisplay();
+
+const menuComponent = computed(() => (mobile.value ? "VBottomSheet" : "VMenu"));
+const menuAttributes = computed(() => (mobile.value ? {} : { location: "top" }));
 </script>
