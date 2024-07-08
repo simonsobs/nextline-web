@@ -39,7 +39,7 @@
 </template>
 
 <script setup lang="ts">
-import { withDefaults, computed, watch } from "vue";
+import { computed, watch } from "vue";
 import { useVModel } from "@vueuse/core";
 import { useDevTool } from "@/utils/dev/enabled";
 
