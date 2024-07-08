@@ -9,6 +9,7 @@
       ⋅
       <span class="text-capitalize text-primary font-weight-bold"> Interactive </span>
     </template>
+    <VBadge dot inline color="primary" v-if="state === 'running'"> </VBadge>
   </span>
 </template>
 
