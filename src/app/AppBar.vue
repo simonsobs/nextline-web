@@ -10,6 +10,7 @@
         style="color: inherit"
       >
         <span v-if="!mobile"> {{ appName }}: </span> {{ apiName }}
+        <VBadge dot inline color="primary" v-if="state === 'running'"> </VBadge>
       </RouterLink>
     </template>
     <template #append>
@@ -34,6 +35,8 @@ import { useConfig } from "@/utils/config";
 import ToggleDarkModeButton from "@/components/utils/ToggleDarkModeButtonWithTooltip.vue";
 import { AutoModeButton } from "@/components/schedule";
 
+import { useSubscribeState } from "@/api";
+
 import TabNavi from "./TabNavi.vue";
 
 const { mobile } = useDisplay();
@@ -45,4 +48,7 @@ const version = ref(import.meta.env.PACKAGE_VERSION);
 const appName = computed(() => config.value.appName || "loading...");
 const apiName = computed(() => config.value.apiName || "");
 const apiHttp = computed(() => config.value.apiHttp);
+
+const stateSubscription = useSubscribeState();
+const { state } = stateSubscription;
 </script>
