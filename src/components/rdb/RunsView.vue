@@ -24,19 +24,19 @@
         <RefreshButton :disabled="loading" @refresh="resetQueryVariables">
         </RefreshButton>
       </template>
+      <template #item.state="{ item }">
+        <template v-if="item.state === 'running'">
+          <VBadge dot inline color="primary"> </VBadge>
+        </template>
+        <template v-else-if="item.state === 'finished'">
+          <VIcon v-if="!item.exception" color="primary"> mdi-check </VIcon>
+          <VIcon v-else color="red">mdi-close</VIcon>
+        </template>
+      </template>
       <template #item.runNo="{ item }">
         <span class="font-weight-bold primary--text">
           {{ item.runNo }}
         </span>
-      </template>
-      <template #item.state="{ item }">
-        <span class="text-capitalize text-primary font-weight-bold">
-          {{ item.state }}
-        </span>
-      </template>
-      <template #item.exception="{ item }">
-        <VIcon v-if="!item.exception" color="primary"> mdi-check </VIcon>
-        <VIcon v-else color="red">mdi-close</VIcon>
       </template>
     </VDataTableServer>
     <DevToolCheckboxes top="20px" right="5px" v-model="override"></DevToolCheckboxes>
@@ -168,11 +168,10 @@ watch(reactiveQueryVariables, async () => {
 });
 
 const headers = ref([
+  { title: "", key: "state" },
   { title: "Run No.", key: "runNo" },
-  { title: "State", key: "state" },
   { title: "Started at", key: "startedAt" },
   { title: "Ended at", key: "endedAt" },
-  { title: "", key: "exception" },
 ]);
 
 function nodeToItem(n: (typeof nodes.value)[0]) {
