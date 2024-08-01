@@ -19,8 +19,9 @@ export const useConfig = () => useConfigT<Config>();
  * Provide the config to the child components.
  * In the child components, use `useConfig` to get the config.
  */
-export const useProvideConfig = (config: MaybeRefOrGetter<Config>) =>
-  useProvideConfigT<Config>(config);
+export const useProvideConfig = (
+  config: Exclude<MaybeRefOrGetter<Config | null>, null>
+) => useProvideConfigT<Config>(config);
 
 /**
  * Read the config from the config file.
