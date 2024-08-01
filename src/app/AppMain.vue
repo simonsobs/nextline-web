@@ -38,9 +38,11 @@ stay hidden.
 -->
 
 <script setup lang="ts">
+import { computed } from "vue";
 import { useDisplay } from "vuetify";
 
 import { useProvideClient } from "@/graphql/urql";
+import { useConfig } from "@/utils/config";
 import { useColorTheme } from "@/utils/color-theme";
 import { useSetTitle } from "./set-title";
 import { useDrawer } from "./drawer";
@@ -49,8 +51,11 @@ import Banner from "./Banner.vue";
 import NavigationDrawer from "./NavigationDrawer.vue";
 import AppBar from "./AppBar.vue";
 
+const { config } = useConfig();
+const sourceColorHex = computed(() => config.value.seedColor)
+
 useProvideClient();
-useColorTheme();
+useColorTheme(sourceColorHex);
 useSetTitle();
 const { mobile } = useDisplay();
 const { drawer, toggleDrawer } = useDrawer();
