@@ -1,4 +1,5 @@
 import { ref } from "vue";
+import type { MaybeRef } from "vue";
 
 import { useDynamicColors } from "@/utils/dynamic-color";
 import {
@@ -7,14 +8,11 @@ import {
 } from "./monaco-editor";
 import { useDynamicColorsOnVuetify, useDarkModeOnVuetify } from "./vuetify";
 
-function useSourceColor() {
-  const sourceColor = ref("#607D8B"); // blue grey
-  // const sourceColor = ref("#E91E63"); // pink
-  return { sourceColor };
-}
+const DEFAULT_SOURCE_COLOR_HEX = "#607D8B"; // blue grey
+// const DEFAULT_SOURCE_COLOR_HEX = "#E91E63"; // pink
 
-export function useColorTheme() {
-  const { sourceColor: sourceColorHex } = useSourceColor();
+export function useColorTheme(sourceColorHex?: MaybeRef<string>) {
+  sourceColorHex = ref(sourceColorHex ?? DEFAULT_SOURCE_COLOR_HEX);
 
   const optionsLight = { sourceColorHex, dark: false };
   const optionsDark = { sourceColorHex, dark: true };
