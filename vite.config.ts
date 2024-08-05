@@ -27,6 +27,7 @@ export default ({ mode }) => {
 
   return defineConfig({
     server: { port: 8081 },
+    esbuild: { target: "es2022" },
     plugins: [
       vue(),
       loadVersion(),
