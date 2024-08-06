@@ -1,11 +1,11 @@
-import type { MaybeRefOrGetter } from "vue";
+import type { ShallowRef } from "vue";
 
-import { defaultConfig, validateConfig } from "./config";
 import type { Config } from "./config";
+import { defaultConfig, validateConfig } from "./config";
 import { useConfigT } from "./inject-config";
 import { useLoadConfigT } from "./load-config";
-import { useProvideConfigT } from "./provide-config";
 import { useOverrideT } from "./override";
+import { useProvideConfigT } from "./provide-config";
 
 export type { Config };
 
@@ -19,9 +19,8 @@ export const useConfig = () => useConfigT<Config>();
  * Provide the config to the child components.
  * In the child components, use `useConfig` to get the config.
  */
-export const useProvideConfig = (
-  config: Exclude<MaybeRefOrGetter<Config | null>, null>
-) => useProvideConfigT<Config>(config);
+export const useProvideConfig = (config: Config | ShallowRef<Config>) =>
+  useProvideConfigT<Config>(config);
 
 /**
  * Read the config from the config file.
