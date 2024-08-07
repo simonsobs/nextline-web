@@ -1,4 +1,4 @@
-import { computed, ref } from "vue";
+import { computed, ref, watchEffect } from "vue";
 import type { MaybeRef, UnwrapRef } from "vue";
 import { argbFromHex, Hct } from "@material/material-color-utilities";
 import { SchemeNameMap } from "./schemes";
@@ -26,7 +26,22 @@ export function useDynamicScheme(options?: UseDynamicSchemeOptions) {
   const dark = ref(options?.dark ?? optDefault.dark);
   const contrastLevel = ref(options?.contrastLevel ?? optDefault.contrastLevel);
   const schemeClass = computed(() => SchemeNameMap[schemeName.value]);
-  const sourceColorHct = computed(() => Hct.fromInt(argbFromHex(sourceColorHex.value)));
+  const argb = ref(argbFromHex(optDefault.sourceColorHex));
+  watchEffect(
+    () => {
+      try {
+        argb.value = argbFromHex(sourceColorHex.value);
+      } catch (e: unknown) {
+        const errorText = e instanceof Error ? e.message : `${e}`;
+        const message = `${errorText}; use default color: ${optDefault.sourceColorHex}`;
+        console.warn(message);
+        sourceColorHex.value = optDefault.sourceColorHex;
+        argb.value = argbFromHex(sourceColorHex.value);
+      }
+    },
+    { flush: "sync" }
+  );
+  const sourceColorHct = computed(() => Hct.fromInt(argb.value));
   const scheme = computed(
     () => new schemeClass.value(sourceColorHct.value, dark.value, contrastLevel.value)
   );

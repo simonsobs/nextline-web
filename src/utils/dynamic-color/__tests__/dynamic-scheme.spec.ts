@@ -110,4 +110,20 @@ describe("useDynamicScheme", () => {
     sourceColorHex.value = "#2196F3";
     expect(sourceColorHct.value.toInt()).toBe(argbFromHex("#2196F3"));
   });
+
+  it("use default hex on error", () => {
+    const options: UseDynamicSchemeOptions = {
+      sourceColorHex: "not-a-hex",
+    };
+    const { sourceColorHex, sourceColorHct } = useDynamicScheme(options);
+    expect(sourceColorHex.value).toBe("#6750A4");
+    expect(sourceColorHct.value.toInt()).toBe(argbFromHex("#6750A4"));
+
+    sourceColorHex.value = "#2196F3";
+    expect(sourceColorHct.value.toInt()).toBe(argbFromHex("#2196F3"));
+
+    sourceColorHex.value = "not-a-hex";
+    expect(sourceColorHex.value).toBe("#6750A4");
+    expect(sourceColorHct.value.toInt()).toBe(argbFromHex("#6750A4"));
+  });
 });
