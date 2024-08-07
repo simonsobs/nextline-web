@@ -1,6 +1,6 @@
-import { ref, computed } from "vue";
 import { useFetch } from "@vueuse/core";
 import * as path from "path";
+import { computed, ref } from "vue";
 
 export async function useLoadConfigT<T extends object>(
   defaultConfig: Partial<T> = {},
