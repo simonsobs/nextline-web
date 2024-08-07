@@ -15,8 +15,10 @@
 /**
  * Load config asynchronously and provide it to the child components.
  */
+import { until } from "@vueuse/core";
 import { useLoadConfig } from "@/utils/config";
 import { useProvideConfig } from "@/utils/config";
 const { error, config } = await useLoadConfig();
+await until(config).not.toBeNull();
 useProvideConfig(config);
 </script>

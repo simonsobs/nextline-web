@@ -1,7 +1,7 @@
 module.exports = {
   root: true,
   env: {
-    es2021: true,
+    es2022: true,
   },
   extends: [
     "plugin:vue/essential",
@@ -10,7 +10,7 @@ module.exports = {
     "plugin:prettier/recommended",
   ],
   parserOptions: {
-    ecmaVersion: 2020,
+    ecmaVersion: 2022,
   },
   rules: {
     "no-console": import.meta.env.NODE_ENV === "production" ? "warn" : "off",

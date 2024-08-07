@@ -1,7 +1,7 @@
-import { ref, unref, toRefs, watchEffect } from "vue";
-import type { Ref, MaybeRef } from "vue";
-import { provideClient } from "@urql/vue";
 import type { Client } from "@urql/vue";
+import { provideClient } from "@urql/vue";
+import type { MaybeRef, Ref } from "vue";
+import { computed, ref, unref, watchEffect } from "vue";
 
 import { useConfig } from "@/utils/config";
 
@@ -15,7 +15,7 @@ export function useProvideClient() {
 
 function useUrl() {
   const { config } = useConfig();
-  const { apiHttp: url } = toRefs(config.value);
+  const url = computed(() => config.value.apiHttp);
   return url;
 }
 
