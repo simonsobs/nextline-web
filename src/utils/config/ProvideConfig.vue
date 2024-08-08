@@ -1,8 +1,15 @@
 <template>
-  <template v-if="error">
+  <template v-if="reloadError">
     <div>
       <VAlert variant="tonal" type="error" class="ma-2">
-        {{ error }}
+        {{ reloadError }}
+      </VAlert>
+    </div>
+  </template>
+  <template v-if="initialError">
+    <div>
+      <VAlert variant="tonal" type="error" class="ma-2">
+        {{ initialError }}
       </VAlert>
     </div>
   </template>
@@ -15,10 +22,20 @@
 /**
  * Load config asynchronously and provide it to the child components.
  */
-import { until } from "@vueuse/core";
+import { ref, watchEffect } from "vue";
 import { useLoadConfig } from "@/utils/config";
 import { useProvideConfig } from "@/utils/config";
-const { error, config } = await useLoadConfig();
-await until(config).not.toBeNull();
-useProvideConfig(config);
+const initialError = ref<any>();
+const reloadError = ref<Error | undefined>();
+try {
+  const { error, config } = await useLoadConfig();
+  useProvideConfig(config);
+  watchEffect(() => {
+    if (error.value) console.error(error.value);
+    reloadError.value = error.value;
+  });
+} catch (e: unknown) {
+  console.error(e);
+  initialError.value = e;
+}
 </script>
