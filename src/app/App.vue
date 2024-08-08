@@ -5,7 +5,9 @@
         <App></App>
       </ProvideConfig>
       <template #fallback>
-        <VProgressLinear indeterminate> </VProgressLinear>
+        <div class="progress-container">
+          <VProgressLinear indeterminate> </VProgressLinear>
+        </div>
       </template>
     </Suspense>
   </VApp>
@@ -15,3 +17,15 @@
 import ProvideConfig from "@/utils/config/ProvideConfig.vue";
 import App from "./AppMain.vue";
 </script>
+
+<style scoped>
+.progress-container {
+  height: 100%;
+  display: grid;
+  place-items: center;
+}
+
+.progress-container > * {
+  width: min(61.8%, 390px);
+}
+</style>
