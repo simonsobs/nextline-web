@@ -168,6 +168,7 @@ export type PromptNode = {
   startedAt: Scalars['DateTime']['output'];
   stdout?: Maybe<Scalars['String']['output']>;
   trace: TraceNode;
+  traceCall: TraceCallNode;
   traceNo: Scalars['Int']['output'];
 };
 
@@ -238,6 +239,7 @@ export type QueryRdb = {
   run?: Maybe<RunNode>;
   runs: RunNodeConnection;
   stdouts: StdoutNodeConnection;
+  traceCalls: TraceCallNodeConnection;
   traces: TraceNodeConnection;
   version: Scalars['String']['output'];
 };
@@ -266,6 +268,14 @@ export type QueryRdbRunsArgs = {
 
 
 export type QueryRdbStdoutsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type QueryRdbTraceCallsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -317,6 +327,7 @@ export type RunNode = {
   startedAt?: Maybe<Scalars['DateTime']['output']>;
   state?: Maybe<Scalars['String']['output']>;
   stdouts: StdoutNodeConnection;
+  traceCalls: TraceCallNodeConnection;
   traces: TraceNodeConnection;
 };
 
@@ -330,6 +341,14 @@ export type RunNodePromptsArgs = {
 
 
 export type RunNodeStdoutsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type RunNodeTraceCallsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -411,6 +430,45 @@ export type Subscription = {
 
 export type SubscriptionCtrlPromptingArgs = {
   traceId: Scalars['Int']['input'];
+};
+
+export type TraceCallNode = {
+  __typename?: 'TraceCallNode';
+  endedAt?: Maybe<Scalars['DateTime']['output']>;
+  event: Scalars['String']['output'];
+  fileName?: Maybe<Scalars['String']['output']>;
+  id: Scalars['Int']['output'];
+  lineNo?: Maybe<Scalars['Int']['output']>;
+  prompts: PromptNodeConnection;
+  run: RunNode;
+  runNo: Scalars['Int']['output'];
+  startedAt: Scalars['DateTime']['output'];
+  taskNo?: Maybe<Scalars['Int']['output']>;
+  threadNo: Scalars['Int']['output'];
+  trace: TraceNode;
+  traceCallNo: Scalars['Int']['output'];
+  traceNo: Scalars['Int']['output'];
+};
+
+
+export type TraceCallNodePromptsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+export type TraceCallNodeConnection = {
+  __typename?: 'TraceCallNodeConnection';
+  edges: Array<TraceCallNodeEdge>;
+  pageInfo: PageInfo;
+  totalCount: Scalars['Int']['output'];
+};
+
+export type TraceCallNodeEdge = {
+  __typename?: 'TraceCallNodeEdge';
+  cursor: Scalars['String']['output'];
+  node: TraceCallNode;
 };
 
 export type TraceNode = {
