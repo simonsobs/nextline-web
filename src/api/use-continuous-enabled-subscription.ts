@@ -1,9 +1,9 @@
-import { computed } from "vue";
-import type { ComputedRef } from "vue";
 import {
   useCtrlContinuousEnabledQuery,
   useCtrlContinuousEnabledSSubscription,
 } from "@/graphql/codegen/generated";
+import type { ComputedRef } from "vue";
+import { computed } from "vue";
 
 interface _ContinuousEnabledSubscription {
   continuousEnabled: ComputedRef<boolean | undefined>;
@@ -16,8 +16,11 @@ type ContinuousEnabledSubscription = _ContinuousEnabledSubscription &
   PromiseLike<_ContinuousEnabledSubscription>;
 
 export function useSubscribeContinuousEnabled(): ContinuousEnabledSubscription {
-  const query = useCtrlContinuousEnabledQuery({ requestPolicy: "network-only" });
-  const subscription = useCtrlContinuousEnabledSSubscription({});
+  const query = useCtrlContinuousEnabledQuery({
+    requestPolicy: "network-only",
+    variables: {},
+  });
+  const subscription = useCtrlContinuousEnabledSSubscription({ variables: {} });
 
   const error = computed(() => subscription.error?.value || query.error?.value);
 

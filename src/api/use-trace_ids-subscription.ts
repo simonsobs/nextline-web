@@ -1,9 +1,9 @@
-import { computed } from "vue";
-import type { ComputedRef } from "vue";
 import {
   useCtrlTraceIdsQuery,
   useCtrlTraceIdsSSubscription,
 } from "@/graphql/codegen/generated";
+import type { ComputedRef } from "vue";
+import { computed } from "vue";
 
 interface _TraceIdsSubscription {
   traceIds: ComputedRef<number[] | undefined>;
@@ -15,8 +15,8 @@ interface _TraceIdsSubscription {
 type TraceIdsSubscription = _TraceIdsSubscription & PromiseLike<_TraceIdsSubscription>;
 
 export function useSubscribeTraceIds(): TraceIdsSubscription {
-  const query = useCtrlTraceIdsQuery({ requestPolicy: "network-only" });
-  const subscription = useCtrlTraceIdsSSubscription({});
+  const query = useCtrlTraceIdsQuery({ requestPolicy: "network-only", variables: {} });
+  const subscription = useCtrlTraceIdsSSubscription({ variables: {} });
 
   const error = computed(() => subscription.error?.value || query.error?.value);
 

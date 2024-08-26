@@ -1,9 +1,9 @@
-import { computed } from "vue";
-import type { ComputedRef } from "vue";
 import {
   useQScheduleAutoModeStateQuery,
   useScheduleAutoModeStateSSubscription,
 } from "@/graphql/codegen/generated";
+import type { ComputedRef } from "vue";
+import { computed } from "vue";
 
 interface _ScheduleAutoModeStateSubscription {
   autoModeState: ComputedRef<string | undefined>;
@@ -16,8 +16,11 @@ type ScheduleAutoModeStateSubscription = _ScheduleAutoModeStateSubscription &
   PromiseLike<_ScheduleAutoModeStateSubscription>;
 
 export function useSubscribeScheduleAutoModeState(): ScheduleAutoModeStateSubscription {
-  const query = useQScheduleAutoModeStateQuery({ requestPolicy: "network-only" });
-  const subscription = useScheduleAutoModeStateSSubscription({});
+  const query = useQScheduleAutoModeStateQuery({
+    requestPolicy: "network-only",
+    variables: {},
+  });
+  const subscription = useScheduleAutoModeStateSSubscription({ variables: {} });
 
   const error = computed(() => subscription.error?.value || query.error?.value);
 
