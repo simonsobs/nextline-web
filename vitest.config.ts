@@ -11,6 +11,7 @@ export default mergeConfig(
       exclude: [...configDefaults.exclude, "e2e/*"],
       root: fileURLToPath(new URL("./", import.meta.url)),
       setupFiles: ["./src/tests/setup.ts"],
+      includeSource: ["src/**/*.{js,ts}"],
       alias: [
         {
           // https://github.com/vitest-dev/vitest/discussions/1806#discussioncomment-3570047
