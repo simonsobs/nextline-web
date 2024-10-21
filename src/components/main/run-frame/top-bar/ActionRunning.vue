@@ -4,7 +4,7 @@
     variant="outlined"
     color="error"
     prepend-icon="mdi-close"
-    @click="executeInterrupt"
+    @click="dialogInterrupt = true"
   >
     interrupt
   </VBtn>
@@ -14,13 +14,13 @@
       </VBtn>
     </template>
     <VList>
-      <VListItem @click="executeTerminate({})" class="text-error">
+      <VListItem @click="dialogTerminate = true" class="text-error">
         <template #prepend>
           <VIcon> mdi-close-octagon-outline </VIcon>
         </template>
         Terminate
       </VListItem>
-      <VListItem @click="executeKill({})" class="text-error">
+      <VListItem @click="dialogKill = true" class="text-error">
         <template #prepend>
           <VIcon> mdi-close-octagon </VIcon>
         </template>
@@ -28,16 +28,38 @@
       </VListItem>
     </VList>
   </Component>
+  <VDialog v-model="dialogInterrupt" max-width="400">
+    <InterruptConfirmationDialog
+      @confirm="onInterruptConfirmed"
+      @cancel="dialogInterrupt = false"
+    >
+    </InterruptConfirmationDialog>
+  </VDialog>
+  <VDialog v-model="dialogTerminate" max-width="400">
+    <TerminateConfirmationDialog
+      @confirm="onTerminateConfirmed"
+      @cancel="dialogTerminate = false"
+    >
+    </TerminateConfirmationDialog>
+  </VDialog>
+  <VDialog v-model="dialogKill" max-width="400">
+    <KillConfirmationDialog @confirm="onKillConfirmed" @cancel="dialogKill = false">
+    </KillConfirmationDialog>
+  </VDialog>
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
+import { ref, computed } from "vue";
 import { useDisplay } from "vuetify";
 import {
   useCtrlInterruptMutation,
   useCtrlTerminateMutation,
   useCtrlKillMutation,
 } from "@/graphql/codegen/generated";
+
+import InterruptConfirmationDialog from "./InterruptConfirmationDialog.vue";
+import TerminateConfirmationDialog from "./TerminateConfirmationDialog.vue";
+import KillConfirmationDialog from "./KillConfirmationDialog.vue";
 
 const { executeMutation: executeInterrupt } = useCtrlInterruptMutation();
 const { executeMutation: executeTerminate } = useCtrlTerminateMutation();
@@ -49,4 +71,23 @@ const menuComponent = computed(() => (mobile.value ? "VBottomSheet" : "VMenu"));
 const menuAttributes = computed(() =>
   mobile.value ? {} : { location: "top", offset: 8 }
 );
+
+const dialogInterrupt = ref(false);
+const dialogTerminate = ref(false);
+const dialogKill = ref(false);
+
+async function onInterruptConfirmed() {
+  dialogInterrupt.value = false;
+  await executeInterrupt({});
+}
+
+async function onTerminateConfirmed() {
+  dialogTerminate.value = false;
+  await executeTerminate({});
+}
+
+async function onKillConfirmed() {
+  dialogKill.value = false;
+  await executeKill({});
+}
 </script>
