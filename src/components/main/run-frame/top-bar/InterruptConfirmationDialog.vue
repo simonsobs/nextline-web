@@ -6,7 +6,8 @@
       <span class="font-weight-medium font-italic"> SIGINT </span>
       to the process running the script on the server. This is equivalent to pressing
       <span class="font-weight-medium font-italic">Ctrl+C</span> in the terminal. It
-      rases the <span class="font-weight-medium font-italic">KeyboardInterrupt</span>.
+      raises the exception
+      <span class="font-weight-medium font-italic">KeyboardInterrupt</span>.
     </VCardText>
     <VCardText>
       Press <span class="font-weight-medium font-italic">No</span> to close this dialog
