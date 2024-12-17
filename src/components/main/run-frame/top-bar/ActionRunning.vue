@@ -1,19 +1,17 @@
 <template>
   <VSpacer></VSpacer>
-  <VBtn
-    variant="outlined"
-    color="error"
-    prepend-icon="mdi-close"
-    @click="dialogInterrupt = true"
-  >
-    interrupt
-  </VBtn>
   <Component :is="menuComponent" v-bind="menuAttributes">
     <template #activator="{ props }">
       <VBtn variant="text" v-bind="props" icon="mdi-dots-horizontal" density="compact">
       </VBtn>
     </template>
     <VList>
+      <VListItem @click="dialogInterrupt = true" class="text-error">
+        <template #prepend>
+          <VIcon> mdi-close </VIcon>
+        </template>
+        interrupt
+      </VListItem>
       <VListItem @click="dialogTerminate = true" class="text-error">
         <template #prepend>
           <VIcon> mdi-close-octagon-outline </VIcon>
