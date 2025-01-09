@@ -1,19 +1,36 @@
 <template>
-  <div class="g-container">Preview</div>
+  <div class="g-container">
+    <div class="g-breadcrumb">
+      <VBreadcrumbs :items="breadcrumb"> </VBreadcrumbs>
+    </div>
+    <div class="g-top">
+      <VBtn variant="flat" color="primary-fixed"> preview </VBtn>
+    </div>
+  </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const breadcrumb = [{ title: "Scheduler Preview", disabled: false }];
+</script>
 
 <style scoped>
 .g-container {
-  position: relative;
   display: grid;
-  overflow-y: auto;
-  block-size: 100%;
-  padding-bottom: calc(64px + 24px); /* 64px is the height of the fab button */
+  padding: 12px;
   justify-content: center;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(min-content, 960px);
   grid-template-rows: min-content min-content 1fr;
   grid-template-areas: "breadcrumb" "top" "table";
+}
+
+.g-breadcrumb {
+  grid-area: breadcrumb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.g-top {
+  grid-area: top;
 }
 </style>
