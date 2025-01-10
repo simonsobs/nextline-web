@@ -314,6 +314,7 @@ export type QueryScheduleScheduler = {
   apiUrl: Scalars['String']['output'];
   lengthMinutes: Scalars['Int']['output'];
   policy: Scalars['String']['output'];
+  preview: ScheduleSchedulerPreviewItem;
 };
 
 export type RunNode = {
@@ -387,6 +388,11 @@ export type ScheduleQueueItem = {
 export type ScheduleQueuePushInput = {
   name: Scalars['String']['input'];
   script: Scalars['String']['input'];
+};
+
+export type ScheduleSchedulerPreviewItem = {
+  __typename?: 'ScheduleSchedulerPreviewItem';
+  script: Scalars['String']['output'];
 };
 
 export type StdoutNode = {
@@ -688,6 +694,11 @@ export type ScheduleQueueItemsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type ScheduleQueueItemsQuery = { __typename?: 'Query', schedule: { __typename?: 'QuerySchedule', queue: { __typename?: 'QueryScheduleQueue', items: Array<{ __typename?: 'ScheduleQueueItem', id: number, name: string, createdAt: any, script: string }> } } };
+
+export type ScheduleSchedulerPreviewQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ScheduleSchedulerPreviewQuery = { __typename?: 'Query', schedule: { __typename?: 'QuerySchedule', scheduler: { __typename?: 'QueryScheduleScheduler', preview: { __typename?: 'ScheduleSchedulerPreviewItem', script: string } } } };
 
 export type CtrlContinuousEnabledSSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
@@ -1140,6 +1151,21 @@ export const ScheduleQueueItemsDocument = gql`
 
 export function useScheduleQueueItemsQuery(options: Omit<Urql.UseQueryArgs<never, ScheduleQueueItemsQueryVariables>, 'query'>) {
   return Urql.useQuery<ScheduleQueueItemsQuery, ScheduleQueueItemsQueryVariables>({ query: ScheduleQueueItemsDocument, ...options });
+};
+export const ScheduleSchedulerPreviewDocument = gql`
+    query ScheduleSchedulerPreview {
+  schedule {
+    scheduler {
+      preview {
+        script
+      }
+    }
+  }
+}
+    `;
+
+export function useScheduleSchedulerPreviewQuery(options: Omit<Urql.UseQueryArgs<never, ScheduleSchedulerPreviewQueryVariables>, 'query'>) {
+  return Urql.useQuery<ScheduleSchedulerPreviewQuery, ScheduleSchedulerPreviewQueryVariables>({ query: ScheduleSchedulerPreviewDocument, ...options });
 };
 export const CtrlContinuousEnabledSDocument = gql`
     subscription CtrlContinuousEnabledS {

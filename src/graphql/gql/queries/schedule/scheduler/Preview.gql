@@ -1,0 +1,9 @@
+query ScheduleSchedulerPreview {
+  schedule {
+    scheduler {
+      preview {
+        script
+      }
+    }
+  }
+}
