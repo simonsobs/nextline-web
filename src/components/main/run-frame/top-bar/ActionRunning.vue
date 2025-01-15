@@ -10,7 +10,7 @@
         <template #prepend>
           <VIcon> mdi-close </VIcon>
         </template>
-        interrupt
+        Interrupt
       </VListItem>
       <VListItem @click="dialogTerminate = true" class="text-error">
         <template #prepend>

@@ -42,6 +42,12 @@ export function useNaviItems() {
       to: { name: "queue" },
       exact: true,
     },
+    {
+      icon: "mdi-script-text",
+      title: "Preview",
+      to: { name: "preview" },
+      exact: true,
+    },
   ]);
 
   return { naviItems };

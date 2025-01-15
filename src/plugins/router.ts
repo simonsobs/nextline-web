@@ -22,6 +22,11 @@ const routes: RouteRecordRaw[] = [
     component: () => import("@/components/schedule/queue/QueueView.vue"),
   },
   {
+    path: "/preview",
+    name: "preview",
+    component: () => import("@/components/schedule/preview/PreviewView.vue"),
+  },
+  {
     path: "/db/runs",
     name: "runs",
     component: RunsView,
