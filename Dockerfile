@@ -1,4 +1,4 @@
-FROM node:20.15-alpine as build
+FROM node:22.14-alpine as build
 
 # https://github.com/docker/getting-started/issues/124
 RUN apk add --no-cache python3 g++ make
@@ -12,8 +12,8 @@ RUN apk --no-cache --virtual build-dependencies add \
   g++
 
 # For "canvas": https://stackoverflow.com/a/66692565/7309855
-# canvas is onlye used in unit testing with monaco-editor.
-# It should be possible to write pacakge.json to avoid installing canvas in production.
+# canvas is only used in unit testing with monaco-editor.
+# It should be possible to write package.json to avoid installing canvas in production.
 # But, I don't know how to do it.
 RUN apk add --update --no-cache \
     jpeg-dev \
