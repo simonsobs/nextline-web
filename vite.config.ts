@@ -45,5 +45,9 @@ export default ({ mode }) => {
         path: "path-browserify",
       },
     },
+    define: {
+      // for vitest in-source tests
+      "import.meta.vitest": "undefined",
+    },
   });
 };
