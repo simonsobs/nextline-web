@@ -45,6 +45,11 @@ export default ({ mode }) => {
         filename: "dist/stats.html", // will be saved in project's root
       }),
     ],
+    build: {
+      rollupOptions: {
+        output: { manualChunks: { "monaco-editor": ["monaco-editor"] } },
+      },
+    },
     base: process.env.VITE_PUBLIC_PATH,
     resolve: {
       alias: {
