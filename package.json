@@ -50,6 +50,7 @@
     "jsdom": "^26.0.0",
     "prettier": "^3.5.2",
     "rollup": "^4.34.8",
+    "rollup-plugin-visualizer": "^5.14.0",
     "sass": "^1.85.0",
     "ts-node": "^10.9.2",
     "type-fest": "^4.35.0",
