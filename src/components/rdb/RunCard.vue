@@ -44,10 +44,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, toRefs, watch, computed } from "vue";
-import * as monaco from "monaco-editor";
+import { ref, toRefs, computed } from "vue";
 
 import { RdbRunQuery } from "@/graphql/codegen/generated";
+import { useMonacoEditor } from "@/utils/monaco-editor";
 
 type Run = NonNullable<RdbRunQuery["rdb"]["run"]>;
 
@@ -77,50 +77,10 @@ function formatDateTime(dateTime: string) {
   return format.format(sinceEpoch);
 }
 
-const refEditor = ref<HTMLElement | null>(null);
+const refEditor = ref<HTMLElement | undefined>(undefined);
+const source = computed(() => run.value?.script || "");
 
-const model = monaco.editor.createModel("", "python");
-
-watch(
-  run,
-  (val) => {
-    model.setValue(val?.script || "");
-  },
-  { immediate: true }
-);
-
-let editor: monaco.editor.IStandaloneCodeEditor | undefined;
-
-watch(
-  refEditor,
-  (val) => {
-    if (!val) return;
-    editor = monaco.editor.create(val, {
-      model,
-      minimap: { enabled: false },
-      scrollbar: {
-        vertical: "hidden",
-        horizontal: "auto",
-        alwaysConsumeMouseWheel: false,
-      },
-      fontFamily: "Fira Code",
-      fontSize: 14,
-      fontWeight: "500",
-      fontLigatures: true,
-      lineHeight: 24,
-      automaticLayout: true,
-      scrollBeyondLastLine: false,
-      glyphMargin: true,
-      readOnly: true,
-      matchBrackets: "never",
-      selectionHighlight: false,
-      occurrencesHighlight: "off",
-      renderLineHighlight: "none",
-    });
-    val.style.height = `${editor.getContentHeight()}px`;
-  },
-  { immediate: true }
-);
+useMonacoEditor({ element: refEditor, source });
 </script>
 
 <style scoped>
