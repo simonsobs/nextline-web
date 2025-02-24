@@ -5,6 +5,7 @@ import loadVersion from "vite-plugin-package-version";
 import graphql from "@rollup/plugin-graphql";
 // import monacoEditorPlugin from "vite-plugin-monaco-editor";
 import monacoEditorPluginModule from "vite-plugin-monaco-editor";
+import { visualizer } from "rollup-plugin-visualizer";
 
 // A temporary fix for the issue on vite-plugin-monaco-editor:
 // https://github.com/vdesjs/vite-plugin-monaco-editor/issues/21#issuecomment-1827562674
@@ -37,7 +38,18 @@ export default ({ mode }) => {
         languageWorkers: ["editorWorkerService"],
         publicPath: "monacoeditorwork", // default
       }),
+      visualizer({
+        open: true,
+        gzipSize: true,
+        brotliSize: true,
+        filename: "dist/stats.html", // will be saved in project's root
+      }),
     ],
+    build: {
+      rollupOptions: {
+        output: { manualChunks: { "monaco-editor": ["monaco-editor"] } },
+      },
+    },
     base: process.env.VITE_PUBLIC_PATH,
     resolve: {
       alias: {
