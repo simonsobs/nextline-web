@@ -1,3 +1,48 @@
+<template>
+  <VCard flat class="g-card overflow-auto" height="100%" rounded="lg">
+    <div class="g-head">
+      <VCardTitle>
+        Run: {{ run.runNo }}
+        ⋅
+        <span class="text-capitalize text-primary"> {{ run.state }} </span>
+      </VCardTitle>
+      <VCardText class="text-body-1">
+        Started at:
+        <span class="font-weight-bold"> {{ formatDateTime(run.startedAt || "") }} </span
+        ><br />
+        <span>
+          Ended at:
+          <span class="font-weight-bold">
+            {{ formatDateTime(run.endedAt || "") }}
+          </span>
+        </span>
+      </VCardText>
+    </div>
+    <div class="g-exception">
+      <VCardSubtitle v-if="run.exception" class="font-weight-bold error--text">
+        Uncaught exception:
+      </VCardSubtitle>
+      <VCardText v-if="run.exception">
+        <VAlert type="error" variant="tonal">
+          <pre v-text="run.exception" class="overflow-x-auto"></pre>
+        </VAlert>
+      </VCardText>
+    </div>
+    <div class="g-script">
+      <VCardSubtitle class="font-weight-bold"> Script </VCardSubtitle>
+      <VCardText>
+        <div class="code" ref="refEditor"></div>
+      </VCardText>
+    </div>
+    <div class="g-stdout">
+      <VCardSubtitle class="font-weight-bold"> Stdout </VCardSubtitle>
+      <VCardText class="stdout-text">
+        <pre v-text="stdoutText" class="overflow-x-auto"></pre>
+      </VCardText>
+    </div>
+  </VCard>
+</template>
+
 <script setup lang="ts">
 import { ref, toRefs, watch, computed } from "vue";
 import * as monaco from "monaco-editor";
@@ -77,51 +122,6 @@ watch(
   { immediate: true }
 );
 </script>
-
-<template>
-  <VCard flat class="g-card overflow-auto" height="100%" rounded="lg">
-    <div class="g-head">
-      <VCardTitle>
-        Run: {{ run.runNo }}
-        ⋅
-        <span class="text-capitalize text-primary"> {{ run.state }} </span>
-      </VCardTitle>
-      <VCardText class="text-body-1">
-        Started at:
-        <span class="font-weight-bold"> {{ formatDateTime(run.startedAt || "") }} </span
-        ><br />
-        <span>
-          Ended at:
-          <span class="font-weight-bold">
-            {{ formatDateTime(run.endedAt || "") }}
-          </span>
-        </span>
-      </VCardText>
-    </div>
-    <div class="g-exception">
-      <VCardSubtitle v-if="run.exception" class="font-weight-bold error--text">
-        Uncaught exception:
-      </VCardSubtitle>
-      <VCardText v-if="run.exception">
-        <VAlert type="error" variant="tonal">
-          <pre v-text="run.exception" class="overflow-x-auto"></pre>
-        </VAlert>
-      </VCardText>
-    </div>
-    <div class="g-script">
-      <VCardSubtitle class="font-weight-bold"> Script </VCardSubtitle>
-      <VCardText>
-        <div class="code" ref="refEditor"></div>
-      </VCardText>
-    </div>
-    <div class="g-stdout">
-      <VCardSubtitle class="font-weight-bold"> Stdout </VCardSubtitle>
-      <VCardText class="stdout-text">
-        <pre v-text="stdoutText" class="overflow-x-auto"></pre>
-      </VCardText>
-    </div>
-  </VCard>
-</template>
 
 <style scoped>
 .g-card {
