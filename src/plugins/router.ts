@@ -1,15 +1,12 @@
 import { createRouter, createWebHistory } from "vue-router";
 import type { RouteRecordRaw } from "vue-router";
 
-import HomeView from "@/views/main/HomeView.vue";
-import RunsView from "@/components/rdb/RunsView.vue";
-import RunView from "@/components/rdb/RunView.vue";
 
 const routes: RouteRecordRaw[] = [
   {
     path: "/",
     name: "home",
-    component: HomeView,
+    component: () => import("@/views/main/HomeView.vue"),
   },
   {
     path: "/about",
@@ -29,12 +26,12 @@ const routes: RouteRecordRaw[] = [
   {
     path: "/db/runs",
     name: "runs",
-    component: RunsView,
+    component: () => import("@/components/rdb/RunsView.vue"),
   },
   {
     path: "/db/runs/:runNo",
     name: "run",
-    component: RunView,
+    component: () => import("@/components/rdb/RunView.vue"),
   },
   {
     path: "/dev",
