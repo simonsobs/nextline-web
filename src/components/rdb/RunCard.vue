@@ -47,7 +47,7 @@
 import { ref, toRefs, computed } from "vue";
 
 import { RdbRunQuery } from "@/graphql/codegen/generated";
-import { useMonacoEditor } from "@/utils/monaco-editor";
+import { useMonacoEditor } from "@/utils/monaco-editor-dev";
 
 type Run = NonNullable<RdbRunQuery["rdb"]["run"]>;
 
