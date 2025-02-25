@@ -31,7 +31,7 @@
     <div class="g-script">
       <VCardSubtitle class="font-weight-bold"> Script </VCardSubtitle>
       <VCardText>
-        <div class="code" ref="refEditor"></div>
+        <editor :source="run?.script" v-if="run?.script"> </editor>
       </VCardText>
     </div>
     <div class="g-stdout">
@@ -44,10 +44,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, toRefs, computed } from "vue";
+import { toRefs, computed } from "vue";
 
 import { RdbRunQuery } from "@/graphql/codegen/generated";
-import { useMonacoEditor } from "@/utils/monaco-editor-dev";
+
+import Editor from "./Editor.vue";
 
 type Run = NonNullable<RdbRunQuery["rdb"]["run"]>;
 
@@ -77,10 +78,6 @@ function formatDateTime(dateTime: string) {
   return format.format(sinceEpoch);
 }
 
-const refEditor = ref<HTMLElement | undefined>(undefined);
-const source = computed(() => run.value?.script || "");
-
-useMonacoEditor({ element: refEditor, source });
 </script>
 
 <style scoped>
