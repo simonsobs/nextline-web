@@ -31,7 +31,12 @@
     <div class="g-script">
       <VCardSubtitle class="font-weight-bold"> Script </VCardSubtitle>
       <VCardText>
-        <editor :source="run?.script" v-if="run?.script"> </editor>
+        <Suspense>
+          <editor :source="run?.script" v-if="run?.script"> </editor>
+          <template #fallback>
+            <VProgressCircular indeterminate size="20"></VProgressCircular>
+          </template>
+        </Suspense>
       </VCardText>
     </div>
     <div class="g-stdout">
@@ -77,7 +82,6 @@ function formatDateTime(dateTime: string) {
   });
   return format.format(sinceEpoch);
 }
-
 </script>
 
 <style scoped>
