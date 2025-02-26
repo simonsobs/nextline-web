@@ -4,7 +4,7 @@
 
 <script setup lang="ts">
 import { ref, toRefs } from "vue";
-import { useMonacoEditor } from "@/utils/monaco-editor-dev";
+import { useMonacoEditor } from "@/utils/monaco-editor";
 
 interface Props {
   source: string;
