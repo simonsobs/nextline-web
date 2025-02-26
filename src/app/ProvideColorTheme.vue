@@ -6,10 +6,10 @@
 import { computed } from "vue";
 
 import { useConfig } from "@/utils/config";
-import { useColorTheme } from "@/utils/color-theme";
+import { provideColorTheme } from "@/utils/color-theme";
 
 const { config } = useConfig();
 const sourceColorHex = computed(() => config.value.seedColor);
 
-useColorTheme(sourceColorHex);
+provideColorTheme(sourceColorHex);
 </script>
