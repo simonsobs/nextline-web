@@ -49,11 +49,20 @@
 </template>
 
 <script setup lang="ts">
-import { toRefs, computed } from "vue";
+import { toRefs, computed, defineAsyncComponent } from "vue";
 
 import { RdbRunQuery } from "@/graphql/codegen/generated";
 
-import Editor from "./Editor.vue";
+const Editor = defineAsyncComponent(() => import("./Editor.vue"));
+
+// Add artificial delay for testing
+// const Editor = defineAsyncComponent(() => 
+//   new Promise(resolve => {
+//     setTimeout(() => {
+//       resolve(import('./Editor.vue'));
+//     }, 2000); // 2 second delay
+//   })
+// );
 
 type Run = NonNullable<RdbRunQuery["rdb"]["run"]>;
 
