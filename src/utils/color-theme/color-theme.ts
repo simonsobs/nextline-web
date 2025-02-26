@@ -35,3 +35,5 @@ export function createColorTheme(sourceColorHex?: MaybeRef<string | undefined>) 
 
   return { light, dark };
 }
+
+export type ColorTheme = ReturnType<typeof createColorTheme>;
