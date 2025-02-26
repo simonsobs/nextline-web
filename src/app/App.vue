@@ -2,7 +2,9 @@
   <VApp>
     <Suspense>
       <ProvideConfig>
-        <App></App>
+        <ProvideColorTheme>
+          <App></App>
+        </ProvideColorTheme>
       </ProvideConfig>
       <template #fallback>
         <div class="progress-container">
@@ -15,6 +17,7 @@
 
 <script setup lang="ts">
 import ProvideConfig from "@/utils/config/ProvideConfig.vue";
+import ProvideColorTheme from "./ProvideColorTheme.vue";
 import App from "./AppMain.vue";
 </script>
 
