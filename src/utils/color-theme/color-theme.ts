@@ -12,20 +12,26 @@ const DEFAULT_SOURCE_COLOR_HEX = "#607D8B"; // blue grey
 // const DEFAULT_SOURCE_COLOR_HEX = "#E91E63"; // pink
 
 export function useColorTheme(sourceColorHex?: MaybeRef<string | undefined>) {
+  const { light, dark } = createColorTheme(sourceColorHex);
+
+  useDynamicColorsOnVuetify(light, false);
+  useDynamicColorsOnVuetify(dark, true);
+
+  useDynamicColorsOnMonacoEditor(light, false);
+  useDynamicColorsOnMonacoEditor(dark, true);
+
+  useDarkModeOnVuetify();
+  useDarkModeOnMonacoEditor();
+}
+
+export function createColorTheme(sourceColorHex?: MaybeRef<string | undefined>) {
   const source = computed(() => unref(sourceColorHex) || DEFAULT_SOURCE_COLOR_HEX);
 
   const optionsLight = { sourceColorHex: source, dark: false };
   const optionsDark = { sourceColorHex: source, dark: true };
 
-  const { colors: lightColors } = useDynamicColors(optionsLight);
-  const { colors: darkColors } = useDynamicColors(optionsDark);
+  const { colors: light } = useDynamicColors(optionsLight);
+  const { colors: dark } = useDynamicColors(optionsDark);
 
-  useDynamicColorsOnVuetify(lightColors, false);
-  useDynamicColorsOnVuetify(darkColors, true);
-
-  useDynamicColorsOnMonacoEditor(lightColors, false);
-  useDynamicColorsOnMonacoEditor(darkColors, true);
-
-  useDarkModeOnVuetify();
-  useDarkModeOnMonacoEditor();
+  return { light, dark };
 }
