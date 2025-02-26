@@ -12,16 +12,9 @@ const DEFAULT_SOURCE_COLOR_HEX = "#607D8B"; // blue grey
 // const DEFAULT_SOURCE_COLOR_HEX = "#E91E63"; // pink
 
 export function useColorTheme(sourceColorHex?: MaybeRef<string | undefined>) {
-  const { light, dark } = createColorTheme(sourceColorHex);
-
-  useDynamicColorsOnVuetify(light, false);
-  useDynamicColorsOnVuetify(dark, true);
-
-  useDynamicColorsOnMonacoEditor(light, false);
-  useDynamicColorsOnMonacoEditor(dark, true);
-
-  useDarkModeOnVuetify();
-  useDarkModeOnMonacoEditor();
+  const colorTheme = createColorTheme(sourceColorHex);
+  useColorThemeOnVuetify(colorTheme);
+  useColorThemeOnMonacoEditor(colorTheme);
 }
 
 export function createColorTheme(sourceColorHex?: MaybeRef<string | undefined>) {
@@ -37,3 +30,15 @@ export function createColorTheme(sourceColorHex?: MaybeRef<string | undefined>) 
 }
 
 export type ColorTheme = ReturnType<typeof createColorTheme>;
+
+export function useColorThemeOnVuetify(colorTheme: ColorTheme) {
+  useDynamicColorsOnVuetify(colorTheme.light, false);
+  useDynamicColorsOnVuetify(colorTheme.dark, true);
+  useDarkModeOnVuetify();
+}
+
+export function useColorThemeOnMonacoEditor(colorTheme: ColorTheme) {
+  useDynamicColorsOnMonacoEditor(colorTheme.light, false);
+  useDynamicColorsOnMonacoEditor(colorTheme.dark, true);
+  useDarkModeOnMonacoEditor();
+}
