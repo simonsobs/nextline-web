@@ -1,7 +1,8 @@
-import { ref, watchEffect } from "vue";
-import type { MaybeRef } from "vue";
+import { ref, shallowRef, watchEffect } from "vue";
+import type { MaybeRef, Ref, ShallowRef } from "vue";
+
 import { useDebounceFn, createEventHook } from "@vueuse/core";
-import * as monaco from "monaco-editor";
+import type * as Monaco from "monaco-editor";
 
 export interface UseModelOptions {
   source?: MaybeRef<string>;
@@ -17,7 +18,17 @@ const _default: Required<UseModelOptions> = {
   sourceUpdateMaxWaitMilliseconds: 100,
 };
 
-export function useModel(options?: UseModelOptions) {
+interface _UseModelReturn {
+  model: ShallowRef<Monaco.editor.ITextModel | undefined>;
+  source: Ref<string>;
+  beforeSetValue: (fn: () => void) => void;
+  afterSetValue: (fn: () => void) => void;
+  ready: Promise<void>;
+}
+
+type UseModelReturn = _UseModelReturn & PromiseLike<_UseModelReturn>;
+
+export function useModel(options?: UseModelOptions): UseModelReturn {
   const {
     source: source_,
     language,
@@ -25,33 +36,54 @@ export function useModel(options?: UseModelOptions) {
     sourceUpdateMaxWaitMilliseconds,
   } = { ..._default, ...options };
 
+  const monaco = ref<typeof Monaco>();
+  const model = shallowRef<Monaco.editor.ITextModel>();
+
   const source = ref(source_);
-  const model = monaco.editor.createModel(source.value, language);
+
   const beforeSetValue = createEventHook<null>();
   const afterSetValue = createEventHook<null>();
 
   // Update model when source changes.
   watchEffect(() => {
-    if (source.value === model.getValue()) return;
+    if (!model.value) return;
+    if (source.value === model.value.getValue()) return;
     beforeSetValue.trigger(null);
-    model.setValue(source.value);
+    model.value.setValue(source.value);
     afterSetValue.trigger(null);
   });
 
   // Update source when model changes (debounced).
   const updateSource = useDebounceFn(
     () => {
-      source.value = model.getValue();
+      if (!model.value) return;
+      source.value = model.value.getValue();
     },
     sourceUpdateDelayMilliseconds,
     { maxWait: sourceUpdateMaxWaitMilliseconds }
   );
-  model.onDidChangeContent(updateSource);
 
-  return {
+  async function loadMonaco() {
+    monaco.value = await import("monaco-editor");
+    model.value = monaco.value.editor.createModel(source.value, language);
+    model.value.onDidChangeContent(updateSource);
+  }
+
+  const ready = loadMonaco();
+
+  const ret = {
     model,
     source,
     beforeSetValue: beforeSetValue.on,
     afterSetValue: afterSetValue.on,
+    ready,
+  };
+
+  return {
+    ...ret,
+    async then(onFulfilled, onRejected) {
+      await ready;
+      return Promise.resolve(ret).then(onFulfilled, onRejected);
+    },
   };
 }
