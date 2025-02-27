@@ -3,7 +3,14 @@ import type { MaybeRef } from "vue";
 import * as monaco from "monaco-editor";
 
 import type { DynamicColors } from "@/utils/dynamic-color";
-import { useDarkMode } from "@/utils/color-theme";
+import { useColorTheme, useDarkMode } from "@/utils/color-theme";
+
+export function useColorThemeOnMonacoEditor() {
+  const colorTheme = useColorTheme();
+  useDynamicColorsOnMonacoEditor(colorTheme.light, false);
+  useDynamicColorsOnMonacoEditor(colorTheme.dark, true);
+  useDarkModeOnMonacoEditor();
+}
 
 export function useDynamicColorsOnMonacoEditor(
   dynamicColors: MaybeRef<DynamicColors>,
