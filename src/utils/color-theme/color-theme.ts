@@ -5,7 +5,7 @@ import { createColorTheme } from "./create";
 import {
   useDarkModeOnMonacoEditor,
   useDynamicColorsOnMonacoEditor,
-} from "./monaco-editor";
+} from "../monaco-editor/theme";
 import { useDarkModeOnVuetify, useDynamicColorsOnVuetify } from "./vuetify";
 
 const DEFAULT_COLOR_THEME = createColorTheme();

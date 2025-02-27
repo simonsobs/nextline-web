@@ -3,7 +3,7 @@ import type { MaybeRef, UnwrapRef } from "vue";
 import * as monaco from "monaco-editor";
 
 import { useDynamicColors } from "@/utils/dynamic-color";
-import { useDarkMode } from "./dark-mode";
+import { useDarkMode } from "@/utils/color-theme";
 
 type DynamicColors = UnwrapRef<ReturnType<typeof useDynamicColors>["colors"]>;
 
