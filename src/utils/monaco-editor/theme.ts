@@ -1,11 +1,9 @@
 import { computed, watchEffect, toValue } from "vue";
-import type { MaybeRef, UnwrapRef } from "vue";
+import type { MaybeRef } from "vue";
 import * as monaco from "monaco-editor";
 
-import { useDynamicColors } from "@/utils/dynamic-color";
+import type { DynamicColors } from "@/utils/dynamic-color";
 import { useDarkMode } from "@/utils/color-theme";
-
-type DynamicColors = UnwrapRef<ReturnType<typeof useDynamicColors>["colors"]>;
 
 export function useDynamicColorsOnMonacoEditor(
   dynamicColors: MaybeRef<DynamicColors>,
