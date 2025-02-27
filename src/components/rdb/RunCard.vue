@@ -30,13 +30,8 @@
     </div>
     <div class="g-script">
       <VCardSubtitle class="font-weight-bold"> Script </VCardSubtitle>
-      <VCardText>
-        <Suspense>
-          <editor :source="run?.script" v-if="run?.script"> </editor>
-          <template #fallback>
-            <VProgressCircular indeterminate size="20"></VProgressCircular>
-          </template>
-        </Suspense>
+      <VCardText style="height: 100%">
+        <AsyncEditor :source="run?.script" v-if="run?.script"></AsyncEditor>
       </VCardText>
     </div>
     <div class="g-stdout">
@@ -49,20 +44,11 @@
 </template>
 
 <script setup lang="ts">
-import { toRefs, computed, defineAsyncComponent } from "vue";
+import { toRefs, computed } from "vue";
 
 import { RdbRunQuery } from "@/graphql/codegen/generated";
 
-const Editor = defineAsyncComponent(() => import("./Editor.vue"));
-
-// Add artificial delay for testing
-// const Editor = defineAsyncComponent(() => 
-//   new Promise(resolve => {
-//     setTimeout(() => {
-//       resolve(import('./Editor.vue'));
-//     }, 2000); // 2 second delay
-//   })
-// );
+import AsyncEditor from "./AsyncEditor.vue";
 
 type Run = NonNullable<RdbRunQuery["rdb"]["run"]>;
 
