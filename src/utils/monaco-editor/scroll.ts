@@ -1,6 +1,6 @@
 import { unref, watchEffect } from "vue";
 import type { MaybeRef } from "vue";
-import * as monaco from "monaco-editor";
+import type * as monaco from "monaco-editor";
 
 export function useScroll(
   editor: MaybeRef<monaco.editor.IStandaloneCodeEditor | undefined>,
