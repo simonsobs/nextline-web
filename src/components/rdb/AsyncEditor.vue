@@ -11,20 +11,8 @@
 </template>
 
 <script setup lang="ts">
-import { toRefs, defineAsyncComponent } from "vue";
-
-const Editor = defineAsyncComponent(() => import("./Editor.vue"));
-
-// Add artificial delay for testing
-// const Editor = defineAsyncComponent(
-//   () =>
-//     new Promise((resolve) => {
-//       setTimeout(() => {
-//         resolve(import("./Editor.vue"));
-//       }, 2000); // 2 second delay
-//     })
-// );
-
+import { toRefs } from "vue";
+import Editor from "./Editor.vue";
 interface Props {
   source: string;
 }
