@@ -4,9 +4,8 @@
 
 <script setup lang="ts">
 import { ref, computed, toRefs } from "vue";
-import { PromptingData } from "@/graphql/codegen/generated";
 import { useMonacoEditor, useScroll } from "@/utils/monaco-editor";
-import { useMarkCurrentLine } from "./mark-current-line";
+import { useMarkCurrentLine } from "@/utils/monaco-editor";
 
 interface Props {
   source: string;
