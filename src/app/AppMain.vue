@@ -44,14 +44,12 @@ import { useProvideClient } from "@/graphql/urql";
 import { useSetTitle } from "./set-title";
 import { useDrawer } from "./drawer";
 import { useColorThemeOnVuetify } from "@/utils/color-theme";
-import { useColorThemeOnMonacoEditor } from "@/utils/monaco-editor";
 
 import Banner from "./Banner.vue";
 import NavigationDrawer from "./NavigationDrawer.vue";
 import AppBar from "./AppBar.vue";
 
 useColorThemeOnVuetify();
-useColorThemeOnMonacoEditor();
 
 useProvideClient();
 useSetTitle();

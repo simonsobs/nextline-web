@@ -3,6 +3,7 @@ import type { Ref, MaybeRef, ShallowRef } from "vue";
 
 import type * as Monaco from "monaco-editor";
 
+import { useColorThemeOnMonacoEditor } from "./theme";
 import { useModel } from "./model";
 import type { UseModelOptions } from "./model";
 
@@ -115,6 +116,7 @@ export function useMonacoEditor(
   });
 
   async function loadMonaco() {
+    await useColorThemeOnMonacoEditor();
     monaco.value = await import("monaco-editor");
   }
 
