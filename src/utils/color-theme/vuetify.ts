@@ -1,13 +1,12 @@
 import { computed, watchEffect, toValue } from "vue";
-import type { MaybeRefOrGetter, UnwrapRef } from "vue";
+import type { MaybeRefOrGetter } from "vue";
 import { useTheme } from "vuetify";
 import type { ThemeDefinition } from "vuetify";
 import type { OmitIndexSignature } from "type-fest";
 
-import { useDynamicColors } from "@/utils/dynamic-color";
+import type { DynamicColors } from "@/utils/dynamic-color";
 import { useDarkMode } from "./dark-mode";
 
-type DynamicColors = UnwrapRef<ReturnType<typeof useDynamicColors>["colors"]>;
 type DynamicColorName = keyof DynamicColors;
 
 type VuetifyColors = NonNullable<ThemeDefinition["colors"]>;

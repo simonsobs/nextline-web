@@ -1,83 +1,3 @@
-<script setup lang="ts">
-import { ref, toRefs, watch, computed } from "vue";
-import * as monaco from "monaco-editor";
-
-import { RdbRunQuery } from "@/graphql/codegen/generated";
-
-type Run = NonNullable<RdbRunQuery["rdb"]["run"]>;
-
-interface Props {
-  run: Run;
-}
-
-const props = defineProps<Props>();
-
-const { run } = toRefs(props);
-
-const stdouts = computed(() => run.value?.stdouts || []);
-const stdoutText = computed(() => stdouts.value.edges.map((e) => e.node.text).join(""));
-
-function formatDateTime(dateTime: string) {
-  if (!dateTime) return;
-  const sinceEpoch = Date.parse(dateTime);
-  const format = Intl.DateTimeFormat("default", {
-    year: "numeric",
-    month: "numeric",
-    day: "numeric",
-    hour: "numeric",
-    minute: "numeric",
-    second: "numeric",
-    hour12: false,
-  });
-  return format.format(sinceEpoch);
-}
-
-const refEditor = ref<HTMLElement | null>(null);
-
-const model = monaco.editor.createModel("", "python");
-
-watch(
-  run,
-  (val) => {
-    model.setValue(val?.script || "");
-  },
-  { immediate: true }
-);
-
-let editor: monaco.editor.IStandaloneCodeEditor | undefined;
-
-watch(
-  refEditor,
-  (val) => {
-    if (!val) return;
-    editor = monaco.editor.create(val, {
-      model,
-      minimap: { enabled: false },
-      scrollbar: {
-        vertical: "hidden",
-        horizontal: "auto",
-        alwaysConsumeMouseWheel: false,
-      },
-      fontFamily: "Fira Code",
-      fontSize: 14,
-      fontWeight: "500",
-      fontLigatures: true,
-      lineHeight: 24,
-      automaticLayout: true,
-      scrollBeyondLastLine: false,
-      glyphMargin: true,
-      readOnly: true,
-      matchBrackets: "never",
-      selectionHighlight: false,
-      occurrencesHighlight: "off",
-      renderLineHighlight: "none",
-    });
-    val.style.height = `${editor.getContentHeight()}px`;
-  },
-  { immediate: true }
-);
-</script>
-
 <template>
   <VCard flat class="g-card overflow-auto" height="100%" rounded="lg">
     <div class="g-head">
@@ -110,8 +30,8 @@ watch(
     </div>
     <div class="g-script">
       <VCardSubtitle class="font-weight-bold"> Script </VCardSubtitle>
-      <VCardText>
-        <div class="code" ref="refEditor"></div>
+      <VCardText style="height: 100%">
+        <AsyncEditor :source="run?.script" v-if="run?.script"></AsyncEditor>
       </VCardText>
     </div>
     <div class="g-stdout">
@@ -122,6 +42,42 @@ watch(
     </div>
   </VCard>
 </template>
+
+<script setup lang="ts">
+import { toRefs, computed } from "vue";
+
+import { RdbRunQuery } from "@/graphql/codegen/generated";
+
+import AsyncEditor from "./AsyncEditor.vue";
+
+type Run = NonNullable<RdbRunQuery["rdb"]["run"]>;
+
+interface Props {
+  run: Run;
+}
+
+const props = defineProps<Props>();
+
+const { run } = toRefs(props);
+
+const stdouts = computed(() => run.value?.stdouts || []);
+const stdoutText = computed(() => stdouts.value.edges.map((e) => e.node.text).join(""));
+
+function formatDateTime(dateTime: string) {
+  if (!dateTime) return;
+  const sinceEpoch = Date.parse(dateTime);
+  const format = Intl.DateTimeFormat("default", {
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
+    hour12: false,
+  });
+  return format.format(sinceEpoch);
+}
+</script>
 
 <style scoped>
 .g-card {

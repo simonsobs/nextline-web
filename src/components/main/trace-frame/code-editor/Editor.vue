@@ -4,9 +4,8 @@
 
 <script setup lang="ts">
 import { ref, computed, toRefs } from "vue";
-import { PromptingData } from "@/graphql/codegen/generated";
 import { useMonacoEditor, useScroll } from "@/utils/monaco-editor";
-import { useMarkCurrentLine } from "./mark-current-line";
+import { useMarkCurrentLine } from "@/utils/monaco-editor";
 
 interface Props {
   source: string;
@@ -20,7 +19,7 @@ const { source, lineNo, prompting } = toRefs(props);
 
 const element = ref<HTMLElement>();
 
-const { editor } = useMonacoEditor({ element, source });
+const { editor, ready } = useMonacoEditor({ element, source });
 
 const className = computed(() =>
   prompting.value ? "background-high" : "background-low"
@@ -30,7 +29,8 @@ const glyphMarginClassName = computed(() =>
 );
 
 useScroll(editor, lineNo);
-useMarkCurrentLine(editor, lineNo, className, glyphMarginClassName);
+await useMarkCurrentLine(editor, lineNo, className, glyphMarginClassName);
+await ready;
 </script>
 
 <style scoped>

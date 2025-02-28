@@ -47,8 +47,16 @@ export default ({ mode }) => {
     ],
     build: {
       rollupOptions: {
-        output: { manualChunks: { "monaco-editor": ["monaco-editor"] } },
+        output: {
+          manualChunks: {
+            "monaco-editor-import": ["@/utils/monaco-editor"],
+            "monaco-editor": ["monaco-editor"],
+          },
+        },
       },
+    },
+    optimizeDeps: {
+      include: ["monaco-editor"],
     },
     base: process.env.VITE_PUBLIC_PATH,
     resolve: {

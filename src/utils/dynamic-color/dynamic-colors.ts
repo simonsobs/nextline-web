@@ -20,6 +20,7 @@
  */
 
 import { computed } from "vue";
+import type { UnwrapRef } from "vue";
 import { hexFromArgb } from "@material/material-color-utilities";
 import type { DynamicScheme } from "@material/material-color-utilities";
 
@@ -35,6 +36,9 @@ export function useDynamicColors(options?: UseDynamicColorsOptions) {
   const colors = computed(() => generateColors(scheme.value));
   return { colors, scheme, ...rest };
 }
+
+export type UseDynamicColorsReturn = ReturnType<typeof useDynamicColors>;
+export type DynamicColors = UnwrapRef<UseDynamicColorsReturn["colors"]>;
 
 const generateColors = (scheme: DynamicScheme) =>
   Object.assign(

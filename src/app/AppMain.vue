@@ -43,17 +43,13 @@ import { useDisplay } from "vuetify";
 import { useProvideClient } from "@/graphql/urql";
 import { useSetTitle } from "./set-title";
 import { useDrawer } from "./drawer";
-import {
-  useColorThemeOnVuetify,
-  useColorThemeOnMonacoEditor,
-} from "@/utils/color-theme";
+import { useColorThemeOnVuetify } from "@/utils/color-theme";
 
 import Banner from "./Banner.vue";
 import NavigationDrawer from "./NavigationDrawer.vue";
 import AppBar from "./AppBar.vue";
 
 useColorThemeOnVuetify();
-useColorThemeOnMonacoEditor();
 
 useProvideClient();
 useSetTitle();

@@ -15,7 +15,12 @@
         </div>
       </div>
       <div class="g-editor">
-        <editor :source="item?.script"> </editor>
+        <Suspense>
+          <editor :source="item?.script"> </editor>
+          <template #fallback>
+            <VProgressLinear indeterminate></VProgressLinear>
+          </template>
+        </Suspense>
       </div>
     </div>
   </div>

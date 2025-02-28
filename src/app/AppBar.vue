@@ -21,8 +21,8 @@
       </template>
       <AutoModeButton></AutoModeButton>
     </template>
-    <template #extension>
-      <TabNavi v-if="!mobile"></TabNavi>
+    <template v-if="!mobile" #extension>
+      <TabNavi></TabNavi>
     </template>
   </VAppBar>
 </template>

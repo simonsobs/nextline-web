@@ -12,5 +12,6 @@ interface Props {
 const props = defineProps<Props>();
 const { source } = toRefs(props);
 const element = ref<HTMLElement>();
+// await new Promise((resolve) => setTimeout(resolve, 2000));
 await useMonacoEditor({ element, source });
 </script>

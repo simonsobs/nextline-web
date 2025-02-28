@@ -1,11 +1,11 @@
 import { ref, computed, toValue, watchEffect } from "vue";
 import type { MaybeRefOrGetter } from "vue";
-import * as monaco from "monaco-editor";
+import type * as Monaco from "monaco-editor";
 
 function useDecorationsCollection(
-  editor: MaybeRefOrGetter<monaco.editor.IStandaloneCodeEditor | undefined>
+  editor: MaybeRefOrGetter<Monaco.editor.IStandaloneCodeEditor | undefined>
 ) {
-  const deltaDecos = ref<monaco.editor.IModelDeltaDecoration[]>([]);
+  const deltaDecos = ref<Monaco.editor.IModelDeltaDecoration[]>([]);
   const decoCol = computed(() => toValue(editor)?.createDecorationsCollection([]));
   watchEffect(() => {
     decoCol.value?.clear();
@@ -15,8 +15,8 @@ function useDecorationsCollection(
 }
 
 function useDeltaDecoration() {
-  const range = ref<monaco.IRange | undefined>(undefined);
-  const options = ref<monaco.editor.IModelDecorationOptions | undefined>();
+  const range = ref<Monaco.IRange | undefined>(undefined);
+  const options = ref<Monaco.editor.IModelDecorationOptions | undefined>();
 
   const deltaDeco = computed(() => {
     if (!range.value) return undefined;
@@ -27,14 +27,23 @@ function useDeltaDecoration() {
   return { deltaDeco, range, options };
 }
 
+interface _UseMarkCurrentLineReturn {
+  ready: Promise<void>;
+}
+
+type UseMarkCurrentLineReturn = _UseMarkCurrentLineReturn &
+  PromiseLike<_UseMarkCurrentLineReturn>;
+
+
 export function useMarkCurrentLine(
-  editor: MaybeRefOrGetter<monaco.editor.IStandaloneCodeEditor | undefined>,
+  editor: MaybeRefOrGetter<Monaco.editor.IStandaloneCodeEditor | undefined>,
   lineNo: MaybeRefOrGetter<number>,
   className: MaybeRefOrGetter<string>,
   glyphMarginClassName: MaybeRefOrGetter<string>
-) {
+): UseMarkCurrentLineReturn {
   const { deltaDeco, range, options } = useDeltaDecoration();
   const { deltaDecos } = useDecorationsCollection(editor);
+
 
   watchEffect(() => {
     deltaDecos.value = deltaDeco.value ? [deltaDeco.value] : [];
@@ -46,13 +55,32 @@ export function useMarkCurrentLine(
     toValue(editor)?.setPosition({ lineNumber: toValue(lineNo), column: 1 });
   });
 
+  const monaco = ref<typeof Monaco>();
+
   watchEffect(() => {
+    if (!monaco.value) return;
     if (!(toValue(lineNo) >= 1)) return;
-    range.value = new monaco.Range(toValue(lineNo), 1, toValue(lineNo), 1);
+    range.value = new monaco.value.Range(toValue(lineNo), 1, toValue(lineNo), 1);
     options.value = {
       isWholeLine: true,
       className: toValue(className), // background color
       glyphMarginClassName: toValue(glyphMarginClassName), // arrow
     };
   });
+
+  async function loadMonaco() {
+    monaco.value = await import("monaco-editor");
+  }
+
+  const ready = loadMonaco();
+
+  const ret = { ready };
+
+  return {
+    ...ret,
+    async then(onFulfilled, onRejected) {
+      await ready;
+      return Promise.resolve(ret).then(onFulfilled, onRejected);
+    },
+  };
 }

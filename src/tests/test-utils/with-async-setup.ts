@@ -29,6 +29,6 @@ export async function withAsyncSetup(
   await until(finish).toBeTruthy();
   await nextTick();
   await nextTick();
-  await flushPromises(); // might by unnecessary
+  await flushPromises(); // might be unnecessary
   return { wrapper };
 }
