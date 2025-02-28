@@ -1,6 +1,7 @@
-import { computed, watchEffect, toValue } from "vue";
+import { computed, watchEffect, toValue, ref } from "vue";
 import type { MaybeRef } from "vue";
-import * as monaco from "monaco-editor";
+
+import type * as Monaco from "monaco-editor";
 
 import type { DynamicColors } from "@/utils/dynamic-color";
 import { useColorTheme, useDarkMode } from "@/utils/color-theme";
@@ -23,11 +24,17 @@ export function useDynamicColorsOnMonacoEditor(
   });
 }
 
+interface _DefineThemeReturn {
+  ready: Promise<void>;
+}
+
+type DefineThemeReturn = _DefineThemeReturn & PromiseLike<_DefineThemeReturn>;
+
 function defineTheme(
   name: string,
   dynamicColors: DynamicColors,
-  base: monaco.editor.BuiltinTheme
-) {
+  base: Monaco.editor.BuiltinTheme
+): DefineThemeReturn {
   // https://github.com/microsoft/monaco-editor/issues/1762
   // https://github.com/microsoft/monaco-editor/blob/main/src/basic-languages/python/python.ts
 
@@ -43,21 +50,59 @@ function defineTheme(
     "editorLineNumber.activeForeground": dynamicColors["primary"],
   };
 
-  monaco.editor.defineTheme(name, {
-    base,
-    inherit: true,
-    rules,
-    colors,
-  });
+  async function loadMonaco() {
+    const monaco = await import("monaco-editor");
+    monaco.editor.defineTheme(name, {
+      base,
+      inherit: true,
+      rules,
+      colors,
+    });
+  }
+
+  const ready = loadMonaco();
+
+  const ret = { ready };
+
+  return {
+    ...ret,
+    async then(onFulfilled, onRejected) {
+      await ready;
+      return Promise.resolve(ret).then(onFulfilled, onRejected);
+    },
+  };
 }
 
-export function useDarkModeOnMonacoEditor() {
+interface _UseDarkModeOnMonacoEditorReturn {
+  ready: Promise<void>;
+}
+
+type UseDarkModeOnMonacoEditorReturn = _UseDarkModeOnMonacoEditorReturn &
+  PromiseLike<_UseDarkModeOnMonacoEditorReturn>;
+
+export function useDarkModeOnMonacoEditor(): UseDarkModeOnMonacoEditorReturn {
   // Note: All instances of Monaco Editor share the same theme.
   //       It is not possible to have different themes for different instances.
   //       https://github.com/Microsoft/monaco-editor/issues/338
   const { isDark } = useDarkMode();
   const themeName = computed(() => (isDark.value ? "nextline-dark" : "nextline-light"));
+  const monaco = ref<typeof Monaco>();
   watchEffect(() => {
-    monaco.editor.setTheme(themeName.value);
+    monaco.value?.editor.setTheme(themeName.value);
   });
+  async function loadMonaco() {
+    monaco.value = await import("monaco-editor");
+  }
+
+  const ready = loadMonaco();
+
+  const ret = { ready };
+
+  return {
+    ...ret,
+    async then(onFulfilled, onRejected) {
+      await ready;
+      return Promise.resolve(ret).then(onFulfilled, onRejected);
+    },
+  };
 }
