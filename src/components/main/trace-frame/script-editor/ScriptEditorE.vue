@@ -24,7 +24,7 @@ import { useSource } from "./source";
 import Actions from "./Actions.vue";
 const editor = ref<HTMLElement>();
 const { source, modified, save, reset, load, loadExample } = await useSource();
-useMonacoEditor({ element: editor, source, mode: "editor" });
+await useMonacoEditor({ element: editor, source, mode: "editor" });
 </script>
 
 <style scoped>

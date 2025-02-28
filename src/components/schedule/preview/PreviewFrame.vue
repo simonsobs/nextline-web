@@ -21,7 +21,12 @@
           style="white-space: pre-wrap; overflow-wrap: anywhere"
         ></pre>
       </VAlert>
-      <editor :source="script" v-else-if="script"> </editor>
+      <Suspense v-else-if="script">
+        <editor :source="script"> </editor>
+        <template #fallback>
+          <VProgressLinear indeterminate></VProgressLinear>
+        </template>
+      </Suspense>
     </div>
   </div>
 </template>

@@ -19,7 +19,7 @@ const { source, lineNo, prompting } = toRefs(props);
 
 const element = ref<HTMLElement>();
 
-const { editor } = useMonacoEditor({ element, source });
+const { editor, ready } = useMonacoEditor({ element, source });
 
 const className = computed(() =>
   prompting.value ? "background-high" : "background-low"
@@ -29,7 +29,8 @@ const glyphMarginClassName = computed(() =>
 );
 
 useScroll(editor, lineNo);
-useMarkCurrentLine(editor, lineNo, className, glyphMarginClassName);
+await useMarkCurrentLine(editor, lineNo, className, glyphMarginClassName);
+await ready;
 </script>
 
 <style scoped>
