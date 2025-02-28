@@ -51,7 +51,7 @@ For example, if you are to run the web app at the port `8080` with the path
 `/nextline/` and use the GraphQL API server at `http://localhost:5000/graphql` as the name `API 1`, you can do so with the following command.
 
 ```bash
-docker run -p 8080:80 -e PUBLIC_PATH=/nextline/ -e API_HTTP=http://localhost:5000/-e API_NAME="API 1" graphql ghcr.io/simonsobs/nextline-web
+docker run -p 8080:80 -e PUBLIC_PATH=/nextline/ -e API_HTTP=http://localhost:5000/graphql -e API_NAME="API 1" ghcr.io/simonsobs/nextline-web
 ```
 
 If you are on the `localhost`, the web app is running at <http://localhost:8080/nextline/>.
