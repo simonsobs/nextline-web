@@ -1,6 +1,11 @@
 <template>
   <VSpacer></VSpacer>
-  <VBtn variant="outlined" :disabled="editing" @click="dialogRunInter = true">
+  <VBtn
+    v-if="!mobile"
+    variant="outlined"
+    :disabled="editing"
+    @click="dialogRunInter = true"
+  >
     run interactively
   </VBtn>
   <VBtn
@@ -11,6 +16,26 @@
   >
     run
   </VBtn>
+  <VBottomSheet v-if="mobile">
+    <template #activator="{ props }">
+      <VBtn
+        variant="text"
+        v-bind="props"
+        icon="mdi-dots-horizontal"
+        density="compact"
+        class="ml-2"
+      >
+      </VBtn>
+    </template>
+    <VList>
+      <VListItem @click="dialogRunInter = true">
+        <template #prepend>
+          <VIcon> mdi-skip-next </VIcon>
+        </template>
+        Run Interactively
+      </VListItem>
+    </VList>
+  </VBottomSheet>
   <VDialog v-model="dialogRunInter" max-width="400">
     <RunInterConfirmationDialog
       @confirm="onRunInterConfirmed"
@@ -26,6 +51,7 @@
 
 <script setup lang="ts">
 import { ref, onBeforeUnmount } from "vue";
+import { useDisplay } from "vuetify";
 import { storeToRefs } from "pinia";
 
 import { useStore } from "@/plugins/pinia/stores/main";
@@ -37,6 +63,8 @@ import {
 
 import RunInterConfirmationDialog from "./RunInterConfirmationDialog.vue";
 import RunConfirmationDialog from "./RunConfirmationDialog.vue";
+
+const { mobile } = useDisplay();
 
 const store = useStore();
 const { modified: editing } = storeToRefs(store);
