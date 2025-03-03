@@ -49,6 +49,8 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
 import { useDisplay } from "vuetify";
+import { VMenu } from "vuetify/components/VMenu"
+import { VBottomSheet } from "vuetify/components/VBottomSheet"
 import {
   useCtrlInterruptMutation,
   useCtrlTerminateMutation,
@@ -65,7 +67,7 @@ const { executeMutation: executeKill } = useCtrlKillMutation();
 
 const { mobile } = useDisplay();
 
-const menuComponent = computed(() => (mobile.value ? "VBottomSheet" : "VMenu"));
+const menuComponent = computed(() => (mobile.value ? VBottomSheet : VMenu));
 const menuAttributes = computed(() =>
   mobile.value ? {} : { location: "top", offset: 8 }
 );

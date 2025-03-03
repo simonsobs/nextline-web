@@ -1,6 +1,7 @@
 import { fileURLToPath, URL } from "node:url";
 import { defineConfig, loadEnv } from "vite";
 import vue from "@vitejs/plugin-vue";
+import vuetify from "vite-plugin-vuetify";
 import loadVersion from "vite-plugin-package-version";
 import graphql from "@rollup/plugin-graphql";
 // import monacoEditorPlugin from "vite-plugin-monaco-editor";
@@ -31,6 +32,10 @@ export default ({ mode }) => {
     esbuild: { target: "es2022" },
     plugins: [
       vue(),
+      vuetify({
+        autoImport: { labs: true },
+        styles: { configFile: "src/styles/vuetify.scss" },
+      }),
       loadVersion(),
       // @ts-ignore
       graphql(),

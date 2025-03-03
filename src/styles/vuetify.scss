@@ -1,0 +1,30 @@
+// Vuetify supports 100, 300, 400, 500, 700, 900 font weights and italicized text
+// https://vuetifyjs.com/en/styles/text-and-typography/
+
+html,
+body,
+#app,
+.v-application,
+.v-application__wrap {
+  height: 100%;
+}
+
+.v-btn {
+  text-transform: capitalize;
+}
+
+.v-table {
+  background: rgb(var(--v-theme-surface-container-lowest));
+  border: 1px solid rgb(var(--v-theme-outline-variant));
+  border-radius: 8px;
+}
+
+.v-table__wrapper > table > thead > tr th,
+.v-table__wrapper > table tbody > tr > td {
+  background-color: inherit;
+}
+
+.v-data-table .v-table__wrapper > table > thead > tr th,
+.v-data-table .v-table__wrapper > table tbody > tr > td {
+  background-color: inherit;
+}

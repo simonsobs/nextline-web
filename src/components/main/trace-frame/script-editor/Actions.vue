@@ -41,6 +41,8 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useDisplay } from "vuetify";
+import { VMenu } from "vuetify/components/VMenu"
+import { VBottomSheet } from "vuetify/components/VBottomSheet"
 import { useDevTool } from "@/utils/dev/enabled";
 interface Props {
   editing: boolean;
@@ -60,6 +62,6 @@ const emit = defineEmits<Emits>();
 
 const { mobile } = useDisplay();
 
-const menuComponent = computed(() => (mobile.value ? "VBottomSheet" : "VMenu"));
+const menuComponent = computed(() => (mobile.value ? VBottomSheet : VMenu));
 const menuAttributes = computed(() => (mobile.value ? {} : { location: "top" }));
 </script>
