@@ -4,15 +4,9 @@
       <VBreadcrumbs :items="breadcrumb"> </VBreadcrumbs>
     </div>
     <div class="g-top">
-      <VBtn variant="flat" color="primary-fixed" :disabled="loading" @click="load">
+      <VBtn variant="flat" color="primary-fixed" :loading="loading" @click="load">
         preview
       </VBtn>
-      <VProgressCircular
-        indeterminate
-        size="25"
-        color="primary"
-        v-if="loading"
-      ></VProgressCircular>
     </div>
     <div class="g-body" v-if="!loading">
       <VAlert type="error" variant="tonal" v-if="error">
