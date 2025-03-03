@@ -1,6 +1,8 @@
 import { useLocalStorage } from "@vueuse/core";
 
 export function useDevTool() {
-  const isDevToolEnabled = useLocalStorage("dev-tool", false);
+  const keyPrefix = import.meta.env.VITE_PUBLIC_PATH;
+  const key = `${keyPrefix}/dev-tool`;
+  const isDevToolEnabled = useLocalStorage(key, false);
   return { isDevToolEnabled };
 }
