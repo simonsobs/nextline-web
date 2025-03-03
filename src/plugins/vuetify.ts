@@ -7,7 +7,7 @@ import { aliases, mdi } from "vuetify/iconsets/mdi";
 
 import * as labsComponents from "vuetify/labs/components";
 
-import "@/styles/variables.scss";
+import "@/styles/vuetify.scss";
 
 const vuetify = createVuetify({
   components: { ...components, ...labsComponents },

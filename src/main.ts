@@ -11,6 +11,8 @@ import SuspenseC from "@/components/SuspenseC.vue";
 
 // Types of global components are exported from src/global-components.d.ts
 
+import "@/styles/variables.scss";
+
 const app = createApp({ render: () => h(App) });
 
 app.config.errorHandler = (err, vm, info) => {
