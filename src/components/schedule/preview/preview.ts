@@ -1,11 +1,11 @@
-import { computed } from "vue";
+import { computed, watchEffect } from "vue";
 import type { Ref, ComputedRef } from "vue";
-import { refThrottled } from "@vueuse/core";
+import { refThrottled, useSessionStorage } from "@vueuse/core";
 import { useScheduleSchedulerPreviewQuery } from "@/graphql/codegen/generated";
 import { useRefresh } from "@/graphql/urql";
 
 interface _UsePreviewResponse {
-  script: ComputedRef<string | undefined>;
+  script: Ref<string | undefined>;
   loading: Ref<boolean>;
   error: ComputedRef<Error | undefined>;
   load: () => Promise<void>;
@@ -29,7 +29,16 @@ export function usePreview(): UsePreviewResponse {
 
   const error = computed(() => query.error?.value);
 
-  const script = computed(() => query.data.value?.schedule.scheduler.preview.script);
+  const keyPrefix = import.meta.env.VITE_PUBLIC_PATH;
+  const key = `${keyPrefix}/preview-script`;
+  const script = useSessionStorage(key, "");
+  const scriptLoaded = computed(
+    () => query.data.value?.schedule.scheduler.preview.script
+  );
+  watchEffect(() => {
+    if (!scriptLoaded.value) return;
+    script.value = scriptLoaded.value;
+  });
 
   const ret = { script, loading, error, load };
 
