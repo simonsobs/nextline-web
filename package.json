@@ -8,6 +8,7 @@
     "serve": "vite preview",
     "build": "vite build",
     "test": "vitest",
+    "coverage": "vitest run --coverage",
     "lint": "eslint src",
     "codegen": "graphql-codegen --config codegen.ts"
   },
@@ -40,6 +41,7 @@
     "@typescript-eslint/eslint-plugin": "^8.24.1",
     "@typescript-eslint/parser": "^8.24.1",
     "@vitejs/plugin-vue": "^5.2.1",
+    "@vitest/coverage-v8": "~3.0.7",
     "@vue/eslint-config-typescript": "^14.4.0",
     "@vue/test-utils": "^2.4.6",
     "eslint": "^9,21.0",
@@ -59,6 +61,6 @@
     "vite-plugin-monaco-editor": "^1.1.0",
     "vite-plugin-package-version": "^1.1.0",
     "vite-plugin-vuetify": "2.1.0",
-    "vitest": "~3.0.6"
+    "vitest": "~3.0.7"
   }
 }
