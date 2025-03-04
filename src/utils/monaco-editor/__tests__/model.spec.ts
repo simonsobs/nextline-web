@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { ref, nextTick } from "vue";
 
-import { useModel } from "../model";
+import { useModel } from "..";
 
 describe("useModel()", () => {
   it("call without arguments", async () => {
