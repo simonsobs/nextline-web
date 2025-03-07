@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { ref, nextTick } from "vue";
 
 import { withAsyncSetup } from "@/tests/test-utils";
-import { useMonacoEditor } from "../editor";
+import { useMonacoEditor } from "..";
 
 // Skip on GitHub Actions
 describe.skipIf(process.env.CI)("useMonacoEditor", async () => {
