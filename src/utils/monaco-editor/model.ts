@@ -18,6 +18,19 @@ const _default: Required<UseModelOptions> = {
   sourceUpdateMaxWaitMilliseconds: 100,
 };
 
+function resolveOptions(options?: UseModelOptions) {
+  // Remove `undefined` so default has precedence.
+  const given = Object.fromEntries(
+    Object.entries(options || {}).filter(([, v]) => v !== undefined)
+  );
+  const defaultApplied = { ..._default, ...given };
+
+  // Turn `MaybeRef` into `Ref`.
+  const { source: source_, ...rest } = defaultApplied;
+  const source: Ref<string> = ref(source_);
+  return { source, ...rest };
+}
+
 interface _UseModelReturn {
   model: ShallowRef<Monaco.editor.ITextModel | undefined>;
   source: Ref<string>;
@@ -30,16 +43,14 @@ type UseModelReturn = _UseModelReturn & PromiseLike<_UseModelReturn>;
 
 export function useModel(options?: UseModelOptions): UseModelReturn {
   const {
-    source: source_,
+    source,
     language,
     sourceUpdateDelayMilliseconds,
     sourceUpdateMaxWaitMilliseconds,
-  } = { ..._default, ...options };
+  } = resolveOptions(options);
 
   const monaco = ref<typeof Monaco>();
   const model = shallowRef<Monaco.editor.ITextModel>();
-
-  const source = ref(source_);
 
   const beforeSetValue = createEventHook<null>();
   const afterSetValue = createEventHook<null>();
