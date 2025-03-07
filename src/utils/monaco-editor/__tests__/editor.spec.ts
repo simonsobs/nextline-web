@@ -4,13 +4,7 @@ import { ref, nextTick } from "vue";
 import { withAsyncSetup } from "@/tests/test-utils";
 import { useMonacoEditor } from "..";
 
-// Skip on GitHub Actions
-describe.skipIf(process.env.CI)("useMonacoEditor", async () => {
-  // describe.skip("useMonacoEditor", () => {
-  // The test sometimes fails when running all tests after "vite test" started.
-  // However, it usually passes afterwards when "f" is pressed to run only the
-  // failed tests. The cause of the initial failure is unknown.
-
+describe("useMonacoEditor()", () => {
   it("Editor is created", async () => {
     let result!: Awaited<ReturnType<typeof useMonacoEditor>>;
     const element = ref(document.createElement("div"));
