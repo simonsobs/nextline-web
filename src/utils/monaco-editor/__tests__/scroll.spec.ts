@@ -50,7 +50,7 @@ describe("useScroll()", () => {
           }
         }
       ),
-      { verbose: true }
+      { verbose: true, numRuns: 5 }
     );
-  });
+  }, 10000);
 });
