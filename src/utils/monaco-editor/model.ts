@@ -63,8 +63,24 @@ export function useModel(options?: UseModelOptions): UseModelReturn {
     { maxWait: sourceUpdateMaxWaitMilliseconds }
   );
 
+  function registerLanguage(monaco: typeof Monaco, language: string) {
+    // Register the language if it is not registered.
+    // Many languages are typically registered in browsers.
+    // Only `plaintext` is registered in Vitest because of `vitest.config.ts`.
+    if (!language) return;
+    if (
+      monaco.languages
+        .getLanguages()
+        .map((lang) => lang.id)
+        .includes(language)
+    )
+      return;
+    monaco.languages.register({ id: language });
+  }
+
   async function loadMonaco() {
     monaco.value = await import("monaco-editor");
+    registerLanguage(monaco.value, language);
     model.value = monaco.value.editor.createModel(source.value, language);
     model.value.onDidChangeContent(updateSource);
   }
