@@ -7,12 +7,16 @@ export function useScroll(
   lineNo: MaybeRef<number>
 ) {
   watchEffect(() => {
-    if (!unref(editor)) return;
-    if (!(unref(lineNo) >= 1)) return;
-    const lineCount = unref(editor)?.getModel()?.getLineCount();
-    if (!(lineCount && lineCount >= unref(lineNo))) {
-      console.warn(`lineNo(${unref(lineNo)}) is out of range: [1, ${lineCount}]`);
+    const editor_ = unref(editor);
+    if (!editor_) return;
+
+    let lineNo_ = unref(lineNo);
+    if (!(lineNo_ >= 0)) return;
+
+    const lineCount = editor_.getModel()?.getLineCount();
+    if (!(lineCount && lineCount >= lineNo_)) {
+      lineNo_ = lineCount || 1;
     }
-    unref(editor)?.revealLineInCenter(unref(lineNo));
+    editor_.revealLineInCenter(lineNo_);
   });
 }
