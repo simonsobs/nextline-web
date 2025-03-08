@@ -36,6 +36,7 @@ interface _UseModelReturn {
   source: Ref<string>;
   beforeSetValue: (fn: () => void) => void;
   afterSetValue: (fn: () => void) => void;
+  dispose: () => void;
   ready: Promise<void>;
 }
 
@@ -56,7 +57,7 @@ export function useModel(options?: UseModelOptions): UseModelReturn {
   const afterSetValue = createEventHook<null>();
 
   // Update model when source changes.
-  watchEffect(() => {
+  const stop = watchEffect(() => {
     if (!model.value) return;
     if (source.value === model.value.getValue()) return;
     beforeSetValue.trigger(null);
@@ -89,11 +90,20 @@ export function useModel(options?: UseModelOptions): UseModelReturn {
     monaco.languages.register({ id: language });
   }
 
+  function dispose() {
+    stop();
+    // TODO: Cancel debounced function. https://github.com/vueuse/vueuse/pull/4561
+    disposeOnDidChangeContent?.dispose();
+    if (model.value) model.value.dispose();
+  }
+
+  let disposeOnDidChangeContent: Monaco.IDisposable | undefined;
+
   async function loadMonaco() {
     monaco.value = await import("monaco-editor");
     registerLanguage(monaco.value, language);
     model.value = monaco.value.editor.createModel(source.value, language);
-    model.value.onDidChangeContent(updateSource);
+    disposeOnDidChangeContent = model.value.onDidChangeContent(updateSource);
   }
 
   const ready = loadMonaco();
@@ -103,6 +113,7 @@ export function useModel(options?: UseModelOptions): UseModelReturn {
     source,
     beforeSetValue: beforeSetValue.on,
     afterSetValue: afterSetValue.on,
+    dispose,
     ready,
   };
 
