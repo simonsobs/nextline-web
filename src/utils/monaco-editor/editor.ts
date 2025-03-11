@@ -70,7 +70,13 @@ export function useMonacoEditor(
 
   const mode = ref(mode_ ?? defaultMode);
 
-  const { model, source, beforeSetValue, afterSetValue } = useModel(modelOptions);
+  const {
+    model,
+    source,
+    beforeSetValue,
+    afterSetValue,
+    ready: readyModel,
+  } = useModel(modelOptions);
 
   const editor = shallowRef<Monaco.editor.IStandaloneCodeEditor>();
 
@@ -116,6 +122,7 @@ export function useMonacoEditor(
   async function loadMonaco() {
     await useColorThemeOnMonacoEditor();
     monaco.value = await import("monaco-editor");
+    await readyModel;
   }
 
   const ready = loadMonaco();
