@@ -81,17 +81,15 @@ export function useMonacoEditor(
 
   watchEffect(() => {
     if (!isMounted.value) return;
-    const ele = unref(element);
-    if (!ele) {
-      console.error("element is undefined");
-      return;
-    }
+
+    const htmlElement = unref(element);
+    if (!htmlElement) return;
+
     const model_ = unref(model);
     if (!model_) return;
-    editor.value = monaco.value?.editor.create(ele, {
-      model: model_,
-      ...editorOptionsBase,
-    });
+
+    const options = { model: model_, ...editorOptionsBase };
+    editor.value = monaco.value?.editor.create(htmlElement, options);
   });
 
   watchEffect(() => {
