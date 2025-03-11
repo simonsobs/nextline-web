@@ -11,7 +11,7 @@ const fcText = () =>
     size: "max",
   });
 
-const fcSource = () =>
+export const fcSource = () =>
   fc.option(
     fc.oneof(
       fcText().map((lines) => lines.join("\n")),
@@ -20,12 +20,12 @@ const fcSource = () =>
     { nil: undefined }
   );
 
-const fcLanguage = () =>
+export const fcLanguage = () =>
   fc.option(fc.constantFrom("python", "typescript"), {
     nil: undefined,
   });
 
-const fcUseModelOptions = () =>
+export const fcUseModelOptions = () =>
   fc.record(
     {
       source: fcSource(),
