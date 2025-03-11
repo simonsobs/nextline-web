@@ -1,10 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { ref, nextTick, unref, isRef } from "vue";
 
-import { until } from "@vueuse/core";
 import fc from "fast-check";
-
-import { withAsyncSetup } from "@/tests/test-utils";
 
 import { useModel } from "..";
 
