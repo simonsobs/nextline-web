@@ -46,7 +46,7 @@ const modelOptionsMap: Record<Mode, Monaco.editor.IEditorOptions> = {
 };
 
 export interface UseMonacoEditorOptions extends UseModelOptions {
-  element: MaybeRef<HTMLElement | undefined>;
+  element: HTMLElement | Ref<HTMLElement | undefined>;
   mode?: MaybeRef<Mode>;
 }
 
