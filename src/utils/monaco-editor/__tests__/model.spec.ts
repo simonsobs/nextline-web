@@ -12,9 +12,12 @@ const fcText = () =>
   });
 
 const fcSource = () =>
-  fc.oneof(
-    fcText().map((lines) => lines.join("\n")),
-    fcText().map((lines) => ref(lines.join("\n")))
+  fc.option(
+    fc.oneof(
+      fcText().map((lines) => lines.join("\n")),
+      fcText().map((lines) => ref(lines.join("\n")))
+    ),
+    { nil: undefined }
   );
 
 const fcLanguage = () =>
