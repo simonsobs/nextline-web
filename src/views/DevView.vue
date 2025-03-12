@@ -1,16 +1,12 @@
 <template>
   <div class="g-container">
-    <VSwitch
-      v-model="isDevToolEnabled"
-      inset
-      :label="label"
-      color="primary"
-    ></VSwitch>
+    <VSwitch v-model="isDevToolEnabled" inset :label="label" color="primary"></VSwitch>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
+
 import { useDevTool } from "@/utils/dev/enabled";
 
 const { isDevToolEnabled } = useDevTool();

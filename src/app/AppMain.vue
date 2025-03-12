@@ -7,7 +7,7 @@
       <NavigationDrawer v-model="drawer"></NavigationDrawer>
       <AppBar :absolute="true">
         <template #prepend>
-          <VAppBarNavIcon @click="toggleDrawer()" v-if="mobile"> </VAppBarNavIcon>
+          <VAppBarNavIcon v-if="mobile" @click="toggleDrawer()"> </VAppBarNavIcon>
         </template>
       </AppBar>
       <VMain>
@@ -15,7 +15,7 @@
           <template v-if="Component">
             <VFadeTransition leave-absolute>
               <KeepAlive>
-                <Component :key="route.fullPath" :is="Component"></Component>
+                <Component :is="Component" :key="route.fullPath"></Component>
               </KeepAlive>
             </VFadeTransition>
           </template>
@@ -41,13 +41,13 @@ stay hidden.
 import { useDisplay } from "vuetify";
 
 import { useProvideClient } from "@/graphql/urql";
-import { useSetTitle } from "./set-title";
-import { useDrawer } from "./drawer";
 import { useColorThemeOnVuetify } from "@/utils/color-theme";
 
-import Banner from "./Banner.vue";
-import NavigationDrawer from "./NavigationDrawer.vue";
 import AppBar from "./AppBar.vue";
+import Banner from "./Banner.vue";
+import { useDrawer } from "./drawer";
+import NavigationDrawer from "./NavigationDrawer.vue";
+import { useSetTitle } from "./set-title";
 
 useColorThemeOnVuetify();
 

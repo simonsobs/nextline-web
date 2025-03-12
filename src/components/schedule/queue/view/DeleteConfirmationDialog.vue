@@ -5,13 +5,12 @@
       <VCardText>
         <div><span class="font-weight-bold">Name:</span> {{ item?.name }}</div>
         <div>
-          <span class="font-weight-bold">Created at:</span> {{ item?.createdAt }}
+          <span class="font-weight-bold">Created at:</span>
+          {{ item?.createdAt }}
         </div>
       </VCardText>
       <VCardActions>
-        <VBtn variant="text" color="grey-darken-2" @click="show = false">
-          cancel
-        </VBtn>
+        <VBtn variant="text" color="grey-darken-2" @click="show = false"> cancel </VBtn>
         <VSpacer></VSpacer>
         <VBtn variant="outlined" color="error" @click="onConfirm"> delete </VBtn>
       </VCardActions>

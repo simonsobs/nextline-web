@@ -18,6 +18,7 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
+
 import { useConfig } from "@/utils/config";
 interface Emits {
   (event: "confirm"): void;

@@ -4,9 +4,9 @@
       flat
       :ripple="false"
       tabindex="0"
-      @keydown.capture="keyboardEvent = $event"
       class="g-container code-exec"
       rounded="0"
+      @keydown.capture="keyboardEvent = $event"
     >
       <template v-if="prompting">
         <div class="g-top-bar">
@@ -37,13 +37,15 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, toRefs } from "vue";
 import path from "path";
 
+import { computed, ref, toRefs } from "vue";
+
 import { useCtrlPromptingSSubscription } from "@/graphql/codegen/generated";
+
+import CodeEditor from "./code-editor/CodeEditor.vue";
 import { useKeyboardShortcuts } from "./keyboard-shortcuts";
 import TraceAction from "./TraceAction.vue";
-import CodeEditor from "./code-editor/CodeEditor.vue";
 
 interface Props {
   traceId: number;

@@ -1,5 +1,6 @@
 import type { InjectionKey, Ref, ShallowRef } from "vue";
 import { isRef, provide, shallowRef } from "vue";
+
 import { injectionKey } from "./key";
 
 export function useProvideConfigT<T>(config: T | ShallowRef<T>) {

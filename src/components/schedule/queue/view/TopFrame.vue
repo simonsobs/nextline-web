@@ -52,13 +52,15 @@
 
 <script setup lang="ts">
 import { ref, computed, toRefs } from "vue";
-import { useDisplay } from "vuetify";
 import type { CombinedError } from "@urql/vue";
+import { useDisplay } from "vuetify";
+
+import ErrorDialog from "../ErrorDialog.vue";
 import { useItems } from "../items";
 import type { Item } from "../items";
-import DeleteConfirmationDialog from "./DeleteConfirmationDialog.vue";
 import LoadingIndicator from "../LoadingIndicator.vue";
-import ErrorDialog from "../ErrorDialog.vue";
+
+import DeleteConfirmationDialog from "./DeleteConfirmationDialog.vue";
 
 const { mobile } = useDisplay();
 

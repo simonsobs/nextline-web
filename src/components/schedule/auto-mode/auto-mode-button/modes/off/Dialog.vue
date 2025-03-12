@@ -18,12 +18,12 @@
       </div>
     </VCardText>
     <VCardActions>
-      <VBtn variant="outlined" @click="turnOnFromScheduler" class="flex-grow-1">
+      <VBtn variant="outlined" class="flex-grow-1" @click="turnOnFromScheduler">
         turn on from scheduler
       </VBtn>
     </VCardActions>
     <VCardActions>
-      <VBtn variant="outlined" @click="turnOnFromQueue" class="flex-grow-1">
+      <VBtn variant="outlined" class="flex-grow-1" @click="turnOnFromQueue">
         turn on from queue
       </VBtn>
     </VCardActions>

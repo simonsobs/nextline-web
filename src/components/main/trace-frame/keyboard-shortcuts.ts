@@ -13,7 +13,7 @@ function useKeyboardShortcuts(
   traceNo: MaybeRefOrGetter<number>,
   promptNo: MaybeRefOrGetter<number>,
   disabled: MaybeRefOrGetter<boolean>,
-  keyboardEvent: MaybeRefOrGetter<KeyboardEvent | undefined | null>
+  keyboardEvent: MaybeRefOrGetter<KeyboardEvent | undefined | null>,
 ) {
   const { executeMutation } = useCtrlSendPdbCommandMutation();
   watch(
@@ -32,7 +32,7 @@ function useKeyboardShortcuts(
         promptNo: toValue(promptNo),
         traceNo: toValue(traceNo),
       });
-    }
+    },
   );
 }
 

@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
-import { useLoadConfigT } from "../load-config";
 import { nextTick } from "vue";
+
+import { useLoadConfigT } from "../load-config";
 
 globalThis.fetch = vi.fn();
 
@@ -52,7 +53,7 @@ describe("useLoadConfigT", () => {
 
     const { config, loading, error, execute } = await useLoadConfigT<Config>(
       defaultConfig,
-      validateConfig
+      validateConfig,
     );
     expect(loading.value).toBe(false);
     expect(error.value).toBeUndefined();
@@ -64,7 +65,7 @@ describe("useLoadConfigT", () => {
     vi.mocked(fetch).mockResolvedValueOnce(createErrorResponse(404, "Not Found"));
 
     await expect(useLoadConfigT<Config>(defaultConfig, validateConfig)).rejects.toThrow(
-      "Failed to load config: undefined"
+      "Failed to load config: undefined",
     );
   });
 
@@ -79,7 +80,7 @@ describe("useLoadConfigT", () => {
 
     const { config, loading, error, execute } = await useLoadConfigT<Config>(
       defaultConfig,
-      validateConfig
+      validateConfig,
     );
     expect(config.value).toEqual(initialData);
 
@@ -107,7 +108,7 @@ describe("useLoadConfigT", () => {
 
     const { config, loading, error, execute } = await useLoadConfigT<Config>(
       defaultConfig,
-      validateConfig
+      validateConfig,
     );
     expect(config.value).toEqual(initialData);
 
@@ -127,7 +128,7 @@ describe("useLoadConfigT", () => {
     vi.mocked(fetch).mockResolvedValueOnce(createResponse(responseData));
 
     await expect(useLoadConfigT<Config>(defaultConfig, validateConfig)).rejects.toThrow(
-      "Failed to load config: apiUrl is empty"
+      "Failed to load config: apiUrl is empty",
     );
   });
 
@@ -146,7 +147,7 @@ describe("useLoadConfigT", () => {
 
     const { config, loading, error, execute } = await useLoadConfigT<Config>(
       defaultConfig,
-      validateConfig
+      validateConfig,
     );
     expect(config.value).toEqual(initialData);
 

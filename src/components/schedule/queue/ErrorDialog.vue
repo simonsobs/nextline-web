@@ -2,7 +2,9 @@
   <VDialog v-model="show" max-width="800">
     <VCard class="pa-2">
       <VCardTitle class="text-error"> An error occurred</VCardTitle>
-      <VCardText class="text-error"> <pre>{{ error }}</pre> </VCardText>
+      <VCardText class="text-error">
+        <pre>{{ error }}</pre>
+      </VCardText>
       <VCardActions class="mt-5">
         <VSpacer></VSpacer>
         <VBtn variant="text" color="primary" @click="onOk"> OK </VBtn>
@@ -12,7 +14,7 @@
 </template>
 
 <script setup lang="ts">
-import type { CombinedError } from '@urql/vue';
+import type { CombinedError } from "@urql/vue";
 const show = defineModel<boolean>();
 interface Props {
   error?: CombinedError;

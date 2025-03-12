@@ -18,12 +18,12 @@
       </div>
     </VCardText>
     <VCardActions>
-      <VBtn variant="outlined" @click="switchToLoadFromScheduler" class="flex-grow-1">
+      <VBtn variant="outlined" class="flex-grow-1" @click="switchToLoadFromScheduler">
         switch to load from scheduler
       </VBtn>
     </VCardActions>
     <VCardActions>
-      <VBtn variant="outlined" @click="turnOff" class="flex-grow-1">
+      <VBtn variant="outlined" class="flex-grow-1" @click="turnOff">
         turn off auto mode
       </VBtn>
     </VCardActions>

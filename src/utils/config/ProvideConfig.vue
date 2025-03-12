@@ -23,8 +23,8 @@
  * Load config asynchronously and provide it to the child components.
  */
 import { ref, watchEffect } from "vue";
-import { useLoadConfig } from "@/utils/config";
-import { useProvideConfig } from "@/utils/config";
+
+import { useLoadConfig, useProvideConfig } from "@/utils/config";
 const initialError = ref<any>();
 const reloadError = ref<Error | undefined>();
 try {

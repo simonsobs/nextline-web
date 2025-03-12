@@ -14,8 +14,8 @@
           The auto mode will be turned off if a script is tried to be pulled when the
           queue is empty.
           <a
-            @click="showAddDialog = true"
             class="text-decoration-underline cursor-pointer"
+            @click="showAddDialog = true"
           >
             Add the first item.
           </a>
@@ -32,15 +32,15 @@
     </template>
     <template #bottom></template>
   </VDataTable>
-  <ViewDialog v-model="showViewDialog" :item="viewItem" v-if="viewItem"> </ViewDialog>
+  <ViewDialog v-if="viewItem" v-model="showViewDialog" :item="viewItem"> </ViewDialog>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, watchEffect } from "vue";
 import { useDisplay } from "vuetify";
+
 import { useItems } from "./items";
 import type { Item } from "./items";
-
 import ViewDialog from "./view/ViewDialog.vue";
 
 const showAddDialog = defineModel<boolean>("showAddDialog");

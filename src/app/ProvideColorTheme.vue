@@ -5,8 +5,8 @@
 <script setup lang="ts">
 import { computed } from "vue";
 
-import { useConfig } from "@/utils/config";
 import { provideColorTheme } from "@/utils/color-theme";
+import { useConfig } from "@/utils/config";
 
 const { config } = useConfig();
 const sourceColorHex = computed(() => config.value.seedColor);

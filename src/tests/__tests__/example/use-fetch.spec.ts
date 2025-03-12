@@ -1,5 +1,5 @@
-import { ref } from "vue";
 import { describe, it, expect, vi, afterEach } from "vitest";
+import { ref } from "vue";
 import { useFetch } from "@vueuse/core";
 
 global.fetch = vi.fn();

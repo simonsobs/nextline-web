@@ -3,9 +3,9 @@ import type { Component } from "vue";
 
 import { useSubscribeState, useSubscribeScheduleAutoModeMode } from "@/api";
 
+import ActionFinished from "./ActionFinished.vue";
 import ActionInitialized from "./ActionInitialized.vue";
 import ActionRunning from "./ActionRunning.vue";
-import ActionFinished from "./ActionFinished.vue";
 
 export async function useActionComponent() {
   const autoModeStateSubscription = useSubscribeScheduleAutoModeMode();

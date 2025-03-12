@@ -1,6 +1,5 @@
 import { ref, shallowRef, watchEffect } from "vue";
 import type { MaybeRef, Ref, ShallowRef } from "vue";
-
 import { useDebounceFn, createEventHook } from "@vueuse/core";
 import type * as Monaco from "monaco-editor";
 
@@ -21,7 +20,7 @@ const _default: Required<UseModelOptions> = {
 function resolveOptions(options?: UseModelOptions) {
   // Remove `undefined` so default has precedence.
   const given = Object.fromEntries(
-    Object.entries(options || {}).filter(([, v]) => v !== undefined)
+    Object.entries(options || {}).filter(([, v]) => v !== undefined),
   );
   const defaultApplied = { ..._default, ...given };
 
@@ -72,7 +71,7 @@ export function useModel(options?: UseModelOptions): UseModelReturn {
       source.value = model.value.getValue();
     },
     sourceUpdateDelayMilliseconds,
-    { maxWait: sourceUpdateMaxWaitMilliseconds }
+    { maxWait: sourceUpdateMaxWaitMilliseconds },
   );
 
   function registerLanguage(monaco: typeof Monaco, language: string) {

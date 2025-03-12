@@ -3,10 +3,10 @@ import type { App } from "vue";
 /**
  * A class that wraps an application and implements the Disposable interface.
  * It provides a way to properly unmount the app when the instance is disposed.
- * 
+ *
  * This class is designed to be used with the `using` statement, which will
  * automatically unmount the app when the block exits.
- * 
+ *
  * @example
  * ```
  * {

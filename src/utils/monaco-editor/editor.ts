@@ -1,11 +1,10 @@
 import { shallowRef, unref, onMounted, ref, watchEffect } from "vue";
 import type { Ref, MaybeRef, ShallowRef } from "vue";
-
 import type * as Monaco from "monaco-editor";
 
-import { useColorThemeOnMonacoEditor } from "./theme";
 import { useModel } from "./model";
 import type { UseModelOptions } from "./model";
+import { useColorThemeOnMonacoEditor } from "./theme";
 
 const editorOptionsBase: Monaco.editor.IEditorOptions = {
   minimap: { enabled: false },
@@ -62,7 +61,7 @@ type UseMonacoEditorReturn = _UseMonacoEditorReturn &
   PromiseLike<_UseMonacoEditorReturn>;
 
 export function useMonacoEditor(
-  options: UseMonacoEditorOptions
+  options: UseMonacoEditorOptions,
 ): UseMonacoEditorReturn {
   const { element, mode: mode_, ...modelOptions } = options;
 

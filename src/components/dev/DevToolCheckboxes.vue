@@ -24,12 +24,7 @@
           </VCheckbox>
         </VListItem>
         <VListItem>
-          <VBtn
-            color="primary"
-            variant="tonal"
-            @click="clear"
-            :disabled="disableClear"
-          >
+          <VBtn color="primary" variant="tonal" :disabled="disableClear" @click="clear">
             Clear
           </VBtn>
         </VListItem>
@@ -41,6 +36,7 @@
 <script setup lang="ts">
 import { computed, watch } from "vue";
 import { useVModel } from "@vueuse/core";
+
 import { useDevTool } from "@/utils/dev/enabled";
 
 export interface Model {

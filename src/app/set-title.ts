@@ -1,6 +1,7 @@
-import { useConfig } from "@/utils/config";
-import { useTitle } from "@vueuse/core";
 import { computed } from "vue";
+import { useTitle } from "@vueuse/core";
+
+import { useConfig } from "@/utils/config";
 
 function useSetTitle() {
   const { config } = useConfig();

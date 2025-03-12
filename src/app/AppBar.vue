@@ -10,7 +10,7 @@
         style="color: inherit"
       >
         <span v-if="!mobile"> {{ appName }}: </span> {{ apiName }}
-        <VBadge dot inline color="primary" v-if="state === 'running'"> </VBadge>
+        <VBadge v-if="state === 'running'" dot inline color="primary"> </VBadge>
       </RouterLink>
     </template>
     <template #append>
@@ -31,11 +31,10 @@
 import { ref, computed } from "vue";
 import { useDisplay } from "vuetify";
 
-import { useConfig } from "@/utils/config";
-import ToggleDarkModeButton from "@/components/utils/ToggleDarkModeButtonWithTooltip.vue";
-import { AutoModeButton } from "@/components/schedule";
-
 import { useSubscribeState } from "@/api";
+import { AutoModeButton } from "@/components/schedule";
+import ToggleDarkModeButton from "@/components/utils/ToggleDarkModeButtonWithTooltip.vue";
+import { useConfig } from "@/utils/config";
 
 import TabNavi from "./TabNavi.vue";
 

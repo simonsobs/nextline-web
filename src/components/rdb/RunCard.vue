@@ -24,20 +24,20 @@
       </VCardSubtitle>
       <VCardText v-if="run.exception">
         <VAlert type="error" variant="tonal">
-          <pre v-text="run.exception" class="overflow-x-auto"></pre>
+          <pre class="overflow-x-auto" v-text="run.exception"></pre>
         </VAlert>
       </VCardText>
     </div>
     <div class="g-script">
       <VCardSubtitle class="font-weight-bold"> Script </VCardSubtitle>
       <VCardText style="height: 100%">
-        <AsyncEditor :source="run?.script" v-if="run?.script"></AsyncEditor>
+        <AsyncEditor v-if="run?.script" :source="run?.script"></AsyncEditor>
       </VCardText>
     </div>
     <div class="g-stdout">
       <VCardSubtitle class="font-weight-bold"> Stdout </VCardSubtitle>
       <VCardText class="stdout-text">
-        <pre v-text="stdoutText" class="overflow-x-auto"></pre>
+        <pre class="overflow-x-auto" v-text="stdoutText"></pre>
       </VCardText>
     </div>
   </VCard>

@@ -18,12 +18,12 @@
       </div>
     </VCardText>
     <VCardActions>
-      <VBtn variant="outlined" @click="switchToLoadFromQueue" class="flex-grow-1">
+      <VBtn variant="outlined" class="flex-grow-1" @click="switchToLoadFromQueue">
         switch to load from queue
       </VBtn>
     </VCardActions>
     <VCardActions>
-      <VBtn variant="outlined" @click="turnOff" class="flex-grow-1">
+      <VBtn variant="outlined" class="flex-grow-1" @click="turnOff">
         turn off auto mode
       </VBtn>
     </VCardActions>

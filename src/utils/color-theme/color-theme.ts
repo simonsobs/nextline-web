@@ -1,7 +1,7 @@
 import { inject } from "vue";
 
-import { injectionKeyColorTheme } from "./key";
 import { createColorTheme } from "./create";
+import { injectionKeyColorTheme } from "./key";
 import { useDarkModeOnVuetify, useDynamicColorsOnVuetify } from "./vuetify";
 
 const DEFAULT_COLOR_THEME = createColorTheme();

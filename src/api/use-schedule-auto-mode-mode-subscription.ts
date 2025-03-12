@@ -1,9 +1,10 @@
+import type { ComputedRef } from "vue";
+import { computed } from "vue";
+
 import {
   useScheduleAutoModeModeQuery,
   useScheduleAutoModeModeSSubscription,
 } from "@/graphql/codegen/generated";
-import type { ComputedRef } from "vue";
-import { computed } from "vue";
 
 // type AutoMode = "off" | "scheduler" | "queue";
 
@@ -30,7 +31,7 @@ export function useSubscribeScheduleAutoModeMode(): ScheduleAutoModeModeSubscrip
     error.value
       ? undefined
       : subscription.data?.value?.scheduleAutoModeMode ||
-        query.data?.value?.schedule.autoMode.mode
+        query.data?.value?.schedule.autoMode.mode,
   );
 
   const ret = { autoModeMode, error, subscription, query };

@@ -117,7 +117,7 @@ describe("useProvideConfigT", () => {
           () => {
             watchCount++;
           },
-          { deep: true }
+          { deep: true },
         );
         return {};
       },

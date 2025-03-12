@@ -1,9 +1,10 @@
+import type { ComputedRef } from "vue";
+import { computed } from "vue";
+
 import {
   useCtrlContinuousEnabledQuery,
   useCtrlContinuousEnabledSSubscription,
 } from "@/graphql/codegen/generated";
-import type { ComputedRef } from "vue";
-import { computed } from "vue";
 
 interface _ContinuousEnabledSubscription {
   continuousEnabled: ComputedRef<boolean | undefined>;
@@ -28,7 +29,7 @@ export function useSubscribeContinuousEnabled(): ContinuousEnabledSubscription {
     error.value
       ? undefined
       : subscription.data?.value?.ctrlContinuousEnabled ||
-        query.data?.value?.ctrl.continuousEnabled
+        query.data?.value?.ctrl.continuousEnabled,
   );
 
   const ret = { continuousEnabled, error, subscription, query };

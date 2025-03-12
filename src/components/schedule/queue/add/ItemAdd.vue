@@ -16,8 +16,9 @@
 <script setup lang="ts">
 import { ref, watch, watchEffect } from "vue";
 import { useVuelidate } from "@vuelidate/core";
-import Editor from "./Editor.vue";
 import { required, minLength } from "@vuelidate/validators";
+
+import Editor from "./Editor.vue";
 
 export interface State {
   name: string;
@@ -52,7 +53,7 @@ watch(
     if (value === undefined) {
       state.value = { ...initialState };
     }
-  }
+  },
 );
 
 watchEffect(() => {

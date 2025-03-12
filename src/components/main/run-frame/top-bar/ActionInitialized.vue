@@ -51,18 +51,17 @@
 
 <script setup lang="ts">
 import { ref, onBeforeUnmount } from "vue";
-import { useDisplay } from "vuetify";
 import { storeToRefs } from "pinia";
-
-import { useStore } from "@/plugins/pinia/stores/main";
+import { useDisplay } from "vuetify";
 
 import {
   useCtrlExecMutation,
   useCtrlRunAndContinueMutation,
 } from "@/graphql/codegen/generated";
+import { useStore } from "@/plugins/pinia/stores/main";
 
-import RunInterConfirmationDialog from "./RunInterConfirmationDialog.vue";
 import RunConfirmationDialog from "./RunConfirmationDialog.vue";
+import RunInterConfirmationDialog from "./RunInterConfirmationDialog.vue";
 
 const { mobile } = useDisplay();
 

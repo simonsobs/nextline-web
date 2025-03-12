@@ -1,7 +1,7 @@
-import { Client, CombinedError } from "@urql/vue";
 import { describe, expect, it, vi } from "vitest";
 import type { MaybeRef } from "vue";
 import { ref } from "vue";
+import { Client, CombinedError } from "@urql/vue";
 import type { Subject } from "wonka";
 import { fromValue, makeSubject, never } from "wonka";
 
@@ -13,7 +13,7 @@ import { useInSetupWithUrqlClient } from "./setup-with-client";
 function useQueryFromClient(client: MaybeRef<Client>) {
   const disposable = useInSetupWithUrqlClient(
     () => useCtrlStateQuery({ variables: {} }),
-    client
+    client,
   );
   const { ret: query } = disposable;
   return { query, [Symbol.dispose]: () => disposable[Symbol.dispose]() };
@@ -47,7 +47,9 @@ describe("useCtrlStateQuery with mock client", () => {
   });
 
   it("error", async () => {
-    const error = new CombinedError({ networkError: Error("something went wrong!") });
+    const error = new CombinedError({
+      networkError: Error("something went wrong!"),
+    });
     const executeQuery = vi.fn(() => fromValue({ error }));
     const client = ref({ executeQuery });
     using res = useQueryFromClient(client as any);
@@ -80,7 +82,9 @@ describe("useCtrlStateQuery with mock client", () => {
   });
 
   it("error after fetching", async () => {
-    const error = new CombinedError({ networkError: Error("something went wrong!") });
+    const error = new CombinedError({
+      networkError: Error("something went wrong!"),
+    });
     const subject: Subject<{ data?: CtrlStateQuery; error?: Error }> = makeSubject();
     const executeQuery = vi.fn(() => subject.source);
     const client = ref({ executeQuery });

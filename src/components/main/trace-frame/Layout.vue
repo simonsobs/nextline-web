@@ -3,9 +3,9 @@
     <div class="g-container">
       <template v-if="state == 'running' && traceIds">
         <TraceFrame
-          :traceId="traceId"
           v-for="traceId in traceIds"
           :key="traceId"
+          :traceId="traceId"
         ></TraceFrame>
       </template>
       <ScriptEditor v-else></ScriptEditor>
@@ -14,10 +14,10 @@
 </template>
 
 <script setup lang="ts">
-import TraceFrame from "./TraceFrame.vue";
-import ScriptEditor from "./script-editor/ScriptEditor.vue";
-
 import { useSubscribeState, useSubscribeTraceIds } from "@/api";
+
+import ScriptEditor from "./script-editor/ScriptEditor.vue";
+import TraceFrame from "./TraceFrame.vue";
 
 const stateSubscription = useSubscribeState();
 const { state } = stateSubscription;

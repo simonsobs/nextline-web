@@ -18,10 +18,11 @@
 <script setup lang="ts">
 import { ref } from "vue";
 
-import TopBar from "./top-bar/TopBar.vue";
-import ConsoleFrame from "@/components/main/console-frame/ConsoleFrame.vue";
 import Exception from "@/components/exception/Exception.vue";
+import ConsoleFrame from "@/components/main/console-frame/ConsoleFrame.vue";
 import TraceFrames from "@/components/main/trace-frame/Layout.vue";
+
+import TopBar from "./top-bar/TopBar.vue";
 
 const exception = ref(false);
 

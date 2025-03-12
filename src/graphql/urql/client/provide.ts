@@ -1,7 +1,7 @@
-import type { Client } from "@urql/vue";
-import { provideClient } from "@urql/vue";
 import type { MaybeRef, Ref } from "vue";
 import { computed, ref, unref, watchEffect } from "vue";
+import type { Client } from "@urql/vue";
+import { provideClient } from "@urql/vue";
 
 import { useConfig } from "@/utils/config";
 

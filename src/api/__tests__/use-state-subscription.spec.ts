@@ -1,8 +1,10 @@
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+
 import {
   useCtrlStateQuery,
   useCtrlStateSSubscription,
 } from "@/graphql/codegen/generated";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+
 import { useSubscribeState } from "../use-state-subscription";
 
 vi.mock("@/graphql/codegen/generated", () => ({

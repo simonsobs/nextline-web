@@ -1,6 +1,7 @@
 import { computed, ref, watchEffect } from "vue";
 import type { MaybeRef, Ref, UnwrapRef } from "vue";
 import { argbFromHex, Hct } from "@material/material-color-utilities";
+
 import { SchemeNameMap } from "./schemes";
 import type { SchemeName } from "./schemes";
 
@@ -59,7 +60,7 @@ export function useDynamicScheme(options?: UseDynamicSchemeOptions) {
   const argb = useArgb(sourceColorHex, optDefault.sourceColorHex);
   const sourceColorHct = computed(() => Hct.fromInt(argb.value));
   const scheme = computed(
-    () => new schemeClass.value(sourceColorHct.value, dark.value, contrastLevel.value)
+    () => new schemeClass.value(sourceColorHct.value, dark.value, contrastLevel.value),
   );
   return {
     scheme,
@@ -99,7 +100,7 @@ function useArgb(sourceColorHex: Ref<string>, defaultColorHex: string) {
         argb.value = argbFromHex(defaultColorHex);
       }
     },
-    { flush: "sync" }
+    { flush: "sync" },
   );
 
   return argb;

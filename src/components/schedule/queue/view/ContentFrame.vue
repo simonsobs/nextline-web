@@ -8,7 +8,8 @@
         </div>
         <div><span class="font-weight-bold">Name:</span> {{ item?.name }}</div>
         <div>
-          <span class="font-weight-bold">Created at:</span> {{ item?.createdAt }}
+          <span class="font-weight-bold">Created at:</span>
+          {{ item?.createdAt }}
         </div>
         <div>
           <span class="text-caption font-weight-light">Id: {{ item?.id }}</span>
@@ -28,6 +29,7 @@
 
 <script setup lang="ts">
 import type { Item } from "../items";
+
 import Editor from "./Editor.vue";
 interface Props {
   item: Item;

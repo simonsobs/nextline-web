@@ -15,8 +15,10 @@
 
 <script setup lang="ts">
 import { ref, computed } from "vue";
-import { useConfig } from "@/utils/config";
+
 import ToggleDarkModeButton from "@/components/utils/ToggleDarkModeButton.vue";
+import { useConfig } from "@/utils/config";
+
 import ListNavi from "./ListNavi.vue";
 const { config } = useConfig();
 const version = ref(import.meta.env.PACKAGE_VERSION);

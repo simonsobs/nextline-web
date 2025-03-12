@@ -1,7 +1,7 @@
 import { test, expect } from "vitest";
-import { useTitle } from "@vueuse/core";
 import { ref } from "vue";
 import type { MaybeRef } from "vue";
+import { useTitle } from "@vueuse/core";
 
 test("useTitle() should be reactive", () => {
   // Initialize useTitle() with a ref

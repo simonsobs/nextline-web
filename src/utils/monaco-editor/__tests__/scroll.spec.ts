@@ -1,8 +1,7 @@
+import { describe, it, expect } from "vitest";
 import { nextTick, ref } from "vue";
 import type { ShallowRef } from "vue";
-import { describe, it, expect } from "vitest";
 import type * as Monaco from "monaco-editor";
-
 import fc from "fast-check";
 
 import { withAsyncSetup } from "@/tests/test-utils";
@@ -48,9 +47,9 @@ describe("useScroll()", () => {
             expect(ranges?.[0].startLineNumber).toBeLessThanOrEqual(lineNoExpected);
             expect(ranges?.[0].endLineNumber).toBeGreaterThanOrEqual(lineNoExpected);
           }
-        }
+        },
       ),
-      { verbose: true, numRuns: 5 }
+      { verbose: true, numRuns: 5 },
     );
   }, 10000);
 });

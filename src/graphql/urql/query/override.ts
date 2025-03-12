@@ -18,7 +18,7 @@ interface Unpacked<Node> {
 
 export function useOverride<Node>(
   queryResponse: QueryResponse,
-  unpacked: Unpacked<Node>
+  unpacked: Unpacked<Node>,
 ) {
   const override = ref({
     fetching: false,
@@ -28,7 +28,7 @@ export function useOverride<Node>(
   });
 
   const fetching = computed(
-    () => override.value.fetching || queryResponse.fetching.value
+    () => override.value.fetching || queryResponse.fetching.value,
   );
 
   const empty = computed(() => override.value.empty || unpacked.empty.value);
@@ -42,15 +42,15 @@ export function useOverride<Node>(
   });
 
   const edges = computed(() =>
-    override.value.empty || override.value.notFound ? [] : unpacked.edges.value
+    override.value.empty || override.value.notFound ? [] : unpacked.edges.value,
   );
 
   const nodes = computed(() =>
-    override.value.empty || override.value.notFound ? [] : unpacked.nodes.value
+    override.value.empty || override.value.notFound ? [] : unpacked.nodes.value,
   );
 
   const error = computed(() =>
-    override.value.error ? new Error("test") : queryResponse.error.value
+    override.value.error ? new Error("test") : queryResponse.error.value,
   );
 
   return {

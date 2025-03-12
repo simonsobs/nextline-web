@@ -12,10 +12,10 @@
       :items-per-page="itemsPerPage"
       :items-per-page-options="[10, 25, 50, 100]"
       :hide-default-footer="false"
+      class="g-table"
       @click:row="onClickRow"
       @update:items-per-page="onUpdateItemsPerPage"
       @update:page="onUpdatePage"
-      class="g-table"
     >
       <template #top>
         <VAlert v-if="error" variant="tonal" type="error">
@@ -39,14 +39,14 @@
         </span>
       </template>
     </VDataTableServer>
-    <DevToolCheckboxes top="20px" right="5px" v-model="override"></DevToolCheckboxes>
+    <DevToolCheckboxes v-model="override" top="20px" right="5px"></DevToolCheckboxes>
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed, ref, watch } from "vue";
-import { useRouter } from "vue-router";
 import { refThrottled, until } from "@vueuse/core";
+import { useRouter } from "vue-router";
 
 import { useRdbRunsQuery } from "@/graphql/codegen/generated";
 import type { RdbRunsQueryVariables } from "@/graphql/codegen/generated";
@@ -92,7 +92,7 @@ const { override, fetching, error, nodes } = useOverride(queryResponse, unpacked
 const { refresh, refreshing } = useRefresh(queryResponse);
 const loading = refThrottled(
   computed(() => fetching.value || refreshing.value),
-  300
+  300,
 );
 // const loading = computed(() => fetching.value);
 

@@ -1,6 +1,7 @@
 import { computed, watchEffect } from "vue";
 import type { Ref, ComputedRef } from "vue";
 import { refThrottled, useSessionStorage } from "@vueuse/core";
+
 import { useScheduleSchedulerPreviewQuery } from "@/graphql/codegen/generated";
 import { useRefresh } from "@/graphql/urql";
 
@@ -24,7 +25,7 @@ export function usePreview(): UsePreviewResponse {
 
   const loading = refThrottled(
     computed(() => query.fetching.value || refreshing.value),
-    300
+    300,
   );
 
   const error = computed(() => query.error?.value);
@@ -33,7 +34,7 @@ export function usePreview(): UsePreviewResponse {
   const key = `${keyPrefix}/preview-script`;
   const script = useSessionStorage(key, "");
   const scriptLoaded = computed(
-    () => query.data.value?.schedule.scheduler.preview.script
+    () => query.data.value?.schedule.scheduler.preview.script,
   );
   watchEffect(() => {
     if (!scriptLoaded.value) return;

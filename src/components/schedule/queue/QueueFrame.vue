@@ -27,9 +27,10 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import TopFrame from "./TopFrame.vue";
-import TableFrame from "./TableFrame.vue";
+
 import AddDialog from "./add/AddDialog.vue";
+import TableFrame from "./TableFrame.vue";
+import TopFrame from "./TopFrame.vue";
 const breadcrumb = [{ title: "Queue", disabled: false }];
 const showAddDialog = ref(false);
 </script>

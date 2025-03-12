@@ -6,12 +6,13 @@
       <span class="font-weight-medium font-italic"> SIGTERM </span>
       to the process running the script on the server. This is equivalent to executing
       <span class="font-weight-medium font-italic">kill &lt;pid&gt;</span> in the
-      terminal. No exception will be raised. No <span class="font-italic">finally</span>
+      terminal. No exception will be raised. No
+      <span class="font-italic">finally</span>
       block will be executed. A signal handler (if registered) will be executed.
     </VCardText>
     <VCardText>
-      Use this option after trying to <span class="font-italic"> interrupt </span> the
-      run.
+      Use this option after trying to
+      <span class="font-italic"> interrupt </span> the run.
     </VCardText>
     <VCardText>
       Press <span class="font-weight-medium font-italic">No</span> to close this dialog

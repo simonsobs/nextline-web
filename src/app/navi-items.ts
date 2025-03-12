@@ -1,7 +1,7 @@
 import { computed, ref, watchEffect, toValue } from "vue";
+import { useSessionStorage } from "@vueuse/core";
 import { useRoute } from "vue-router";
 import type { RouteLocationRaw } from "vue-router";
-import { useSessionStorage } from "@vueuse/core";
 
 interface NaviItem {
   icon: string;
