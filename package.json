@@ -36,6 +36,7 @@
     "@graphql-codegen/typescript-operations": "^4.2.3",
     "@graphql-codegen/typescript-vue-urql": "^3.1.0",
     "@rollup/plugin-graphql": "^2.0.5",
+    "@types/eslint-config-prettier": "^6.11.3",
     "@types/node": "~22.13.5",
     "@types/path-browserify": "^1.0.3",
     "@typescript-eslint/eslint-plugin": "^8.24.1",
