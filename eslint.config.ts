@@ -11,6 +11,9 @@ import vueParser from "vue-eslint-parser";
 const isProduction = import.meta.env?.PROD || process.env.NODE_ENV === "production";
 
 export default [
+  {
+    ignores: ["src/graphql/codegen/generated.ts"],
+  },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   importPlugin.flatConfigs.recommended,
