@@ -114,7 +114,7 @@ export default [
       "no-debugger": isProduction ? "warn" : "off",
       "no-unused-vars": "off",
       "@typescript-eslint/no-var-requires": "off",
-      "prettier/prettier": "warn",
+      "prettier/prettier": ["warn", { printWidth: 88 }],
     },
   },
 
