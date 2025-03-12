@@ -4,11 +4,29 @@ import vuePlugin from "eslint-plugin-vue";
 import prettierPlugin from "eslint-plugin-prettier";
 import prettierConfig from "eslint-config-prettier";
 
+// @ts-ignore
+import importPlugin from "eslint-plugin-import";
+
 const isProduction = import.meta.env?.PROD || process.env.NODE_ENV === "production";
 
 export default [
   js.configs.recommended,
   ...tseslint.configs.recommended,
+  importPlugin.flatConfigs.recommended,
+
+  // Import plugin
+  {
+    files: ["**/*.{js,ts,vue}"],
+    plugins: {
+      import: importPlugin,
+    },
+    settings: {
+      "import/resolver": {
+        typescript: true,
+        node: true,
+      },
+    },
+  },
 
   // Vue configuration
   {
