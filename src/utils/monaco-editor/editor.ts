@@ -46,7 +46,7 @@ const modelOptionsMap: Record<Mode, Monaco.editor.IEditorOptions> = {
 };
 
 export interface UseMonacoEditorOptions extends UseModelOptions {
-  element: MaybeRef<HTMLElement | undefined>;
+  element: HTMLElement | Ref<HTMLElement | undefined>;
   mode?: MaybeRef<Mode>;
 }
 
@@ -70,7 +70,13 @@ export function useMonacoEditor(
 
   const mode = ref(mode_ ?? defaultMode);
 
-  const { model, source, beforeSetValue, afterSetValue } = useModel(modelOptions);
+  const {
+    model,
+    source,
+    beforeSetValue,
+    afterSetValue,
+    ready: readyModel,
+  } = useModel(modelOptions);
 
   const editor = shallowRef<Monaco.editor.IStandaloneCodeEditor>();
 
@@ -81,17 +87,15 @@ export function useMonacoEditor(
 
   watchEffect(() => {
     if (!isMounted.value) return;
-    const ele = unref(element);
-    if (!ele) {
-      console.error("element is undefined");
-      return;
-    }
+
+    const htmlElement = unref(element);
+    if (!htmlElement) return;
+
     const model_ = unref(model);
     if (!model_) return;
-    editor.value = monaco.value?.editor.create(ele, {
-      model: model_,
-      ...editorOptionsBase,
-    });
+
+    const options = { model: model_, ...editorOptionsBase };
+    editor.value = monaco.value?.editor.create(htmlElement, options);
   });
 
   watchEffect(() => {
@@ -118,6 +122,7 @@ export function useMonacoEditor(
   async function loadMonaco() {
     await useColorThemeOnMonacoEditor();
     monaco.value = await import("monaco-editor");
+    await readyModel;
   }
 
   const ready = loadMonaco();
