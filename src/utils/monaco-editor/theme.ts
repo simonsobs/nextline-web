@@ -1,10 +1,9 @@
 import { computed, watchEffect, toValue, ref, nextTick } from "vue";
 import type { MaybeRef } from "vue";
-
 import type * as Monaco from "monaco-editor";
 
-import type { DynamicColors } from "@/utils/dynamic-color";
 import { useColorTheme, useDarkMode } from "@/utils/color-theme";
+import type { DynamicColors } from "@/utils/dynamic-color";
 
 interface _ReadyOnly {
   ready: Promise<void>;
@@ -33,7 +32,7 @@ export function useColorThemeOnMonacoEditor(): ReadyOnly {
 
 export function useDynamicColorsOnMonacoEditor(
   dynamicColors: MaybeRef<DynamicColors>,
-  isDark: MaybeRef<boolean>
+  isDark: MaybeRef<boolean>,
 ): ReadyOnly {
   const name = computed(() => (toValue(isDark) ? "nextline-dark" : "nextline-light"));
   const base = computed(() => (toValue(isDark) ? "vs-dark" : "vs"));
@@ -62,7 +61,7 @@ export function useDynamicColorsOnMonacoEditor(
 function defineTheme(
   name: string,
   dynamicColors: DynamicColors,
-  base: Monaco.editor.BuiltinTheme
+  base: Monaco.editor.BuiltinTheme,
 ): ReadyOnly {
   // https://github.com/microsoft/monaco-editor/issues/1762
   // https://github.com/microsoft/monaco-editor/blob/main/src/basic-languages/python/python.ts

@@ -1,8 +1,8 @@
-import { Client, CombinedError, provideClient, useQuery } from "@urql/vue";
-import gql from "graphql-tag";
 import { describe, expect, it } from "vitest";
 import type { App, MaybeRef } from "vue";
 import { createApp, defineComponent, ref } from "vue";
+import { Client, CombinedError, provideClient, useQuery } from "@urql/vue";
+import gql from "graphql-tag";
 import { fromValue, never } from "wonka";
 
 type SetupFunction = () => Record<string, unknown>;

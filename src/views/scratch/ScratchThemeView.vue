@@ -9,7 +9,7 @@
           </VCard>
         </VCol>
         <VCol cols="6">
-          <VCard variant="outlined" v-if="`on-${k}` in colors">
+          <VCard v-if="`on-${k}` in colors" variant="outlined">
             <VCardTitle :class="`bg-${k} text-on-${k}`">
               {{ `on-${k}` }}: {{ colors[`on-${k}`] }}
             </VCardTitle>
@@ -30,7 +30,7 @@ const colors = computed(() => theme.current.value.colors);
 
 const bgColors = computed(() =>
   Object.fromEntries(
-    Object.entries(colors.value).filter(([k, v]) => !k.startsWith("on-"))
-  )
+    Object.entries(colors.value).filter(([k, v]) => !k.startsWith("on-")),
+  ),
 );
 </script>

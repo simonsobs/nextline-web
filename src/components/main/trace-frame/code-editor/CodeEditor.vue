@@ -14,7 +14,9 @@
 
 <script setup lang="ts">
 import { toRefs, computed } from "vue";
+
 import { PromptingData } from "@/graphql/codegen/generated";
+
 import CodeEditorE from "./CodeEditorE.vue";
 
 interface Props {

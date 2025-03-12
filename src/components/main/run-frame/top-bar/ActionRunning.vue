@@ -6,19 +6,19 @@
       </VBtn>
     </template>
     <VList>
-      <VListItem @click="dialogInterrupt = true" class="text-error">
+      <VListItem class="text-error" @click="dialogInterrupt = true">
         <template #prepend>
           <VIcon> mdi-close </VIcon>
         </template>
         Interrupt
       </VListItem>
-      <VListItem @click="dialogTerminate = true" class="text-error">
+      <VListItem class="text-error" @click="dialogTerminate = true">
         <template #prepend>
           <VIcon> mdi-close-octagon-outline </VIcon>
         </template>
         Terminate
       </VListItem>
-      <VListItem @click="dialogKill = true" class="text-error">
+      <VListItem class="text-error" @click="dialogKill = true">
         <template #prepend>
           <VIcon> mdi-close-octagon </VIcon>
         </template>
@@ -49,8 +49,9 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
 import { useDisplay } from "vuetify";
-import { VMenu } from "vuetify/components/VMenu"
-import { VBottomSheet } from "vuetify/components/VBottomSheet"
+import { VBottomSheet } from "vuetify/components/VBottomSheet";
+import { VMenu } from "vuetify/components/VMenu";
+
 import {
   useCtrlInterruptMutation,
   useCtrlTerminateMutation,
@@ -58,8 +59,8 @@ import {
 } from "@/graphql/codegen/generated";
 
 import InterruptConfirmationDialog from "./InterruptConfirmationDialog.vue";
-import TerminateConfirmationDialog from "./TerminateConfirmationDialog.vue";
 import KillConfirmationDialog from "./KillConfirmationDialog.vue";
+import TerminateConfirmationDialog from "./TerminateConfirmationDialog.vue";
 
 const { executeMutation: executeInterrupt } = useCtrlInterruptMutation();
 const { executeMutation: executeTerminate } = useCtrlTerminateMutation();
@@ -69,7 +70,7 @@ const { mobile } = useDisplay();
 
 const menuComponent = computed(() => (mobile.value ? VBottomSheet : VMenu));
 const menuAttributes = computed(() =>
-  mobile.value ? {} : { location: "top", offset: 8 }
+  mobile.value ? {} : { location: "top", offset: 8 },
 );
 
 const dialogInterrupt = ref(false);

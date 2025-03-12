@@ -1,10 +1,11 @@
 import { computed, watchEffect, toValue } from "vue";
 import type { MaybeRefOrGetter } from "vue";
+import type { OmitIndexSignature } from "type-fest";
 import { useTheme } from "vuetify";
 import type { ThemeDefinition } from "vuetify";
-import type { OmitIndexSignature } from "type-fest";
 
 import type { DynamicColors } from "@/utils/dynamic-color";
+
 import { useDarkMode } from "./dark-mode";
 
 type DynamicColorName = keyof DynamicColors;
@@ -26,7 +27,7 @@ export function useDarkModeOnVuetify() {
 
 export function useDynamicColorsOnVuetify(
   dynamicColors: MaybeRefOrGetter<DynamicColors>,
-  isDark: MaybeRefOrGetter<boolean>
+  isDark: MaybeRefOrGetter<boolean>,
 ) {
   // https://vuetifyjs.com/en/features/theme/
   const missing = computed(() => createMissingColors(toValue(dynamicColors)));

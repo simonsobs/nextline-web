@@ -17,8 +17,9 @@
 
 <script setup lang="ts">
 import ProvideConfig from "@/utils/config/ProvideConfig.vue";
-import ProvideColorTheme from "./ProvideColorTheme.vue";
+
 import App from "./AppMain.vue";
+import ProvideColorTheme from "./ProvideColorTheme.vue";
 </script>
 
 <style scoped>

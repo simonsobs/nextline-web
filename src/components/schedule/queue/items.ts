@@ -1,7 +1,7 @@
 import { ref, watchEffect } from "vue";
 import type { Ref } from "vue";
 import type { OperationResult, AnyVariables } from "@urql/vue";
-import { formatDateTime } from "@/utils/format-date-time";
+
 import { useSubscribeScheduleQueueItems } from "@/api/use-schedule-queue-items-subscription";
 import {
   useScheduleQueuePushMutation,
@@ -20,6 +20,7 @@ import type {
   ScheduleQueueMoveToLastMutation,
   ScheduleQueueMoveOneBackwardMutation,
 } from "@/graphql/codegen/generated";
+import { formatDateTime } from "@/utils/format-date-time";
 
 export interface Item {
   order: number;

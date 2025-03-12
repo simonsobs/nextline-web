@@ -6,8 +6,8 @@
 </template>
 
 <script setup lang="ts">
-import SpanRunNoState from "./SpanRunNoState.vue";
 import { useActionComponent } from "./action-component";
+import SpanRunNoState from "./SpanRunNoState.vue";
 const { actionComponent } = await useActionComponent();
 </script>
 

@@ -19,9 +19,11 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
+
 import { useMonacoEditor } from "@/utils/monaco-editor";
-import { useSource } from "./source";
+
 import Actions from "./Actions.vue";
+import { useSource } from "./source";
 const editor = ref<HTMLElement>();
 const { source, modified, save, reset, load, loadExample } = await useSource();
 await useMonacoEditor({ element: editor, source, mode: "editor" });

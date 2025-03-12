@@ -8,11 +8,11 @@
         preview
       </VBtn>
     </div>
-    <div class="g-body" v-if="!loading">
-      <VAlert type="error" variant="tonal" v-if="error">
+    <div v-if="!loading" class="g-body">
+      <VAlert v-if="error" type="error" variant="tonal">
         <pre
-          v-text="error"
           style="white-space: pre-wrap; overflow-wrap: anywhere"
+          v-text="error"
         ></pre>
       </VAlert>
       <Suspense v-else-if="script">
@@ -26,8 +26,8 @@
 </template>
 
 <script setup lang="ts">
-import { usePreview } from "./preview";
 import Editor from "./Editor.vue";
+import { usePreview } from "./preview";
 const breadcrumb = [{ title: "Scheduler Preview", disabled: false }];
 const { script, loading, error, load } = usePreview();
 </script>

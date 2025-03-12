@@ -1,5 +1,5 @@
 <template>
-  <VDialog persistent v-model="show">
+  <VDialog v-model="show" persistent>
     <VSheet>
       <VProgressCircular indeterminate color="primary"></VProgressCircular>
     </VSheet>

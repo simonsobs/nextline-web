@@ -1,6 +1,5 @@
 import { describe, it, expect } from "vitest";
 import { ref, nextTick, unref, isRef } from "vue";
-
 import fc from "fast-check";
 
 import { useModel } from "..";
@@ -15,9 +14,9 @@ export const fcSource = () =>
   fc.option(
     fc.oneof(
       fcText().map((lines) => lines.join("\n")),
-      fcText().map((lines) => ref(lines.join("\n")))
+      fcText().map((lines) => ref(lines.join("\n"))),
     ),
-    { nil: undefined }
+    { nil: undefined },
   );
 
 export const fcLanguage = () =>
@@ -31,7 +30,7 @@ export const fcUseModelOptions = () =>
       source: fcSource(),
       language: fcLanguage(),
     },
-    { withDeletedKeys: true }
+    { withDeletedKeys: true },
   );
 
 describe("fcUseModelOptions()", () => {
@@ -40,7 +39,7 @@ describe("fcUseModelOptions()", () => {
       fc.property(fcUseModelOptions(), (options) => {
         expect(options).toBeDefined();
         return true;
-      })
+      }),
     );
   });
 });
@@ -48,7 +47,7 @@ describe("fcUseModelOptions()", () => {
 const fcUseModelArgs = () =>
   fc.option(
     fcUseModelOptions().map((options) => [options]),
-    { nil: [] }
+    { nil: [] },
   );
 
 function assertDefined<T>(value: T): asserts value is NonNullable<T> {
@@ -81,7 +80,7 @@ describe("useModel()", () => {
 
         dispose();
       }),
-      { verbose: true, numRuns: 10 } // NOTE: Error with larger numRuns
+      { verbose: true, numRuns: 10 }, // NOTE: Error with larger numRuns
     );
   });
 

@@ -1,10 +1,10 @@
 <template>
   <VList>
     <VListItem
-      link
-      router
       v-for="(item, i) in naviItems"
       :key="i"
+      link
+      router
       :to="item.to"
       :exact="item.exact"
       :title="item.title"

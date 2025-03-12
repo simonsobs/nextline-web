@@ -1,10 +1,11 @@
+import type { ComputedRef } from "vue";
+import { computed } from "vue";
+
 import type { ScheduleQueueItem } from "@/graphql/codegen/generated";
 import {
   useScheduleQueueItemsQuery,
   useScheduleQueueItemsSSubscription,
 } from "@/graphql/codegen/generated";
-import type { ComputedRef } from "vue";
-import { computed } from "vue";
 
 interface _ScheduleQueueItemsSubscription {
   items: ComputedRef<ScheduleQueueItem[] | undefined>;
@@ -31,7 +32,7 @@ export function useSubscribeScheduleQueueItems(): ScheduleQueueItemsSubscription
     error.value
       ? undefined
       : subscription.data?.value?.scheduleQueueItems ||
-        query.data?.value?.schedule.queue.items
+        query.data?.value?.schedule.queue.items,
   );
 
   const ret = { items, loading, error, subscription, query };

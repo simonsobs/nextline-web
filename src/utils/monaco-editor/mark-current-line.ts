@@ -3,7 +3,7 @@ import type { MaybeRefOrGetter } from "vue";
 import type * as Monaco from "monaco-editor";
 
 function useDecorationsCollection(
-  editor: MaybeRefOrGetter<Monaco.editor.IStandaloneCodeEditor | undefined>
+  editor: MaybeRefOrGetter<Monaco.editor.IStandaloneCodeEditor | undefined>,
 ) {
   const deltaDecos = ref<Monaco.editor.IModelDeltaDecoration[]>([]);
   const decoCol = computed(() => toValue(editor)?.createDecorationsCollection([]));
@@ -34,16 +34,14 @@ interface _UseMarkCurrentLineReturn {
 type UseMarkCurrentLineReturn = _UseMarkCurrentLineReturn &
   PromiseLike<_UseMarkCurrentLineReturn>;
 
-
 export function useMarkCurrentLine(
   editor: MaybeRefOrGetter<Monaco.editor.IStandaloneCodeEditor | undefined>,
   lineNo: MaybeRefOrGetter<number>,
   className: MaybeRefOrGetter<string>,
-  glyphMarginClassName: MaybeRefOrGetter<string>
+  glyphMarginClassName: MaybeRefOrGetter<string>,
 ): UseMarkCurrentLineReturn {
   const { deltaDeco, range, options } = useDeltaDecoration();
   const { deltaDecos } = useDecorationsCollection(editor);
-
 
   watchEffect(() => {
     deltaDecos.value = deltaDeco.value ? [deltaDeco.value] : [];

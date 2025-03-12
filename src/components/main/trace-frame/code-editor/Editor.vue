@@ -4,8 +4,8 @@
 
 <script setup lang="ts">
 import { ref, computed, toRefs } from "vue";
-import { useMonacoEditor, useScroll } from "@/utils/monaco-editor";
-import { useMarkCurrentLine } from "@/utils/monaco-editor";
+
+import { useMonacoEditor, useScroll, useMarkCurrentLine } from "@/utils/monaco-editor";
 
 interface Props {
   source: string;
@@ -22,10 +22,10 @@ const element = ref<HTMLElement>();
 const { editor, ready } = useMonacoEditor({ element, source });
 
 const className = computed(() =>
-  prompting.value ? "background-high" : "background-low"
+  prompting.value ? "background-high" : "background-low",
 );
 const glyphMarginClassName = computed(() =>
-  prompting.value ? "arrow-high" : "arrow-low"
+  prompting.value ? "arrow-high" : "arrow-low",
 );
 
 useScroll(editor, lineNo);

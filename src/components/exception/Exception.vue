@@ -1,8 +1,8 @@
 <template>
   <VAlert v-model="alert" closable type="error" variant="tonal" class="my-2">
     <pre
-      v-text="exception"
       style="white-space: pre-wrap; overflow-wrap: anywhere"
+      v-text="exception"
     ></pre>
   </VAlert>
 </template>
@@ -10,9 +10,8 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
 
-import { useCtrlExceptionQuery } from "@/graphql/codegen/generated";
-
 import { useSubscribeState } from "@/api";
+import { useCtrlExceptionQuery } from "@/graphql/codegen/generated";
 
 interface Props {
   modelValue: boolean;

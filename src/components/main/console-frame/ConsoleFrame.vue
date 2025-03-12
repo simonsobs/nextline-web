@@ -29,7 +29,7 @@ import { useCtrlStdoutSSubscription } from "@/graphql/codegen/generated";
 
 const handleSubscription = (
   messages = { ctrlStdout: "" },
-  response: { ctrlStdout: string }
+  response: { ctrlStdout: string },
 ) => {
   nextTick(() => {
     nextTick(() => {

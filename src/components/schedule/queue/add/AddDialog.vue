@@ -16,8 +16,7 @@
       </div>
       <div class="g-title text-primary text-h5">Add a Python script to the queue</div>
       <div class="g-content">
-        <ItemAdd v-model="state" v-model:valid="valid" v-model:dirty="dirty">
-        </ItemAdd>
+        <ItemAdd v-model="state" v-model:valid="valid" v-model:dirty="dirty"> </ItemAdd>
       </div>
       <div class="g-bottom d-flex">
         <VBtn variant="text" @click="onClickCancel">Cancel</VBtn>
@@ -25,31 +24,29 @@
         <VBtn variant="flat" :disabled="!valid" @click="onClickAdd">Add</VBtn>
       </div>
     </VSheet>
-    <DiscardConfirmationDialog
-      v-model="dialogConfirmDiscard"
-      @confirm="clearAndClose"
-    >
+    <DiscardConfirmationDialog v-model="dialogConfirmDiscard" @confirm="clearAndClose">
     </DiscardConfirmationDialog>
     <LoadingIndicator v-model="loading"> </LoadingIndicator>
-    <ErrorDialog v-model="dialogError" :error="error">
-    </ErrorDialog>
+    <ErrorDialog v-model="dialogError" :error="error"> </ErrorDialog>
   </VDialog>
 </template>
 
 <script setup lang="ts">
 import { ref, computed } from "vue";
-import { useDisplay } from "vuetify";
 import type { CombinedError } from "@urql/vue";
-import ItemAdd from "./ItemAdd.vue";
-import type { State } from "./ItemAdd.vue";
-import DiscardConfirmationDialog from "./DiscardConfirmationDialog.vue";
-import LoadingIndicator from "../LoadingIndicator.vue";
+import { useDisplay } from "vuetify";
+
 import ErrorDialog from "../ErrorDialog.vue";
 import { useItems } from "../items";
+import LoadingIndicator from "../LoadingIndicator.vue";
+
+import DiscardConfirmationDialog from "./DiscardConfirmationDialog.vue";
+import ItemAdd from "./ItemAdd.vue";
+import type { State } from "./ItemAdd.vue";
 const show = defineModel<boolean>();
 const { mobile } = useDisplay();
 const transition = computed(() =>
-  mobile.value ? "slide-x-reverse-transition" : "dialog-transition"
+  mobile.value ? "slide-x-reverse-transition" : "dialog-transition",
 );
 const state = ref<State>();
 const valid = ref<boolean>();
@@ -80,7 +77,7 @@ async function onClickAdd() {
   loading.value = true;
   const result = await addItem(state.value);
   loading.value = false;
-  if(result.error) {
+  if (result.error) {
     error.value = result.error;
     dialogError.value = true;
     return;

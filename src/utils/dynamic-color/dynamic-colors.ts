@@ -24,10 +24,10 @@ import type { UnwrapRef } from "vue";
 import { hexFromArgb } from "@material/material-color-utilities";
 import type { DynamicScheme } from "@material/material-color-utilities";
 
-import { useDynamicScheme } from "./dynamic-scheme";
-import type { UseDynamicSchemeOptions } from "./dynamic-scheme";
 import { ColorNameMap } from "./colors";
 import type { ColorName } from "./colors";
+import { useDynamicScheme } from "./dynamic-scheme";
+import type { UseDynamicSchemeOptions } from "./dynamic-scheme";
 
 export interface UseDynamicColorsOptions extends UseDynamicSchemeOptions {}
 
@@ -45,5 +45,5 @@ const generateColors = (scheme: DynamicScheme) =>
     {},
     ...Object.entries(ColorNameMap).map(([colorName, dynamicColor]) => ({
       [colorName]: hexFromArgb(dynamicColor.getArgb(scheme)),
-    }))
+    })),
   ) as { [k in ColorName]: string };

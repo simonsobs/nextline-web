@@ -1,7 +1,8 @@
-import { useFetch } from "@vueuse/core";
 import * as path from "path";
+
 import type { ShallowRef } from "vue";
 import { computed, ref, shallowRef, watchEffect } from "vue";
+import { useFetch } from "@vueuse/core";
 
 /**
  * Asynchronously loads and manages a configuration object with validation and error handling.
@@ -36,7 +37,7 @@ import { computed, ref, shallowRef, watchEffect } from "vue";
  */
 export async function useLoadConfigT<T extends object>(
   defaultConfig: Partial<T> = {},
-  validate: (config: T) => void = () => true
+  validate: (config: T) => void = () => true,
 ) {
   const { configUrl } = useConfigUrl();
 
@@ -51,7 +52,7 @@ export async function useLoadConfigT<T extends object>(
   const loading = computed(() => !isFinished.value);
 
   const toBeValidated = computed<T | null>(
-    () => data.value && { ...defaultConfig, ...(data.value ?? {}) }
+    () => data.value && { ...defaultConfig, ...(data.value ?? {}) },
   );
 
   const validationError = ref<Error | undefined>(undefined);
@@ -78,7 +79,7 @@ export async function useLoadConfigT<T extends object>(
         validConfig.value = rawValidConfig;
       }
     },
-    { flush: "sync" }
+    { flush: "sync" },
   );
 
   if (error.value) {

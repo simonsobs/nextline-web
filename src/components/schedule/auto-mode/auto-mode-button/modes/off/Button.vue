@@ -12,8 +12,9 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useDisplay } from "vuetify";
-import { VMenu } from "vuetify/components/VMenu"
-import { VBottomSheet } from "vuetify/components/VBottomSheet"
+import { VBottomSheet } from "vuetify/components/VBottomSheet";
+import { VMenu } from "vuetify/components/VMenu";
+
 import Dialog from "./Dialog.vue";
 const { mobile } = useDisplay();
 const menuComponent = computed(() => (mobile.value ? VBottomSheet : VMenu));

@@ -8,10 +8,11 @@
 </template>
 
 <script setup lang="ts">
+import { useSubscribeScheduleAutoModeMode } from "@/api";
+
 import ButtonError from "./modes/error/Button.vue";
 import ButtonOff from "./modes/off/Button.vue";
-import ButtonScheduler from "./modes/scheduler/Button.vue";
 import ButtonQueue from "./modes/queue/Button.vue";
-import { useSubscribeScheduleAutoModeMode } from "@/api";
+import ButtonScheduler from "./modes/scheduler/Button.vue";
 const { autoModeMode: mode } = await useSubscribeScheduleAutoModeMode();
 </script>

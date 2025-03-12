@@ -16,8 +16,8 @@
 </template>
 
 <script setup lang="ts">
-import SubscribeRunNo from "./SubscribeRunNo.vue";
 import RunFrameE from "./RunFrameE.vue";
+import SubscribeRunNo from "./SubscribeRunNo.vue";
 </script>
 
 <style scoped>

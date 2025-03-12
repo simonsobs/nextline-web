@@ -7,7 +7,7 @@
       <div class="g-content">
         <ContentFrame :item="item" :n-items="nItems"> </ContentFrame>
       </div>
-      <div class="g-bottom d-flex" v-if="!mobile">
+      <div v-if="!mobile" class="g-bottom d-flex">
         <VSpacer></VSpacer>
         <VBtn variant="text" @click="show = false">Close</VBtn>
       </div>
@@ -18,15 +18,17 @@
 <script setup lang="ts">
 import { computed, toRefs } from "vue";
 import { useDisplay } from "vuetify";
-import TopFrame from "./TopFrame.vue";
-import ContentFrame from "./ContentFrame.vue";
+
 import { useItems } from "../items";
 import type { Item } from "../items";
+
+import ContentFrame from "./ContentFrame.vue";
+import TopFrame from "./TopFrame.vue";
 
 const { mobile } = useDisplay();
 
 const transition = computed(() =>
-  mobile.value ? "slide-x-reverse-transition" : "dialog-transition"
+  mobile.value ? "slide-x-reverse-transition" : "dialog-transition",
 );
 
 interface Props {

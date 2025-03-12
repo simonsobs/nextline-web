@@ -4,7 +4,7 @@ import type * as monaco from "monaco-editor";
 
 export function useScroll(
   editor: MaybeRef<monaco.editor.IStandaloneCodeEditor | undefined>,
-  lineNo: MaybeRef<number>
+  lineNo: MaybeRef<number>,
 ) {
   watchEffect(() => {
     const editor_ = unref(editor);
