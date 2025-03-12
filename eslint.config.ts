@@ -3,6 +3,7 @@ import * as tseslint from "typescript-eslint";
 import vuePlugin from "eslint-plugin-vue";
 import prettierPlugin from "eslint-plugin-prettier";
 import prettierConfig from "eslint-config-prettier";
+import vueParser from "vue-eslint-parser"
 
 // @ts-ignore
 import importPlugin from "eslint-plugin-import";
@@ -17,9 +18,6 @@ export default [
   // Import plugin
   {
     files: ["**/*.{js,ts,vue}"],
-    plugins: {
-      import: importPlugin,
-    },
     settings: {
       "import/resolver": {
         typescript: true,
@@ -35,7 +33,7 @@ export default [
       vue: vuePlugin,
     },
     languageOptions: {
-      parser: "vue-eslint-parser",
+      parser: vueParser,
       parserOptions: {
         parser: tseslint.parser,
         ecmaVersion: 2022,
