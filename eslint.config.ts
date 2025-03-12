@@ -93,7 +93,7 @@ export default [
       },
     },
     rules: {
-      ...vuePlugin.configs.essential.rules,
+      ...vuePlugin.configs["vue3-recommended"].rules,
       "vue/multi-word-component-names": "off",
       "vue/script-setup-uses-vars": "warn",
       "vue/no-unused-components": "off",
