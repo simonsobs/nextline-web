@@ -8,7 +8,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { computed, watchEffect } from "vue";
+import { useVModel } from "@vueuse/core";
 
 import { useSubscribeState } from "@/api";
 import { useCtrlExceptionQuery } from "@/graphql/codegen/generated";
@@ -24,36 +25,27 @@ type Emits = {
 const props = defineProps<Props>();
 const emit = defineEmits<Emits>();
 
+const alert = useVModel(props, "modelValue", emit);
+
 const stateSubscription = useSubscribeState();
 const { state } = stateSubscription;
 
-const pause = ref(true);
+const query = useCtrlExceptionQuery({ pause: true, variables: {} });
 
-const query = useCtrlExceptionQuery({ pause: pause.value });
-
-watch(state, (val) => {
-  pause.value = val !== "finished";
-  if (!pause.value) {
-    query.executeQuery();
+watchEffect(() => {
+  if (state.value !== "finished") {
+    alert.value = false;
+    return;
   }
+  query.executeQuery();
 });
 
-const exception = ref(null as string | null | undefined);
+const exception = computed(() =>
+  state.value !== "finished" ? null : query.data.value?.ctrl.exception
+);
 
-const alert = ref(false);
-
-watch(props, (val) => {
-  alert.value = val.modelValue;
-});
-
-watch(query.data, (val) => {
-  alert.value = !!val?.ctrl.exception;
-  exception.value = val?.ctrl.exception;
-});
-
-watch(alert, (val) => {
-  if (!val) exception.value = null;
-  emit("update:modelValue", val);
+watchEffect(() => {
+  alert.value = !!exception.value;
 });
 
 await stateSubscription;
