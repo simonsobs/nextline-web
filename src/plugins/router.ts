@@ -38,6 +38,11 @@ const routes: RouteRecordRaw[] = [
     component: () => import("@/views/dev/DevView.vue"),
   },
   {
+    path: "/dev/headers",
+    name: "dev-headers",
+    component: () => import("@/views/dev/DevHeadersView.vue"),
+  },
+  {
     path: "/scratch",
     name: "scratch",
     component: () => import("@/views/scratch/ScratchView.vue"),
