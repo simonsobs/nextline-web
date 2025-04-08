@@ -143,6 +143,7 @@ export type MutationSchedulerUpdateInput = {
   apiUrl?: InputMaybe<Scalars['String']['input']>;
   lengthMinutes?: InputMaybe<Scalars['Int']['input']>;
   policy?: InputMaybe<Scalars['String']['input']>;
+  timeout?: InputMaybe<Scalars['Float']['input']>;
 };
 
 export type PageInfo = {
@@ -315,6 +316,7 @@ export type QueryScheduleScheduler = {
   lengthMinutes: Scalars['Int']['output'];
   policy: Scalars['String']['output'];
   preview: ScheduleSchedulerPreviewItem;
+  timeout: Scalars['Float']['output'];
 };
 
 export type RunNode = {
@@ -662,6 +664,11 @@ export type CtrlTraceIdsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type CtrlTraceIdsQuery = { __typename?: 'Query', ctrl: { __typename?: 'QueryCtrl', traceIds: Array<number> } };
+
+export type DevHeadersQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type DevHeadersQuery = { __typename?: 'Query', dev: { __typename?: 'QueryDev', headers: string } };
 
 export type RdbRunQueryVariables = Exact<{
   runNo: Scalars['Int']['input'];
@@ -1049,6 +1056,17 @@ export const CtrlTraceIdsDocument = gql`
 
 export function useCtrlTraceIdsQuery(options: Omit<Urql.UseQueryArgs<never, CtrlTraceIdsQueryVariables>, 'query'>) {
   return Urql.useQuery<CtrlTraceIdsQuery, CtrlTraceIdsQueryVariables>({ query: CtrlTraceIdsDocument, ...options });
+};
+export const DevHeadersDocument = gql`
+    query DevHeaders {
+  dev {
+    headers
+  }
+}
+    `;
+
+export function useDevHeadersQuery(options: Omit<Urql.UseQueryArgs<never, DevHeadersQueryVariables>, 'query'>) {
+  return Urql.useQuery<DevHeadersQuery, DevHeadersQueryVariables>({ query: DevHeadersDocument, ...options });
 };
 export const RdbRunDocument = gql`
     query RdbRun($runNo: Int!) {
