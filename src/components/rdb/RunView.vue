@@ -45,7 +45,7 @@ const run = computed(() => queryResponse.data.value?.rdb.run);
   padding: 12px;
   justify-content: center;
   grid-template-columns: minmax(min-content, 960px);
-  grid-template-rows: min-content min-content 1fr;
+  grid-template-rows: min-content min-content min-content;
   grid-template-areas: "navi" "button" "card";
 }
 
