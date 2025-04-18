@@ -1,24 +1,3 @@
-<script setup lang="ts">
-import { computed, ref } from "vue";
-import { useRoute } from "vue-router";
-
-import { useRdbRunQuery } from "@/graphql/codegen/generated";
-
-import RunCard from "./RunCard.vue";
-
-const route = useRoute();
-const runNo = Number(route.params.runNo);
-
-const breadcrumb = computed(() => [
-  { title: "Runs", to: { name: "runs" }, exact: true },
-  { title: `Run ${runNo}`, to: { name: "run", params: { runNo } } },
-]);
-
-const queryResponse = useRdbRunQuery({ variables: { runNo } });
-
-const run = computed(() => queryResponse.data.value?.rdb.run);
-</script>
-
 <template>
   <div class="g-container">
     <div class="g-navi">
@@ -39,13 +18,34 @@ const run = computed(() => queryResponse.data.value?.rdb.run);
   </div>
 </template>
 
+<script setup lang="ts">
+import { computed } from "vue";
+import { useRoute } from "vue-router";
+
+import { useRdbRunQuery } from "@/graphql/codegen/generated";
+
+import RunCard from "./RunCard.vue";
+
+const route = useRoute();
+const runNo = Number(route.params.runNo);
+
+const breadcrumb = computed(() => [
+  { title: "Runs", to: { name: "runs" }, exact: true },
+  { title: `Run ${runNo}`, to: { name: "run", params: { runNo } } },
+]);
+
+const queryResponse = useRdbRunQuery({ variables: { runNo } });
+
+const run = computed(() => queryResponse.data.value?.rdb.run);
+</script>
+
 <style scoped>
 .g-container {
   display: grid;
   padding: 12px;
   justify-content: center;
   grid-template-columns: minmax(min-content, 960px);
-  grid-template-rows: min-content min-content 1fr;
+  grid-template-rows: min-content min-content min-content;
   grid-template-areas: "navi" "button" "card";
 }
 

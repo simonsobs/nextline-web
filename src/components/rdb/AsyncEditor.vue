@@ -4,7 +4,7 @@
     <template #fallback>
       <div style="height: 100%">
         <VProgressLinear indeterminate></VProgressLinear>
-        <!-- <pre class="overflow-auto" style="height: 100%">{{ source }}</pre> -->
+        <pre class="pl-5">{{ source }}</pre>
       </div>
     </template>
   </Suspense>

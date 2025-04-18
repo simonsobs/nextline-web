@@ -30,7 +30,7 @@
     </div>
     <div class="g-script">
       <VCardSubtitle class="font-weight-bold"> Script </VCardSubtitle>
-      <VCardText style="height: 100%">
+      <VCardText>
         <AsyncEditor v-if="run?.script" :source="run?.script"></AsyncEditor>
       </VCardText>
     </div>
@@ -104,7 +104,8 @@ function formatDateTime(dateTime: string) {
   grid-area: script;
   display: grid;
   grid-template-columns: minmax(100px, 1fr);
-  grid-template-rows: min-content minmax(200px, 1fr);
+  /* grid-template-rows: min-content minmax(200px, 1fr); */
+  grid-template-rows: min-content min-content;
 }
 
 .g-stdout {
