@@ -1,5 +1,5 @@
 <template>
-  <div ref="element" :style="{ height: editorHeight }"></div>
+  <div ref="element" :style="{ height: editorHeight }" @wheel.stop.capture></div>
 </template>
 
 <script setup lang="ts">
