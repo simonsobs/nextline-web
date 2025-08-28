@@ -1,6 +1,5 @@
 import js from "@eslint/js";
 import prettierConfig from "eslint-config-prettier";
-// @ts-expect-error No types available
 import importPlugin from "eslint-plugin-import";
 import prettierPlugin from "eslint-plugin-prettier";
 import vuePlugin from "eslint-plugin-vue";
@@ -96,7 +95,7 @@ export default [
       },
     },
     rules: {
-      ...vuePlugin.configs["vue3-recommended"].rules,
+      ...vuePlugin.configs.recommended.rules,
       "vue/multi-word-component-names": "off",
       "vue/script-setup-uses-vars": "warn",
       "vue/no-unused-components": "off",
