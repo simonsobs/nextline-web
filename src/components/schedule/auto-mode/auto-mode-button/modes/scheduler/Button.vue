@@ -1,7 +1,7 @@
 <template>
   <Component :is="menuComponent">
     <template #activator="{ props }">
-      <VBtn v-bind="props" variant="tonal" color="tertiary">
+      <VBtn v-bind="props" :loading="pulling" variant="tonal" color="tertiary">
         Auto Mode: Scheduler
       </VBtn>
     </template>
@@ -17,9 +17,13 @@ import { useDisplay } from "vuetify";
 import { VBottomSheet } from "vuetify/components/VBottomSheet";
 import { VMenu } from "vuetify/components/VMenu";
 
+import { usePulling } from "../../usePulling";
 import Dialog from "./Dialog.vue";
+
 const { mobile } = useDisplay();
 const menuComponent = computed(() => (mobile.value ? VBottomSheet : VMenu));
+
+const { pulling } = await usePulling();
 </script>
 
 <style scoped>
