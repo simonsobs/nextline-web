@@ -87,7 +87,8 @@ describe("useSubscribeState", () => {
     vi.mocked(useCtrlStateQuery).mockReturnValue({
       data: { value: { ctrl: { state: "promised" } } },
       error: { value: undefined },
-      then: (resolve) => resolve({ data: { value: { ctrl: { state: "promised" } } } }),
+      then: (resolve: (value: any) => void) =>
+        resolve({ data: { value: { ctrl: { state: "promised" } } } }),
     } as any);
     vi.mocked(useCtrlStateSSubscription).mockReturnValue({
       data: { value: undefined },
