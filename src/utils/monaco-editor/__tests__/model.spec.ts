@@ -30,7 +30,7 @@ export const fcUseModelOptions = () =>
       source: fcSource(),
       language: fcLanguage(),
     },
-    { withDeletedKeys: true },
+    { requiredKeys: [] },
   );
 
 describe("fcUseModelOptions()", () => {
