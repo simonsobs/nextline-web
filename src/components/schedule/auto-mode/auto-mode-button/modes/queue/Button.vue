@@ -17,7 +17,7 @@ import { useDisplay } from "vuetify";
 import { VBottomSheet } from "vuetify/components/VBottomSheet";
 import { VMenu } from "vuetify/components/VMenu";
 
-import { usePulling } from "../../usePulling";
+import { usePulling } from "../../use-pulling";
 import Dialog from "./Dialog.vue";
 
 const { mobile } = useDisplay();
