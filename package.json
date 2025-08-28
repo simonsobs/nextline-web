@@ -51,7 +51,7 @@
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-prettier": "^5.2.3",
     "eslint-plugin-vue": "^9.32.0",
-    "fast-check": "^3.23.2",
+    "fast-check": "^4.2.0",
     "graphql-tag": "^2.12.6",
     "jiti": "^2.4.2",
     "jsdom": "^26.0.0",
