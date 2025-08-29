@@ -6,7 +6,9 @@ import { useModel } from "./model";
 import type { UseModelOptions } from "./model";
 import { useColorThemeOnMonacoEditor } from "./theme";
 
-function onReady<T>(ret: T, ready: Promise<unknown>): T & PromiseLike<T> {
+type OnReady<T> = T & PromiseLike<T>;
+
+function onReady<T>(ret: T, ready: Promise<unknown>): OnReady<T> {
   return {
     ...ret,
     async then(onFulfilled, onRejected) {
@@ -15,6 +17,7 @@ function onReady<T>(ret: T, ready: Promise<unknown>): T & PromiseLike<T> {
     },
   };
 }
+
 const editorOptionsBase: Monaco.editor.IEditorOptions = {
   minimap: { enabled: false },
   scrollbar: { vertical: "auto", horizontal: "auto" },
