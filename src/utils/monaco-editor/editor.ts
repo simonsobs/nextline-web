@@ -6,6 +6,15 @@ import { useModel } from "./model";
 import type { UseModelOptions } from "./model";
 import { useColorThemeOnMonacoEditor } from "./theme";
 
+function onReady<T>(ret: T, ready: Promise<unknown>): T & PromiseLike<T> {
+  return {
+    ...ret,
+    async then(onFulfilled, onRejected) {
+      await ready;
+      return Promise.resolve(ret).then(onFulfilled, onRejected);
+    },
+  };
+}
 const editorOptionsBase: Monaco.editor.IEditorOptions = {
   minimap: { enabled: false },
   scrollbar: { vertical: "auto", horizontal: "auto" },
@@ -128,11 +137,5 @@ export function useMonacoEditor(
 
   const ret = { editor, model, source, mode, ready };
 
-  return {
-    ...ret,
-    async then(onFulfilled, onRejected) {
-      await ready;
-      return Promise.resolve(ret).then(onFulfilled, onRejected);
-    },
-  };
+  return onReady(ret, ready);
 }
