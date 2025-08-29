@@ -5,6 +5,8 @@ import {
   useQScheduleAutoModeStateQuery,
   useScheduleAutoModeStateSSubscription,
 } from "@/graphql/codegen/generated";
+import { onReady } from "@/utils/on-ready";
+import type { OnReady } from "@/utils/on-ready";
 
 interface _ScheduleAutoModeStateSubscription {
   autoModeState: ComputedRef<string | undefined>;
@@ -13,8 +15,7 @@ interface _ScheduleAutoModeStateSubscription {
   query: ReturnType<typeof useQScheduleAutoModeStateQuery>;
 }
 
-type ScheduleAutoModeStateSubscription = _ScheduleAutoModeStateSubscription &
-  PromiseLike<_ScheduleAutoModeStateSubscription>;
+type ScheduleAutoModeStateSubscription = OnReady<_ScheduleAutoModeStateSubscription>;
 
 export function useSubscribeScheduleAutoModeState(): ScheduleAutoModeStateSubscription {
   const query = useQScheduleAutoModeStateQuery({
@@ -34,11 +35,5 @@ export function useSubscribeScheduleAutoModeState(): ScheduleAutoModeStateSubscr
 
   const ret = { autoModeState, error, subscription, query };
 
-  return {
-    ...ret,
-    async then(onFulfilled, onRejected) {
-      await query;
-      return Promise.resolve(ret).then(onFulfilled, onRejected);
-    },
-  };
+  return onReady(ret, query);
 }

@@ -5,6 +5,8 @@ import {
   useCtrlContinuousEnabledQuery,
   useCtrlContinuousEnabledSSubscription,
 } from "@/graphql/codegen/generated";
+import { onReady } from "@/utils/on-ready";
+import type { OnReady } from "@/utils/on-ready";
 
 interface _ContinuousEnabledSubscription {
   continuousEnabled: ComputedRef<boolean | undefined>;
@@ -13,8 +15,7 @@ interface _ContinuousEnabledSubscription {
   query: ReturnType<typeof useCtrlContinuousEnabledQuery>;
 }
 
-type ContinuousEnabledSubscription = _ContinuousEnabledSubscription &
-  PromiseLike<_ContinuousEnabledSubscription>;
+type ContinuousEnabledSubscription = OnReady<_ContinuousEnabledSubscription>;
 
 export function useSubscribeContinuousEnabled(): ContinuousEnabledSubscription {
   const query = useCtrlContinuousEnabledQuery({
@@ -34,11 +35,5 @@ export function useSubscribeContinuousEnabled(): ContinuousEnabledSubscription {
 
   const ret = { continuousEnabled, error, subscription, query };
 
-  return {
-    ...ret,
-    async then(onFulfilled, onRejected) {
-      await query;
-      return Promise.resolve(ret).then(onFulfilled, onRejected);
-    },
-  };
+  return onReady(ret, query);
 }

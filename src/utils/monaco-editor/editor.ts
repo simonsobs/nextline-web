@@ -2,8 +2,8 @@ import { shallowRef, unref, onMounted, ref, watchEffect } from "vue";
 import type { Ref, MaybeRef, ShallowRef } from "vue";
 import type * as Monaco from "monaco-editor";
 
-import { onReady } from "../on-ready";
-import type { OnReady } from "../on-ready";
+import { onReady } from "@/utils/on-ready";
+import type { OnReady } from "@/utils/on-ready";
 
 import { useModel } from "./model";
 import type { UseModelOptions } from "./model";
@@ -60,8 +60,7 @@ interface _UseMonacoEditorReturn {
   ready: Promise<void>;
 }
 
-type UseMonacoEditorReturn = _UseMonacoEditorReturn &
-  PromiseLike<_UseMonacoEditorReturn>;
+type UseMonacoEditorReturn = OnReady<_UseMonacoEditorReturn>;
 
 export function useMonacoEditor(
   options: UseMonacoEditorOptions,

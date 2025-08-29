@@ -2,6 +2,9 @@ import { ref, computed, toValue, watchEffect } from "vue";
 import type { MaybeRefOrGetter } from "vue";
 import type * as Monaco from "monaco-editor";
 
+import { onReady } from "@/utils/on-ready";
+import type { OnReady } from "@/utils/on-ready";
+
 function useDecorationsCollection(
   editor: MaybeRefOrGetter<Monaco.editor.IStandaloneCodeEditor | undefined>,
 ) {
@@ -31,8 +34,7 @@ interface _UseMarkCurrentLineReturn {
   ready: Promise<void>;
 }
 
-type UseMarkCurrentLineReturn = _UseMarkCurrentLineReturn &
-  PromiseLike<_UseMarkCurrentLineReturn>;
+type UseMarkCurrentLineReturn = OnReady<_UseMarkCurrentLineReturn>;
 
 export function useMarkCurrentLine(
   editor: MaybeRefOrGetter<Monaco.editor.IStandaloneCodeEditor | undefined>,
@@ -74,11 +76,5 @@ export function useMarkCurrentLine(
 
   const ret = { ready };
 
-  return {
-    ...ret,
-    async then(onFulfilled, onRejected) {
-      await ready;
-      return Promise.resolve(ret).then(onFulfilled, onRejected);
-    },
-  };
+  return onReady(ret, ready);
 }

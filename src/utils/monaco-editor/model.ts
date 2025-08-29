@@ -3,6 +3,8 @@ import type { MaybeRef, Ref, ShallowRef } from "vue";
 import { useDebounceFn, createEventHook } from "@vueuse/core";
 import type * as Monaco from "monaco-editor";
 
+import { onReady } from "@/utils/on-ready";
+import type { OnReady } from "@/utils/on-ready";
 export interface UseModelOptions {
   source?: MaybeRef<string>;
   language?: string;
@@ -39,7 +41,7 @@ interface _UseModelReturn {
   ready: Promise<void>;
 }
 
-type UseModelReturn = _UseModelReturn & PromiseLike<_UseModelReturn>;
+type UseModelReturn = OnReady<_UseModelReturn>;
 
 export function useModel(options?: UseModelOptions): UseModelReturn {
   const {
@@ -116,11 +118,5 @@ export function useModel(options?: UseModelOptions): UseModelReturn {
     ready,
   };
 
-  return {
-    ...ret,
-    async then(onFulfilled, onRejected) {
-      await ready;
-      return Promise.resolve(ret).then(onFulfilled, onRejected);
-    },
-  };
+  return onReady(ret, ready);
 }

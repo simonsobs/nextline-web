@@ -4,6 +4,8 @@ import { refThrottled, useSessionStorage } from "@vueuse/core";
 
 import { useScheduleSchedulerPreviewQuery } from "@/graphql/codegen/generated";
 import { useRefresh } from "@/graphql/urql";
+import { onReady } from "@/utils/on-ready";
+import type { OnReady } from "@/utils/on-ready";
 
 interface _UsePreviewResponse {
   script: Ref<string | undefined>;
@@ -12,7 +14,7 @@ interface _UsePreviewResponse {
   load: () => Promise<void>;
 }
 
-type UsePreviewResponse = _UsePreviewResponse & PromiseLike<_UsePreviewResponse>;
+type UsePreviewResponse = OnReady<_UsePreviewResponse>;
 
 export function usePreview(): UsePreviewResponse {
   const query = useScheduleSchedulerPreviewQuery({
@@ -43,11 +45,5 @@ export function usePreview(): UsePreviewResponse {
 
   const ret = { script, loading, error, load };
 
-  return {
-    ...ret,
-    async then(onFulfilled, onRejected) {
-      await query;
-      return Promise.resolve(ret).then(onFulfilled, onRejected);
-    },
-  };
+  return onReady(ret, query);
 }

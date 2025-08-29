@@ -5,6 +5,8 @@ import {
   useCtrlTraceIdsQuery,
   useCtrlTraceIdsSSubscription,
 } from "@/graphql/codegen/generated";
+import { onReady } from "@/utils/on-ready";
+import type { OnReady } from "@/utils/on-ready";
 
 interface _TraceIdsSubscription {
   traceIds: ComputedRef<number[] | undefined>;
@@ -13,7 +15,7 @@ interface _TraceIdsSubscription {
   query: ReturnType<typeof useCtrlTraceIdsQuery>;
 }
 
-type TraceIdsSubscription = _TraceIdsSubscription & PromiseLike<_TraceIdsSubscription>;
+type TraceIdsSubscription = OnReady<_TraceIdsSubscription>;
 
 export function useSubscribeTraceIds(): TraceIdsSubscription {
   const query = useCtrlTraceIdsQuery({
@@ -32,11 +34,5 @@ export function useSubscribeTraceIds(): TraceIdsSubscription {
 
   const ret = { traceIds, error, subscription, query };
 
-  return {
-    ...ret,
-    async then(onFulfilled, onRejected) {
-      await query;
-      return Promise.resolve(ret).then(onFulfilled, onRejected);
-    },
-  };
+  return onReady(ret, query);
 }
