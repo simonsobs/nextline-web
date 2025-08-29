@@ -23,9 +23,11 @@ export function onReady<T extends object>(ret: T, ready: Promise<unknown>): OnRe
   };
 }
 
+// In-source tests
 if (import.meta.vitest) {
   const { it, expect } = import.meta.vitest;
 
+  // An example Vue composable that is made awaitable with `onReady`
   function useFoo() {
     const foo = { value: "bar" };
 
