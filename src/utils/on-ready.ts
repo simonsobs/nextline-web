@@ -10,6 +10,14 @@ type Ready = PromiseLike<unknown>; // Any awaitable
  * Note: This function is inspired by VueUse, e.g.,
  * https://github.com/vueuse/vueuse/blob/v13.8.0/packages/core/useFetch/index.ts#L639-L645
  *
+ * The same pattern is used in URQL as well:
+ * https://github.com/urql-graphql/urql/blob/%40urql/vue%401.1.2/packages/vue-urql/src/useQuery.ts#L391-L415
+ *
+ * Links:
+ * These links describe the `then` method and thenables:
+ * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise#thenables
+ * https://promisesaplus.com/#the-then-method
+ *
  * @param ret - The return value without `then`
  * @param ready - Any awaitable that resolves when the `ret` is ready.
  * @returns The `ret` with a `then` method.
