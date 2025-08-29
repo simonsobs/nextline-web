@@ -1,5 +1,7 @@
 export type OnReady<T extends object> = T & PromiseLike<T>;
 
+type Ready = PromiseLike<unknown>; // Any awaitable
+
 /**
  * Makes a sync function awaitable by adding a `then` method to its return value.
  *
@@ -9,11 +11,11 @@ export type OnReady<T extends object> = T & PromiseLike<T>;
  * https://github.com/vueuse/vueuse/blob/v13.8.0/packages/core/useFetch/index.ts#L639-L645
  *
  * @param ret - The return value without `then`
- * @param ready - A promise that resolves when the `ret` is ready.
+ * @param ready - Any awaitable that resolves when the `ret` is ready.
  * @returns The `ret` with a `then` method.
  *
  */
-export function onReady<T extends object>(ret: T, ready: Promise<unknown>): OnReady<T> {
+export function onReady<T extends object>(ret: T, ready: Ready): OnReady<T> {
   return {
     ...ret,
     async then(onFulfilled, onRejected) {
