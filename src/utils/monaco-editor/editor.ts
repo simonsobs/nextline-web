@@ -2,21 +2,12 @@ import { shallowRef, unref, onMounted, ref, watchEffect } from "vue";
 import type { Ref, MaybeRef, ShallowRef } from "vue";
 import type * as Monaco from "monaco-editor";
 
+import { onReady } from "../on-ready";
+import type { OnReady } from "../on-ready";
+
 import { useModel } from "./model";
 import type { UseModelOptions } from "./model";
 import { useColorThemeOnMonacoEditor } from "./theme";
-
-type OnReady<T> = T & PromiseLike<T>;
-
-function onReady<T>(ret: T, ready: Promise<unknown>): OnReady<T> {
-  return {
-    ...ret,
-    async then(onFulfilled, onRejected) {
-      await ready;
-      return Promise.resolve(ret).then(onFulfilled, onRejected);
-    },
-  };
-}
 
 const editorOptionsBase: Monaco.editor.IEditorOptions = {
   minimap: { enabled: false },
