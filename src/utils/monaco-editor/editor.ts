@@ -2,6 +2,9 @@ import { shallowRef, unref, onMounted, ref, watchEffect } from "vue";
 import type { Ref, MaybeRef, ShallowRef } from "vue";
 import type * as Monaco from "monaco-editor";
 
+import { onReady } from "@/utils/on-ready";
+import type { OnReady } from "@/utils/on-ready";
+
 import { useModel } from "./model";
 import type { UseModelOptions } from "./model";
 import { useColorThemeOnMonacoEditor } from "./theme";
@@ -57,8 +60,7 @@ interface _UseMonacoEditorReturn {
   ready: Promise<void>;
 }
 
-type UseMonacoEditorReturn = _UseMonacoEditorReturn &
-  PromiseLike<_UseMonacoEditorReturn>;
+type UseMonacoEditorReturn = OnReady<_UseMonacoEditorReturn>;
 
 export function useMonacoEditor(
   options: UseMonacoEditorOptions,
@@ -128,11 +130,5 @@ export function useMonacoEditor(
 
   const ret = { editor, model, source, mode, ready };
 
-  return {
-    ...ret,
-    async then(onFulfilled, onRejected) {
-      await ready;
-      return Promise.resolve(ret).then(onFulfilled, onRejected);
-    },
-  };
+  return onReady(ret, ready);
 }

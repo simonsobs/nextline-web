@@ -1,15 +1,17 @@
-import { computed, watchEffect, toValue, ref, nextTick } from "vue";
+import { computed, watchEffect, toValue, ref } from "vue";
 import type { MaybeRef } from "vue";
 import type * as Monaco from "monaco-editor";
 
 import { useColorTheme, useDarkMode } from "@/utils/color-theme";
 import type { DynamicColors } from "@/utils/dynamic-color";
+import { onReady } from "@/utils/on-ready";
+import type { OnReady } from "@/utils/on-ready";
 
 interface _ReadyOnly {
   ready: Promise<void>;
 }
 
-type ReadyOnly = _ReadyOnly & PromiseLike<_ReadyOnly>;
+type ReadyOnly = OnReady<_ReadyOnly>;
 
 export function useColorThemeOnMonacoEditor(): ReadyOnly {
   const colorTheme = useColorTheme();
@@ -21,13 +23,7 @@ export function useColorThemeOnMonacoEditor(): ReadyOnly {
   const ready = _impl();
   const ret = { ready };
 
-  return {
-    ...ret,
-    async then(onFulfilled, onRejected) {
-      await ready;
-      return Promise.resolve(ret).then(onFulfilled, onRejected);
-    },
-  };
+  return onReady(ret, ready);
 }
 
 export function useDynamicColorsOnMonacoEditor(
@@ -49,13 +45,7 @@ export function useDynamicColorsOnMonacoEditor(
 
   const ret = { ready };
 
-  return {
-    ...ret,
-    async then(onFulfilled, onRejected) {
-      await ready;
-      return Promise.resolve(ret).then(onFulfilled, onRejected);
-    },
-  };
+  return onReady(ret, ready);
 }
 
 function defineTheme(
@@ -92,13 +82,7 @@ function defineTheme(
 
   const ret = { ready };
 
-  return {
-    ...ret,
-    async then(onFulfilled, onRejected) {
-      await ready;
-      return Promise.resolve(ret).then(onFulfilled, onRejected);
-    },
-  };
+  return onReady(ret, ready);
 }
 
 export function useDarkModeOnMonacoEditor(): ReadyOnly {
@@ -119,11 +103,5 @@ export function useDarkModeOnMonacoEditor(): ReadyOnly {
 
   const ret = { ready };
 
-  return {
-    ...ret,
-    async then(onFulfilled, onRejected) {
-      await ready;
-      return Promise.resolve(ret).then(onFulfilled, onRejected);
-    },
-  };
+  return onReady(ret, ready);
 }

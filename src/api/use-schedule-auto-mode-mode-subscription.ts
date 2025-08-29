@@ -5,6 +5,8 @@ import {
   useScheduleAutoModeModeQuery,
   useScheduleAutoModeModeSSubscription,
 } from "@/graphql/codegen/generated";
+import { onReady } from "@/utils/on-ready";
+import type { OnReady } from "@/utils/on-ready";
 
 // type AutoMode = "off" | "scheduler" | "queue";
 
@@ -15,8 +17,7 @@ interface _ScheduleAutoModeModeSubscription {
   query: ReturnType<typeof useScheduleAutoModeModeQuery>;
 }
 
-type ScheduleAutoModeModeSubscription = _ScheduleAutoModeModeSubscription &
-  PromiseLike<_ScheduleAutoModeModeSubscription>;
+type ScheduleAutoModeModeSubscription = OnReady<_ScheduleAutoModeModeSubscription>;
 
 export function useSubscribeScheduleAutoModeMode(): ScheduleAutoModeModeSubscription {
   const query = useScheduleAutoModeModeQuery({
@@ -36,11 +37,5 @@ export function useSubscribeScheduleAutoModeMode(): ScheduleAutoModeModeSubscrip
 
   const ret = { autoModeMode, error, subscription, query };
 
-  return {
-    ...ret,
-    async then(onFulfilled, onRejected) {
-      await query;
-      return Promise.resolve(ret).then(onFulfilled, onRejected);
-    },
-  };
+  return onReady(ret, query);
 }

@@ -2,12 +2,14 @@ import { computed } from "vue";
 import type { Ref } from "vue";
 
 import { useSubscribeScheduleAutoModeState } from "@/api";
+import { onReady } from "@/utils/on-ready";
+import type { OnReady } from "@/utils/on-ready";
 
 interface _UsePullingReturn {
   pulling: Ref<boolean>;
 }
 
-type UsePullingReturn = _UsePullingReturn & PromiseLike<_UsePullingReturn>;
+type UsePullingReturn = OnReady<_UsePullingReturn>;
 
 export function usePulling(): UsePullingReturn {
   const subscription = useSubscribeScheduleAutoModeState();
@@ -20,11 +22,5 @@ export function usePulling(): UsePullingReturn {
 
   const ret = { pulling };
 
-  return {
-    ...ret,
-    async then(onFulfilled, onRejected) {
-      await subscription;
-      return Promise.resolve(ret).then(onFulfilled, onRejected);
-    },
-  };
+  return onReady(ret, subscription);
 }

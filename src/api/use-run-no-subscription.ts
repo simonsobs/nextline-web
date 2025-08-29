@@ -5,6 +5,8 @@ import {
   useCtrlRunNoQuery,
   useCtrlRunNoSSubscription,
 } from "@/graphql/codegen/generated";
+import { onReady } from "@/utils/on-ready";
+import type { OnReady } from "@/utils/on-ready";
 
 interface _RunNoSubscription {
   runNo: ComputedRef<number | undefined>;
@@ -13,7 +15,7 @@ interface _RunNoSubscription {
   query: ReturnType<typeof useCtrlRunNoQuery>;
 }
 
-type RunNoSubscription = _RunNoSubscription & PromiseLike<_RunNoSubscription>;
+type RunNoSubscription = OnReady<_RunNoSubscription>;
 
 export function useSubscribeRunNo(): RunNoSubscription {
   const query = useCtrlRunNoQuery({
@@ -32,11 +34,5 @@ export function useSubscribeRunNo(): RunNoSubscription {
 
   const ret = { runNo, error, subscription, query };
 
-  return {
-    ...ret,
-    async then(onFulfilled, onRejected) {
-      await query;
-      return Promise.resolve(ret).then(onFulfilled, onRejected);
-    },
-  };
+  return onReady(ret, query);
 }

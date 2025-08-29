@@ -21,6 +21,8 @@ import type {
   ScheduleQueueMoveOneBackwardMutation,
 } from "@/graphql/codegen/generated";
 import { formatDateTime } from "@/utils/format-date-time";
+import { onReady } from "@/utils/on-ready";
+import type { OnReady } from "@/utils/on-ready";
 
 export interface Item {
   order: number;
@@ -61,7 +63,7 @@ interface _UseItemsResponse {
   moveItemToBottom: (item: Item) => Promise<MoveItemToBottomResult>;
 }
 
-type UseItemsResponse = _UseItemsResponse & PromiseLike<_UseItemsResponse>;
+type UseItemsResponse = OnReady<_UseItemsResponse>;
 
 export function useItems(): UseItemsResponse {
   const subscription = useSubscribeScheduleQueueItems();
@@ -122,13 +124,7 @@ export function useItems(): UseItemsResponse {
     moveItemToBottom,
   };
 
-  return {
-    ...ret,
-    async then(onFulfilled, onRejected) {
-      await subscription;
-      return Promise.resolve(ret).then(onFulfilled, onRejected);
-    },
-  };
+  return onReady(ret, subscription);
 }
 
 function useAddItem() {

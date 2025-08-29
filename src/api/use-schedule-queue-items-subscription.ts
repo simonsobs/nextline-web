@@ -6,6 +6,8 @@ import {
   useScheduleQueueItemsQuery,
   useScheduleQueueItemsSSubscription,
 } from "@/graphql/codegen/generated";
+import { onReady } from "@/utils/on-ready";
+import type { OnReady } from "@/utils/on-ready";
 
 interface _ScheduleQueueItemsSubscription {
   items: ComputedRef<ScheduleQueueItem[] | undefined>;
@@ -15,8 +17,7 @@ interface _ScheduleQueueItemsSubscription {
   query: ReturnType<typeof useScheduleQueueItemsQuery>;
 }
 
-type ScheduleQueueItemsSubscription = _ScheduleQueueItemsSubscription &
-  PromiseLike<_ScheduleQueueItemsSubscription>;
+type ScheduleQueueItemsSubscription = OnReady<_ScheduleQueueItemsSubscription>;
 
 export function useSubscribeScheduleQueueItems(): ScheduleQueueItemsSubscription {
   const query = useScheduleQueueItemsQuery({
@@ -37,11 +38,5 @@ export function useSubscribeScheduleQueueItems(): ScheduleQueueItemsSubscription
 
   const ret = { items, loading, error, subscription, query };
 
-  return {
-    ...ret,
-    async then(onFulfilled, onRejected) {
-      await query;
-      return Promise.resolve(ret).then(onFulfilled, onRejected);
-    },
-  };
+  return onReady(ret, query);
 }

@@ -5,6 +5,8 @@ import {
   useCtrlStateQuery,
   useCtrlStateSSubscription,
 } from "@/graphql/codegen/generated";
+import { onReady } from "@/utils/on-ready";
+import type { OnReady } from "@/utils/on-ready";
 
 interface _StateSubscription {
   state: ComputedRef<string | undefined>;
@@ -13,7 +15,7 @@ interface _StateSubscription {
   query: ReturnType<typeof useCtrlStateQuery>;
 }
 
-type StateSubscription = _StateSubscription & PromiseLike<_StateSubscription>;
+type StateSubscription = OnReady<_StateSubscription>;
 
 export function useSubscribeState(): StateSubscription {
   const query = useCtrlStateQuery({
@@ -32,11 +34,5 @@ export function useSubscribeState(): StateSubscription {
 
   const ret = { state, error, subscription, query };
 
-  return {
-    ...ret,
-    async then(onFulfilled, onRejected) {
-      await query;
-      return Promise.resolve(ret).then(onFulfilled, onRejected);
-    },
-  };
+  return onReady(ret, query);
 }
