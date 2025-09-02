@@ -1,9 +1,13 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { ref } from "vue";
+import fc from "fast-check";
 
 import {
   useCtrlStateQuery,
   useCtrlStateSSubscription,
 } from "@/graphql/codegen/generated";
+import type { CtrlStateSSubscription } from "@/graphql/codegen/generated";
+import { onReady } from "@/utils/on-ready";
 
 import { useSubscribeState } from "../use-state-subscription";
 
@@ -12,7 +16,48 @@ vi.mock("@/graphql/codegen/generated", () => ({
   useCtrlStateSSubscription: vi.fn(),
 }));
 
-describe("useSubscribeState", () => {
+const fcState = fc.oneof(fc.constant(undefined), fc.string({ minLength: 1 }));
+
+const fcErrorInstance = fc.string().map((msg) => new Error(msg));
+const fcError = fc.oneof(fc.constant(undefined), fcErrorInstance);
+
+type Query = ReturnType<typeof useCtrlStateQuery>;
+type Sub = ReturnType<typeof useCtrlStateSSubscription>;
+
+function createMockQuery(
+  state_value: string | undefined,
+  error_value: Error | undefined,
+): Query {
+  type Data = NonNullable<Query["data"]["value"]>;
+  const data = ref<Data | undefined>(undefined);
+  const error = ref<Error | undefined>(undefined);
+
+  const ready = (async () => {
+    await Promise.resolve();
+    data.value = { ctrl: { state: state_value } } as Data;
+    error.value = error_value;
+  })();
+
+  return onReady({ data, error }, ready) as Query;
+}
+
+function createMockSubscription(
+  state_value: string | undefined,
+  error_value: Error | undefined,
+): Sub {
+  const data = ref<CtrlStateSSubscription | undefined>(undefined);
+  const error = ref<Error | undefined>(undefined);
+
+  const ready = (async () => {
+    await Promise.resolve();
+    data.value = { ctrlState: state_value } as CtrlStateSSubscription;
+    error.value = error_value;
+  })();
+
+  return onReady({ data, error }, ready) as unknown as Sub;
+}
+
+describe("useSubscribeState()", () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
@@ -21,95 +66,28 @@ describe("useSubscribeState", () => {
     vi.resetAllMocks();
   });
 
-  it("fetches initial state successfully from the query", () => {
-    vi.mocked(useCtrlStateQuery).mockReturnValue({
-      data: { value: { ctrl: { state: "initialized" } } },
-      error: { value: undefined },
-    } as any);
-    vi.mocked(useCtrlStateSSubscription).mockReturnValue({
-      data: { value: undefined },
-      error: { value: undefined },
-    } as any);
+  it("Property test", async () => {
+    await fc.assert(
+      fc.asyncProperty(
+        fcState,
+        fcError,
+        fcState,
+        fcError,
+        async (queryState, queryError, subState, subError) => {
+          const query = createMockQuery(queryState, queryError);
+          const sub = createMockSubscription(subState, subError);
+          vi.mocked(useCtrlStateQuery).mockReturnValue(query);
+          vi.mocked(useCtrlStateSSubscription).mockReturnValue(sub);
+          const { state, error } = await useSubscribeState();
+          const expectedError = subError || queryError;
+          const expectedState = expectedError
+            ? undefined
+            : subState || queryState || undefined;
 
-    const { state } = useSubscribeState();
-    expect(state.value).toBe("initialized");
-  });
-
-  it("updates state from subscription", () => {
-    const queryMock = vi.mocked(useCtrlStateQuery);
-    const subscriptionMock = vi.mocked(useCtrlStateSSubscription);
-
-    queryMock.mockReturnValue({
-      data: { value: { ctrl: { state: "initial" } } },
-      error: { value: undefined },
-    } as any);
-
-    subscriptionMock.mockReturnValue({
-      data: { value: { ctrlState: "updated" } },
-      error: { value: undefined },
-    } as any);
-
-    const { state } = useSubscribeState();
-    expect(state.value).toBe("updated");
-  });
-
-  it("handles query error", () => {
-    vi.mocked(useCtrlStateQuery).mockReturnValue({
-      data: { value: undefined },
-      error: { value: new Error("Query error") },
-    } as any);
-    vi.mocked(useCtrlStateSSubscription).mockReturnValue({
-      data: { value: undefined },
-      error: { value: undefined },
-    } as any);
-
-    const { state, error } = useSubscribeState();
-    expect(state.value).toBeUndefined();
-    expect(error.value).toEqual(new Error("Query error"));
-  });
-
-  it("handles subscription error", () => {
-    vi.mocked(useCtrlStateQuery).mockReturnValue({
-      data: { value: { ctrl: { state: "initial" } } },
-      error: { value: undefined },
-    } as any);
-    vi.mocked(useCtrlStateSSubscription).mockReturnValue({
-      data: { value: undefined },
-      error: { value: new Error("Subscription error") },
-    } as any);
-
-    const { state, error } = useSubscribeState();
-    expect(state.value).toBeUndefined();
-    expect(error.value).toEqual(new Error("Subscription error"));
-  });
-
-  it("can be used as a promise", async () => {
-    vi.mocked(useCtrlStateQuery).mockReturnValue({
-      data: { value: { ctrl: { state: "promised" } } },
-      error: { value: undefined },
-      then: (resolve: (value: any) => void) =>
-        resolve({ data: { value: { ctrl: { state: "promised" } } } }),
-    } as any);
-    vi.mocked(useCtrlStateSSubscription).mockReturnValue({
-      data: { value: undefined },
-      error: { value: undefined },
-    } as any);
-
-    const result = await useSubscribeState();
-    expect(result.state.value).toBe("promised");
-  });
-
-  it("handles empty responses", () => {
-    vi.mocked(useCtrlStateQuery).mockReturnValue({
-      data: { value: null },
-      error: { value: undefined },
-    } as any);
-    vi.mocked(useCtrlStateSSubscription).mockReturnValue({
-      data: { value: null },
-      error: { value: undefined },
-    } as any);
-
-    const { state } = useSubscribeState();
-    expect(state.value).toBeUndefined();
+          expect(error.value).toBe(expectedError);
+          expect(state.value).toBe(expectedState);
+        },
+      ),
+    );
   });
 });
