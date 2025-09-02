@@ -21,6 +21,22 @@ const AUTO_MODE_STATES = [
 
 const fcAutoModeState = () => fc.constantFrom(...AUTO_MODE_STATES);
 
+type Sub = ReturnType<typeof useSubscribeScheduleAutoModeState>;
+
+function createMockSubscription(auto_mode_state: string): Sub {
+  // Initially `undefined`
+  const autoModeState = ref(undefined as string | undefined);
+
+  // A value set when ready
+  const ready = (async () => {
+    await Promise.resolve();
+    autoModeState.value = auto_mode_state;
+  })();
+
+  // Thenable
+  return onReady({ autoModeState }, ready) as Sub;
+}
+
 describe("usePulling()", () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -33,22 +49,8 @@ describe("usePulling()", () => {
   it("Property test", async () => {
     await fc.assert(
       fc.asyncProperty(fcAutoModeState(), async (auto_mode_state) => {
-        // Initially `undefined`
-        const autoModeState = ref(undefined as string | undefined);
-
-        // A value set when ready
-        const ready = (async () => {
-          await Promise.resolve();
-          autoModeState.value = auto_mode_state;
-        })();
-
-        type Sub = ReturnType<typeof useSubscribeScheduleAutoModeState>;
-
-        // Thenable
-        const sub = onReady({ autoModeState }, ready) as unknown as Sub;
-
+        const sub = createMockSubscription(auto_mode_state);
         vi.mocked(useSubscribeScheduleAutoModeState).mockReturnValue(sub);
-
         const { pulling } = await usePulling();
         const expected = auto_mode_state === "auto_pulling";
         expect(pulling.value).toBe(expected);
