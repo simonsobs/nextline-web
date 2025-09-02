@@ -21,7 +21,7 @@ const AUTO_MODE_STATES = [
 
 const fcAutoModeState = () => fc.constantFrom(...AUTO_MODE_STATES);
 
-describe("scratch", () => {
+describe("usePulling()", () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
