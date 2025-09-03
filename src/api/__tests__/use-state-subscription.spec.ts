@@ -23,10 +23,10 @@ type MockUseQueryResponse<T> = OnReady<{
   error: Ref<Error | undefined>;
 }>;
 
-type MockUseQueryResponseArg<T> = {
+interface MockUseQueryResponseArg<T> {
   data: T | undefined;
   error: Error | undefined;
-};
+}
 
 function mockUseQueryResponse<T>(
   res: MockUseQueryResponseArg<T>,
@@ -41,6 +41,41 @@ function mockUseQueryResponse<T>(
   })();
 
   return onReady({ data, error }, ready) as MockUseQueryResponse<T>;
+}
+interface MockUserSubscriptionResponseArgElement<T> {
+  data: T | undefined;
+  error: Error | undefined;
+}
+
+type MockUserSubscriptionResponseArg<T> = Iterable<
+  MockUserSubscriptionResponseArgElement<T>
+>;
+
+interface MockUserSubscriptionResponse<T> {
+  sub: {
+    data: Ref<T | undefined>;
+    error: Ref<Error | undefined>;
+  };
+  issue: MockUserSubscriptionResponseArg<T>;
+}
+
+function mockUserSubscriptionResponse<T>(
+  resArray: MockUserSubscriptionResponseArg<T>,
+): MockUserSubscriptionResponse<T> {
+  const data = ref<T | undefined>(undefined);
+  const error = ref<Error | undefined>(undefined);
+
+  function* _issue() {
+    for (const res of resArray) {
+      data.value = res.data;
+      error.value = res.error;
+      yield res;
+    }
+  }
+  const issue = _issue();
+  const sub = { data, error };
+
+  return { sub, issue } as MockUserSubscriptionResponse<T>;
 }
 
 vi.mock("@/graphql/codegen/generated", () => ({
@@ -72,14 +107,17 @@ const fcQRes: fc.Arbitrary<QRes> = fc.record({
 });
 
 interface SRes {
-  data: { ctrlState: string | undefined };
+  data: { ctrlState: string } | undefined;
   error: Error | undefined;
 }
 
 const fcSRes: fc.Arbitrary<SRes> = fc.record({
-  data: fc.record({
-    ctrlState: fcState,
-  }),
+  data: fc.oneof(
+    fc.constant(undefined),
+    fc.record({
+      ctrlState: fcState,
+    }),
+  ),
   error: fcError,
 });
 
@@ -100,20 +138,9 @@ interface MockSubscription {
 function mockUseCtrlStateSSubscriptionResponse(
   resArray: Iterable<SRes>,
 ): MockSubscription {
-  const data = ref<CtrlStateSSubscription | undefined>(undefined);
-  const error = ref<Error | undefined>(undefined);
-
-  function* _issue(resArray: Iterable<SRes>) {
-    for (const res of resArray) {
-      data.value = res.data as CtrlStateSSubscription;
-      error.value = res.error;
-      yield res;
-    }
-  }
-  const issue = _issue(resArray);
-
-  const sub = { data, error } as Sub;
-  return { sub, issue };
+  return mockUserSubscriptionResponse<CtrlStateSSubscription>(
+    resArray,
+  ) as MockSubscription;
 }
 
 describe("mockUseCtrlStateQueryResponse()", () => {
@@ -158,7 +185,7 @@ describe("mockUseCtrlStateSSubscriptionResponse()", () => {
         const response = useCtrlStateSSubscription({ variables: {} });
         for (const issued of issue) {
           expect(response.error.value).toBe(issued.error);
-          expect(response.data.value?.ctrlState).toEqual(issued.data.ctrlState);
+          expect(response.data.value?.ctrlState).toEqual(issued.data?.ctrlState);
         }
       }),
     );
@@ -190,7 +217,7 @@ describe("useSubscribeState()", () => {
           const expectedError = issued.error || queryRes.error;
           const expectedState = expectedError
             ? undefined
-            : issued.data.ctrlState || queryRes.data?.ctrl.state;
+            : issued.data?.ctrlState || queryRes.data?.ctrl.state;
           expect(error.value).toBe(expectedError);
           expect(state.value).toBe(expectedState);
         }
