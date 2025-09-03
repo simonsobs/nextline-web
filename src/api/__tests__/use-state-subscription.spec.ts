@@ -34,7 +34,7 @@ const fcRes: fc.Arbitrary<Res> = fc.record({
 type Query = ReturnType<typeof useCtrlStateQuery>;
 type Sub = ReturnType<typeof useCtrlStateSSubscription>;
 
-function createMockQuery(res: Res): Query {
+function mockUseCtrlStateQueryResponse(res: Res): Query {
   type Data = NonNullable<Query["data"]["value"]>;
   const data = ref<Data | undefined>(undefined);
   const error = ref<Error | undefined>(undefined);
@@ -53,7 +53,9 @@ interface MockSubscription {
   issue: Iterable<Res>;
 }
 
-function createMockSubscription(resArray: Iterable<Res>): MockSubscription {
+function mockUseCtrlStateSSubscriptionResponse(
+  resArray: Iterable<Res>,
+): MockSubscription {
   const data = ref<CtrlStateSSubscription | undefined>(undefined);
   const error = ref<Error | undefined>(undefined);
 
@@ -70,7 +72,7 @@ function createMockSubscription(resArray: Iterable<Res>): MockSubscription {
   return { sub, issue };
 }
 
-describe("createMockQuery()", () => {
+describe("mockUseCtrlStateQueryResponse()", () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
@@ -82,7 +84,7 @@ describe("createMockQuery()", () => {
   it("Property test", async () => {
     fc.assert(
       fc.asyncProperty(fcRes, async (res) => {
-        const query = createMockQuery(res);
+        const query = mockUseCtrlStateQueryResponse(res);
         vi.mocked(useCtrlStateQuery).mockReturnValue(query);
         const response = useCtrlStateQuery({ variables: {} });
         expect(response.error.value).toBeUndefined();
@@ -95,7 +97,7 @@ describe("createMockQuery()", () => {
   });
 });
 
-describe("createMockSubscription()", () => {
+describe("mockUseCtrlStateSSubscriptionResponse()", () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
@@ -107,7 +109,7 @@ describe("createMockSubscription()", () => {
   it("Property test", () => {
     fc.assert(
       fc.property(fc.array(fcRes), (resArray) => {
-        const { sub, issue } = createMockSubscription(resArray);
+        const { sub, issue } = mockUseCtrlStateSSubscriptionResponse(resArray);
         vi.mocked(useCtrlStateSSubscription).mockReturnValue(sub);
         const response = useCtrlStateSSubscription({ variables: {} });
         for (const issued of issue) {
@@ -131,8 +133,8 @@ describe("useSubscribeState()", () => {
   it("Property test", async () => {
     await fc.assert(
       fc.asyncProperty(fcRes, fc.array(fcRes), async (queryRes, subResArray) => {
-        const query = createMockQuery(queryRes);
-        const { sub, issue } = createMockSubscription(subResArray);
+        const query = mockUseCtrlStateQueryResponse(queryRes);
+        const { sub, issue } = mockUseCtrlStateSSubscriptionResponse(subResArray);
         vi.mocked(useCtrlStateQuery).mockReturnValue(query);
         vi.mocked(useCtrlStateSSubscription).mockReturnValue(sub);
         const { state, error } = await useSubscribeState();
