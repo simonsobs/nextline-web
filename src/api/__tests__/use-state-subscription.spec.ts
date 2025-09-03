@@ -1,6 +1,4 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { ref } from "vue";
-import type { Ref } from "vue";
 import type { UseQueryResponse } from "@urql/vue";
 import fc from "fast-check";
 
@@ -13,77 +11,17 @@ import {
   useCtrlStateQuery,
   useCtrlStateSSubscription,
 } from "@/graphql/codegen/generated";
-import { onReady } from "@/utils/on-ready";
-import type { OnReady } from "@/utils/on-ready";
 
 import { useSubscribeState } from "../use-state-subscription";
 
-type MockUseQueryResponse<T> = OnReady<{
-  data: Ref<T | undefined>;
-  error: Ref<Error | undefined>;
-}>;
-
-interface MockUseQueryResponseArg<T> {
-  data: T | undefined;
-  error: Error | undefined;
-}
-
-function mockUseQueryResponse<T>(
-  res: MockUseQueryResponseArg<T>,
-): MockUseQueryResponse<T> {
-  const data = ref<T | undefined>(undefined);
-  const error = ref<Error | undefined>(undefined);
-
-  const ready = (async () => {
-    await Promise.resolve();
-    data.value = res.data;
-    error.value = res.error;
-  })();
-
-  return onReady({ data, error }, ready) as MockUseQueryResponse<T>;
-}
-interface MockUserSubscriptionResponseArgElement<T> {
-  data: T | undefined;
-  error: Error | undefined;
-}
-
-type MockUserSubscriptionResponseArg<T> = Iterable<
-  MockUserSubscriptionResponseArgElement<T>
->;
-
-interface MockUserSubscriptionResponse<T> {
-  sub: {
-    data: Ref<T | undefined>;
-    error: Ref<Error | undefined>;
-  };
-  issue: MockUserSubscriptionResponseArg<T>;
-}
-
-function mockUserSubscriptionResponse<T>(
-  resArray: MockUserSubscriptionResponseArg<T>,
-): MockUserSubscriptionResponse<T> {
-  const data = ref<T | undefined>(undefined);
-  const error = ref<Error | undefined>(undefined);
-
-  function* _issue() {
-    for (const res of resArray) {
-      data.value = res.data;
-      error.value = res.error;
-      yield res;
-    }
-  }
-  const issue = _issue();
-  const sub = { data, error };
-
-  return { sub, issue } as MockUserSubscriptionResponse<T>;
-}
+import { mockUseQueryResponse } from "./mock-use-query-response";
+import { mockUserSubscriptionResponse } from "./mock-user-subscription-response";
 
 vi.mock("@/graphql/codegen/generated", () => ({
   useCtrlStateQuery: vi.fn(),
   useCtrlStateSSubscription: vi.fn(),
 }));
 
-// const fcState = fc.oneof(fc.constant(undefined), fc.string({ minLength: 1 }));
 const fcState = fc.string({ minLength: 1 });
 
 const fcErrorInstance = fc.string().map((msg) => new Error(msg));
@@ -142,55 +80,6 @@ function mockUseCtrlStateSSubscriptionResponse(
     resArray,
   ) as MockSubscription;
 }
-
-describe("mockUseCtrlStateQueryResponse()", () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
-
-  afterEach(() => {
-    vi.resetAllMocks();
-  });
-
-  it("Property test", async () => {
-    fc.assert(
-      fc.asyncProperty(fcQRes, async (res) => {
-        const query = mockUseCtrlStateQueryResponse(res);
-        vi.mocked(useCtrlStateQuery).mockReturnValue(query);
-        const response = useCtrlStateQuery({ variables: {} });
-        expect(response.error.value).toBeUndefined();
-        expect(response.data.value).toBeUndefined();
-        await response;
-        expect(response.error.value).toBe(res.error);
-        expect(response.data.value?.ctrl.state).toBe(res.data?.ctrl.state);
-      }),
-    );
-  });
-});
-
-describe("mockUseCtrlStateSSubscriptionResponse()", () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
-
-  afterEach(() => {
-    vi.resetAllMocks();
-  });
-
-  it("Property test", () => {
-    fc.assert(
-      fc.property(fc.array(fcSRes), (resArray) => {
-        const { sub, issue } = mockUseCtrlStateSSubscriptionResponse(resArray);
-        vi.mocked(useCtrlStateSSubscription).mockReturnValue(sub);
-        const response = useCtrlStateSSubscription({ variables: {} });
-        for (const issued of issue) {
-          expect(response.error.value).toBe(issued.error);
-          expect(response.data.value?.ctrlState).toEqual(issued.data?.ctrlState);
-        }
-      }),
-    );
-  });
-});
 
 describe("useSubscribeState()", () => {
   beforeEach(() => {
