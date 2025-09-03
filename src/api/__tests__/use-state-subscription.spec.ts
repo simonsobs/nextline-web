@@ -1,13 +1,20 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { ref } from "vue";
+import type { Ref } from "vue";
+import type { UseQueryResponse } from "@urql/vue";
 import fc from "fast-check";
 
+import type {
+  CtrlStateQuery,
+  CtrlStateQueryVariables,
+  CtrlStateSSubscription,
+} from "@/graphql/codegen/generated";
 import {
   useCtrlStateQuery,
   useCtrlStateSSubscription,
 } from "@/graphql/codegen/generated";
-import type { CtrlStateSSubscription } from "@/graphql/codegen/generated";
 import { onReady } from "@/utils/on-ready";
+import type { OnReady } from "@/utils/on-ready";
 
 import { useSubscribeState } from "../use-state-subscription";
 
@@ -16,22 +23,26 @@ vi.mock("@/graphql/codegen/generated", () => ({
   useCtrlStateSSubscription: vi.fn(),
 }));
 
-const fcState = fc.oneof(fc.constant(undefined), fc.string({ minLength: 1 }));
+// const fcState = fc.oneof(fc.constant(undefined), fc.string({ minLength: 1 }));
+const fcState = fc.string({ minLength: 1 });
 
 const fcErrorInstance = fc.string().map((msg) => new Error(msg));
 const fcError = fc.oneof(fc.constant(undefined), fcErrorInstance);
 
 interface QRes {
-  data: { ctrl: { state: string | undefined } };
+  data: { ctrl: { state: string } } | undefined;
   error: Error | undefined;
 }
 
 const fcQRes: fc.Arbitrary<QRes> = fc.record({
-  data: fc.record({
-    ctrl: fc.record({
-      state: fcState,
+  data: fc.oneof(
+    fc.constant(undefined),
+    fc.record({
+      ctrl: fc.record({
+        state: fcState,
+      }),
     }),
-  }),
+  ),
   error: fcError,
 });
 
@@ -47,21 +58,38 @@ const fcSRes: fc.Arbitrary<SRes> = fc.record({
   error: fcError,
 });
 
-type Query = ReturnType<typeof useCtrlStateQuery>;
+// type Query = ReturnType<typeof useCtrlStateQuery>;
+type Query = UseQueryResponse<CtrlStateQuery, CtrlStateQueryVariables>;
+
 type Sub = ReturnType<typeof useCtrlStateSSubscription>;
 
-function mockUseCtrlStateQueryResponse(res: QRes): Query {
-  type Data = NonNullable<Query["data"]["value"]>;
-  const data = ref<Data | undefined>(undefined);
+type MockUseQueryResponse<T> = OnReady<{
+  data: Ref<T | undefined>;
+  error: Ref<Error | undefined>;
+}>;
+
+type MockUseQueryResponseArg<T> = {
+  data: T | undefined;
+  error: Error | undefined;
+};
+
+function mockUseQueryResponse<T>(
+  res: MockUseQueryResponseArg<T>,
+): MockUseQueryResponse<T> {
+  const data = ref<T | undefined>(undefined);
   const error = ref<Error | undefined>(undefined);
 
   const ready = (async () => {
     await Promise.resolve();
-    data.value = res.data as Data;
+    data.value = res.data;
     error.value = res.error;
   })();
 
-  return onReady({ data, error }, ready) as Query;
+  return onReady({ data, error }, ready) as MockUseQueryResponse<T>;
+}
+
+function mockUseCtrlStateQueryResponse(res: QRes): Query {
+  return mockUseQueryResponse<CtrlStateQuery>(res) as Query;
 }
 
 interface MockSubscription {
@@ -107,7 +135,7 @@ describe("mockUseCtrlStateQueryResponse()", () => {
         expect(response.data.value).toBeUndefined();
         await response;
         expect(response.error.value).toBe(res.error);
-        expect(response.data.value?.ctrl.state).toBe(res.data.ctrl.state);
+        expect(response.data.value?.ctrl.state).toBe(res.data?.ctrl.state);
       }),
     );
   });
@@ -155,12 +183,14 @@ describe("useSubscribeState()", () => {
         vi.mocked(useCtrlStateSSubscription).mockReturnValue(sub);
         const { state, error } = await useSubscribeState();
         expect(error.value).toBe(queryRes.error);
-        expect(state.value).toBe(queryRes.error ? undefined : queryRes.data.ctrl.state);
+        expect(state.value).toBe(
+          queryRes.error ? undefined : queryRes.data?.ctrl.state,
+        );
         for (const issued of issue) {
           const expectedError = issued.error || queryRes.error;
           const expectedState = expectedError
             ? undefined
-            : issued.data.ctrlState || queryRes.data.ctrl.state;
+            : issued.data.ctrlState || queryRes.data?.ctrl.state;
           expect(error.value).toBe(expectedError);
           expect(state.value).toBe(expectedState);
         }
