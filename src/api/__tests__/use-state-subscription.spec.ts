@@ -79,9 +79,9 @@ describe("createMockSubscription()", () => {
     vi.resetAllMocks();
   });
 
-  it("Property test", async () => {
-    await fc.assert(
-      fc.asyncProperty(fc.array(fcRes), async (resArray) => {
+  it("Property test", () => {
+    fc.assert(
+      fc.property(fc.array(fcRes), (resArray) => {
         const { sub, issue } = createMockSubscription(resArray);
         vi.mocked(useCtrlStateSSubscription).mockReturnValue(sub);
         const response = useCtrlStateSSubscription({ variables: {} });
