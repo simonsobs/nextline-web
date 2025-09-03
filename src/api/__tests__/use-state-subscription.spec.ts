@@ -70,6 +70,31 @@ function createMockSubscription(resArray: Iterable<Res>): MockSubscription {
   return { sub, issue };
 }
 
+describe("createMockQuery()", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  afterEach(() => {
+    vi.resetAllMocks();
+  });
+
+  it("Property test", async () => {
+    fc.assert(
+      fc.asyncProperty(fcRes, async (res) => {
+        const query = createMockQuery(res);
+        vi.mocked(useCtrlStateQuery).mockReturnValue(query);
+        const response = useCtrlStateQuery({ variables: {} });
+        expect(response.error.value).toBeUndefined();
+        expect(response.data.value).toBeUndefined();
+        await response;
+        expect(response.error.value).toBe(res.error);
+        expect(response.data.value?.ctrl.state).toBe(res.state);
+      }),
+    );
+  });
+});
+
 describe("createMockSubscription()", () => {
   beforeEach(() => {
     vi.clearAllMocks();
