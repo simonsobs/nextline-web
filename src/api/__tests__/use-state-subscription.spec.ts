@@ -50,14 +50,14 @@ function createMockQuery(res: Res): Query {
 
 interface MockSubscription {
   sub: Sub;
-  issue: Generator<Res>;
+  issue: Iterable<Res>;
 }
 
-function createMockSubscription(resArray: Res[]): MockSubscription {
+function createMockSubscription(resArray: Iterable<Res>): MockSubscription {
   const data = ref<CtrlStateSSubscription | undefined>(undefined);
   const error = ref<Error | undefined>(undefined);
 
-  function* _issue(resArray: Res[]) {
+  function* _issue(resArray: Iterable<Res>) {
     for (const res of resArray) {
       data.value = { ctrlState: res.state } as CtrlStateSSubscription;
       error.value = res.error;
