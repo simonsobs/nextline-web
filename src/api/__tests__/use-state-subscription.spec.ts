@@ -18,6 +18,31 @@ import type { OnReady } from "@/utils/on-ready";
 
 import { useSubscribeState } from "../use-state-subscription";
 
+type MockUseQueryResponse<T> = OnReady<{
+  data: Ref<T | undefined>;
+  error: Ref<Error | undefined>;
+}>;
+
+type MockUseQueryResponseArg<T> = {
+  data: T | undefined;
+  error: Error | undefined;
+};
+
+function mockUseQueryResponse<T>(
+  res: MockUseQueryResponseArg<T>,
+): MockUseQueryResponse<T> {
+  const data = ref<T | undefined>(undefined);
+  const error = ref<Error | undefined>(undefined);
+
+  const ready = (async () => {
+    await Promise.resolve();
+    data.value = res.data;
+    error.value = res.error;
+  })();
+
+  return onReady({ data, error }, ready) as MockUseQueryResponse<T>;
+}
+
 vi.mock("@/graphql/codegen/generated", () => ({
   useCtrlStateQuery: vi.fn(),
   useCtrlStateSSubscription: vi.fn(),
@@ -62,31 +87,6 @@ const fcSRes: fc.Arbitrary<SRes> = fc.record({
 type Query = UseQueryResponse<CtrlStateQuery, CtrlStateQueryVariables>;
 
 type Sub = ReturnType<typeof useCtrlStateSSubscription>;
-
-type MockUseQueryResponse<T> = OnReady<{
-  data: Ref<T | undefined>;
-  error: Ref<Error | undefined>;
-}>;
-
-type MockUseQueryResponseArg<T> = {
-  data: T | undefined;
-  error: Error | undefined;
-};
-
-function mockUseQueryResponse<T>(
-  res: MockUseQueryResponseArg<T>,
-): MockUseQueryResponse<T> {
-  const data = ref<T | undefined>(undefined);
-  const error = ref<Error | undefined>(undefined);
-
-  const ready = (async () => {
-    await Promise.resolve();
-    data.value = res.data;
-    error.value = res.error;
-  })();
-
-  return onReady({ data, error }, ready) as MockUseQueryResponse<T>;
-}
 
 function mockUseCtrlStateQueryResponse(res: QRes): Query {
   return mockUseQueryResponse<CtrlStateQuery>(res) as Query;
