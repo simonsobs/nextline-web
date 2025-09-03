@@ -50,14 +50,14 @@ function createMockQuery(res: Res): Query {
 
 interface MockSubscription {
   sub: Sub;
-  issue: AsyncGenerator<Res>;
+  issue: Generator<Res>;
 }
 
 function createMockSubscription(resArray: Res[]): MockSubscription {
   const data = ref<CtrlStateSSubscription | undefined>(undefined);
   const error = ref<Error | undefined>(undefined);
 
-  async function* _issue(resArray: Res[]) {
+  function* _issue(resArray: Res[]) {
     for (const res of resArray) {
       data.value = { ctrlState: res.state } as CtrlStateSSubscription;
       error.value = res.error;
@@ -85,7 +85,7 @@ describe("createMockSubscription()", () => {
         const { sub, issue } = createMockSubscription(resArray);
         vi.mocked(useCtrlStateSSubscription).mockReturnValue(sub);
         const response = useCtrlStateSSubscription({ variables: {} });
-        for await (const issued of issue) {
+        for (const issued of issue) {
           expect(response.error.value).toBe(issued.error);
           expect(response.data.value?.ctrlState).toEqual(issued.state);
         }
@@ -113,7 +113,7 @@ describe("useSubscribeState()", () => {
         const { state, error } = await useSubscribeState();
         expect(error.value).toBe(queryRes.error);
         expect(state.value).toBe(queryRes.error ? undefined : queryRes.state);
-        for await (const issued of issue) {
+        for (const issued of issue) {
           const expectedError = issued.error || queryRes.error;
           const expectedState = expectedError
             ? undefined
