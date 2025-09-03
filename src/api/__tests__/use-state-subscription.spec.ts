@@ -48,18 +48,51 @@ function createMockQuery(res: Res): Query {
   return onReady({ data, error }, ready) as Query;
 }
 
-function createMockSubscription(res: Res): Sub {
+interface MockSubscription {
+  sub: Sub;
+  issue: AsyncGenerator<Res>;
+}
+
+function createMockSubscription(resArray: Res[]): MockSubscription {
   const data = ref<CtrlStateSSubscription | undefined>(undefined);
   const error = ref<Error | undefined>(undefined);
 
-  const ready = (async () => {
-    await Promise.resolve();
-    data.value = { ctrlState: res.state } as CtrlStateSSubscription;
-    error.value = res.error;
-  })();
+  async function* _issue(resArray: Res[]) {
+    for (const res of resArray) {
+      data.value = { ctrlState: res.state } as CtrlStateSSubscription;
+      error.value = res.error;
+      yield res;
+    }
+  }
+  const issue = _issue(resArray);
 
-  return onReady({ data, error }, ready) as unknown as Sub;
+  const sub = { data, error } as Sub;
+  return { sub, issue };
 }
+
+describe("createMockSubscription()", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  afterEach(() => {
+    vi.resetAllMocks();
+  });
+
+  it("Property test", async () => {
+    await fc.assert(
+      fc.asyncProperty(fc.array(fcRes), async (resArray) => {
+        const { sub, issue } = createMockSubscription(resArray);
+        vi.mocked(useCtrlStateSSubscription).mockReturnValue(sub);
+        const response = useCtrlStateSSubscription({ variables: {} });
+        for await (const issued of issue) {
+          expect(response.error.value).toBe(issued.error);
+          expect(response.data.value?.ctrlState).toEqual(issued.state);
+        }
+      }),
+    );
+  });
+});
 
 describe("useSubscribeState()", () => {
   beforeEach(() => {
@@ -72,19 +105,22 @@ describe("useSubscribeState()", () => {
 
   it("Property test", async () => {
     await fc.assert(
-      fc.asyncProperty(fcRes, fcRes, async (queryRes, subRes) => {
+      fc.asyncProperty(fcRes, fc.array(fcRes), async (queryRes, subResArray) => {
         const query = createMockQuery(queryRes);
-        const sub = createMockSubscription(subRes);
+        const { sub, issue } = createMockSubscription(subResArray);
         vi.mocked(useCtrlStateQuery).mockReturnValue(query);
         vi.mocked(useCtrlStateSSubscription).mockReturnValue(sub);
         const { state, error } = await useSubscribeState();
-        const expectedError = subRes.error || queryRes.error;
-        const expectedState = expectedError
-          ? undefined
-          : subRes.state || queryRes.state || undefined;
-
-        expect(error.value).toBe(expectedError);
-        expect(state.value).toBe(expectedState);
+        expect(error.value).toBe(queryRes.error);
+        expect(state.value).toBe(queryRes.error ? undefined : queryRes.state);
+        for await (const issued of issue) {
+          const expectedError = issued.error || queryRes.error;
+          const expectedState = expectedError
+            ? undefined
+            : issued.state || queryRes.state;
+          expect(error.value).toBe(expectedError);
+          expect(state.value).toBe(expectedState);
+        }
       }),
     );
   });
