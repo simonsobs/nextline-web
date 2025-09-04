@@ -7,22 +7,15 @@ import {
 } from "@/graphql/codegen/generated";
 import type {
   CtrlStateQuery,
-  CtrlStateQueryVariables,
   CtrlStateSSubscription,
-  CtrlStateSSubscriptionVariables,
 } from "@/graphql/codegen/generated";
 import { onReady } from "@/utils/on-ready";
 import type { OnReady } from "@/utils/on-ready";
 
 import { useQueryBackedSubscription } from "./use-query-backed-subscription";
 
-type Query = UseQueryResponse<CtrlStateQuery, CtrlStateQueryVariables>;
-
-type Subscription = UseSubscriptionResponse<
-  CtrlStateSSubscription,
-  CtrlStateSSubscription,
-  CtrlStateSSubscriptionVariables
->;
+type Query = UseQueryResponse<CtrlStateQuery>;
+type Subscription = UseSubscriptionResponse<CtrlStateSSubscription>;
 
 interface _StateSubscription {
   state: ComputedRef<string | undefined>;
@@ -31,12 +24,12 @@ interface _StateSubscription {
   query: Query;
 }
 
+type StateSubscription = OnReady<_StateSubscription>;
+
 const mapQueryData = (d: Ref<CtrlStateQuery | undefined>) => d.value?.ctrl.state;
 
 const mapSubscriptionData = (d: Ref<CtrlStateSSubscription | undefined>) =>
   d.value?.ctrlState;
-
-type StateSubscription = OnReady<_StateSubscription>;
 
 export function useSubscribeState(): StateSubscription {
   const query = useCtrlStateQuery({ requestPolicy: "network-only", variables: {} });
