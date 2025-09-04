@@ -24,44 +24,6 @@ type Subscription = UseSubscriptionResponse<
   CtrlStateSSubscriptionVariables
 >;
 
-interface _StateSubscriptionDev {
-  data: ComputedRef<string | undefined>;
-  error: ComputedRef<Error | undefined>;
-  subscription: Subscription;
-  query: Query;
-}
-
-interface StateSubscriptionDev {
-  ret: _StateSubscriptionDev;
-  query: Query;
-}
-
-export function useSubscribeStateDev(): StateSubscriptionDev {
-  const query = useCtrlStateQuery({
-    requestPolicy: "network-only",
-    variables: {},
-  });
-  type SubscriptionData = CtrlStateSSubscription;
-  type QueryData = CtrlStateQuery;
-  const subscription = useCtrlStateSSubscription({ variables: {} });
-
-  const mapSubscriptionData = (subscriptionData: Ref<SubscriptionData | undefined>) =>
-    subscriptionData.value?.ctrlState;
-  const mapQueryData = (queryData: Ref<QueryData | undefined>) =>
-    queryData.value?.ctrl.state;
-
-  const { data, error } = useQueryBackedSubscription(
-    query,
-    subscription,
-    mapQueryData,
-    mapSubscriptionData,
-  );
-
-  const ret = { data, error, subscription, query };
-
-  return { ret, query };
-}
-
 interface _StateSubscription {
   state: ComputedRef<string | undefined>;
   error: ComputedRef<Error | undefined>;
@@ -72,9 +34,28 @@ interface _StateSubscription {
 type StateSubscription = OnReady<_StateSubscription>;
 
 export function useSubscribeState(): StateSubscription {
-  const { ret, query } = useSubscribeStateDev();
-  const { data: state, ...rest } = ret;
-  const ret_ = { state, ...rest };
+  const query = useCtrlStateQuery({
+    requestPolicy: "network-only",
+    variables: {},
+  });
+  type SubscriptionData = CtrlStateSSubscription;
+  type QueryData = CtrlStateQuery;
+  const subscription = useCtrlStateSSubscription({ variables: {} });
 
-  return onReady(ret_, query);
+  const mapQueryData = (queryData: Ref<QueryData | undefined>) =>
+    queryData.value?.ctrl.state;
+
+  const mapSubscriptionData = (subscriptionData: Ref<SubscriptionData | undefined>) =>
+    subscriptionData.value?.ctrlState;
+
+  const { data, error } = useQueryBackedSubscription(
+    query,
+    subscription,
+    mapQueryData,
+    mapSubscriptionData,
+  );
+
+  const ret = { state: data, error, subscription, query };
+
+  return onReady(ret, query);
 }
