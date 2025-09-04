@@ -11,7 +11,7 @@ type MockUseSubscriptionResponseArg<T> = Iterable<
 >;
 
 interface MockUseSubscriptionResponse<T> {
-  sub: {
+  response: {
     data: Ref<T | undefined>;
     error: Ref<Error | undefined>;
   };
@@ -19,20 +19,20 @@ interface MockUseSubscriptionResponse<T> {
 }
 
 export function mockUseSubscriptionResponse<T>(
-  resArray: MockUseSubscriptionResponseArg<T>,
+  arg: MockUseSubscriptionResponseArg<T>,
 ): MockUseSubscriptionResponse<T> {
   const data = ref<T | undefined>(undefined);
   const error = ref<Error | undefined>(undefined);
 
   function* _issue() {
-    for (const res of resArray) {
+    for (const res of arg) {
       data.value = res.data;
       error.value = res.error;
       yield res;
     }
   }
   const issue = _issue();
-  const sub = { data, error };
+  const response = { data, error };
 
-  return { sub, issue } as MockUseSubscriptionResponse<T>;
+  return { response, issue } as MockUseSubscriptionResponse<T>;
 }

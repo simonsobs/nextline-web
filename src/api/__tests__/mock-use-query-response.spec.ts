@@ -18,13 +18,7 @@ const query = gql`
   }
 `;
 
-type Variables = Record<string, never>; // Strictly empty, i.e., {}
-const variables: Variables = {};
-
-type Data = {
-  __typename?: "Query";
-  ctrl: { __typename?: "QueryCtrl"; state: string };
-};
+type Data = { ctrl: { state: string } };
 
 const fcState = fc.string({ minLength: 1 });
 const fcData: fc.Arbitrary<Data | undefined> = fc.oneof(
@@ -51,11 +45,11 @@ describe("mockUseQueryResponse()", () => {
       fc.asyncProperty(fcArg, async (arg) => {
         const response = mockUseQueryResponse<Data>(arg);
 
-        type Response = UseQueryResponse<Data, Variables>;
+        type Response = UseQueryResponse<Data>;
         vi.mocked(useQuery).mockReturnValue(response as Response);
 
         // Assert the mock response is returned.
-        const returned = useQuery<Data, Variables>({ query, variables });
+        const returned = useQuery<Data>({ query });
         expect(response).toBe(returned);
 
         // Assert initially undefined.
@@ -71,7 +65,7 @@ describe("mockUseQueryResponse()", () => {
 
         // Assert the mocked values are assigned.
         expect(response.error.value).toBe(arg.error);
-        expect(response.data.value).toEqual(arg.data);
+        expect(response.data.value).toStrictEqual(arg.data);
       }),
     );
   });

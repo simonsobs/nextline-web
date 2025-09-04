@@ -69,7 +69,7 @@ function mockUseCtrlStateQueryResponse(res: QRes): Query {
 }
 
 interface MockSubscription {
-  sub: Sub;
+  response: Sub;
   issue: Iterable<SRes>;
 }
 
@@ -94,7 +94,8 @@ describe("useSubscribeState()", () => {
     await fc.assert(
       fc.asyncProperty(fcQRes, fc.array(fcSRes), async (queryRes, subResArray) => {
         const query = mockUseCtrlStateQueryResponse(queryRes);
-        const { sub, issue } = mockUseCtrlStateSSubscriptionResponse(subResArray);
+        const { response: sub, issue } =
+          mockUseCtrlStateSSubscriptionResponse(subResArray);
         vi.mocked(useCtrlStateQuery).mockReturnValue(query);
         vi.mocked(useCtrlStateSSubscription).mockReturnValue(sub);
         const { state, error } = await useSubscribeState();
