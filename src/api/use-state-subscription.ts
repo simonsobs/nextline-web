@@ -15,16 +15,8 @@ import type {
 import { onReady } from "@/utils/on-ready";
 import type { OnReady } from "@/utils/on-ready";
 
-type Query = UseQueryResponse<CtrlStateQuery, CtrlStateQueryVariables>;
-
-type Subscription = UseSubscriptionResponse<
-  CtrlStateSSubscription,
-  CtrlStateSSubscription,
-  CtrlStateSSubscriptionVariables
->;
-
-type ExtractQueryData<Q> = Q extends UseQueryResponse<infer Data, any> ? Data : never;
-type ExtractSubscriptionData<S> =
+type QueryData<Q> = Q extends UseQueryResponse<infer Data, any> ? Data : never;
+type SubscriptionData<S> =
   S extends UseSubscriptionResponse<infer Data, any, any> ? Data : never;
 
 function useQueryBackedSubscription<
@@ -34,9 +26,9 @@ function useQueryBackedSubscription<
 >(
   query: Q,
   subscription: S,
-  mapQueryData: (queryData: Ref<ExtractQueryData<Q>>) => T | undefined,
+  mapQueryData: (queryData: Ref<QueryData<Q>>) => T | undefined,
   mapSubscriptionData: (
-    subscriptionData: Ref<ExtractSubscriptionData<S> | undefined>,
+    subscriptionData: Ref<SubscriptionData<S> | undefined>,
   ) => T | undefined,
 ) {
   const error = computed(() => subscription.error?.value || query.error?.value);
@@ -49,6 +41,15 @@ function useQueryBackedSubscription<
 
   return { data, error };
 }
+
+type Query = UseQueryResponse<CtrlStateQuery, CtrlStateQueryVariables>;
+
+type Subscription = UseSubscriptionResponse<
+  CtrlStateSSubscription,
+  CtrlStateSSubscription,
+  CtrlStateSSubscriptionVariables
+>;
+
 interface _StateSubscriptionDev {
   data: ComputedRef<string | undefined>;
   error: ComputedRef<Error | undefined>;
