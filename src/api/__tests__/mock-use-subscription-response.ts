@@ -1,26 +1,26 @@
 import { ref } from "vue";
 import type { Ref } from "vue";
 
-interface MockUserSubscriptionResponseArgElement<T> {
+interface MockUseSubscriptionResponseArgElement<T> {
   data: T | undefined;
   error: Error | undefined;
 }
 
-type MockUserSubscriptionResponseArg<T> = Iterable<
-  MockUserSubscriptionResponseArgElement<T>
+type MockUseSubscriptionResponseArg<T> = Iterable<
+  MockUseSubscriptionResponseArgElement<T>
 >;
 
-interface MockUserSubscriptionResponse<T> {
+interface MockUseSubscriptionResponse<T> {
   sub: {
     data: Ref<T | undefined>;
     error: Ref<Error | undefined>;
   };
-  issue: MockUserSubscriptionResponseArg<T>;
+  issue: MockUseSubscriptionResponseArg<T>;
 }
 
-export function mockUserSubscriptionResponse<T>(
-  resArray: MockUserSubscriptionResponseArg<T>,
-): MockUserSubscriptionResponse<T> {
+export function mockUseSubscriptionResponse<T>(
+  resArray: MockUseSubscriptionResponseArg<T>,
+): MockUseSubscriptionResponse<T> {
   const data = ref<T | undefined>(undefined);
   const error = ref<Error | undefined>(undefined);
 
@@ -34,5 +34,5 @@ export function mockUserSubscriptionResponse<T>(
   const issue = _issue();
   const sub = { data, error };
 
-  return { sub, issue } as MockUserSubscriptionResponse<T>;
+  return { sub, issue } as MockUseSubscriptionResponse<T>;
 }

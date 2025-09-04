@@ -15,7 +15,7 @@ import {
 import { useSubscribeState } from "../use-state-subscription";
 
 import { mockUseQueryResponse } from "./mock-use-query-response";
-import { mockUserSubscriptionResponse } from "./mock-user-subscription-response";
+import { mockUseSubscriptionResponse } from "./mock-use-subscription-response";
 
 vi.mock("@/graphql/codegen/generated", () => ({
   useCtrlStateQuery: vi.fn(),
@@ -76,7 +76,7 @@ interface MockSubscription {
 function mockUseCtrlStateSSubscriptionResponse(
   resArray: Iterable<SRes>,
 ): MockSubscription {
-  return mockUserSubscriptionResponse<CtrlStateSSubscription>(
+  return mockUseSubscriptionResponse<CtrlStateSSubscription>(
     resArray,
   ) as MockSubscription;
 }

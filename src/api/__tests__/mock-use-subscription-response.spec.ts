@@ -4,7 +4,7 @@ import fc from "fast-check";
 import type { CtrlStateSSubscription } from "@/graphql/codegen/generated";
 import { useCtrlStateSSubscription } from "@/graphql/codegen/generated";
 
-import { mockUserSubscriptionResponse } from "./mock-user-subscription-response";
+import { mockUseSubscriptionResponse } from "./mock-use-subscription-response";
 
 vi.mock("@/graphql/codegen/generated", () => ({
   useCtrlStateQuery: vi.fn(),
@@ -46,7 +46,7 @@ describe("mockUseSubscriptionResponse()", () => {
     fc.assert(
       fc.property(fc.array(fcSRes), (resArray) => {
         const { sub, issue } =
-          mockUserSubscriptionResponse<CtrlStateSSubscription>(resArray);
+          mockUseSubscriptionResponse<CtrlStateSSubscription>(resArray);
         vi.mocked(useCtrlStateSSubscription).mockReturnValue(sub as Sub);
         const response = useCtrlStateSSubscription({ variables: {} });
         for (const issued of issue) {
