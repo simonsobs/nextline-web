@@ -37,7 +37,7 @@ const fcError = fc.oneof(fc.constant(undefined), fcErrorInstance);
 
 const fcArg = fc.record({ data: fcData, error: fcError });
 
-describe("mockUseCtrlStateQueryResponse()", () => {
+describe("mockUseQueryResponse()", () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
@@ -49,16 +49,29 @@ describe("mockUseCtrlStateQueryResponse()", () => {
   it("Property test", async () => {
     fc.assert(
       fc.asyncProperty(fcArg, async (arg) => {
+        const response = mockUseQueryResponse<Data>(arg);
+
         type Response = UseQueryResponse<Data, Variables>;
-        const mockResponse = mockUseQueryResponse<Data>(arg) as Response;
-        vi.mocked(useQuery).mockReturnValue(mockResponse);
-        const response = useQuery<Data, Variables>({ query, variables });
-        expect(response).toBe(mockResponse);
+        vi.mocked(useQuery).mockReturnValue(response as Response);
+
+        // Assert the mock response is returned.
+        const returned = useQuery<Data, Variables>({ query, variables });
+        expect(response).toBe(returned);
+
+        // Assert initially undefined.
         expect(response.error.value).toBeUndefined();
         expect(response.data.value).toBeUndefined();
-        await response;
+
+        // Await until the values are assigned.
+        const state = await response;
+
+        // Confirm the object returned by await contains the same objects.
+        expect(state.data).toBe(response.data);
+        expect(state.error).toBe(response.error);
+
+        // Assert the mocked values are assigned.
         expect(response.error.value).toBe(arg.error);
-        expect(response.data.value?.ctrl.state).toBe(arg.data?.ctrl.state);
+        expect(response.data.value).toEqual(arg.data);
       }),
     );
   });
