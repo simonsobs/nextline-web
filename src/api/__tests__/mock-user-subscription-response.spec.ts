@@ -33,20 +33,7 @@ const fcSRes: fc.Arbitrary<SRes> = fc.record({
 
 type Sub = ReturnType<typeof useCtrlStateSSubscription>;
 
-interface MockSubscription {
-  sub: Sub;
-  issue: Iterable<SRes>;
-}
-
-function mockUseCtrlStateSSubscriptionResponse(
-  resArray: Iterable<SRes>,
-): MockSubscription {
-  return mockUserSubscriptionResponse<CtrlStateSSubscription>(
-    resArray,
-  ) as MockSubscription;
-}
-
-describe("mockUseCtrlStateSSubscriptionResponse()", () => {
+describe("mockUseSubscriptionResponse()", () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
@@ -58,8 +45,9 @@ describe("mockUseCtrlStateSSubscriptionResponse()", () => {
   it("Property test", () => {
     fc.assert(
       fc.property(fc.array(fcSRes), (resArray) => {
-        const { sub, issue } = mockUseCtrlStateSSubscriptionResponse(resArray);
-        vi.mocked(useCtrlStateSSubscription).mockReturnValue(sub);
+        const { sub, issue } =
+          mockUserSubscriptionResponse<CtrlStateSSubscription>(resArray);
+        vi.mocked(useCtrlStateSSubscription).mockReturnValue(sub as Sub);
         const response = useCtrlStateSSubscription({ variables: {} });
         for (const issued of issue) {
           expect(response.error.value).toBe(issued.error);
