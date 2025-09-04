@@ -1,61 +1,37 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { ref } from "vue";
 import fc from "fast-check";
 
+import type {
+  CtrlStateQuery,
+  CtrlStateSSubscription,
+} from "@/graphql/codegen/generated";
 import {
   useCtrlStateQuery,
   useCtrlStateSSubscription,
 } from "@/graphql/codegen/generated";
-import type { CtrlStateSSubscription } from "@/graphql/codegen/generated";
-import { onReady } from "@/utils/on-ready";
 
 import { useSubscribeState } from "../use-state-subscription";
+
+import { mockUseQueryResponse } from "./mock-use-query-response";
+import { mockUseSubscriptionResponse } from "./mock-use-subscription-response";
 
 vi.mock("@/graphql/codegen/generated", () => ({
   useCtrlStateQuery: vi.fn(),
   useCtrlStateSSubscription: vi.fn(),
 }));
 
-const fcState = fc.oneof(fc.constant(undefined), fc.string({ minLength: 1 }));
+const fcState = fc.string({ minLength: 1 });
+const fcQueryData = fc.oneof(
+  fc.constant(undefined),
+  fc.record({ ctrl: fc.record({ state: fcState }) }),
+);
+const fcSubData = fc.oneof(fc.constant(undefined), fc.record({ ctrlState: fcState }));
 
 const fcErrorInstance = fc.string().map((msg) => new Error(msg));
 const fcError = fc.oneof(fc.constant(undefined), fcErrorInstance);
 
-type Query = ReturnType<typeof useCtrlStateQuery>;
-type Sub = ReturnType<typeof useCtrlStateSSubscription>;
-
-function createMockQuery(
-  state_value: string | undefined,
-  error_value: Error | undefined,
-): Query {
-  type Data = NonNullable<Query["data"]["value"]>;
-  const data = ref<Data | undefined>(undefined);
-  const error = ref<Error | undefined>(undefined);
-
-  const ready = (async () => {
-    await Promise.resolve();
-    data.value = { ctrl: { state: state_value } } as Data;
-    error.value = error_value;
-  })();
-
-  return onReady({ data, error }, ready) as Query;
-}
-
-function createMockSubscription(
-  state_value: string | undefined,
-  error_value: Error | undefined,
-): Sub {
-  const data = ref<CtrlStateSSubscription | undefined>(undefined);
-  const error = ref<Error | undefined>(undefined);
-
-  const ready = (async () => {
-    await Promise.resolve();
-    data.value = { ctrlState: state_value } as CtrlStateSSubscription;
-    error.value = error_value;
-  })();
-
-  return onReady({ data, error }, ready) as unknown as Sub;
-}
+const fcQueryArg = fc.record({ data: fcQueryData, error: fcError });
+const fcSubArg = fc.record({ data: fcSubData, error: fcError });
 
 describe("useSubscribeState()", () => {
   beforeEach(() => {
@@ -68,26 +44,36 @@ describe("useSubscribeState()", () => {
 
   it("Property test", async () => {
     await fc.assert(
-      fc.asyncProperty(
-        fcState,
-        fcError,
-        fcState,
-        fcError,
-        async (queryState, queryError, subState, subError) => {
-          const query = createMockQuery(queryState, queryError);
-          const sub = createMockSubscription(subState, subError);
-          vi.mocked(useCtrlStateQuery).mockReturnValue(query);
-          vi.mocked(useCtrlStateSSubscription).mockReturnValue(sub);
-          const { state, error } = await useSubscribeState();
-          const expectedError = subError || queryError;
+      fc.asyncProperty(fcQueryArg, fc.array(fcSubArg), async (queryArg, subArg) => {
+        // Mock useCtrlStateQuery()
+        const queryRes = mockUseQueryResponse<CtrlStateQuery>(queryArg);
+        type Query = ReturnType<typeof useCtrlStateQuery>;
+        vi.mocked(useCtrlStateQuery).mockReturnValue(queryRes as Query);
+
+        // Mock useCtrlStateSSubscription()
+        const { response: subRes, issue } =
+          mockUseSubscriptionResponse<CtrlStateSSubscription>(subArg);
+        type SubRes = ReturnType<typeof useCtrlStateSSubscription>;
+        vi.mocked(useCtrlStateSSubscription).mockReturnValue(subRes as SubRes);
+
+        const { state, error } = await useSubscribeState();
+
+        // Assert initial values are from query.
+        expect(error.value).toBe(queryArg.error);
+        expect(state.value).toBe(
+          queryArg.error ? undefined : queryArg.data?.ctrl.state,
+        );
+
+        // Assert the subsequent values are issued from subscription backed up by query.
+        for (const issued of issue) {
+          const expectedError = issued.error || queryArg.error;
           const expectedState = expectedError
             ? undefined
-            : subState || queryState || undefined;
-
+            : issued.data?.ctrlState || queryArg.data?.ctrl.state;
           expect(error.value).toBe(expectedError);
           expect(state.value).toBe(expectedState);
-        },
-      ),
+        }
+      }),
     );
   });
 });
