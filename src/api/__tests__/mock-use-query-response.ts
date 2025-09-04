@@ -15,15 +15,15 @@ interface MockUseQueryResponseArg<T> {
 }
 
 export function mockUseQueryResponse<T>(
-  res: MockUseQueryResponseArg<T>,
+  arg: MockUseQueryResponseArg<T>,
 ): MockUseQueryResponse<T> {
   const data = ref<T | undefined>(undefined);
   const error = ref<Error | undefined>(undefined);
 
   const ready = (async () => {
     await Promise.resolve();
-    data.value = res.data;
-    error.value = res.error;
+    data.value = arg.data;
+    error.value = arg.error;
   })();
 
   return onReady({ data, error }, ready) as MockUseQueryResponse<T>;
