@@ -31,22 +31,16 @@ interface _StateSubscription {
   query: Query;
 }
 
+const mapQueryData = (d: Ref<CtrlStateQuery | undefined>) => d.value?.ctrl.state;
+
+const mapSubscriptionData = (d: Ref<CtrlStateSSubscription | undefined>) =>
+  d.value?.ctrlState;
+
 type StateSubscription = OnReady<_StateSubscription>;
 
 export function useSubscribeState(): StateSubscription {
-  const query = useCtrlStateQuery({
-    requestPolicy: "network-only",
-    variables: {},
-  });
-  type SubscriptionData = CtrlStateSSubscription;
-  type QueryData = CtrlStateQuery;
+  const query = useCtrlStateQuery({ requestPolicy: "network-only", variables: {} });
   const subscription = useCtrlStateSSubscription({ variables: {} });
-
-  const mapQueryData = (queryData: Ref<QueryData | undefined>) =>
-    queryData.value?.ctrl.state;
-
-  const mapSubscriptionData = (subscriptionData: Ref<SubscriptionData | undefined>) =>
-    subscriptionData.value?.ctrlState;
 
   const { data, error } = useQueryBackedSubscription(
     query,
