@@ -28,12 +28,8 @@ export function useSubscribeState(): StateSubscription {
   const mapQueryData = (d: typeof query.data) => d.value?.ctrl.state;
   const mapSubscriptionData = (d: typeof subscription.data) => d.value?.ctrlState;
 
-  const { data, error } = useQueryBackedSubscription(
-    query,
-    subscription,
-    mapQueryData,
-    mapSubscriptionData,
-  );
+  const options = { query, subscription, mapQueryData, mapSubscriptionData };
+  const { data, error } = useQueryBackedSubscription(options);
 
   const ret = { state: data, error, subscription, query };
 

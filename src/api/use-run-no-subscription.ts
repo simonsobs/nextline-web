@@ -28,12 +28,8 @@ export function useSubscribeRunNo(): RunNoSubscription {
   const mapQueryData = (d: typeof query.data) => d.value?.ctrl.runNo;
   const mapSubscriptionData = (d: typeof subscription.data) => d.value?.ctrlRunNo;
 
-  const { data, error } = useQueryBackedSubscription(
-    query,
-    subscription,
-    mapQueryData,
-    mapSubscriptionData,
-  );
+  const options = { query, subscription, mapQueryData, mapSubscriptionData };
+  const { data, error } = useQueryBackedSubscription(options);
 
   const ret = { runNo: data, error, subscription, query };
 
