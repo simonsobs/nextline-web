@@ -1,5 +1,4 @@
 import type { ComputedRef } from "vue";
-import { computed } from "vue";
 
 import {
   useCtrlStateQuery,
@@ -8,31 +7,36 @@ import {
 import { onReady } from "@/utils/on-ready";
 import type { OnReady } from "@/utils/on-ready";
 
+import { useMappedWithFallback } from "./use-mapped-with-fallback";
+
+type Query = ReturnType<typeof useCtrlStateQuery>;
+type Subscription = ReturnType<typeof useCtrlStateSSubscription>;
+
 interface _StateSubscription {
   state: ComputedRef<string | undefined>;
   error: ComputedRef<Error | undefined>;
-  subscription: ReturnType<typeof useCtrlStateSSubscription>;
-  query: ReturnType<typeof useCtrlStateQuery>;
+  subscription: Subscription;
+  query: Query;
 }
 
 type StateSubscription = OnReady<_StateSubscription>;
 
 export function useSubscribeState(): StateSubscription {
-  const query = useCtrlStateQuery({
-    requestPolicy: "network-only",
-    variables: {},
-  });
+  const query = useCtrlStateQuery({ requestPolicy: "network-only", variables: {} });
   const subscription = useCtrlStateSSubscription({ variables: {} });
 
-  const error = computed(() => subscription.error?.value || query.error?.value);
+  const mapQueryData = (d: typeof query.data) => d.value?.ctrl.state;
+  const mapSubscriptionData = (d: typeof subscription.data) => d.value?.ctrlState;
 
-  const state = computed(() =>
-    error.value
-      ? undefined
-      : subscription.data?.value?.ctrlState || query.data?.value?.ctrl.state,
-  );
+  const options = {
+    response1: subscription,
+    response2: query,
+    map1: mapSubscriptionData,
+    map2: mapQueryData,
+  };
+  const { data, error } = useMappedWithFallback(options);
 
-  const ret = { state, error, subscription, query };
+  const ret = { state: data, error, subscription, query };
 
   return onReady(ret, query);
 }
