@@ -29,10 +29,10 @@ export function useSubscribeRunNo(): RunNoSubscription {
   const mapSubscriptionData = (d: typeof subscription.data) => d.value?.ctrlRunNo;
 
   const options = {
-    response2: query,
     response1: subscription,
-    map2: mapQueryData,
+    response2: query,
     map1: mapSubscriptionData,
+    map2: mapQueryData,
   };
   const { data, error } = useMappedWithFallback(options);
 

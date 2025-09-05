@@ -30,22 +30,22 @@ interface Response<T> {
  */
 export interface UseMappedWithFallbackOptions<
   T,
-  D2,
   D1,
-  R2 extends Response<D2>,
+  D2,
   R1 extends Response<D1>,
+  R2 extends Response<D2>,
 > {
-  /** The fallback response source, typically returned by `useQuery()` */
-  response2: R2;
-
   /** The primary response source, typically returned by `useSubscription()` */
   response1: R1;
 
-  /** Mapping function for the fallback response data. `d` is `response2.data` */
-  map2: (d: Ref<D2 | undefined>) => T | undefined;
+  /** The fallback response source, typically returned by `useQuery()` */
+  response2: R2;
 
   /** Mapping function for the primary response data. `d` is `response1.data` */
   map1: (d: Ref<D1 | undefined>) => T | undefined;
+
+  /** Mapping function for the fallback response data. `d` is `response2.data` */
+  map2: (d: Ref<D2 | undefined>) => T | undefined;
 }
 
 /**
@@ -86,12 +86,12 @@ interface UseMappedWithFallbackReturn<T> {
  */
 export function useMappedWithFallback<
   T,
-  D2,
   D1,
-  R2 extends Response<D2>,
+  D2,
   R1 extends Response<D1>,
+  R2 extends Response<D2>,
 >(
-  options: UseMappedWithFallbackOptions<T, D2, D1, R2, R1>,
+  options: UseMappedWithFallbackOptions<T, D1, D2, R1, R2>,
 ): UseMappedWithFallbackReturn<T> {
   const error = computed(
     () => options.response1.error?.value ?? options.response2.error?.value,
