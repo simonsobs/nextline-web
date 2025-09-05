@@ -10,13 +10,13 @@ vi.mock("@urql/vue", () => ({
   useSubscription: vi.fn(),
 }));
 
-export const query = gql`
+const query = gql`
   subscription CtrlStateS {
     ctrlState
   }
 `;
 
-export type Data = { ctrlState: string };
+type Data = { ctrlState: string };
 
 const fcState = fc.string({ minLength: 1 });
 const fcData = fc.oneof(fc.constant(undefined), fc.record({ ctrlState: fcState }));
