@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import fc from "fast-check";
 
 import type {
@@ -10,11 +10,6 @@ import { useQueryBackedSubscription } from "../use-query-backed-subscription";
 
 import { mockUseQueryResponse } from "./mock-use-query-response";
 import { mockUseSubscriptionResponse } from "./mock-use-subscription-response";
-
-vi.mock("@/graphql/codegen/generated", () => ({
-  useCtrlStateQuery: vi.fn(),
-  useCtrlStateSSubscription: vi.fn(),
-}));
 
 const fcState = fc.string();
 const fcQueryData = fc.oneof(
@@ -30,14 +25,6 @@ const fcQueryArg = fc.record({ data: fcQueryData, error: fcError });
 const fcSubArg = fc.record({ data: fcSubData, error: fcError });
 
 describe("useQueryBackedSubscription()", () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
-
-  afterEach(() => {
-    vi.resetAllMocks();
-  });
-
   it("Property test", async () => {
     await fc.assert(
       fc.asyncProperty(fcQueryArg, fc.array(fcSubArg), async (queryArg, subArg) => {
