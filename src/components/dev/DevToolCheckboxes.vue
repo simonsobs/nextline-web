@@ -34,7 +34,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, CSSProperties, watch } from "vue";
+import { computed, watch } from "vue";
+import type { CSSProperties } from "vue";
 import { useVModel } from "@vueuse/core";
 
 import { useDevTool } from "@/utils/dev/enabled";
