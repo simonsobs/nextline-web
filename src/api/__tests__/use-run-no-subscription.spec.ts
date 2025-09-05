@@ -20,7 +20,7 @@ vi.mock("@/graphql/codegen/generated", () => ({
   useCtrlRunNoSSubscription: vi.fn(),
 }));
 
-const fcRunNo = fc.integer({ min: 1 });
+const fcRunNo = fc.integer();
 const fcQueryData = fc.oneof(
   fc.constant(undefined),
   fc.record({ ctrl: fc.record({ runNo: fcRunNo }) }),
@@ -69,7 +69,7 @@ describe("useSubscribeRunNo()", () => {
           const expectedError = issued.error || queryArg.error;
           const expectedRunNo = expectedError
             ? undefined
-            : issued.data?.ctrlRunNo || queryArg.data?.ctrl.runNo;
+            : (issued.data?.ctrlRunNo ?? queryArg.data?.ctrl.runNo);
           expect(error.value).toBe(expectedError);
           expect(runNo.value).toBe(expectedRunNo);
         }

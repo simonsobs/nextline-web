@@ -18,12 +18,12 @@ export function useQueryBackedSubscription<
     subscriptionData: Ref<SubscriptionData<S> | undefined>,
   ) => T | undefined,
 ) {
-  const error = computed(() => subscription.error?.value || query.error?.value);
+  const error = computed(() => subscription.error?.value ?? query.error?.value);
 
   const data = computed(() =>
     error.value
       ? undefined
-      : mapSubscriptionData(subscription.data) || mapQueryData(query.data),
+      : (mapSubscriptionData(subscription.data) ?? mapQueryData(query.data)),
   );
 
   return { data, error };

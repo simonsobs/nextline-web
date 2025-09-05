@@ -29,7 +29,7 @@ export function useSubscribeRunNo(): RunNoSubscription {
   const runNo = computed(() =>
     error.value
       ? undefined
-      : subscription.data?.value?.ctrlRunNo || query.data?.value?.ctrl.runNo,
+      : (subscription.data?.value?.ctrlRunNo ?? query.data?.value?.ctrl.runNo),
   );
 
   const ret = { runNo, error, subscription, query };

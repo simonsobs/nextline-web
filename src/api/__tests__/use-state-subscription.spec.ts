@@ -20,7 +20,7 @@ vi.mock("@/graphql/codegen/generated", () => ({
   useCtrlStateSSubscription: vi.fn(),
 }));
 
-const fcState = fc.string({ minLength: 1 });
+const fcState = fc.string();
 const fcQueryData = fc.oneof(
   fc.constant(undefined),
   fc.record({ ctrl: fc.record({ state: fcState }) }),
@@ -69,7 +69,7 @@ describe("useSubscribeState()", () => {
           const expectedError = issued.error || queryArg.error;
           const expectedState = expectedError
             ? undefined
-            : issued.data?.ctrlState || queryArg.data?.ctrl.state;
+            : (issued.data?.ctrlState ?? queryArg.data?.ctrl.state);
           expect(error.value).toBe(expectedError);
           expect(state.value).toBe(expectedState);
         }
