@@ -34,7 +34,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, watch } from "vue";
+import { computed, CSSProperties, watch } from "vue";
 import { useVModel } from "@vueuse/core";
 
 import { useDevTool } from "@/utils/dev/enabled";
@@ -70,7 +70,7 @@ function clear() {
 
 const disableClear = computed(() => Object.values(data.value).every((v) => !v));
 
-const buttonStyle = computed(() => ({
+const buttonStyle = computed<CSSProperties>(() => ({
   position: "absolute",
   top: props.top,
   right: props.right,
