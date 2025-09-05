@@ -7,7 +7,7 @@ import {
 import { onReady } from "@/utils/on-ready";
 import type { OnReady } from "@/utils/on-ready";
 
-import { useMappedWithFallback } from "./use-query-backed-subscription";
+import { useMappedWithFallback } from "./use-mapped-with-fallback";
 
 type Query = ReturnType<typeof useCtrlRunNoQuery>;
 type Subscription = ReturnType<typeof useCtrlRunNoSSubscription>;

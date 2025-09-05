@@ -6,7 +6,7 @@ import type {
   CtrlStateSSubscription,
 } from "@/graphql/codegen/generated";
 
-import { useMappedWithFallback } from "../use-query-backed-subscription";
+import { useMappedWithFallback } from "../use-mapped-with-fallback";
 
 import { mockUseQueryResponse } from "./mock-use-query-response";
 import { mockUseSubscriptionResponse } from "./mock-use-subscription-response";
