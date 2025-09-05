@@ -1,15 +1,13 @@
 import { describe, expect, it } from "vitest";
 import fc from "fast-check";
 
-import type {
-  CtrlStateQuery,
-  CtrlStateSSubscription,
-} from "@/graphql/codegen/generated";
-
 import { useMappedWithFallback } from "../use-mapped-with-fallback";
 
 import { mockUseQueryResponse } from "./mock-use-query-response";
 import { mockUseSubscriptionResponse } from "./mock-use-subscription-response";
+
+type QueryData = { ctrl: { state: string } };
+type SubscriptionData = { ctrlState: string };
 
 const fcState = fc.string();
 const fcQueryData = fc.oneof(
@@ -28,20 +26,14 @@ describe("useMappedWithFallback()", () => {
   it("Property test", async () => {
     await fc.assert(
       fc.asyncProperty(fcQueryArg, fc.array(fcSubArg), async (queryArg, subArg) => {
-        const query = await mockUseQueryResponse<CtrlStateQuery>(queryArg);
+        const { response: response1, issue } =
+          mockUseSubscriptionResponse<SubscriptionData>(subArg);
+        const response2 = await mockUseQueryResponse<QueryData>(queryArg);
 
-        const { response: subscription, issue } =
-          mockUseSubscriptionResponse<CtrlStateSSubscription>(subArg);
+        const map1 = (d: typeof response1.data) => d.value?.ctrlState;
+        const map2 = (d: typeof response2.data) => d.value?.ctrl.state;
 
-        const mapQueryData = (d: typeof query.data) => d.value?.ctrl.state;
-        const mapSubscriptionData = (d: typeof subscription.data) => d.value?.ctrlState;
-
-        const options = {
-          response1: subscription,
-          response2: query,
-          map1: mapSubscriptionData,
-          map2: mapQueryData,
-        };
+        const options = { response1, response2, map1, map2 };
         const { data, error } = useMappedWithFallback(options);
 
         // Assert initial values are from query.
@@ -50,7 +42,7 @@ describe("useMappedWithFallback()", () => {
 
         // Assert the subsequent values are issued from subscription backed up by query.
         for (const issued of issue) {
-          const expectedError = issued.error || queryArg.error;
+          const expectedError = issued.error ?? queryArg.error;
           const expectedState = expectedError
             ? undefined
             : (issued.data?.ctrlState ?? queryArg.data?.ctrl.state);
