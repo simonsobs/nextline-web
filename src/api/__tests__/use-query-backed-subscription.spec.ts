@@ -6,7 +6,7 @@ import type {
   CtrlStateSSubscription,
 } from "@/graphql/codegen/generated";
 
-import { useQueryBackedSubscription } from "../use-query-backed-subscription";
+import { useMappedWithFallback } from "../use-query-backed-subscription";
 
 import { mockUseQueryResponse } from "./mock-use-query-response";
 import { mockUseSubscriptionResponse } from "./mock-use-subscription-response";
@@ -24,7 +24,7 @@ const fcError = fc.oneof(fc.constant(undefined), fcErrorInstance);
 const fcQueryArg = fc.record({ data: fcQueryData, error: fcError });
 const fcSubArg = fc.record({ data: fcSubData, error: fcError });
 
-describe("useQueryBackedSubscription()", () => {
+describe("useMappedWithFallback()", () => {
   it("Property test", async () => {
     await fc.assert(
       fc.asyncProperty(fcQueryArg, fc.array(fcSubArg), async (queryArg, subArg) => {
@@ -36,8 +36,13 @@ describe("useQueryBackedSubscription()", () => {
         const mapQueryData = (d: typeof query.data) => d.value?.ctrl.state;
         const mapSubscriptionData = (d: typeof subscription.data) => d.value?.ctrlState;
 
-        const options = { query, subscription, mapQueryData, mapSubscriptionData };
-        const { data, error } = useQueryBackedSubscription(options);
+        const options = {
+          response2: query,
+          response1: subscription,
+          map2: mapQueryData,
+          map1: mapSubscriptionData,
+        };
+        const { data, error } = useMappedWithFallback(options);
 
         // Assert initial values are from query.
         expect(error.value).toBe(queryArg.error);

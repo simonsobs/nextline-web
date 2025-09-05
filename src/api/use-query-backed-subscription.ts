@@ -1,10 +1,10 @@
 import { computed } from "vue";
-import type { Ref } from "vue";
+import type { ComputedRef, Ref } from "vue";
 
 /**
- * Minimal reactive response returned by `useQuery()` / `useSubscription()`.
+ * Response returned by `useQuery()` / `useSubscription()`.
  *
- * T is the data type, the equivalent to the first argument of `UseQueryResponse` and
+ * `T` is the data type, the equivalent to the first argument of `UseQueryResponse` and
  * `UseSubscriptionResponse`.
  */
 interface Response<T> {
@@ -13,75 +13,94 @@ interface Response<T> {
 }
 
 /**
- * Options for the `useQueryBackedSubscription` composable.
+ * Options for the `useMappedWithFallback` composable.
  *
- * Generics:
- * - T: resulting mapped type produced by `mapQueryData`/`mapSubscriptionData`.
- * - QueryData: the GraphQL query payload type (the type inside `query.data`).
- * - SubscriptionData: the GraphQL subscription payload type (the type inside
- *   `subscription.data`).
- * - Query/Subscription: the reactive response shapes returned by `useQuery()` /
- *   `useSubscription()`.
+ * The interface includes two responses and two mapping functions. The two responses are
+ * primary and secondary, which are typically returned by `useSubscription()` and
+ * `useQuery()`, respectively. The two mapping functions convert the respective response
+ * data into a common target type `T`. The secondary response is used as a fallback when
+ * the primary response data is `undefined`.
  *
- * `query` should be the value returned by `useQuery()`, and `subscription` the value
- * returned by `useSubscription()`. Both mapping functions receive the corresponding
- * `data` `Ref` and must return `T | undefined`.
+ * @template T The target type that both mappers should produce
+ * @template D1 The data type of Response<D1>["data"]
+ * @template D2 The data type of Response<D2>["data"]
+ * @template R1 The primary response type, typically `UseSubscriptionResponse<D1>`
+ * @template R2 The fallback response type, typically `UseQueryResponse<D2>`
+ *
  */
-export interface UseQueryBackedSubscriptionOptions<
+export interface UseMappedWithFallbackOptions<
   T,
-  QueryData,
-  SubscriptionData,
-  Query extends Response<QueryData>,
-  Subscription extends Response<SubscriptionData>,
+  D2,
+  D1,
+  R2 extends Response<D2>,
+  R1 extends Response<D1>,
 > {
-  query: Query;
-  subscription: Subscription;
-  mapQueryData: (queryData: Ref<QueryData | undefined>) => T | undefined;
-  mapSubscriptionData: (
-    subscriptionData: Ref<SubscriptionData | undefined>,
-  ) => T | undefined;
+  /** The fallback response source, typically returned by `useQuery()` */
+  response2: R2;
+
+  /** The primary response source, typically returned by `useSubscription()` */
+  response1: R1;
+
+  /** Mapping function for the fallback response data. `d` is `response2.data` */
+  map2: (d: Ref<D2 | undefined>) => T | undefined;
+
+  /** Mapping function for the primary response data. `d` is `response1.data` */
+  map1: (d: Ref<D1 | undefined>) => T | undefined;
 }
 
 /**
- * Combine a query and a subscription into a single reactive value.
+ * Return type of `useMappedWithFallback()`.
  *
- * Returns an object with `data` (a computed `T | undefined`) and `error` (a computed
- * `Error | undefined`).
- * - `data` prefers values produced by `mapSubscriptionData` (subscription updates) and
- *   falls back to `mapQueryData` (the latest query result) when subscription hasn't
- *   produced a value.
- * - `error` yields the subscription error if present, otherwise the query error.
- *
- * The `map*` functions receive the corresponding `data` `Ref` (from `useQuery()` /
- * `useSubscription()`) and must return a `T | undefined`.
- *
- * Typical usage: pass the return values of the generated `useQuery()` and
- * `useSubscription()` hooks as `query` and `subscription`.
+ * The returned object contains two reactive properties: `data` and `error`.
  */
-export function useQueryBackedSubscription<
+interface UseMappedWithFallbackReturn<T> {
+  /**
+   * The reactive value mapped primarily from `response1` with fallback to `response2`.
+   * `undefined` if either response has an error.
+   */
+  data: ComputedRef<T | undefined>;
+
+  /**
+   * The error from `response1` otherwise from `response2` else `undefined`
+   */
+  error: ComputedRef<Error | undefined>;
+}
+
+/**
+ * A reactive mapped value from a primary response with secondary fallback.
+ *
+ * @param options {@link UseMappedWithFallbackOptions}
+ * @returns {@link UseMappedWithFallbackReturn}
+ * @example
+ * ```typescript
+ * const subscription = useSubscription<D1>({ query: SUBSCRIPTION_QUERY });
+ * const query = useQuery<D2>({ query: QUERY });
+ *
+ * const { data, error } = useMappedWithFallback({
+ *   response1: subscription, // primary: real-time updates
+ *   response2: query,        // fallback: initial data
+ *   map1: (d) => d.value?.ctrlState,
+ *   map2: (d) => d.value?.ctrl.state,
+ * });
+ * ```
+ */
+export function useMappedWithFallback<
   T,
-  QueryData,
-  SubscriptionData,
-  Query extends Response<QueryData>,
-  Subscription extends Response<SubscriptionData>,
+  D2,
+  D1,
+  R2 extends Response<D2>,
+  R1 extends Response<D1>,
 >(
-  options: UseQueryBackedSubscriptionOptions<
-    T,
-    QueryData,
-    SubscriptionData,
-    Query,
-    Subscription
-  >,
-) {
+  options: UseMappedWithFallbackOptions<T, D2, D1, R2, R1>,
+): UseMappedWithFallbackReturn<T> {
   const error = computed(
-    () => options.subscription.error?.value ?? options.query.error?.value,
+    () => options.response1.error?.value ?? options.response2.error?.value,
   );
 
   const data = computed(() =>
     error.value
       ? undefined
-      : (options.mapSubscriptionData(options.subscription.data) ??
-        options.mapQueryData(options.query.data)),
+      : (options.map1(options.response1.data) ?? options.map2(options.response2.data)),
   );
 
   return { data, error };

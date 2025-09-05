@@ -7,7 +7,7 @@ import {
 import { onReady } from "@/utils/on-ready";
 import type { OnReady } from "@/utils/on-ready";
 
-import { useQueryBackedSubscription } from "./use-query-backed-subscription";
+import { useMappedWithFallback } from "./use-query-backed-subscription";
 
 type Query = ReturnType<typeof useCtrlStateQuery>;
 type Subscription = ReturnType<typeof useCtrlStateSSubscription>;
@@ -28,8 +28,13 @@ export function useSubscribeState(): StateSubscription {
   const mapQueryData = (d: typeof query.data) => d.value?.ctrl.state;
   const mapSubscriptionData = (d: typeof subscription.data) => d.value?.ctrlState;
 
-  const options = { query, subscription, mapQueryData, mapSubscriptionData };
-  const { data, error } = useQueryBackedSubscription(options);
+  const options = {
+    response2: query,
+    response1: subscription,
+    map2: mapQueryData,
+    map1: mapSubscriptionData,
+  };
+  const { data, error } = useMappedWithFallback(options);
 
   const ret = { state: data, error, subscription, query };
 
