@@ -14,8 +14,8 @@ import {
   useCtrlStateSSubscription,
 } from "@/graphql/codegen/generated";
 
-const query = useCtrlStateQuery({});
-const subscription = useCtrlStateSSubscription({});
+const query = useCtrlStateQuery({ variables: {} });
+const subscription = useCtrlStateSSubscription({ variables: {} });
 
 const state = computed(() => query.data);
 const sub = computed(() => subscription.data);

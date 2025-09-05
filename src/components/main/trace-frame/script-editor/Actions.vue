@@ -64,5 +64,7 @@ const emit = defineEmits<Emits>();
 const { mobile } = useDisplay();
 
 const menuComponent = computed(() => (mobile.value ? VBottomSheet : VMenu));
-const menuAttributes = computed(() => (mobile.value ? {} : { location: "top" }));
+const menuAttributes = computed(() =>
+  mobile.value ? {} : { location: "top" as const },
+);
 </script>

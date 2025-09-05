@@ -38,7 +38,7 @@ const handleSubscription = (
   });
   return { ctrlStdout: messages.ctrlStdout + response.ctrlStdout };
 };
-const subscription = useCtrlStdoutSSubscription({}, handleSubscription);
+const subscription = useCtrlStdoutSSubscription({variables: {}}, handleSubscription);
 const bottom = ref(null as HTMLElement | null);
 const data = ref(subscription.data);
 

@@ -70,7 +70,7 @@ const { mobile } = useDisplay();
 
 const menuComponent = computed(() => (mobile.value ? VBottomSheet : VMenu));
 const menuAttributes = computed(() =>
-  mobile.value ? {} : { location: "top", offset: 8 },
+  mobile.value ? {} : { location: "top" as const, offset: 8 },
 );
 
 const dialogInterrupt = ref(false);
