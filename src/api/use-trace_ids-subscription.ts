@@ -1,38 +1,21 @@
-import type { ComputedRef } from "vue";
-import { computed } from "vue";
-
 import {
   useCtrlTraceIdsQuery,
   useCtrlTraceIdsSSubscription,
 } from "@/graphql/codegen/generated";
-import { onReady } from "@/utils/on-ready";
-import type { OnReady } from "@/utils/on-ready";
 
-interface _TraceIdsSubscription {
-  traceIds: ComputedRef<number[] | undefined>;
-  error: ComputedRef<Error | undefined>;
-  subscription: ReturnType<typeof useCtrlTraceIdsSSubscription>;
-  query: ReturnType<typeof useCtrlTraceIdsQuery>;
-}
+import { useQueryBackedSubscription } from "./use-query-backed-subscription";
 
-type TraceIdsSubscription = OnReady<_TraceIdsSubscription>;
-
-export function useSubscribeTraceIds(): TraceIdsSubscription {
-  const query = useCtrlTraceIdsQuery({
-    requestPolicy: "network-only",
-    variables: {},
-  });
+export function useSubscribeTraceIds() {
+  const query = useCtrlTraceIdsQuery({ requestPolicy: "network-only", variables: {} });
   const subscription = useCtrlTraceIdsSSubscription({ variables: {} });
 
-  const error = computed(() => subscription.error?.value || query.error?.value);
+  const mapQueryData = (d: typeof query.data) => d.value?.ctrl.traceIds;
+  const mapSubscriptionData = (d: typeof subscription.data) => d.value?.ctrlTraceIds;
 
-  const traceIds = computed(() =>
-    error.value
-      ? undefined
-      : subscription.data?.value?.ctrlTraceIds || query.data?.value?.ctrl.traceIds,
-  );
-
-  const ret = { traceIds, error, subscription, query };
-
-  return onReady(ret, query);
+  return useQueryBackedSubscription({
+    query,
+    subscription,
+    mapQueryData,
+    mapSubscriptionData,
+  });
 }

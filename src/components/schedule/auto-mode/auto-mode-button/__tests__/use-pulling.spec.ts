@@ -34,7 +34,7 @@ function createMockSubscription(auto_mode_state: string): Sub {
   })();
 
   // Thenable
-  return onReady({ autoModeState }, ready) as Sub;
+  return onReady({ data: autoModeState }, ready) as Sub;
 }
 
 describe("usePulling()", () => {

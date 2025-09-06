@@ -1,5 +1,3 @@
-import type { ComputedRef } from "vue";
-
 import {
   useCtrlStateQuery,
   useCtrlStateSSubscription,
@@ -7,14 +5,7 @@ import {
 
 import { useQueryBackedSubscription } from "./use-query-backed-subscription";
 
-interface _StateSubscription {
-  data: ComputedRef<string | undefined>;
-  error: ComputedRef<Error | undefined>;
-}
-
-type StateSubscription = _StateSubscription & PromiseLike<_StateSubscription>;
-
-export function useSubscribeState(): StateSubscription {
+export function useSubscribeState() {
   const query = useCtrlStateQuery({ requestPolicy: "network-only", variables: {} });
   const subscription = useCtrlStateSSubscription({ variables: {} });
 

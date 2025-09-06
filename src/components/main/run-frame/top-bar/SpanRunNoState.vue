@@ -27,7 +27,7 @@ const stateSubscription = useSubscribeState();
 const { data: state } = stateSubscription;
 
 const continuousEnabledSubscription = useSubscribeContinuousEnabled();
-const { continuousEnabled } = continuousEnabledSubscription;
+const { data: continuousEnabled } = continuousEnabledSubscription;
 
 await Promise.all([
   runNoSubscription,

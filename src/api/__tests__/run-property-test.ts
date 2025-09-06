@@ -11,6 +11,7 @@ import { mockUseSubscriptionResponse } from "./mock-use-subscription-response";
 interface _UseSubscribeXXXReturn<R> {
   data: ComputedRef<R | undefined>;
   error: ComputedRef<Error | undefined>;
+  loading: ComputedRef<boolean>;
 }
 
 type UseSubscribeXXXReturn<R> = _UseSubscribeXXXReturn<R> &
@@ -39,11 +40,22 @@ export async function runPropertyTest<QueryData, SubData, R>(
       const { response: subRes, issue } = mockUseSubscriptionResponse<SubData>(subArg);
       vi.mocked(useSubscription<SubData>).mockReturnValue(subRes as SubRes);
 
-      const { data, error } = await useSubscribeXXX();
+      const { data, error, loading, then } = useSubscribeXXX();
+
+      // Assert loading and undefined values.
+      expect(loading.value).toBe(true);
+      expect(error.value).toBeUndefined();
+      expect(data.value).toBeUndefined();
+
+      // Wait until loading ends.
+      await then();
+      expect(loading.value).toBe(false);
 
       // Assert initial values are from query.
       expect(error.value).toBe(queryArg.error);
-      expect(data.value).toBe(queryArg.error ? undefined : mapQuery(queryArg.data));
+      expect(data.value).toStrictEqual(
+        queryArg.error ? undefined : mapQuery(queryArg.data),
+      );
 
       // Assert the subsequent values are issued from subscription backed up by query.
       for (const issued of issue) {
@@ -52,7 +64,7 @@ export async function runPropertyTest<QueryData, SubData, R>(
           ? undefined
           : (mapSub(issued.data) ?? mapQuery(queryArg.data));
         expect(error.value).toBe(expectedError);
-        expect(data.value).toBe(expectedData);
+        expect(data.value).toStrictEqual(expectedData);
       }
     }),
   );

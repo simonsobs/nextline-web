@@ -23,7 +23,7 @@ const stateSubscription = useSubscribeState();
 const { data: state } = stateSubscription;
 
 const traceIdsSubscription = useSubscribeTraceIds();
-const { traceIds } = traceIdsSubscription;
+const { data: traceIds } = traceIdsSubscription;
 
 await Promise.all([stateSubscription, traceIdsSubscription]);
 </script>

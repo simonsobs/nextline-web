@@ -1,5 +1,3 @@
-import type { ComputedRef } from "vue";
-
 import {
   useCtrlRunNoQuery,
   useCtrlRunNoSSubscription,
@@ -7,14 +5,7 @@ import {
 
 import { useQueryBackedSubscription } from "./use-query-backed-subscription";
 
-interface _RunNoSubscription {
-  data: ComputedRef<number | undefined>;
-  error: ComputedRef<Error | undefined>;
-}
-
-type RunNoSubscription = _RunNoSubscription & PromiseLike<_RunNoSubscription>;
-
-export function useSubscribeRunNo(): RunNoSubscription {
+export function useSubscribeRunNo() {
   const query = useCtrlRunNoQuery({ requestPolicy: "network-only", variables: {} });
   const subscription = useCtrlRunNoSSubscription({ variables: {} });
 

@@ -1,39 +1,25 @@
-import type { ComputedRef } from "vue";
-import { computed } from "vue";
-
 import {
   useCtrlContinuousEnabledQuery,
   useCtrlContinuousEnabledSSubscription,
 } from "@/graphql/codegen/generated";
-import { onReady } from "@/utils/on-ready";
-import type { OnReady } from "@/utils/on-ready";
 
-interface _ContinuousEnabledSubscription {
-  continuousEnabled: ComputedRef<boolean | undefined>;
-  error: ComputedRef<Error | undefined>;
-  subscription: ReturnType<typeof useCtrlContinuousEnabledSSubscription>;
-  query: ReturnType<typeof useCtrlContinuousEnabledQuery>;
-}
+import { useQueryBackedSubscription } from "./use-query-backed-subscription";
 
-type ContinuousEnabledSubscription = OnReady<_ContinuousEnabledSubscription>;
-
-export function useSubscribeContinuousEnabled(): ContinuousEnabledSubscription {
+export function useSubscribeContinuousEnabled() {
   const query = useCtrlContinuousEnabledQuery({
     requestPolicy: "network-only",
     variables: {},
   });
   const subscription = useCtrlContinuousEnabledSSubscription({ variables: {} });
 
-  const error = computed(() => subscription.error?.value || query.error?.value);
+  const mapQueryData = (d: typeof query.data) => d.value?.ctrl.continuousEnabled;
+  const mapSubscriptionData = (d: typeof subscription.data) =>
+    d.value?.ctrlContinuousEnabled;
 
-  const continuousEnabled = computed(() =>
-    error.value
-      ? undefined
-      : subscription.data?.value?.ctrlContinuousEnabled ||
-        query.data?.value?.ctrl.continuousEnabled,
-  );
-
-  const ret = { continuousEnabled, error, subscription, query };
-
-  return onReady(ret, query);
+  return useQueryBackedSubscription({
+    query,
+    subscription,
+    mapQueryData,
+    mapSubscriptionData,
+  });
 }
