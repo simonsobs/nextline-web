@@ -9,14 +9,9 @@ import type { OnReady } from "@/utils/on-ready";
 
 import { useMappedWithFallback } from "./use-mapped-with-fallback";
 
-type Query = ReturnType<typeof useCtrlStateQuery>;
-type Subscription = ReturnType<typeof useCtrlStateSSubscription>;
-
 interface _StateSubscription {
   data: ComputedRef<string | undefined>;
   error: ComputedRef<Error | undefined>;
-  subscription: Subscription;
-  query: Query;
 }
 
 type StateSubscription = OnReady<_StateSubscription>;
@@ -34,9 +29,7 @@ export function useSubscribeState(): StateSubscription {
     map1: mapSubscriptionData,
     map2: mapQueryData,
   };
-  const { data, error } = useMappedWithFallback(options);
-
-  const ret = { data, error, subscription, query };
+  const ret = useMappedWithFallback(options);
 
   return onReady(ret, query);
 }
