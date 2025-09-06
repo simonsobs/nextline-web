@@ -14,5 +14,5 @@ import ButtonError from "./modes/error/Button.vue";
 import ButtonOff from "./modes/off/Button.vue";
 import ButtonQueue from "./modes/queue/Button.vue";
 import ButtonScheduler from "./modes/scheduler/Button.vue";
-const { autoModeMode: mode } = await useSubscribeScheduleAutoModeMode();
+const { data: mode } = await useSubscribeScheduleAutoModeMode();
 </script>

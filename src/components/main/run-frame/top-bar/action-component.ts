@@ -9,7 +9,7 @@ import ActionRunning from "./ActionRunning.vue";
 
 export async function useActionComponent() {
   const autoModeStateSubscription = useSubscribeScheduleAutoModeMode();
-  const { autoModeMode: autoMode } = autoModeStateSubscription;
+  const { data: autoMode } = autoModeStateSubscription;
 
   const stateSubscription = useSubscribeState();
   const { data: state } = stateSubscription;
