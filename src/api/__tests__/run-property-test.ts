@@ -11,6 +11,7 @@ import { mockUseSubscriptionResponse } from "./mock-use-subscription-response";
 interface _UseSubscribeXXXReturn<R> {
   data: ComputedRef<R | undefined>;
   error: ComputedRef<Error | undefined>;
+  loading: ComputedRef<boolean>;
 }
 
 type UseSubscribeXXXReturn<R> = _UseSubscribeXXXReturn<R> &
@@ -39,7 +40,16 @@ export async function runPropertyTest<QueryData, SubData, R>(
       const { response: subRes, issue } = mockUseSubscriptionResponse<SubData>(subArg);
       vi.mocked(useSubscription<SubData>).mockReturnValue(subRes as SubRes);
 
-      const { data, error } = await useSubscribeXXX();
+      const { data, error, loading, then } = useSubscribeXXX();
+
+      // Assert loading and undefined values.
+      expect(loading.value).toBe(true);
+      expect(error.value).toBeUndefined();
+      expect(data.value).toBeUndefined();
+
+      // Wait until loading ends.
+      await then();
+      expect(loading.value).toBe(false);
 
       // Assert initial values are from query.
       expect(error.value).toBe(queryArg.error);
