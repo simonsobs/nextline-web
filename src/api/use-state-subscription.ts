@@ -13,7 +13,7 @@ type Query = ReturnType<typeof useCtrlStateQuery>;
 type Subscription = ReturnType<typeof useCtrlStateSSubscription>;
 
 interface _StateSubscription {
-  state: ComputedRef<string | undefined>;
+  data: ComputedRef<string | undefined>;
   error: ComputedRef<Error | undefined>;
   subscription: Subscription;
   query: Query;
@@ -36,7 +36,7 @@ export function useSubscribeState(): StateSubscription {
   };
   const { data, error } = useMappedWithFallback(options);
 
-  const ret = { state: data, error, subscription, query };
+  const ret = { data, error, subscription, query };
 
   return onReady(ret, query);
 }

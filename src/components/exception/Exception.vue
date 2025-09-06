@@ -28,7 +28,7 @@ const emit = defineEmits<Emits>();
 const alert = useVModel(props, "modelValue", emit);
 
 const stateSubscription = useSubscribeState();
-const { state } = stateSubscription;
+const { data: state } = stateSubscription;
 
 const query = useCtrlExceptionQuery({ pause: true, variables: {} });
 

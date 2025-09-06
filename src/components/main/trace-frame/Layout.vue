@@ -20,7 +20,7 @@ import ScriptEditor from "./script-editor/ScriptEditor.vue";
 import TraceFrame from "./TraceFrame.vue";
 
 const stateSubscription = useSubscribeState();
-const { state } = stateSubscription;
+const { data: state } = stateSubscription;
 
 const traceIdsSubscription = useSubscribeTraceIds();
 const { traceIds } = traceIdsSubscription;

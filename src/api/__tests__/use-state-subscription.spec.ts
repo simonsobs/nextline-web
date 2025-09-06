@@ -56,13 +56,11 @@ describe("useSubscribeState()", () => {
         type SubRes = ReturnType<typeof useCtrlStateSSubscription>;
         vi.mocked(useCtrlStateSSubscription).mockReturnValue(subRes as SubRes);
 
-        const { state, error } = await useSubscribeState();
+        const { data, error } = await useSubscribeState();
 
         // Assert initial values are from query.
         expect(error.value).toBe(queryArg.error);
-        expect(state.value).toBe(
-          queryArg.error ? undefined : queryArg.data?.ctrl.state,
-        );
+        expect(data.value).toBe(queryArg.error ? undefined : queryArg.data?.ctrl.state);
 
         // Assert the subsequent values are issued from subscription backed up by query.
         for (const issued of issue) {
@@ -71,7 +69,7 @@ describe("useSubscribeState()", () => {
             ? undefined
             : (issued.data?.ctrlState ?? queryArg.data?.ctrl.state);
           expect(error.value).toBe(expectedError);
-          expect(state.value).toBe(expectedState);
+          expect(data.value).toBe(expectedState);
         }
       }),
     );

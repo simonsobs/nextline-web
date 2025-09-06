@@ -12,7 +12,7 @@ export async function useActionComponent() {
   const { autoModeMode: autoMode } = autoModeStateSubscription;
 
   const stateSubscription = useSubscribeState();
-  const { state } = stateSubscription;
+  const { data: state } = stateSubscription;
 
   const actionComponent = computed<Component | null>(() => {
     if (autoMode.value === "off") {
