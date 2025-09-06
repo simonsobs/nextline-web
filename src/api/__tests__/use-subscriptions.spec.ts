@@ -6,10 +6,13 @@ import type {
   CtrlStateSSubscription,
   CtrlRunNoQuery,
   CtrlRunNoSSubscription,
+  CtrlTraceIdsQuery,
+  CtrlTraceIdsSSubscription,
 } from "@/graphql/codegen/generated";
 
 import { useSubscribeRunNo } from "../use-run-no-subscription";
 import { useSubscribeState } from "../use-state-subscription";
+import { useSubscribeTraceIds } from "../use-trace_ids-subscription";
 
 import { runPropertyTest } from "./run-property-test";
 
@@ -49,4 +52,22 @@ it("useSubscribeRunNo", async () => {
   const fcSubData: fc.Arbitrary<SubData> = fc.record({ ctrlRunNo: fcCtrlRunNo });
 
   await runPropertyTest(useSubscribeRunNo, mapQuery, mapSub, fcQueryData, fcSubData);
+});
+
+it("useSubscribeTraceIds", async () => {
+  type QueryData = CtrlTraceIdsQuery;
+  type SubData = CtrlTraceIdsSSubscription;
+
+  const mapQuery = (d: QueryData | undefined) => d?.ctrl.traceIds;
+  const mapSub = (d: SubData | undefined) => d?.ctrlTraceIds;
+
+  const fcTraceIds = fc.array(fc.integer());
+  const fcQueryData: fc.Arbitrary<QueryData> = fc.record({
+    ctrl: fc.record({ traceIds: fcTraceIds }),
+  });
+  const fcSubData: fc.Arbitrary<SubData> = fc.record({
+    ctrlTraceIds: fcTraceIds,
+  });
+
+  await runPropertyTest(useSubscribeTraceIds, mapQuery, mapSub, fcQueryData, fcSubData);
 });
