@@ -53,11 +53,13 @@ describe("mockUseQueryResponse()", () => {
         expect(response).toBe(returned);
 
         // Assert initially undefined.
+        expect(response.fetching.value).toBe(true);
         expect(response.error.value).toBeUndefined();
         expect(response.data.value).toBeUndefined();
 
         // Await until the values are assigned.
         const state = await response;
+        expect(response.fetching.value).toBe(false);
 
         // Confirm the object returned by await contains the same objects.
         expect(state.data).toBe(response.data);
