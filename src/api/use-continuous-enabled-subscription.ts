@@ -1,5 +1,3 @@
-import type { ComputedRef } from "vue";
-
 import {
   useCtrlContinuousEnabledQuery,
   useCtrlContinuousEnabledSSubscription,
@@ -7,15 +5,7 @@ import {
 
 import { useQueryBackedSubscription } from "./use-query-backed-subscription";
 
-interface _ContinuousEnabledSubscription {
-  data: ComputedRef<boolean | undefined>;
-  error: ComputedRef<Error | undefined>;
-}
-
-type ContinuousEnabledSubscription = _ContinuousEnabledSubscription &
-  PromiseLike<_ContinuousEnabledSubscription>;
-
-export function useSubscribeContinuousEnabled(): ContinuousEnabledSubscription {
+export function useSubscribeContinuousEnabled() {
   const query = useCtrlContinuousEnabledQuery({
     requestPolicy: "network-only",
     variables: {},

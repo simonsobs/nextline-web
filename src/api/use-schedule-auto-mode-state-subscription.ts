@@ -1,5 +1,3 @@
-import type { ComputedRef } from "vue";
-
 import {
   useQScheduleAutoModeStateQuery,
   useScheduleAutoModeStateSSubscription,
@@ -7,15 +5,7 @@ import {
 
 import { useQueryBackedSubscription } from "./use-query-backed-subscription";
 
-interface _ScheduleAutoModeStateSubscription {
-  data: ComputedRef<string | undefined>;
-  error: ComputedRef<Error | undefined>;
-}
-
-type ScheduleAutoModeStateSubscription = _ScheduleAutoModeStateSubscription &
-  PromiseLike<_ScheduleAutoModeStateSubscription>;
-
-export function useSubscribeScheduleAutoModeState(): ScheduleAutoModeStateSubscription {
+export function useSubscribeScheduleAutoModeState() {
   const query = useQScheduleAutoModeStateQuery({
     requestPolicy: "network-only",
     variables: {},
