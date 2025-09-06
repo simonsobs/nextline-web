@@ -9,7 +9,7 @@ import { onReady } from "@/utils/on-ready";
 import type { OnReady } from "@/utils/on-ready";
 
 interface _TraceIdsSubscription {
-  traceIds: ComputedRef<number[] | undefined>;
+  data: ComputedRef<number[] | undefined>;
   error: ComputedRef<Error | undefined>;
   subscription: ReturnType<typeof useCtrlTraceIdsSSubscription>;
   query: ReturnType<typeof useCtrlTraceIdsQuery>;
@@ -26,13 +26,13 @@ export function useSubscribeTraceIds(): TraceIdsSubscription {
 
   const error = computed(() => subscription.error?.value || query.error?.value);
 
-  const traceIds = computed(() =>
+  const data = computed(() =>
     error.value
       ? undefined
       : subscription.data?.value?.ctrlTraceIds || query.data?.value?.ctrl.traceIds,
   );
 
-  const ret = { traceIds, error, subscription, query };
+  const ret = { data, error, subscription, query };
 
   return onReady(ret, query);
 }
