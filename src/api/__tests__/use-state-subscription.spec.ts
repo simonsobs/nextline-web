@@ -1,39 +1,45 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { useQuery, useSubscription } from "@urql/vue";
+import type { UseQueryResponse, UseSubscriptionResponse } from "@urql/vue";
 import fc from "fast-check";
 
 import type {
   CtrlStateQuery,
   CtrlStateSSubscription,
 } from "@/graphql/codegen/generated";
-import {
-  useCtrlStateQuery,
-  useCtrlStateSSubscription,
-} from "@/graphql/codegen/generated";
 
 import { useSubscribeState } from "../use-state-subscription";
 
+import { fcMockUseQueryResponseArg, fcMockUseSubscriptionResponseArg } from "./fc";
 import { mockUseQueryResponse } from "./mock-use-query-response";
 import { mockUseSubscriptionResponse } from "./mock-use-subscription-response";
 
-vi.mock("@/graphql/codegen/generated", () => ({
-  useCtrlStateQuery: vi.fn(),
-  useCtrlStateSSubscription: vi.fn(),
+vi.mock("@urql/vue", () => ({
+  useQuery: vi.fn(),
+  useSubscription: vi.fn(),
 }));
 
-const fcState = fc.string();
-const fcQueryData = fc.oneof(
-  fc.constant(undefined),
-  fc.record({ ctrl: fc.record({ state: fcState }) }),
-);
-const fcSubData = fc.oneof(fc.constant(undefined), fc.record({ ctrlState: fcState }));
+const useSubscribeXXX = useSubscribeState;
 
-const fcErrorInstance = fc.string().map((msg) => new Error(msg));
-const fcError = fc.oneof(fc.constant(undefined), fcErrorInstance);
+type QueryData = CtrlStateQuery;
+type SubData = CtrlStateSSubscription;
 
-const fcQueryArg = fc.record({ data: fcQueryData, error: fcError });
-const fcSubArg = fc.record({ data: fcSubData, error: fcError });
+const mapQuery = (d: QueryData | undefined) => d?.ctrl.state;
+const mapSub = (d: SubData | undefined) => d?.ctrlState;
 
-describe("useSubscribeState()", () => {
+const fcCtrlState = fc.string();
+const fcQueryData: fc.Arbitrary<QueryData> = fc.record({
+  ctrl: fc.record({ state: fcCtrlState }),
+});
+const fcSubData: fc.Arbitrary<SubData> = fc.record({ ctrlState: fcCtrlState });
+
+type QueryRes = UseQueryResponse<QueryData, any>;
+type SubRes = UseSubscriptionResponse<SubData, SubData, any>;
+
+const fcQueryArg = fcMockUseQueryResponseArg(fcQueryData);
+const fcSubArg = fcMockUseSubscriptionResponseArg(fcSubData);
+
+describe("useSubscribeXXX()", () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
@@ -44,32 +50,30 @@ describe("useSubscribeState()", () => {
 
   it("Property test", async () => {
     await fc.assert(
-      fc.asyncProperty(fcQueryArg, fc.array(fcSubArg), async (queryArg, subArg) => {
-        // Mock useCtrlStateQuery()
-        const queryRes = mockUseQueryResponse<CtrlStateQuery>(queryArg);
-        type Query = ReturnType<typeof useCtrlStateQuery>;
-        vi.mocked(useCtrlStateQuery).mockReturnValue(queryRes as Query);
+      fc.asyncProperty(fcQueryArg, fcSubArg, async (queryArg, subArg) => {
+        // Mock useGenQuery()
+        const queryRes = mockUseQueryResponse<QueryData>(queryArg);
+        vi.mocked(useQuery<QueryData>).mockReturnValue(queryRes as QueryRes);
 
-        // Mock useCtrlStateSSubscription()
+        // Mock useGenSub()
         const { response: subRes, issue } =
-          mockUseSubscriptionResponse<CtrlStateSSubscription>(subArg);
-        type SubRes = ReturnType<typeof useCtrlStateSSubscription>;
-        vi.mocked(useCtrlStateSSubscription).mockReturnValue(subRes as SubRes);
+          mockUseSubscriptionResponse<SubData>(subArg);
+        vi.mocked(useSubscription<SubData>).mockReturnValue(subRes as SubRes);
 
-        const { data, error } = await useSubscribeState();
+        const { data, error } = await useSubscribeXXX();
 
         // Assert initial values are from query.
         expect(error.value).toBe(queryArg.error);
-        expect(data.value).toBe(queryArg.error ? undefined : queryArg.data?.ctrl.state);
+        expect(data.value).toBe(queryArg.error ? undefined : mapQuery(queryArg.data));
 
         // Assert the subsequent values are issued from subscription backed up by query.
         for (const issued of issue) {
           const expectedError = issued.error || queryArg.error;
-          const expectedState = expectedError
+          const expectedData = expectedError
             ? undefined
-            : (issued.data?.ctrlState ?? queryArg.data?.ctrl.state);
+            : (mapSub(issued.data) ?? mapQuery(queryArg.data));
           expect(error.value).toBe(expectedError);
-          expect(data.value).toBe(expectedState);
+          expect(data.value).toBe(expectedData);
         }
       }),
     );
