@@ -11,12 +11,15 @@ import type {
   CtrlContinuousEnabledQuery,
   CtrlContinuousEnabledSSubscription,
   ScheduleAutoModeModeQuery,
+  QScheduleAutoModeStateQuery,
+  ScheduleAutoModeStateSSubscription,
   ScheduleAutoModeModeSSubscription,
 } from "@/graphql/codegen/generated";
 
 import { useSubscribeContinuousEnabled } from "../use-continuous-enabled-subscription";
 import { useSubscribeRunNo } from "../use-run-no-subscription";
 import { useSubscribeScheduleAutoModeMode } from "../use-schedule-auto-mode-mode-subscription";
+import { useSubscribeScheduleAutoModeState } from "../use-schedule-auto-mode-state-subscription";
 import { useSubscribeState } from "../use-state-subscription";
 import { useSubscribeTraceIds } from "../use-trace_ids-subscription";
 
@@ -119,6 +122,30 @@ it("useSubscribeScheduleAutoModeMode", async () => {
 
   await runPropertyTest(
     useSubscribeScheduleAutoModeMode,
+    mapQuery,
+    mapSub,
+    fcQueryData,
+    fcSubData,
+  );
+});
+
+it("useSubscribeScheduleAutoModeState", async () => {
+  type QueryData = QScheduleAutoModeStateQuery;
+  type SubData = ScheduleAutoModeStateSSubscription;
+
+  const mapQuery = (d: QueryData | undefined) => d?.schedule.autoMode.state;
+  const mapSub = (d: SubData | undefined) => d?.scheduleAutoModeState;
+
+  const fcScheduleAutoModeState = fc.string();
+  const fcQueryData: fc.Arbitrary<QueryData> = fc.record({
+    schedule: fc.record({ autoMode: fc.record({ state: fcScheduleAutoModeState }) }),
+  });
+  const fcSubData: fc.Arbitrary<SubData> = fc.record({
+    scheduleAutoModeState: fcScheduleAutoModeState,
+  });
+
+  await runPropertyTest(
+    useSubscribeScheduleAutoModeState,
     mapQuery,
     mapSub,
     fcQueryData,

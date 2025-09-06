@@ -1,21 +1,19 @@
 import type { ComputedRef } from "vue";
-import { computed } from "vue";
 
 import {
   useQScheduleAutoModeStateQuery,
   useScheduleAutoModeStateSSubscription,
 } from "@/graphql/codegen/generated";
-import { onReady } from "@/utils/on-ready";
-import type { OnReady } from "@/utils/on-ready";
+
+import { useQueryBackedSubscription } from "./use-query-backed-subscription";
 
 interface _ScheduleAutoModeStateSubscription {
-  autoModeState: ComputedRef<string | undefined>;
+  data: ComputedRef<string | undefined>;
   error: ComputedRef<Error | undefined>;
-  subscription: ReturnType<typeof useScheduleAutoModeStateSSubscription>;
-  query: ReturnType<typeof useQScheduleAutoModeStateQuery>;
 }
 
-type ScheduleAutoModeStateSubscription = OnReady<_ScheduleAutoModeStateSubscription>;
+type ScheduleAutoModeStateSubscription = _ScheduleAutoModeStateSubscription &
+  PromiseLike<_ScheduleAutoModeStateSubscription>;
 
 export function useSubscribeScheduleAutoModeState(): ScheduleAutoModeStateSubscription {
   const query = useQScheduleAutoModeStateQuery({
@@ -24,16 +22,14 @@ export function useSubscribeScheduleAutoModeState(): ScheduleAutoModeStateSubscr
   });
   const subscription = useScheduleAutoModeStateSSubscription({ variables: {} });
 
-  const error = computed(() => subscription.error?.value || query.error?.value);
+  const mapQueryData = (d: typeof query.data) => d.value?.schedule.autoMode.state;
+  const mapSubscriptionData = (d: typeof subscription.data) =>
+    d.value?.scheduleAutoModeState;
 
-  const autoModeState = computed(() =>
-    error.value
-      ? undefined
-      : subscription.data?.value?.scheduleAutoModeState ||
-        query.data?.value?.schedule.autoMode.state,
-  );
-
-  const ret = { autoModeState, error, subscription, query };
-
-  return onReady(ret, query);
+  return useQueryBackedSubscription({
+    query,
+    subscription,
+    mapQueryData,
+    mapSubscriptionData,
+  });
 }
