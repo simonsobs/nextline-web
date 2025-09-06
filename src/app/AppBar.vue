@@ -49,5 +49,5 @@ const apiName = computed(() => config.value.apiName || "");
 const apiHttp = computed(() => config.value.apiHttp);
 
 const stateSubscription = useSubscribeState();
-const { state } = stateSubscription;
+const { data: state } = stateSubscription;
 </script>

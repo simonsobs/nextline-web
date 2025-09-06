@@ -5,6 +5,6 @@
 <script setup lang="ts">
 import { useSubscribeRunNo } from "@/api";
 const runNoSubscription = useSubscribeRunNo();
-const { runNo } = runNoSubscription;
+const { data: runNo } = runNoSubscription;
 await runNoSubscription;
 </script>

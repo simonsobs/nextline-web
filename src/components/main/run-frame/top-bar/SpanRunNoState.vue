@@ -21,10 +21,10 @@ import {
 } from "@/api";
 
 const runNoSubscription = useSubscribeRunNo();
-const { runNo } = runNoSubscription;
+const { data: runNo } = runNoSubscription;
 
 const stateSubscription = useSubscribeState();
-const { state } = stateSubscription;
+const { data: state } = stateSubscription;
 
 const continuousEnabledSubscription = useSubscribeContinuousEnabled();
 const { continuousEnabled } = continuousEnabledSubscription;

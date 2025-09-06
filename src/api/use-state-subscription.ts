@@ -4,22 +4,15 @@ import {
   useCtrlStateQuery,
   useCtrlStateSSubscription,
 } from "@/graphql/codegen/generated";
-import { onReady } from "@/utils/on-ready";
-import type { OnReady } from "@/utils/on-ready";
 
-import { useMappedWithFallback } from "./use-mapped-with-fallback";
-
-type Query = ReturnType<typeof useCtrlStateQuery>;
-type Subscription = ReturnType<typeof useCtrlStateSSubscription>;
+import { useQueryBackedSubscription } from "./use-query-backed-subscription";
 
 interface _StateSubscription {
-  state: ComputedRef<string | undefined>;
+  data: ComputedRef<string | undefined>;
   error: ComputedRef<Error | undefined>;
-  subscription: Subscription;
-  query: Query;
 }
 
-type StateSubscription = OnReady<_StateSubscription>;
+type StateSubscription = _StateSubscription & PromiseLike<_StateSubscription>;
 
 export function useSubscribeState(): StateSubscription {
   const query = useCtrlStateQuery({ requestPolicy: "network-only", variables: {} });
@@ -28,15 +21,10 @@ export function useSubscribeState(): StateSubscription {
   const mapQueryData = (d: typeof query.data) => d.value?.ctrl.state;
   const mapSubscriptionData = (d: typeof subscription.data) => d.value?.ctrlState;
 
-  const options = {
-    response1: subscription,
-    response2: query,
-    map1: mapSubscriptionData,
-    map2: mapQueryData,
-  };
-  const { data, error } = useMappedWithFallback(options);
-
-  const ret = { state: data, error, subscription, query };
-
-  return onReady(ret, query);
+  return useQueryBackedSubscription({
+    query,
+    subscription,
+    mapQueryData,
+    mapSubscriptionData,
+  });
 }
