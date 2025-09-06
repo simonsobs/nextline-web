@@ -8,8 +8,11 @@ import type {
   CtrlRunNoSSubscription,
   CtrlTraceIdsQuery,
   CtrlTraceIdsSSubscription,
+  CtrlContinuousEnabledQuery,
+  CtrlContinuousEnabledSSubscription,
 } from "@/graphql/codegen/generated";
 
+import { useSubscribeContinuousEnabled } from "../use-continuous-enabled-subscription";
 import { useSubscribeRunNo } from "../use-run-no-subscription";
 import { useSubscribeState } from "../use-state-subscription";
 import { useSubscribeTraceIds } from "../use-trace_ids-subscription";
@@ -70,4 +73,28 @@ it("useSubscribeTraceIds", async () => {
   });
 
   await runPropertyTest(useSubscribeTraceIds, mapQuery, mapSub, fcQueryData, fcSubData);
+});
+
+it("useSubscribeContinuousEnabled", async () => {
+  type QueryData = CtrlContinuousEnabledQuery;
+  type SubData = CtrlContinuousEnabledSSubscription;
+
+  const mapQuery = (d: QueryData | undefined) => d?.ctrl.continuousEnabled;
+  const mapSub = (d: SubData | undefined) => d?.ctrlContinuousEnabled;
+
+  const fcContinuousEnabled = fc.boolean();
+  const fcQueryData: fc.Arbitrary<QueryData> = fc.record({
+    ctrl: fc.record({ continuousEnabled: fcContinuousEnabled }),
+  });
+  const fcSubData: fc.Arbitrary<SubData> = fc.record({
+    ctrlContinuousEnabled: fcContinuousEnabled,
+  });
+
+  await runPropertyTest(
+    useSubscribeContinuousEnabled,
+    mapQuery,
+    mapSub,
+    fcQueryData,
+    fcSubData,
+  );
 });
