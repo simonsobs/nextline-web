@@ -14,15 +14,19 @@ import type {
   QScheduleAutoModeStateQuery,
   ScheduleAutoModeStateSSubscription,
   ScheduleAutoModeModeSSubscription,
+  ScheduleQueueItemsQuery,
+  ScheduleQueueItemsSSubscription,
 } from "@/graphql/codegen/generated";
 
 import { useSubscribeContinuousEnabled } from "../use-continuous-enabled-subscription";
 import { useSubscribeRunNo } from "../use-run-no-subscription";
 import { useSubscribeScheduleAutoModeMode } from "../use-schedule-auto-mode-mode-subscription";
 import { useSubscribeScheduleAutoModeState } from "../use-schedule-auto-mode-state-subscription";
+import { useSubscribeScheduleQueueItems } from "../use-schedule-queue-items-subscription";
 import { useSubscribeState } from "../use-state-subscription";
 import { useSubscribeTraceIds } from "../use-trace_ids-subscription";
 
+import { fcScheduleQueueItem } from "./fc";
 import { runPropertyTest } from "./run-property-test";
 
 // Mock functions used in runPropertyTest()
@@ -146,6 +150,31 @@ it("useSubscribeScheduleAutoModeState", async () => {
 
   await runPropertyTest(
     useSubscribeScheduleAutoModeState,
+    mapQuery,
+    mapSub,
+    fcQueryData,
+    fcSubData,
+  );
+});
+
+it("useSubscribeScheduleQueueItems", async () => {
+  type QueryData = ScheduleQueueItemsQuery;
+  type SubData = ScheduleQueueItemsSSubscription;
+
+  const mapQuery = (d: QueryData | undefined) => d?.schedule.queue.items;
+  const mapSub = (d: SubData | undefined) => d?.scheduleQueueItems;
+
+  const fcQueryData: fc.Arbitrary<QueryData> = fc.record({
+    schedule: fc.record({
+      queue: fc.record({ items: fc.array(fcScheduleQueueItem) }),
+    }),
+  });
+  const fcSubData: fc.Arbitrary<SubData> = fc.record({
+    scheduleQueueItems: fc.array(fcScheduleQueueItem),
+  });
+
+  await runPropertyTest(
+    useSubscribeScheduleQueueItems,
     mapQuery,
     mapSub,
     fcQueryData,

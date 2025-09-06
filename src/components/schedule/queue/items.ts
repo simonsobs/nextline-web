@@ -67,7 +67,7 @@ type UseItemsResponse = OnReady<_UseItemsResponse>;
 
 export function useItems(): UseItemsResponse {
   const subscription = useSubscribeScheduleQueueItems();
-  const { items: items_, loading } = subscription;
+  const { data: items_, loading } = subscription;
 
   const items = ref<Item[]>([]);
   const itemMap = ref<Map<number, Item>>(new Map());
