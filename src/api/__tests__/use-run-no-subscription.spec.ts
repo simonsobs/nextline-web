@@ -56,13 +56,11 @@ describe("useSubscribeRunNo()", () => {
         type SubRes = ReturnType<typeof useCtrlRunNoSSubscription>;
         vi.mocked(useCtrlRunNoSSubscription).mockReturnValue(subRes as SubRes);
 
-        const { runNo, error } = await useSubscribeRunNo();
+        const { data, error } = await useSubscribeRunNo();
 
         // Assert initial values are from query.
         expect(error.value).toBe(queryArg.error);
-        expect(runNo.value).toBe(
-          queryArg.error ? undefined : queryArg.data?.ctrl.runNo,
-        );
+        expect(data.value).toBe(queryArg.error ? undefined : queryArg.data?.ctrl.runNo);
 
         // Assert the subsequent values are issued from subscription backed up by query.
         for (const issued of issue) {
@@ -71,7 +69,7 @@ describe("useSubscribeRunNo()", () => {
             ? undefined
             : (issued.data?.ctrlRunNo ?? queryArg.data?.ctrl.runNo);
           expect(error.value).toBe(expectedError);
-          expect(runNo.value).toBe(expectedRunNo);
+          expect(data.value).toBe(expectedRunNo);
         }
       }),
     );

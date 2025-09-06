@@ -9,14 +9,9 @@ import type { OnReady } from "@/utils/on-ready";
 
 import { useMappedWithFallback } from "./use-mapped-with-fallback";
 
-type Query = ReturnType<typeof useCtrlRunNoQuery>;
-type Subscription = ReturnType<typeof useCtrlRunNoSSubscription>;
-
 interface _RunNoSubscription {
-  runNo: ComputedRef<number | undefined>;
+  data: ComputedRef<number | undefined>;
   error: ComputedRef<Error | undefined>;
-  subscription: Subscription;
-  query: Query;
 }
 
 type RunNoSubscription = OnReady<_RunNoSubscription>;
@@ -34,9 +29,7 @@ export function useSubscribeRunNo(): RunNoSubscription {
     map1: mapSubscriptionData,
     map2: mapQueryData,
   };
-  const { data, error } = useMappedWithFallback(options);
-
-  const ret = { runNo: data, error, subscription, query };
+  const ret = useMappedWithFallback(options);
 
   return onReady(ret, query);
 }

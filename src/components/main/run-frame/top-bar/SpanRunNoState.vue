@@ -21,7 +21,7 @@ import {
 } from "@/api";
 
 const runNoSubscription = useSubscribeRunNo();
-const { runNo } = runNoSubscription;
+const { data: runNo } = runNoSubscription;
 
 const stateSubscription = useSubscribeState();
 const { data: state } = stateSubscription;
