@@ -4,7 +4,7 @@ import type { UseQueryResponse } from "@urql/vue";
 import gql from "graphql-tag";
 import fc from "fast-check";
 
-import { mockUseQueryResponse } from "./mock-use-query-response";
+import { mockUseQueryResponse } from "../mock-use-query-response";
 
 vi.mock("@urql/vue", () => ({
   useQuery: vi.fn(),
