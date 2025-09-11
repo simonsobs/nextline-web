@@ -2,7 +2,7 @@ import type { MaybeRef } from "vue";
 import type { Client } from "@urql/vue";
 import { provideClient, useClientHandle } from "@urql/vue";
 
-import { setupNestedComponents } from "./setup-nested-components";
+import { setupNestedComponents } from "@/tests/vue";
 
 /**
  * Execute `func` in a Vue component `setup` in which the `client` can be injected.
