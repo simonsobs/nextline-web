@@ -1,6 +1,6 @@
 import { createApp, defineComponent, inject, provide } from "vue";
 
-import { AppDisposer } from "./app-disposer";
+import { AppDisposer } from "@/tests/vue";
 
 type SetupFunction = () => Record<string, unknown>;
 
