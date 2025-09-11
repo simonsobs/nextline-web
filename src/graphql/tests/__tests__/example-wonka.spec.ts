@@ -7,7 +7,7 @@ import { fromValue, never } from "wonka";
 
 type SetupFunction = () => Record<string, unknown>;
 
-interface WitSetupsOptions {
+interface WithSetupsOptions {
   setupParent: SetupFunction;
   setupChild: SetupFunction;
 }
@@ -20,7 +20,7 @@ class DisposableApp implements Disposable {
   }
 }
 
-function withSetups(options: WitSetupsOptions) {
+function withSetups(options: WithSetupsOptions) {
   const ParentComponent = defineComponent({
     setup: options.setupParent,
     template: "<child-component />",
