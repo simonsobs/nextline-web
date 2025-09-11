@@ -1,42 +1,11 @@
 import { describe, expect, it } from "vitest";
-import type { App, MaybeRef } from "vue";
-import { createApp, defineComponent, ref } from "vue";
-import { Client, CombinedError, provideClient, useQuery } from "@urql/vue";
+import type { MaybeRef } from "vue";
+import { ref } from "vue";
+import { Client, CombinedError, useQuery } from "@urql/vue";
 import gql from "graphql-tag";
 import { fromValue, never } from "wonka";
 
-type SetupFunction = () => Record<string, unknown>;
-
-interface WithSetupsOptions {
-  setupParent: SetupFunction;
-  setupChild: SetupFunction;
-}
-
-class DisposableApp implements Disposable {
-  constructor(private app: App) {}
-
-  [Symbol.dispose]() {
-    this.app.unmount();
-  }
-}
-
-function withSetups(options: WithSetupsOptions) {
-  const ParentComponent = defineComponent({
-    setup: options.setupParent,
-    template: "<child-component />",
-  });
-
-  const ChildComponent = defineComponent({
-    setup: options.setupChild,
-    template: "<template />",
-  });
-
-  const app = createApp(ParentComponent);
-  app.component("ChildComponent", ChildComponent);
-  app.mount(document.createElement("div"));
-  const disposable = new DisposableApp(app);
-  return { app, [Symbol.dispose]: () => disposable[Symbol.dispose]() };
-}
+import { useInSetupWithUrqlClient } from "@/graphql/tests";
 
 export const FooDocument = gql`
   query foo {
@@ -50,19 +19,11 @@ export type FooQuery = {
 };
 
 function useQueryFromClient(client: MaybeRef<Client>) {
-  let query: ReturnType<typeof useQuery<FooQuery>> | undefined;
-  const app = withSetups({
-    setupParent() {
-      provideClient(client);
-      return {};
-    },
-    setupChild() {
-      query = useQuery<FooQuery>({ query: FooDocument });
-      return {};
-    },
-  });
-  if (!query) throw new Error("query is undefined");
-  return { ...app, query, [Symbol.dispose]: () => app[Symbol.dispose]() };
+  const { ret: query, [Symbol.dispose]: dispose } = useInSetupWithUrqlClient(
+    () => useQuery<FooQuery>({ query: FooDocument }),
+    client,
+  );
+  return { query, [Symbol.dispose]: () => dispose() };
 }
 
 describe("one", () => {
