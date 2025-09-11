@@ -1,8 +1,8 @@
 import type { MaybeRef } from "vue";
 import type { Client } from "@urql/vue";
-import { provideClient, useClientHandle } from "@urql/vue";
+import { createClient, provideClient, useClientHandle } from "@urql/vue";
 
-import { setupNestedComponents } from "./setup-nested-components";
+import { setupNestedComponents } from "@/tests/vue";
 
 /**
  * Execute `func` in a Vue component `setup` in which the `client` can be injected.
@@ -29,8 +29,11 @@ export function useInSetupWithUrqlClient<T>(func: () => T, client: MaybeRef<Clie
 if (import.meta.vitest) {
   const { it, expect } = import.meta.vitest;
 
-  it.skip("useInSetupWithUrqlClient", () => {
-    const mockClient = {} as Client;
+  it("useInSetupWithUrqlClient", () => {
+    const mockClient = createClient({
+      url: "http://example.com/graphql",
+      exchanges: [],
+    });
 
     using ret = useInSetupWithUrqlClient(() => useClientHandle(), mockClient);
     const { ret: handle } = ret;

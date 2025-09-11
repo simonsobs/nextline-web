@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
 import fc from "fast-check";
 
-import { useMappedWithFallback } from "../use-mapped-with-fallback";
+import { mockUseQueryResponse } from "@/graphql/tests";
+import { mockUseSubscriptionResponse } from "@/graphql/tests/mock-use-subscription-response";
 
-import { mockUseQueryResponse } from "./mock-use-query-response";
-import { mockUseSubscriptionResponse } from "./mock-use-subscription-response";
+import { useMappedWithFallback } from "../use-mapped-with-fallback";
 
 type QueryData = { ctrl: { state: string } };
 type SubscriptionData = { ctrlState: string };
