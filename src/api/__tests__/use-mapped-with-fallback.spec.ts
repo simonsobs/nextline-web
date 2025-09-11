@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import fc from "fast-check";
 
-import { mockUseQueryResponse } from "@/graphql/tests/mock-use-query-response";
+import { mockUseQueryResponse } from "@/graphql/tests";
 import { mockUseSubscriptionResponse } from "@/graphql/tests/mock-use-subscription-response";
 
 import { useMappedWithFallback } from "../use-mapped-with-fallback";

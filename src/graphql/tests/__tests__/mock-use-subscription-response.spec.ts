@@ -4,7 +4,7 @@ import type { UseSubscriptionResponse } from "@urql/vue";
 import gql from "graphql-tag";
 import fc from "fast-check";
 
-import { mockUseSubscriptionResponse } from "../mock-use-subscription-response";
+import { mockUseSubscriptionResponse } from "..";
 
 vi.mock("@urql/vue", () => ({
   useSubscription: vi.fn(),

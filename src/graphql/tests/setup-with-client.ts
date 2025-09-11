@@ -1,6 +1,6 @@
 import type { MaybeRef } from "vue";
 import type { Client } from "@urql/vue";
-import { createClient , provideClient, useClientHandle } from "@urql/vue";
+import { createClient, provideClient, useClientHandle } from "@urql/vue";
 
 import { setupNestedComponents } from "@/tests/vue";
 

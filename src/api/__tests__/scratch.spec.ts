@@ -7,8 +7,7 @@ import { fromValue, makeSubject, never } from "wonka";
 
 import type { CtrlStateQuery } from "@/graphql/codegen/generated";
 import { useCtrlStateQuery } from "@/graphql/codegen/generated";
-
-import { useInSetupWithUrqlClient } from "./setup-with-client";
+import { useInSetupWithUrqlClient } from "@/graphql/tests";
 
 function useQueryFromClient(client: MaybeRef<Client>) {
   const disposable = useInSetupWithUrqlClient(
