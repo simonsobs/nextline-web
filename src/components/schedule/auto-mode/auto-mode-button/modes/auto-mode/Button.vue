@@ -2,20 +2,17 @@
   <Component :is="menuComponent">
     <template #activator="{ props }">
       <VBtn v-bind="props" variant="tonal" color="tertiary">
-        <slot v-if="!mobile">Auto Mode: </slot>Queue
+        <slot v-if="!mobile">Auto Mode: </slot>{{ mode }}
         <template #append v-if="pulling">
-          <VProgressCircular
-            indeterminate
-            size="16"
-            width="2"
-            class="ml-2"
-          >
+          <VProgressCircular indeterminate size="16" width="2" class="ml-1">
           </VProgressCircular>
         </template>
       </VBtn>
     </template>
     <div>
-      <Dialog class="dialog"></Dialog>
+      <DialogScheduler v-if="mode === 'scheduler'" class="dialog"></DialogScheduler>
+      <DialogQueue v-else-if="mode === 'queue'" class="dialog"></DialogQueue>
+      <VCard v-else><VAlert type="error" variant="tonal">Unknown Mode</VAlert></VCard>
     </div>
   </Component>
 </template>
@@ -26,13 +23,18 @@ import { useDisplay } from "vuetify";
 import { VBottomSheet } from "vuetify/components/VBottomSheet";
 import { VMenu } from "vuetify/components/VMenu";
 
+import { useSubscribeScheduleAutoModeMode } from "@/api";
+
 import { useAutoMode } from "../../use-auto-mode";
-import Dialog from "./Dialog.vue";
+import DialogScheduler from "./scheduler/Dialog.vue";
+import DialogQueue from "./queue/Dialog.vue";
 
 const { mobile } = useDisplay();
 const menuComponent = computed(() => (mobile.value ? VBottomSheet : VMenu));
 
-const { pulling } = await useAutoMode();
+const { data: mode, then: then1 } = useSubscribeScheduleAutoModeMode();
+const { pulling, then: then2 } = useAutoMode();
+await Promise.all([then1(), then2()]);
 </script>
 
 <style scoped>

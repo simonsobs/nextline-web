@@ -1,18 +1,18 @@
 <template>
   <VCardActions>
-    <ButtonOff v-if="mode === 'off'"></ButtonOff>
-    <ButtonScheduler v-else-if="mode === 'scheduler'"></ButtonScheduler>
-    <ButtonQueue v-else-if="mode === 'queue'"></ButtonQueue>
-    <ButtonError v-else></ButtonError>
+    <VBtn v-if="loading" loading variant="tonal" color="tertiary"> </VBtn>
+    <ButtonError v-else-if="error" :error="error"></ButtonError>
+    <ButtonAutoMode v-else-if="autoMode"></ButtonAutoMode>
+    <ButtonOff v-else-if="autoMode === false"></ButtonOff>
+    <VBtn v-else variant="tonal" color="error"> Unknown </VBtn>
   </VCardActions>
 </template>
 
 <script setup lang="ts">
-import { useSubscribeScheduleAutoModeMode } from "@/api";
+import { useAutoMode } from "./use-auto-mode";
 
-import ButtonError from "./modes/error/Button.vue";
 import ButtonOff from "./modes/off/Button.vue";
-import ButtonQueue from "./modes/queue/Button.vue";
-import ButtonScheduler from "./modes/scheduler/Button.vue";
-const { data: mode } = await useSubscribeScheduleAutoModeMode();
+import ButtonAutoMode from "./modes/auto-mode/Button.vue";
+import ButtonError from "./modes/error/Button.vue";
+const { autoMode, loading, error } = await useAutoMode();
 </script>
