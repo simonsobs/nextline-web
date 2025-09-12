@@ -2,10 +2,9 @@
   <Component :is="menuComponent">
     <template #activator="{ props }">
       <VBtn v-bind="props" variant="tonal" color="tertiary">
-        Auto Mode: Queue
-        <template #append>
+        <slot v-if="!mobile">Auto Mode: </slot>Queue
+        <template #append v-if="pulling">
           <VProgressCircular
-            v-if="pulling"
             indeterminate
             size="16"
             width="2"

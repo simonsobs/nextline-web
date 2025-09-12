@@ -2,14 +2,13 @@
   <Component :is="menuComponent">
     <template #activator="{ props }">
       <VBtn v-bind="props" variant="tonal" color="tertiary">
-        Auto Mode: Scheduler
-        <template #append>
+        <slot v-if="!mobile">Auto Mode: </slot>Scheduler
+        <template #append v-if="pulling">
           <VProgressCircular
-            v-if="pulling"
             indeterminate
             size="16"
             width="2"
-            class="ml-2"
+            class="ml-1"
           >
           </VProgressCircular>
         </template>
