@@ -3,6 +3,7 @@ import { ref } from "vue";
 import fc from "fast-check";
 
 import { useSubscribeScheduleAutoModeState } from "@/api";
+import { fcError, fcUndefinedOr } from "@/graphql/tests/arbitraries";
 import { onReady } from "@/utils/on-ready";
 
 import { useAutoMode } from "../use-auto-mode";
@@ -21,20 +22,32 @@ const AUTO_MODE_STATES = [
 
 const fcAutoModeState = () => fc.constantFrom(...AUTO_MODE_STATES);
 
+const fcOptions = () =>
+  fc.record({
+    autoModeState: fcUndefinedOr(fcAutoModeState()),
+    error: fcUndefinedOr(fcError),
+  });
+
 type Sub = ReturnType<typeof useSubscribeScheduleAutoModeState>;
 
-function createMockSubscription(auto_mode_state: string): Sub {
-  // Initially `undefined`
-  const autoModeState = ref(undefined as string | undefined);
+function createMockSubscription(options: {
+  autoModeState: string | undefined;
+  error: Error | undefined;
+}): Sub {
+  const data = ref<string | undefined>(undefined);
+  const loading = ref(true);
+  const error = ref<Error | undefined>(undefined);
 
-  // A value set when ready
   const ready = (async () => {
     await Promise.resolve();
-    autoModeState.value = auto_mode_state;
+    data.value = options.autoModeState;
+    loading.value = false;
+    error.value = options.error;
   })();
 
-  // Thenable
-  return onReady({ data: autoModeState }, ready) as Sub;
+  const ret = { data, loading, error };
+
+  return onReady(ret, ready) as Sub;
 }
 
 describe("useAutoMode()", () => {
@@ -48,16 +61,33 @@ describe("useAutoMode()", () => {
 
   it("Property test", async () => {
     await fc.assert(
-      fc.asyncProperty(fcAutoModeState(), async (auto_mode_state) => {
-        const sub = createMockSubscription(auto_mode_state);
+      fc.asyncProperty(fcOptions(), async (options) => {
+        const sub = createMockSubscription(options);
         vi.mocked(useSubscribeScheduleAutoModeState).mockReturnValue(sub);
-        const { autoMode, pulling } = await useAutoMode();
-        const expectedAutoMode = [
-          "auto_waiting",
-          "auto_pulling",
-          "auto_running",
-        ].includes(auto_mode_state);
-        const expectedPulling = auto_mode_state === "auto_pulling";
+
+        const { autoMode, pulling, loading, error, then } = useAutoMode();
+
+        expect(loading.value).toBe(true);
+        expect(error.value).toBeUndefined();
+        expect(autoMode.value).toBeUndefined();
+        expect(pulling.value).toBeUndefined();
+
+        await then();
+
+        expect(loading.value).toBe(false);
+        expect(error.value).toBe(options.error);
+        const expectedAutoMode = error.value
+          ? undefined
+          : options.autoModeState
+            ? ["auto_waiting", "auto_pulling", "auto_running"].includes(
+                options.autoModeState,
+              )
+            : undefined;
+        const expectedPulling = error.value
+          ? undefined
+          : options.autoModeState
+            ? options.autoModeState === "auto_pulling"
+            : undefined;
         expect(autoMode.value).toBe(expectedAutoMode);
         expect(pulling.value).toBe(expectedPulling);
       }),

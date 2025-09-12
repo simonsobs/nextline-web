@@ -1,4 +1,4 @@
-import { computed } from "vue";
+import { ref, watchEffect } from "vue";
 import type { Ref } from "vue";
 
 import { useSubscribeScheduleAutoModeState } from "@/api";
@@ -6,8 +6,10 @@ import { onReady } from "@/utils/on-ready";
 import type { OnReady } from "@/utils/on-ready";
 
 interface _UseAutoModeReturn {
-  autoMode: Ref<boolean>;
-  pulling: Ref<boolean>;
+  autoMode: Ref<boolean | undefined>;
+  pulling: Ref<boolean | undefined>;
+  loading: Ref<boolean>;
+  error: Ref<Error | undefined>;
 }
 
 type UseAutoModeReturn = OnReady<_UseAutoModeReturn>;
@@ -15,16 +17,24 @@ type UseAutoModeReturn = OnReady<_UseAutoModeReturn>;
 export function useAutoMode(): UseAutoModeReturn {
   const subscription = useSubscribeScheduleAutoModeState();
 
-  // e.g., "off", "auto_pulling", "auto_running"
-  const state = subscription.data;
+  // e.g., state: "off", "auto_pulling", "auto_running"
+  const { data: state, loading, error } = subscription;
 
-  // true if the first part of the state is "auto"
-  const autoMode = computed(() => state.value?.split("_")[0] === "auto");
+  const autoMode = ref<boolean | undefined>(undefined);
+  const pulling = ref<boolean | undefined>(undefined);
 
-  // true if the second part of the state is "pulling"
-  const pulling = computed(() => state.value?.split("_")[1] === "pulling");
+  watchEffect(() => {
+    if (error.value || state.value === undefined) {
+      autoMode.value = undefined;
+      pulling.value = undefined;
+    } else {
+      const parts = state.value.split("_");
+      autoMode.value = parts[0] === "auto";
+      pulling.value = parts[1] === "pulling";
+    }
+  });
 
-  const ret = { autoMode, pulling };
+  const ret = { autoMode, pulling, loading, error };
 
   return onReady(ret, subscription);
 }
