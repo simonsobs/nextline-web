@@ -7,16 +7,16 @@
         title="Error"
         text="Unable to determine auto mode state."
       >
+        <pre>{{ error }}</pre>
       </VAlert>
     </VCard>
   </div>
 </template>
 
-<script setup lang="ts"></script>
-
-<style scoped>
-:deep(.v-card) {
-  width: 290px;
-  padding: 4px;
+<script setup lang="ts">
+interface Props {
+  error: Error;
 }
-</style>
+
+defineProps<Props>();
+</script>
