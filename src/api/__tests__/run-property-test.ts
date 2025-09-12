@@ -4,9 +4,12 @@ import { useQuery, useSubscription } from "@urql/vue";
 import type { UseQueryResponse, UseSubscriptionResponse } from "@urql/vue";
 import fc from "fast-check";
 
-import { mockUseQueryResponse, mockUseSubscriptionResponse } from "@/graphql/tests";
-
-import { fcMockUseQueryResponseArg, fcMockUseSubscriptionResponseArg } from "./fc";
+import {
+  mockUseQueryResponse,
+  mockUseSubscriptionResponse,
+  fcMockUseQueryResponseArg,
+  fcMockUseSubscriptionResponseArg,
+} from "@/graphql/tests";
 
 interface _UseSubscribeXXXReturn<R> {
   data: ComputedRef<R | undefined>;
