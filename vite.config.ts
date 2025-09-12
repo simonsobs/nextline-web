@@ -1,12 +1,13 @@
 import { fileURLToPath, URL } from "node:url";
-import { defineConfig, loadEnv } from "vite";
-import vue from "@vitejs/plugin-vue";
-import vuetify from "vite-plugin-vuetify";
-import loadVersion from "vite-plugin-package-version";
+
 import graphql from "@rollup/plugin-graphql";
-// import monacoEditorPlugin from "vite-plugin-monaco-editor";
-import monacoEditorPluginModule from "vite-plugin-monaco-editor";
+import vue from "@vitejs/plugin-vue";
 import { visualizer } from "rollup-plugin-visualizer";
+import { defineConfig, loadEnv } from "vite";
+import monacoEditorPluginModule from "vite-plugin-monaco-editor";
+// import monacoEditorPlugin from "vite-plugin-monaco-editor";
+import loadVersion from "vite-plugin-package-version";
+import vuetify from "vite-plugin-vuetify";
 
 // A temporary fix for the issue on vite-plugin-monaco-editor:
 // https://github.com/vdesjs/vite-plugin-monaco-editor/issues/21#issuecomment-1827562674
@@ -23,7 +24,7 @@ const monacoEditorPlugin = isObjectWithDefaultFunction(monacoEditorPluginModule)
   : monacoEditorPluginModule;
 //
 
-export default ({ mode }) => {
+export default ({ mode }: { mode: string }) => {
   // loadEnv: https://stackoverflow.com/a/66389044/7309855
   process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
 
