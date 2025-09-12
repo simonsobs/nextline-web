@@ -15,13 +15,6 @@ export const fcMockUseQueryResponseArg = <T>(arbData: fc.Arbitrary<T>) =>
 export const fcMockUseSubscriptionResponseArg = <T>(arbData: fc.Arbitrary<T>) =>
   fc.array(fcMockUseQueryResponseArg(arbData));
 
-export const fcScheduleQueueItem = fc.record({
-  createdAt: fc.date({ noInvalidDate: true }).map((d) => d.toISOString()),
-  id: fc.integer(),
-  name: fc.string(),
-  script: fc.string(),
-});
-
 if (import.meta.vitest) {
   it("fcUndefinedOr()", () => {
     fc.assert(
@@ -54,17 +47,6 @@ if (import.meta.vitest) {
               (e.error === undefined || e.error instanceof Error),
           ),
         ).toBe(true);
-      }),
-    );
-  });
-
-  it("fcScheduleQueueItem()", () => {
-    fc.assert(
-      fc.property(fcScheduleQueueItem, (v) => {
-        expect(v.createdAt).toBeDefined();
-        expect(v.id).toBeDefined();
-        expect(v.name).toBeDefined();
-        expect(v.script).toBeDefined();
       }),
     );
   });
