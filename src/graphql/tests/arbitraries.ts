@@ -4,7 +4,7 @@ import fc from "fast-check";
 export const fcUndefinedOr = <T>(arb: fc.Arbitrary<T>) =>
   fc.oneof(fc.constant(undefined), arb);
 
-const fcError = fc.string().map((msg) => new Error(msg));
+export const fcError = fc.string().map((msg) => new Error(msg));
 
 export const fcMockUseQueryResponseArg = <T>(arbData: fc.Arbitrary<T>) =>
   fc.record({
