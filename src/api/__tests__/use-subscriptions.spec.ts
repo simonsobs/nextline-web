@@ -17,6 +17,7 @@ import type {
   ScheduleQueueItemsQuery,
   ScheduleQueueItemsSSubscription,
 } from "@/graphql/codegen/generated";
+import { fcScheduleQueueItem } from "@/graphql/tests/arbitraries";
 
 import { useSubscribeContinuousEnabled } from "../use-continuous-enabled-subscription";
 import { useSubscribeRunNo } from "../use-run-no-subscription";
@@ -26,7 +27,6 @@ import { useSubscribeScheduleQueueItems } from "../use-schedule-queue-items-subs
 import { useSubscribeState } from "../use-state-subscription";
 import { useSubscribeTraceIds } from "../use-trace_ids-subscription";
 
-import { fcScheduleQueueItem } from "./arbitraries";
 import { runPropertyTest } from "./run-property-test";
 
 // Mock functions used in runPropertyTest()
