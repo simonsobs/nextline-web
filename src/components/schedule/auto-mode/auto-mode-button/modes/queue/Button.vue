@@ -1,8 +1,18 @@
 <template>
   <Component :is="menuComponent">
     <template #activator="{ props }">
-      <VBtn v-bind="props" :loading="pulling" variant="tonal" color="tertiary">
+      <VBtn v-bind="props" variant="tonal" color="tertiary">
         Auto Mode: Queue
+        <template #append>
+          <VProgressCircular
+            v-if="pulling"
+            indeterminate
+            size="16"
+            width="2"
+            class="ml-2"
+          >
+          </VProgressCircular>
+        </template>
       </VBtn>
     </template>
     <div>
