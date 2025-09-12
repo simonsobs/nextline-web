@@ -26,7 +26,7 @@ import { useSubscribeScheduleQueueItems } from "../use-schedule-queue-items-subs
 import { useSubscribeState } from "../use-state-subscription";
 import { useSubscribeTraceIds } from "../use-trace_ids-subscription";
 
-import { fcScheduleQueueItem } from "./fc";
+import { fcScheduleQueueItem } from "./arbitraries";
 import { runPropertyTest } from "./run-property-test";
 
 // Mock functions used in runPropertyTest()
