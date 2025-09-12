@@ -5,7 +5,7 @@ import fc from "fast-check";
 import { useSubscribeScheduleAutoModeState } from "@/api";
 import { onReady } from "@/utils/on-ready";
 
-import { usePulling } from "../use-pulling";
+import { useAutoMode } from "../use-auto-mode";
 
 vi.mock("@/api", () => ({
   useSubscribeScheduleAutoModeState: vi.fn(),
@@ -37,7 +37,7 @@ function createMockSubscription(auto_mode_state: string): Sub {
   return onReady({ data: autoModeState }, ready) as Sub;
 }
 
-describe("usePulling()", () => {
+describe("useAutoMode()", () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
@@ -51,9 +51,15 @@ describe("usePulling()", () => {
       fc.asyncProperty(fcAutoModeState(), async (auto_mode_state) => {
         const sub = createMockSubscription(auto_mode_state);
         vi.mocked(useSubscribeScheduleAutoModeState).mockReturnValue(sub);
-        const { pulling } = await usePulling();
-        const expected = auto_mode_state === "auto_pulling";
-        expect(pulling.value).toBe(expected);
+        const { autoMode, pulling } = await useAutoMode();
+        const expectedAutoMode = [
+          "auto_waiting",
+          "auto_pulling",
+          "auto_running",
+        ].includes(auto_mode_state);
+        const expectedPulling = auto_mode_state === "auto_pulling";
+        expect(autoMode.value).toBe(expectedAutoMode);
+        expect(pulling.value).toBe(expectedPulling);
       }),
     );
   });

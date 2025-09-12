@@ -26,13 +26,13 @@ import { useDisplay } from "vuetify";
 import { VBottomSheet } from "vuetify/components/VBottomSheet";
 import { VMenu } from "vuetify/components/VMenu";
 
-import { usePulling } from "../../use-pulling";
+import { useAutoMode } from "../../use-auto-mode";
 import Dialog from "./Dialog.vue";
 
 const { mobile } = useDisplay();
 const menuComponent = computed(() => (mobile.value ? VBottomSheet : VMenu));
 
-const { pulling } = await usePulling();
+const { pulling } = await useAutoMode();
 </script>
 
 <style scoped>
