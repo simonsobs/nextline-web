@@ -16,7 +16,7 @@ export const fcMockUseSubscriptionResponseArg = <T>(arbData: fc.Arbitrary<T>) =>
   fc.array(fcMockUseQueryResponseArg(arbData));
 
 export const fcScheduleQueueItem = fc.record({
-  createdAt: fc.date().map((d) => d.toISOString()),
+  createdAt: fc.date({ noInvalidDate: true }).map((d) => d.toISOString()),
   id: fc.integer(),
   name: fc.string(),
   script: fc.string(),
