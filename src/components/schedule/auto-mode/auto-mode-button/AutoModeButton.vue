@@ -14,5 +14,5 @@ import { useAutoMode } from "./use-auto-mode";
 import ButtonOff from "./modes/off/Button.vue";
 import ButtonAutoMode from "./modes/auto-mode/Button.vue";
 import ButtonError from "./modes/error/Button.vue";
-const { autoMode, loading, error } = await useAutoMode();
+const { autoMode, loading, error } = useAutoMode();
 </script>
