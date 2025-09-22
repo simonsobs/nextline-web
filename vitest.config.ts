@@ -1,6 +1,8 @@
 import { fileURLToPath } from "node:url";
-import { mergeConfig, defineConfig, configDefaults } from "vitest/config";
+
 import type { UserConfig } from "vite";
+import { mergeConfig, defineConfig, configDefaults } from "vitest/config";
+
 import viteConfig from "./vite.config";
 
 export default mergeConfig(
@@ -21,6 +23,7 @@ export default mergeConfig(
             __dirname + "/node_modules/monaco-editor/esm/vs/editor/editor.api",
         },
       ],
+      deps: { inline: ["vuetify"] },
     },
-  })
+  }),
 );
