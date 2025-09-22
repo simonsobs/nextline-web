@@ -3,6 +3,19 @@
  * The file path is specified in vitest.config.ts.
  */
 import { vi } from "vitest";
+import { config } from "@vue/test-utils";
+import { createVuetify } from "vuetify";
+import * as components from "vuetify/components";
+import * as directives from "vuetify/directives";
+
+// For Vuetify
+// https://vuetifyjs.com/en/getting-started/unit-testing/
+const vuetify = createVuetify({
+  components,
+  directives,
+});
+
+config.global.plugins = [vuetify];
 
 // For monaco.editor.create()
 // https://github.com/vitest-dev/vitest/issues/821#issuecomment-1046954558
