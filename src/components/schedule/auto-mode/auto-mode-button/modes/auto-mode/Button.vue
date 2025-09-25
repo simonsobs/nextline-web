@@ -32,9 +32,8 @@ import DialogQueue from "./queue/Dialog.vue";
 const { mobile } = useDisplay();
 const menuComponent = computed(() => (mobile.value ? VBottomSheet : VMenu));
 
-const { data: mode, then: then1 } = useSubscribeScheduleAutoModeMode();
-const { pulling, then: then2 } = useAutoMode();
-await Promise.all([then1(), then2()]);
+const { data: mode } = useSubscribeScheduleAutoModeMode();
+const { pulling } = useAutoMode();
 </script>
 
 <style scoped>
