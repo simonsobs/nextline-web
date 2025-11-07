@@ -1,11 +1,13 @@
 name: Upload to npmjs
 
 on:
-  # release:
-  #   types: [created]
   push:
     tags:
       - "v*.*.*"
+
+permissions:
+  id-token: write # For OIDC
+  contents: read
 
 jobs:
   build:
@@ -19,5 +21,3 @@ jobs:
           registry-url: "https://registry.npmjs.org"
       - run: yarn
       - run: yarn publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
