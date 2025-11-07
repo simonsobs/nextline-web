@@ -10,12 +10,13 @@ permissions:
   contents: read
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
+    environment: npmjs
     steps:
       - uses: actions/checkout@v5
       # Setup .npmrc file to publish to npm
-      
+
       - name: Set up Node
         uses: actions/setup-node@v6
         with:
@@ -30,6 +31,6 @@ jobs:
 
       - name: Build
         run: yarn build
-      
+
       - name: Publish
         run: npm publish --provenance  --access public
