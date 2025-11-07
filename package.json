@@ -1,6 +1,7 @@
 {
   "name": "nextline-web",
   "version": "1.0.10",
+  "repository": "github:simonsobs/nextline-web",
   "private": false,
   "type": "module",
   "scripts": {
