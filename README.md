@@ -4,34 +4,27 @@
 [![Unit tests](https://github.com/simonsobs/nextline-web/actions/workflows/unit-test.yml/badge.svg)](https://github.com/simonsobs/nextline-web/actions/workflows/unit-test.yml)
 [![Test Status](https://github.com/simonsobs/nextline-web/actions/workflows/type-check.yml/badge.svg)](https://github.com/simonsobs/nextline-web/actions/workflows/type-check.yml)
 
-The front-end web app of Nextline.
+_Web frontend for Nextline._
 
-_Nextline_ is a DAQ sequencer of the [Observatory Control System
-(OCS)](https://github.com/simonsobs/ocs/). Nextline allows line-by-line
-execution of concurrent Python scripts, which control telescopes, by multiple
-users simultaneously from web browsers.
+Nextline lets multiple users execute concurrent Python scripts line by line
+remotely from the browser.
 
-## Citation
-
-Nextline consists of multiple packages. Please use the following DOI for [the
-core package](https://github.com/simonsobs/nextline) to cite Nextline in general
-unless you need to refer to a specific package.
-
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.11451619.svg)](https://doi.org/10.5281/zenodo.11451619)
+The backend API is provided by separate packages (e.g.,
+[nextline-graphql](https://pypi.org/project/nextline-graphql)).
 
 ## Screenshot
 
 ![Screenshot](screenshot.png)
 
-## How to run the Nextline front-end web app
+## How to run the Nextline frontend web app
 
-The section shows how to run the Nextline front-end web app. To start, you need
-to know the URL of the [back-end API
+The section shows how to run the Nextline frontend web app. To start, you need
+to know the URL of the [backend API
 server](https://github.com/simonsobs/nextline-graphql).
 
 ### As a Docker container
 
-Docker images of the Nextline front-end web app are created as
+Docker images of the Nextline frontend web app are created as
 [ghcr.io/simonsobs/nextline-web](https://github.com/simonsobs/nextline-web/pkgs/container/nextline-web).
 
 #### Environment variables in the container
