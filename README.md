@@ -20,7 +20,7 @@ The backend API is provided by separate packages (e.g.,
 
 The section shows how to run the Nextline frontend web app. To start, you need
 to know the URL of the [backend API
-server](https://github.com/simonsobs/nextline-graphql).
+server](https://github.com/nextline-dev/nextline-graphql).
 
 ### As a Docker container
 
